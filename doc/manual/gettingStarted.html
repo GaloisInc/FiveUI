@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Getting Started with FiveUI</title>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #dddddd; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { font-weight: bold; }
+code > span.dt { color: #800000; }
+code > span.dv { color: #0000ff; }
+code > span.bn { color: #0000ff; }
+code > span.fl { color: #800080; }
+code > span.ch { color: #ff00ff; }
+code > span.st { color: #dd0000; }
+code > span.co { color: #808080; font-style: italic; }
+code > span.al { color: #00ff00; font-weight: bold; }
+code > span.fu { color: #000080; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Getting Started with FiveUI</h1>
+</div>
+<h1 id="configuring-fiveui">Configuring FiveUI</h1>
+<p>Once FiveUI has been installed, some initial configuration will need to be done to make the extension useful.</p>
+<p>The options page allows the user to configure <code>URL Patterns</code> that will apply when the browser is navigating to new URLs, and <code>Rule Sets</code> which categorize user interface guidelines into named groups.</p>
+<h2 id="options-in-chrome">Options in Chrome</h2>
+<p>The options page in <code>Chrome</code> can be accessed either through the options link on the extensions page, or through the options item on the context menu off of the FiveUI button (accessed by right-clicking on the FiveUI button).</p>
+<h2 id="options-in-firefox">Options in FireFox</h2>
+<p>The options page in <code>FireFox</code> can be accessed via the FiveUI gear widget, which should be added in addition to the FiveUI widget when the addon is installed. Once clicked, a new tab should appear which serves as the options interface for the addon.</p>
+<p>The FiveUI Widgets are initially placed on the Firefox <code>Add-on bar</code>, as shown in the figure.</p>
+<div class="figure">
+<img src="figures/ff-addon-bar.png" alt="FiveUI Widgets in the Firefox Add-on Bar." /><p class="caption">FiveUI Widgets in the Firefox Add-on Bar.</p>
+</div>
+<h1 id="the-options-page">The Options Page</h1>
+<p>The options page allows the user to configure <code>URL Patterns</code> that will apply when the browser is navigating to new URLs, and <code>Rule Sets</code> which categorize user interface guidelines into named groups. As it's required that one or more <code>Rule Sets</code> already exist to create a <code>URL Pattern</code>, let's start with the <code>Rule Sets</code> tab.</p>
+<h2 id="rule-sets">Rule Sets</h2>
+<p><code>Rule Sets</code> can be managed by clicking on the <code>Rule Sets</code> tab on the left-hand side of the options page.</p>
+<p><code>Rule Sets</code> in FiveUi are specified as a json-like object that contains javascript functions for the rule implementations. Each <code>Rule Set</code> contains a <strong>name</strong>, <strong>description</strong> and list of zero or more <strong>rules</strong>. The following snippet exhibits the minimal definition for a <code>Rule Set</code>, providing only the <strong>name</strong> and <strong>description</strong> fields, along with an empty set of <strong>rules</strong>.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{ <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Empty Rules&quot;</span>
+, <span class="st">&quot;description&quot;</span>: <span class="st">&quot;An example of an empty rule set&quot;</span>
+, <span class="st">&quot;rules&quot;</span>: []
+}</code></pre>
+<h3 id="rules">Rules</h3>
+<p>The elements of the <strong>rules</strong> array in the <code>Rule Set</code> are also represented as json objects. A minimal rule consists of three fields: <strong>name</strong>, <strong>description</strong> and <strong>rule</strong>. While <strong>name</strong> and <strong>description</strong> are just strings, like the definition of a <code>Rule Set</code>, the <strong>rule</strong> field is a javascript function.</p>
+<p>The definition of the <strong>rule</strong> function consists of a single javascript function that expects no arguments and returns no value. The rule will be invoked with no special context, and it is expected to perform its validation based on uses of the <code>FiveUI prelude</code>. Rules are able to report problems to the in-page FivUI interface by invoking the <em>report</em> function.</p>
+<p>As a simple example, the following rule will log an error for each header tag that contains no text:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{ <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Disallow Empty Headers&quot;</span>
+, <span class="st">&quot;description&quot;</span>: <span class="st">&quot;Heading elements should contain text&quot;</span>
+, <span class="st">&quot;rule&quot;</span>: <span class="kw">function</span>() {
+    <span class="kw">fiveui</span>.<span class="fu">query</span>(<span class="ch">&#39;:header&#39;</span>).<span class="fu">each</span>(<span class="kw">function</span>(ix, elt) {
+      <span class="kw">if</span>($(elt).<span class="fu">text</span>() == <span class="ch">&#39;&#39;</span>) {
+        report(<span class="ch">&#39;Heading does not contain text&#39;</span>, elt);
+      }
+    });
+  }
+}</code></pre>
+<h3 id="creating-a-rule-set">Creating a <code>Rule Set</code></h3>
+<p>Reusing the previous example and the skeleton of the first, we can create a simple <code>Rule Set</code> that applies the empty header rule:</p>
+<ul>
+<li>Begin by copying this code block, so that it will be available to the <code>Rule    Set</code> editor later.</li>
+</ul>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{ <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Header Rule Set&quot;</span>
+, <span class="st">&quot;description&quot;</span>: <span class="st">&quot;Simple rules about HTML headers.&quot;</span>
+, <span class="st">&quot;rules&quot;</span>:
+  [ { <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Disallow Empty Headers&quot;</span>
+    , <span class="st">&quot;description&quot;</span>: <span class="st">&quot;Heading elements should contain text.&quot;</span>
+    , <span class="st">&quot;rule&quot;</span>: <span class="kw">function</span>() {
+        <span class="kw">fiveui</span>.<span class="fu">query</span>(<span class="ch">&#39;:header&#39;</span>).<span class="fu">each</span>(<span class="kw">function</span>(ix, elt) {
+          <span class="kw">if</span>($(elt).<span class="fu">text</span>() == <span class="ch">&#39;&#39;</span>) {
+            report(<span class="ch">&#39;Heading does not contain text&#39;</span>, elt);
+          }
+        });
+      }
+    }
+  ]
+}</code></pre>
+<ul>
+<li>Next, open the options page for the FiveUI extension.</li>
+<li>Navigate to the <code>Rule Sets</code> preferences tab, by clicking the <code>Rule Sets</code> link on the left-hand side of the page.</li>
+<li>Click the <code>Add</code> button.</li>
+<li>Paste in the contents of the example Rule Set into the text area that appears. FiveUI should highlight the syntax of the rule.</li>
+</ul>
+<div class="figure">
+<img src="figures/ff-add-rule-set.png" alt="FiveUI uses a rich Javascript editor to highlight rule sets." /><p class="caption">FiveUI uses a rich Javascript editor to highlight rule sets.</p>
+</div>
+<ul>
+<li>Click the <code>Save</code> button.</li>
+<li>An entry in the list above the <code>Add</code> button should appear, describing the rule that was added in the previous steps.</li>
+</ul>
+<h2 id="url-patterns">URL Patterns</h2>
+<p><code>URL Patterns</code> can be managed by first clicking the <code>URL Patterns</code> tab on the left-hand side of the options page.</p>
+<p><code>URL Patterns</code> represent the conditions in which a <code>Rule Set</code> will be applied to a page. To create a <code>URL Pattern</code> first make sure that you have created a <code>Rule Set</code> with the instructions above. If not, when you click the <code>Add</code> button on the <code>URL Patterns</code> tab, you will get an error dialog explaining that it is not possible to create a <code>URL Pattern</code> without one or more <code>Rule Sets</code> having been defined.</p>
+<p>If you have created a <code>Rule Set</code>, a new tab should appear that contains two fields, one text box for the rule pattern and a drop-down menu that contains all of the <code>Rule Sets</code> that have been defined thus far.</p>
+<h3 id="pattern-language">Pattern Language</h3>
+<p>The <strong>pattern</strong> text in a <code>URL Pattern</code> uses the glob character <code>*</code>, to allow for a <code>URL Pattern</code> to apply to many URLs. For example, if you would like to design a pattern that applies to all of the <code>http</code> pages under the www.example.com domain, then you could use a pattern such as:</p>
+<pre><code>http://www.example.com*</code></pre>
+<p>Note that <code>URL Patterns</code> match the protocol, domain, port and path portions of the url, so the pattern above will not apply to <code>https</code> urls. The following pattern will apply to <em>any</em> site hosted at example.com:</p>
+<pre><code>*example.com*</code></pre>
+<h1 id="using-fiveui">Using FiveUI</h1>
+<p>Once some <code>Rule Sets</code> and <code>URL Patterns</code> exist in the FiveUI configuration, the rules can be applied to a web page. Start off by navigating to a page that satisfies one of the <code>URL Patterns</code> defined in the FiveUI options page. If that URL is matched by one of the patterns, the FiveUI icon will change from gray to red, and an overlay will display the number of rule violations present on the page.</p>
+<p>The primary user interface is hidden by default, to avoid obscuring the web page inadvertently. To show the list of problems, simply click on the FiveUI icon to make the window visible. The user interface is injected into the running page, and it should display on top of any other user interface elements present.</p>
+<p>As the user navigates around sites that are matched by <code>URL Patterns</code>, the problem list will have newly occurring problems appended to it. All state in the dialog is maintained by the extension on a per-tab basis, so different browser tabs can have distinct lists of problems.</p>
+<h2 id="problems">Problems</h2>
+<p>Problem entries will be added to the FiveUI dialog as rules report problems on the page. Once a problem is reported, the user can click on the arrow to the left of the message to both expand the description of the problem, and to highlight the node of the DOM that is causing the problem. One caveat to this is that if the node that generated the problem exists on a page that has since been navigated away from, the node will obviously not be highlighted.</p>
+<p>We illustrate this by first adding a new rule to our example Rule Set. This rule identifies headers that start with a lower-case letter.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">{ <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Header Rule Set&quot;</span>
+, <span class="st">&quot;description&quot;</span>: <span class="st">&quot;Simple rules about HTML headers.&quot;</span>
+, <span class="st">&quot;rules&quot;</span>:
+  [ { <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Disallow Empty Headers&quot;</span>
+    , <span class="st">&quot;description&quot;</span>: <span class="st">&quot;Heading elements should contain text.&quot;</span>
+    , <span class="st">&quot;rule&quot;</span>: <span class="kw">function</span>() {
+        <span class="kw">fiveui</span>.<span class="fu">query</span>(<span class="ch">&#39;:header&#39;</span>).<span class="fu">each</span>(<span class="kw">function</span>(ix, elt) {
+          <span class="kw">if</span>($(elt).<span class="fu">text</span>() == <span class="ch">&#39;&#39;</span>) {
+            report(<span class="ch">&#39;Heading does not contain text&#39;</span>, elt);
+          }
+        });
+      }
+    },
+    { <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Headers should be capitalized&quot;</span>
+    , <span class="st">&quot;description&quot;</span>: <span class="st">&quot;Heading elements should not start &quot;</span>
+                   + <span class="st">&quot;with lowercase letters.&quot;</span>
+    , <span class="st">&quot;rule&quot;</span>: <span class="kw">function</span>() {
+        <span class="kw">fiveui</span>.<span class="fu">query</span>(<span class="ch">&#39;:header&#39;</span>).<span class="fu">each</span>(<span class="kw">function</span>(ix, elt) {
+          <span class="kw">if</span>( !<span class="kw">fiveui.word</span>.<span class="fu">capitalized</span>($(elt).<span class="fu">text</span>()) ) {
+            report(<span class="ch">&#39;Heading is not capitalized&#39;</span>, elt);
+          }
+        });
+      }
+    },
+  ]
+}</code></pre>
+<p>This sample <code>Rule Set</code> demonstrates some new capabilities: * Multiple rules in one Rule Set. * Multi-line descriptions. * The <code>fiveui.word.capitalized(...)</code> predicate, from the <code>FiveUI prelude</code>. The <code>FiveUI Prelude</code> is a small collection of utilities for creating rules.</p>
+<p>Once adding this <code>Rule Set</code> specifying a <code>URL Pattern</code>, we can view violations in the FiveUI Problem List. Clicking on the <code>expand arrow</code> for a specific problem will highlight the element of the DOM that caused the violation.</p>
+<div class="figure">
+<img src="figures/ff-heading-highlight.png" alt="Expanding a Problem entry in the FiveUI Problem List highlights the element of the DOM that caused the violation." /><p class="caption">Expanding a Problem entry in the FiveUI Problem List highlights the element of the DOM that caused the violation.</p>
+</div>
+</body>
+</html>
