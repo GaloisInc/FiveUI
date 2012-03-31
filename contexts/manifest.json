@@ -1,0 +1,20 @@
+{
+    "name": "Five UI",
+    "version": "0.1",
+    "description": "UI Constraint Checker",
+
+    "icons": { "16": "data/fiveui/images/fiveui-icon-16.png",
+               "48": "data/fiveui/images/fiveui-icon-48.png",
+               "128": "data/fiveui/images/fiveui-icon-128.png"
+             },
+
+    "background_page": "data/fiveui/chrome/background.html",
+    "options_page": "data/fiveui/options.html",
+    "browser_action": {
+        "default_icon": "data/fiveui/images/fiveui-icon-disabled.png",
+        "name": "Five UI"
+    },
+    "permissions": [
+        "tabs", "http://*/*", "https://*/*", "history"
+    ]
+}

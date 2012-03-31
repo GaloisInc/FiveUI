@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0044)http://trac.edgewall.org/demo-0.13/newticket -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+      New Ticket
+     – Trac 0.13 Demo Project
+    </title>
+    
+    <!--[if IE]><script type="text/javascript">window.location.hash = window.location.hash;</script><![endif]-->
+        <link rel="search" href="http://trac.edgewall.org/demo-0.13/search">
+        <link rel="help" href="http://trac.edgewall.org/demo-0.13/wiki/TracGuide">
+        <link rel="start" href="http://trac.edgewall.org/demo-0.13/wiki">
+        <link rel="stylesheet" href="./New Ticket_files/trac.css" type="text/css"><link rel="stylesheet" href="./New Ticket_files/ticket.css" type="text/css">
+        <link rel="shortcut icon" href="http://trac.edgewall.org/demo-0.13/chrome/common/trac.ico" type="image/x-icon">
+        <link rel="icon" href="http://trac.edgewall.org/demo-0.13/chrome/common/trac.ico" type="image/x-icon">
+      <link type="application/opensearchdescription+xml" rel="search" href="http://trac.edgewall.org/demo-0.13/search/opensearch" title="Search Trac 0.13 Demo Project">
+    <script type="text/javascript">
+      var auto_preview_timeout=2.0;
+      var form_token="58e877a26116a53a4710dbea";
+    </script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/en_US.js"></script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/folding.js"></script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/wikitoolbar.js"></script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/resizer.js"></script>
+      <script type="text/javascript" charset="utf-8" src="./New Ticket_files/auto_preview.js"></script>
+    <script type="text/javascript" src="./New Ticket_files/threaded_comments.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("div.description").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $(".foldable").enableFolding(false, true);
+        $("#propertyform").autoSubmit({preview: '1'}, function(data, reply) {
+          $('#ticket').replaceWith(reply);
+        }, "#ticket .trac-loading");
+        $("#field-summary").focus();
+      });
+    </script>
+  </head><link rel="stylesheet" type="text/css" href="data:text/css,">
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://trac.edgewall.org/demo-0.13/"><img src="./New Ticket_files/trac_logo_demo_13.png" alt="Official Demo Site for Trac 0.13" height="61" width="214"></a>
+      </div>
+      <form id="search" action="http://trac.edgewall.org/demo-0.13/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="">
+          <input type="submit" value="Search">
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://trac.edgewall.org/demo-0.13/login">Login</a></li><li><a href="http://trac.edgewall.org/demo-0.13/prefs">Preferences</a></li><li><a href="http://trac.edgewall.org/demo-0.13/wiki/TracGuide">Help/Guide</a></li><li class="last"><a href="http://trac.edgewall.org/demo-0.13/about">About Trac</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first"><a href="http://trac.edgewall.org/demo-0.13/wiki">Wiki</a></li><li><a href="http://trac.edgewall.org/demo-0.13/timeline">Timeline</a></li><li><a href="http://trac.edgewall.org/demo-0.13/roadmap">Roadmap</a></li><li><a href="http://trac.edgewall.org/demo-0.13/browser">Browse Source</a></li><li><a href="http://trac.edgewall.org/demo-0.13/report">View Tickets</a></li><li class="active"><a href="./New Ticket_files/New Ticket.html">New Ticket</a></li><li class="last"><a href="http://trac.edgewall.org/demo-0.13/search">Search</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <hr>
+      </div>
+    <div id="content" class="ticket">
+      <h1 id="trac-ticket-title">
+          Create New Ticket
+      </h1>
+      <form method="post" id="propertyform" action="http://trac.edgewall.org/demo-0.13/newticket#ticket"><div><input type="hidden" name="__FORM_TOKEN" value="58e877a26116a53a4710dbea"></div>
+        <div>
+          <div id="modify">
+            <fieldset id="properties">
+              <legend>
+                  Properties
+              </legend>
+              <table>
+                <tbody><tr>
+                  <th><label for="field-summary">Summary:</label></th>
+                  <td class="fullrow" colspan="3">
+                    <input type="text" id="field-summary" name="field_summary" size="70">
+                  </td>
+                </tr>
+                  <tr>
+                    <th><label for="field-description">Description:</label></th>
+                    <td class="fullrow" colspan="3">
+                      <fieldset class="iefix">
+                        <label for="field-description" id="field-description-help">You may use
+                          <a tabindex="42" href="http://trac.edgewall.org/demo-0.13/wiki/WikiFormatting">WikiFormatting</a> here.</label>
+                        <div class="wikitoolbar"><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="strong" title="Bold text: &#39;&#39;&#39;Example&#39;&#39;&#39;" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="em" title="Italic text: &#39;&#39;Example&#39;&#39;" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="heading" title="Heading: == Example ==" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="link" title="Link: [http://www.example.com/ Example]" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="code" title="Code block: {{{ example }}}" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="hr" title="Horizontal rule: ----" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="np" title="New paragraph" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="br" title="Line break: [[BR]]" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="img" title="Image: [[Image()]]" tabindex="400"></a></div><div class="trac-resizable"><div><textarea id="field-description" name="field_description" class="wikitext trac-resizable" rows="10" cols="68"></textarea><div class="trac-grip" style="margin-left: 2px; margin-right: -8px; "></div></div></div>
+                      </fieldset>
+                    </td>
+                  </tr>
+                <tr>
+                    <th class="col1">
+                      <label for="field-type">Type:</label>
+                    </th>
+                    <td class="col1">
+                        <select id="field-type" name="field_type">
+                          <option selected="selected" value="defect">defect</option><option value="enhancement">enhancement</option><option value="task">task</option>
+                        </select>
+                    </td>
+                    <th class="col2">
+                      <label for="field-priority">Priority:</label>
+                    </th>
+                    <td class="col2">
+                        <select id="field-priority" name="field_priority">
+                          <option value="blocker">blocker</option><option value="critical">critical</option><option selected="selected" value="major">major</option><option value="minor">minor</option><option value="trivial">trivial</option>
+                        </select>
+                    </td>
+                </tr><tr>
+                    <th class="col1">
+                      <label for="field-milestone">Milestone:</label>
+                    </th>
+                    <td class="col1">
+                        <select id="field-milestone" name="field_milestone">
+                          <option></option>
+                          <optgroup label="Open (no due date)">
+                            <option value="milestone1">milestone1</option><option value="milestone2">milestone2</option><option value="milestone3">milestone3</option><option value="milestone4">milestone4</option>
+                          </optgroup>
+                        </select>
+                    </td>
+                    <th class="col2">
+                      <label for="field-component">Component:</label>
+                    </th>
+                    <td class="col2">
+                        <select id="field-component" name="field_component">
+                          <option value="component1">component1</option><option value="component2">component2</option>
+                        </select>
+                    </td>
+                </tr><tr>
+                    <th class="col1">
+                      <label for="field-version">Version:</label>
+                    </th>
+                    <td class="col1">
+                        <select id="field-version" name="field_version">
+                          <option></option>
+                          <option value="2.0">2.0</option><option value="1.0">1.0</option>
+                        </select>
+                    </td>
+                    <th class="col2">
+                      <label for="field-keywords">Keywords:</label>
+                    </th>
+                    <td class="col2">
+                            <input type="text" id="field-keywords" name="field_keywords">
+                    </td>
+                </tr><tr>
+                    <th class="col1">
+                      <label for="field-cc">Cc:</label>
+                    </th>
+                    <td class="col1">
+                            <span>
+                              <input type="text" id="field-cc" title="Space or comma delimited email addresses and usernames are accepted." name="field_cc">
+                            </span>
+                    </td>
+                    <th class="col2">
+                    </th>
+                    <td class="col2">
+                    </td>
+                </tr><tr>
+                    <th class="col1">
+                      <label for="field-changelog">Release Notes:</label>
+                    </th>
+                    <td class="col1" colspan="3">
+                        <div class="wikitoolbar"><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="strong" title="Bold text: &#39;&#39;&#39;Example&#39;&#39;&#39;" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="em" title="Italic text: &#39;&#39;Example&#39;&#39;" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="heading" title="Heading: == Example ==" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="link" title="Link: [http://www.example.com/ Example]" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="code" title="Code block: {{{ example }}}" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="hr" title="Horizontal rule: ----" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="np" title="New paragraph" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="br" title="Line break: [[BR]]" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="img" title="Image: [[Image()]]" tabindex="400"></a></div><div class="trac-resizable"><div><textarea id="field-changelog" name="field_changelog" cols="60" rows="1" class="wikitext trac-resizable"></textarea><div class="trac-grip" style="margin-left: 2px; margin-right: 104px; "></div></div></div>
+                    </td>
+                </tr><tr>
+                    <th class="col1">
+                      <label for="field-apichanges">API Changes:</label>
+                    </th>
+                    <td class="col1" colspan="3">
+                        <div class="wikitoolbar"><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="strong" title="Bold text: &#39;&#39;&#39;Example&#39;&#39;&#39;" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="em" title="Italic text: &#39;&#39;Example&#39;&#39;" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="heading" title="Heading: == Example ==" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="link" title="Link: [http://www.example.com/ Example]" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="code" title="Code block: {{{ example }}}" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="hr" title="Horizontal rule: ----" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="np" title="New paragraph" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="br" title="Line break: [[BR]]" tabindex="400"></a><a href="http://trac.edgewall.org/demo-0.13/newticket#" id="img" title="Image: [[Image()]]" tabindex="400"></a></div><div class="trac-resizable"><div><textarea id="field-apichanges" name="field_apichanges" cols="60" rows="1" class="wikitext trac-resizable"></textarea><div class="trac-grip" style="margin-left: 2px; margin-right: 104px; "></div></div></div>
+                    </td>
+                </tr><tr>
+                    <th class="col1">
+                      <label for="field-owner">Owner:</label>
+                    </th>
+                    <td class="col1">
+                            <input type="text" id="field-owner" name="field_owner">
+                    </td>
+                    <th class="col2">
+                    </th>
+                    <td class="col2">
+                    </td>
+                </tr>
+              </tbody></table>
+            </fieldset>
+          </div>
+        </div>
+        <div class="field">
+          <fieldset>
+            <legend>Reporter</legend>
+            <table>
+              <tbody><tr>
+                <th>
+                  <label for="author">Your email or username:</label><br>
+                </th>
+                <td>
+                  <input type="text" id="author" name="author" size="40" value="anonymous">
+                  <br>
+                </td>
+              </tr>
+            </tbody></table>
+            <p class="hint">
+              E-mail address and user name can be saved in the <a href="http://trac.edgewall.org/demo-0.13/prefs">Preferences</a>.
+            </p>
+          </fieldset>
+        </div>
+        <p>
+          <label>
+            <input type="checkbox" name="attachment">
+            I have files to attach to this ticket
+          </label>
+        </p>
+        <div class="buttons">
+          <input type="submit" name="preview" value="Preview">&nbsp;
+          <input type="submit" name="submit" value="Create ticket">
+        </div>
+      </form>
+      <div id="ticket" class="ticketdraft">
+  <div class="date">
+    <p><span class="trac-loading"></span><i>(ticket not yet created)</i></p>
+  </div>
+  <h2 class="summary searchable"></h2>
+  <table class="properties">
+    <tbody><tr>
+      <th id="h_reporter">Reported by:</th>
+      <td headers="h_reporter" class="searchable">
+        anonymous
+      </td>
+      <th id="h_owner">Owned by:</th>
+      <td headers="h_owner">
+      </td>
+    </tr>
+    <tr>
+        <th id="h_priority">
+          Priority:
+        </th>
+        <td headers="h_priority">
+              <a href="http://trac.edgewall.org/demo-0.13/query?status=!closed&priority=major">major</a>
+        </td>
+        <th id="h_milestone">
+          Milestone:
+        </th>
+        <td headers="h_milestone">
+              <a class="missing milestone"></a>
+        </td>
+    </tr><tr>
+        <th id="h_component">
+          Component:
+        </th>
+        <td headers="h_component">
+              <a href="http://trac.edgewall.org/demo-0.13/query?status=!closed"></a>
+        </td>
+        <th id="h_version">
+          Version:
+        </th>
+        <td headers="h_version">
+              <a href="http://trac.edgewall.org/demo-0.13/query?status=!closed"></a>
+        </td>
+    </tr><tr>
+        <th id="h_keywords">
+          Keywords:
+        </th>
+        <td headers="h_keywords" class="searchable">
+        </td>
+        <th id="h_cc">
+          Cc:
+        </th>
+        <td headers="h_cc" class="searchable">
+        </td>
+    </tr><tr>
+        <th id="h_changelog">
+          Release Notes:
+        </th>
+        <td headers="h_changelog" colspan="3">
+        </td>
+    </tr><tr>
+        <th id="h_apichanges">
+          API Changes:
+        </th>
+        <td headers="h_apichanges" colspan="3">
+        </td>
+    </tr>
+  </tbody></table>
+  <div class="description">
+    <h3 id="comment:description">
+      Description
+    </h3>
+    <br style="clear: both">
+  </div>
+</div>
+      <div id="help"><strong>Note:</strong> See
+        <a href="http://trac.edgewall.org/demo-0.13/wiki/TracTickets">TracTickets</a> for help on using
+        tickets.</div>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr>
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="./New Ticket_files/trac_logo_mini.png" height="30" width="107" alt="Trac Powered"></a>
+      <p class="left">Powered by <a href="http://trac.edgewall.org/demo-0.13/about"><strong>Trac 0.13dev-r10909</strong></a><br>
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the Trac open source project at<br><a href="http://trac.edgewall.org/">http://trac.edgewall.org/</a></p>
+    </div>
+  
+</body></html>

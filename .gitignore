@@ -1,0 +1,5 @@
+*.swp
+*.pyc
+chromedriver.log
+doc/jsdoc
+doc/manual

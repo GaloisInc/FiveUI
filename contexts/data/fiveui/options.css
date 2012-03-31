@@ -1,0 +1,173 @@
+/*
+ * Module     : options.css
+ * Copyright  : (c) 2011-2012, Galois, Inc.
+ *
+ * Maintainer :
+ * Stability  : Provisional
+ * Portability: Portable
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html body, body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#content {
+    float: left;
+}
+
+div#icon {
+    float: right;
+    opacity: 0.25;
+    background-image: url(images/fiveui-icon-128.png);
+    background-repeat: no-repeat;
+    background-position-x: 32px;
+    background-position-y: -16px;
+    width: 113px;
+    height: 128px;
+    margin: 0;
+    padding: 0;
+}
+
+#navbar-container {
+    background: -linear-gradient(left, #EAEEF3, #EAEEF3 97%, #D3D7DB);
+    background: -moz-linear-gradient(left, #EAEEF3, #EAEEF3 97%, #D3D7DB);
+    background: -webkit-linear-gradient(rgba(234, 238, 243, 0.2), #EAEEF3), -webkit-linear-gradient(left, #EAEEF3, #EAEEF3 97%, #D3D7DB);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 20%;
+    float: left;
+}
+
+#navbar-container>nav>div {
+  cursor: pointer;
+  border: 0px;
+}
+
+#navbar-content-title {
+    font-size: 200%;
+    font-weigth: normal;
+    color: #53637D;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+    text-align: end;
+    text-shadow: white 0 1px 2px;
+}
+
+nav {
+    text-align: right;
+}
+
+nav div {
+    padding-right: 0.5em;
+    color: #426DC9;
+    font-size: 14px;
+    height: 16px;
+    
+    padding-bottom: 7px;
+    padding-left: 0px;
+    padding-right: 24px;
+    padding-top: 7px;
+    text-align: end;
+    text-shadow: white 0px 1px 1px;
+}
+
+nav .selected {
+    background: -linear-gradient(left, #BBCEE9, #BBCEE9 97%, #AABEDC);
+    background: -moz-linear-gradient(left, #BBCEE9, #BBCEE9 97%, #AABEDC);
+    background: -webkit-linear-gradient(left, #BBCEE9, #BBCEE9 97%, #AABEDC);
+    border-bottom: 1px solid #8FAAD9;
+    border-top: 1px solid #8FAAD9;
+    color: black;
+    text-shadow: #BBCEE9 0 1px 1px;
+}
+
+#content>section .selected {
+}
+
+#content>section {
+  position: absolute;
+  left: 20%;
+  width: 50em;;
+  margin-left: 2em;
+}
+
+#content > section > section > h3 {
+  display: table-cell;
+  width: 130px;
+  padding-right: 10px;
+  padding-top: 17px;
+}
+
+#content > section > section > h3 + div {
+  padding-bottom: 20px;
+  display: table-cell;
+}
+
+div.title {
+  font-size: 200%;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+.displayList {
+    float: left;
+    width: 50%;
+}
+
+.entry {
+    float: left;
+}
+
+#upDownGroup button {
+    display: block
+}
+
+#upDownGroup {
+    margin-top: auto;
+    margin-bottom: auto;
+    float: left;
+}
+
+div.editorPane {
+    position: absolute;
+    top: 0px;
+    left: 25%;
+    right: 0px;
+    bottom: 0px;
+    background: white;
+    display: none;
+    margin: 0;
+    padding: 0.5em;
+    padding-bottom: 0;
+    padding-right: 0;
+    box-shadow: -5px 0px 10px #ddd;
+}
+
+div.editorPane div.row {
+  padding-left: 5px;
+}
+
+div.editorPane div.row>label {
+  clear: left;
+  float: left;
+  width: 5em;
+}
+
+.buttons {
+    display: inline;
+}

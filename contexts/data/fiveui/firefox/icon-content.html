@@ -1,0 +1,82 @@
+<!--
+ * Module     : firefox/icon-content.html
+ * Copyright  : (c) 2011-2012, Galois, Inc.
+ *
+ * Maintainer :
+ * Stability  : Provisional
+ * Portability: Not Portable (Firefox Only)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ -->
+<!DOCTYPE html>
+<head>
+  <style type="text/css">
+    body>div {
+      width: 24px;
+    }
+    div {
+      cursor: default;
+    }
+
+    #icon-div {
+       position: absolute;
+    }
+
+    #badge-text {
+       position: absolute;
+       right: 0px;
+       bottom: 4px;
+       border: 1px solid black;
+       border-radius: 3px;
+       color: white;
+       font-size: 7pt;
+       font-weigth: bold;
+       padding-left: 2px;
+       padding-right: 1px;
+
+       /* IE10 */ 
+       background-image: -ms-linear-gradient(top, #E61010 0%, #750202 100%);
+
+       /* Mozilla Firefox */ 
+       background-image: -moz-linear-gradient(top, #E61010 0%, #750202 100%);
+
+       /* Opera */ 
+       background-image: -o-linear-gradient(top, #E61010 0%, #750202 100%);
+
+       /* Webkit (Safari/Chrome 10) */ 
+       background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E61010), color-stop(1, #750202));
+
+       /* Webkit (Chrome 11+) */ 
+       background-image: -webkit-linear-gradient(top, #E61010 0%, #750202 100%);
+
+       /* Proposed W3C Markup */ 
+       background-image: linear-gradient(top, #E61010 0%, #750202 100%);
+    }
+  </style>
+</head>
+<html>
+  <body>
+    <div id="icon-div" height="16px">
+      <img id="disabled-img"
+           src="../images/fiveui-icon-disabled.png"
+           height="16px" width="16px">
+      </img>
+      <img id="enabled-img"
+           src="../images/fiveui-icon-enabled.png"
+           height="16px" width="16px"
+           style="display:none">
+      </img>
+      <div id="badge-text"></div>
+    </div>
+  </body>
+</html>

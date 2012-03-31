@@ -1,0 +1,62 @@
+/*
+ * Module     : entry.css
+ * Copyright  : (c) 2011-2012, Galois, Inc.
+ *
+ * Maintainer :
+ * Stability  : Provisional
+ * Portability: Portable
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/* Generic list entries */
+div.entries>div.entry {
+  width: 49em;
+  display: block;
+  border-top: 1px solid #CDCDCD;
+  margin-top: 5px;
+  padding: 10px;
+}
+
+div.entries>div.entry:first-child {
+  border-top: 0px;
+}
+
+div.entry>div.content {
+  float: left;
+  display: block;
+  width: 80%;
+}
+
+div.entry>div.controls {
+  text-align: right;
+  float: left;
+  display: block;
+  width: 20%;
+}
+
+div.entry>div.controls>button {
+  width: 5em;
+  margin-right: 5px;
+}
+
+div.entry>div.content>div.title {
+  display: block;
+  font-size: 1.5em;
+  border: 0px;
+}
+
+div.entry>div.content>div.description {
+  display: block;
+}

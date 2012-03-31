@@ -1,0 +1,7 @@
+# Place this file in your /etc/yum.repos.d/ directory
+
+[fedora-firefox4]
+name=Firefox 4 Web Browser
+baseurl=http://repos.fedorapeople.org/repos/spot/firefox4/fedora-14/$basearch/
+enabled=1
+gpgcheck=0

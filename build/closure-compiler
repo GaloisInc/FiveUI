@@ -1,0 +1,17 @@
+#!/bin/sh
+
+script_path=`dirname $0`
+compiler_path="${script_path}/../tools/closure_compiler"
+
+error_types="accessControls ambiguousFunctionDecl checkRegExp checkTypes \
+checkVars constantProperty deprecated es5Strict externsValidation \
+fileoverviewTags globalThis internetExplorerChecks invalidCasts \
+missingProperties nonStandardJsDocs strictModuleDepCheck \
+typeInvalidation undefinedVars unknownDefines uselessCode visibility"
+
+flags=""
+for error in ${error_types}; do
+	flags="${flags} --jscomp_error=${error} "
+done
+
+java -jar ${compiler_path}/compiler.jar${flags} $@

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="300"
+   height="300"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="right-arrow.svg"
+   inkscape:export-filename="/home/creswick/development/uic/contexts/data/fiveui/images/right-arrow.png"
+   inkscape:export-xdpi="85.190002"
+   inkscape:export-ydpi="85.190002">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3794"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3796" />
+    </linearGradient>
+    <filter
+       inkscape:collect="always"
+       id="filter3863"
+       x="-0.20427911"
+       width="1.4085582"
+       y="-0.23588121"
+       height="1.4717624">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="12.950693"
+         id="feGaussianBlur3865" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="70.679679"
+     inkscape:cy="159.10715"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1278"
+     inkscape:window-height="773"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="0,1"
+       position="84.285714,260"
+       id="guide3851" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="40,265.71429"
+       id="guide3853" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-76.077235,-254.86721)">
+    <path
+       sodipodi:type="star"
+       style="opacity:0.31818183;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter3863)"
+       id="path2987-6"
+       sodipodi:sides="3"
+       sodipodi:cx="145"
+       sodipodi:cy="453.79074"
+       sodipodi:r1="87.845528"
+       sodipodi:r2="43.922764"
+       sodipodi:arg1="-0.52359878"
+       sodipodi:arg2="0.52359878"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 221.07646,409.86798 183.03823,475.75212 145,541.63627 106.96177,475.75212 68.923541,409.86798 l 76.076459,0 z"
+       transform="matrix(0.98585031,0,0,1.1383619,72.27179,-151.28232)"
+       inkscape:export-filename="/home/creswick/development/uic/contexts/data/fiveui/images/downArrow.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120"
+       inkscape:transform-center-x="25.000015" />
+    <path
+       sodipodi:type="star"
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       id="path2987"
+       sodipodi:sides="3"
+       sodipodi:cx="145"
+       sodipodi:cy="453.79074"
+       sodipodi:r1="87.845528"
+       sodipodi:r2="43.922764"
+       sodipodi:arg1="-0.52359878"
+       sodipodi:arg2="0.52359878"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 221.07646,409.86798 183.03823,475.75212 145,541.63627 106.96177,475.75212 68.923541,409.86798 l 76.076459,0 z"
+       transform="matrix(0.98585031,0,0,1.1383619,48.12894,-171.71088)"
+       inkscape:export-filename="/home/creswick/development/uic/contexts/data/fiveui/images/downArrow.png"
+       inkscape:export-xdpi="120"
+       inkscape:export-ydpi="120"
+       inkscape:transform-center-x="25.000015" />
+  </g>
+</svg>

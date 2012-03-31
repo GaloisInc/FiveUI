@@ -1,0 +1,23 @@
+{ "name": "always errors"
+, "description": "A trivila rule set for experimentation."
+, "rules": [ { "id":13
+             , "name": "Reports three times"
+             , "description": "Test guideline that reports three errors"
+             , "rule":
+               function() {
+                 report('Problem 1 (g1)', null);
+                 report('Problem 3 (g1)', null);
+                 report('Problem 2 (g1)', null);
+               }
+             }
+           , { "id":14
+             , "name": "Reports two times"
+             , "description": "Test guideline that reports two errors."
+             , "rule":
+               function() {
+                 report('Problem 1 (g2)', null);
+                 report('Problem 2 (g2)', null);
+               }
+              }
+           ]
+}

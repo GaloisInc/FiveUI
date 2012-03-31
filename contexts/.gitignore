@@ -1,0 +1,8 @@
+target
+deps.js
+fiveui.xpi
+fiveui.crx
+rofile
+.token
+chrome/background.js
+stage

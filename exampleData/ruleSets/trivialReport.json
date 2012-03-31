@@ -1,0 +1,7 @@
+{ 'name': 'Test rule set',
+  'description': 'test',
+  'rules': [ { 'name': 'Test rule',
+               'description': 'An empty test rule',
+               'rule': function() { report('test error'); }
+             } ]
+}

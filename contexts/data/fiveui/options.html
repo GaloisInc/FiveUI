@@ -1,0 +1,108 @@
+<!--
+ * Module     : options.html
+ * Copyright  : (c) 2011-2012, Galois, Inc.
+ *
+ * Maintainer :
+ * Stability  : Provisional
+ * Portability: Portable
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title id="title">Five UI</title>
+
+    <link id="favicon" rel="icon" href="images/fiveui-icon-16.png" />
+    <link rel="stylesheet" href="options.css" />
+    <link rel="stylesheet" href="entry.css" />
+    <link rel="stylesheet"
+        href="../lib/closure-library/closure/goog/css/dialog.css" />
+    <script src="../lib/ace/ace.js"></script>
+    <script src="../lib/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../target/chrome-options.js"></script>
+    <script type="text/javascript">
+      if (! /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+         window.onload=fiveui.chrome.options.init;
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="icon"></div>
+
+    <div id="navbar-container">
+      <div id="navbar-content-title">Settings</div>
+      <nav>
+        <div id="url-defaults">URL Patterns</div>
+        <div id="rule-sets">Rule Sets</div>
+        <div id="basics">Basics</div>
+      </nav>
+    </div>
+
+    <div id="content">
+      <section id="tab-url-defaults">
+        <div class="title">URL Patterns</div>
+        <div id="urlPatEntries" class="entries"></div>
+        <div><button id="addUrlPat">Add</button></div>
+      </section>
+
+      <section id="tab-rule-sets">
+        <div class="title">Rule Sets</div>
+        <div id="ruleSetEntries" class="entries"></div>
+        <div><button id="addRsButton">Add</button></div>
+      </section>
+
+      <section id="tab-basics">
+        <div class="title">Basics</div>
+        <section>
+          <h3>Window</h3>
+          <div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="windowDisplayDefault"/>
+                <span>Open the FiveUI Window as soon as a url is matched.</span>
+              </label>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+
+    <div id="ruleSetEditorPane" class="editorPane">
+      <div class="title">Rule Set</div>
+      <div id="editorButtons">
+          <button id="saveEditButton">Save</button>
+          <button id="cancelEditButton">Cancel</button>
+      </div>
+      <div id="aceEditor" style="height: 500px; width: 500px"></div>
+    </div>
+
+    <div id="urlPatEditorPane" class="editorPane">
+      <div class="title">URL Pattern</div>
+      <div class="row">
+        <label>Pattern</label>
+        <input id="urlPatRegex" type="text" placeholder="URL Pattern"></input>
+      </div>
+      <div class="row">
+        <label>Rule Set</label>
+        <select id="urlPatRuleSetId"></select>
+      </div>
+      <div class="row">
+        <button id="confirmAddUrlPat">Add</button>
+        <button id="cancelAddUrlPat">Cancel</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+    "name": "reading-data",
+    "description": "A demonstration of reading bundled data.",
+    "keywords": [],
+    "author": "Brian Warner",
+    "contributors": [],
+    "license": "MPL 1.1/GPL 2.0/LGPL 2.1",
+    "id": "reading-data-example@jetpack.mozillalabs.com"
+}

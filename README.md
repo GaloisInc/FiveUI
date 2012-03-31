@@ -1,0 +1,70 @@
+# FiveUI
+
+FiveUI is an extensible tool for evaluating HTML user interfaces
+against sets of codified UI Guidelines.
+
+## Installation and getting started
+
+FiveUI is a basic browser extension with support for Firefox and
+Google Chrome. If you're familiar with browser extensions, you can
+quickly install FiveUI from the binaries:
+
+ - Chrome: fiveui.crx
+ - FireFox: fiveui.xpi
+
+The [Installation Guide](doc/manual_src/install.md) describes the
+installation process for Firefox and Google Chrome.
+
+After you've installed FiveUI, take a look at the [Getting Started
+Guide](doc/manual_src/gettingStarted.md) to learn about Rule Sets and
+setting URL Patterns to match web sites to codified guidelines.
+
+## Building FiveUI
+
+Most (if not all) the FiveUI dependencies are included in the
+repository, so building FiveUI should be as simple as running:
+
+    $ make
+
+In the top-level FiveUI repository root.  On success, this will put
+the generated extensions in the `contexts` directory.
+
+### Chrome signing key
+
+Note that you will need to first place a Chrome key in:
+
+    contexts\chrome\fiveui.pem
+
+before the chrome extension will build successfully.
+
+## Running the tests
+
+The testing target relies on:
+
+ - a virtual framebuffer (xvfb)
+ - Mozilla Firefox
+ - Google Chrome
+ - a recent Java runtime.
+ - Apache Maven
+
+If those are installed, then you should be able to run the test target
+from the top-level repository root as well:
+
+    $ make test
+
+If that fails to work on your system, then please let us know so we
+can make the testing process more robust.
+
+# Repository layout
+
+This is the repository for the FiveUI project.
+
+binaries    : A directory holding the latest extension binaries
+build       : Helper scripts for building and packaging FiveUI
+tools       : Third-party build tools
+contexts    : Implementation details for supported contexts (Firefox, Chrome, etc.)
+testrunner  : Browser-automation tests and testing infrastructure
+profiles    : Sample user profiles for web browsers.  Used for testing.
+exampleData : Sample web pages and rule sets for testing.
+doc         : FiveUI Documentation
+ruleSets    : A growing collection of codified Guidelines
