@@ -59,6 +59,7 @@ can make the testing process more robust.
 
 This is the repository for the FiveUI project.
 
+```
 binaries    : A directory holding the latest extension binaries
 build       : Helper scripts for building and packaging FiveUI
 tools       : Third-party build tools
@@ -68,3 +69,4 @@ profiles    : Sample user profiles for web browsers.  Used for testing.
 exampleData : Sample web pages and rule sets for testing.
 doc         : FiveUI Documentation
 ruleSets    : A growing collection of codified Guidelines
+```
