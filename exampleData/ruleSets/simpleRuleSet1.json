@@ -6,7 +6,7 @@
              , "rule":
                function() {
                  var badHeadings = $('h1').filter(function(idx) {
-                                                    var ch = $(this).text[0];
+                                                    var ch = $(this).text()[0];
                                                     if (ch) {
                                                       return (ch == ch.toLowerCase() );
                                                     } else {
