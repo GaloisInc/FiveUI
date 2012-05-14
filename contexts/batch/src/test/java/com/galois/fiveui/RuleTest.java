@@ -48,5 +48,4 @@ public class RuleTest {
 //      assertEquals("Wrong description", desc, r.getDescription());
 //      assertNotNull("Rule string should not be null", r.getRule());
    }
-
 }

@@ -25,40 +25,48 @@
  * @return {?Array<Problem>} Empty if no problems were found or a string
  * with an error if an exception occurred.
  */
-var evaluate = function(ruleStr) {
+var evaluate = function(ruleName, description, ruleStr) {
   var theRule = null;
   var results = [];
 
+//  return [{ 'name': 'some rule',
+//	       'descr': 'some description',
+//	       'url': 'http:\/\/localhost:8000',
+//	       'severity': '1'
+//  }];
+//};
+
   var report = function(name, node) {
     var prob = {
-       name: name,
-       descr: rule.description,
-       url: window.location.href,
-       severity: 1
+       'name': name,
+       'descr': description,
+       'url': window.location.href,
+       'severity': 1
     };
 
     results.push(prob);
   };
 
   try {
-    theRule = eval('('+ruleStr+')');
+    eval('var theRule = '+ruleStr);
+    return theRule.toString();
   } catch (x) {
-    console.log('could not load rule: '+ruleStr);
-    console.log(x);
+//    console.log('could not load rule: '+ruleStr);
+//    console.log(x);
     return "Error: "+x;
   }
 
   var scope = {
-    name : theRule.name,
-    description : theRule.description
+    name : ruleName,
+    description : description
   };
 
-  if (theRule.rule) {
+  if (theRule) {
     try {
-      theRule.rule.apply(scope);
+      theRule.apply(scope);
     } catch (x) {
-      console.log('exception running rule: '+theRule.name);
-      console.log(x);
+//      console.log('exception running rule: '+theRule.name);
+//      console.log(x);
       return "Error: "+x;
     }
   }
