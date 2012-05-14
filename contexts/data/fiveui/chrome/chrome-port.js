@@ -56,7 +56,7 @@ fiveui.ChromePort.prototype.on = function(evt, cb) {
 };
 
 /**
- * Send a message to the injected script.
+ * Send a message to the background.
  *
  * @param {!string} evt The event to fire.
  * @param {?Object} obj The data to associate with the event.
