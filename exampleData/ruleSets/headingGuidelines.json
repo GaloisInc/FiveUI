@@ -1,6 +1,7 @@
 { "name": "Heading Guidelines"
 , "description": "Guidelines pertaining to the formatting and content of headings."
-, "rules": [ { "name": "Headings are capitalized"
+, "rules": [ { "id": 1
+             , "name": "Headings are capitalized"
              , "description": "Check to see if all headings use leading capital letters."
              , "rule":
                function() {
@@ -20,7 +21,8 @@
 
                }
              },
-             { "name": "Disallow Empty Headers"
+             { "id": 2
+               , "name": "Disallow Empty Headers"
                , "description": "Heading elements should contain text."
                , "rule": function() {
                  fiveui.query(':header').each(

@@ -49,9 +49,9 @@ public class BatchRunner {
         _exe = (JavascriptExecutor) _driver;
     }
 
-    public ImmutableList<Result> runTests(ImmutableList<URITest> build) {
+    public ImmutableList<Result> runTests(ImmutableList<RuleTest> build) {
         Builder<Result> resBuilder = ImmutableList.builder();
-        for (URITest uriTest : build) {
+        for (RuleTest uriTest : build) {
             resBuilder.addAll(runTest(uriTest));
         }
         return resBuilder.build();
@@ -61,14 +61,14 @@ public class BatchRunner {
      * Run a URITest, returning the result (success, failure details, or
      * indicator of exceptional conditions.)
      * 
-     * @param uriTest
+     * @param test
      */
-    public ImmutableList<Result> runTest(final URITest uriTest) {
-        RuleSet rule = uriTest.getRuleSet();
+    public ImmutableList<Result> runTest(final RuleTest test) {
+        RuleSet rule = test.getRule();
         
         ImmutableList<Result> results;
         try {
-            _driver.get(uriTest.getUri().toString());
+            _driver.get(test.getUri().toString());
             results = runRule(rule);
             System.out.println(results);
         } catch (Exception e) {

@@ -35,9 +35,9 @@ public class Result {
         return new Result(ResType.Warning, res);
     }
     
-    private final ResType _type;
-    private final String _desc;
-
+    private ResType _type;
+    private String _desc;
+    
     private Result(ResType type, String desc) {
         super();
         _type = type;
