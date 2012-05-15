@@ -33,10 +33,8 @@ public class RunDescription {
         Builder<RuleTest> builder = ImmutableList.builder();
         for (URIMap uriMap : tests) {
             for (RuleMap rMap : uriMap.oracle) {
-                for (ResType oracle : rMap.results) {
-                    builder.add(
-                       new RuleTest(uriMap.url, getRuleSet(), rMap.ruleId, oracle));
-                }
+                builder.add(
+                 new RuleTest(uriMap.url, getRuleSet(), rMap.ruleId, rMap.results));
             }
         }
         return builder.build();
