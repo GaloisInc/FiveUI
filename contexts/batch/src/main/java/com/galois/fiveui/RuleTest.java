@@ -21,8 +21,10 @@
 package com.galois.fiveui;
 
 import java.net.URI;
+import java.util.Collection;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultiset;
 
 /**
  * @author creswick
@@ -33,13 +35,13 @@ public class RuleTest {
     private final URI _uri;
     private final RuleSet _ruleSet;
     private final int _ruleId;
-    private final ResType _oracle;
+    private final ImmutableMultiset<ResType> _oracle;
 
-    public RuleTest(URI uri, RuleSet ruleSet, int ruleId, ResType oracle) {
+    public RuleTest(URI uri, RuleSet ruleSet, int ruleId, Collection<ResType> oracle) {
         _uri = uri;
         _ruleSet = ruleSet;
         _ruleId = ruleId;
-        _oracle = oracle;
+        _oracle = ImmutableMultiset.copyOf(oracle);
     }
     
     public RuleSet getRule() {
@@ -60,7 +62,7 @@ public class RuleTest {
         return _ruleId;
     }
 
-    public ResType getOracle() {
+    public ImmutableMultiset<ResType> getOracle() {
         return _oracle;
     }
 

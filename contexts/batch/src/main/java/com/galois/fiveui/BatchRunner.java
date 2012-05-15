@@ -25,7 +25,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.Multiset;
 
 public class BatchRunner {
 
@@ -51,8 +53,8 @@ public class BatchRunner {
 
     public ImmutableList<Result> runTests(ImmutableList<RuleTest> build) {
         Builder<Result> resBuilder = ImmutableList.builder();
-        for (RuleTest uriTest : build) {
-            resBuilder.addAll(runTest(uriTest));
+        for (RuleTest test : build) {
+            resBuilder.addAll(runTest(test));
         }
         return resBuilder.build();
     }
@@ -70,7 +72,17 @@ public class BatchRunner {
         try {
             _driver.get(test.getUri().toString());
             results = runRule(rule);
-            System.out.println(results);
+            
+            List<ResType> oracle = Lists.newArrayList(test.getOracle());
+            for (Result result : results) {
+                // TODO build up Results object *here*
+                if ( oracle.remove(result.getType()) ) {
+                    System.out.println("Success: expected result type: "+result.getType());
+                } else {
+                    System.out.println("Failure: expected result type: "+result.getType());
+                }
+            }
+//            System.out.println(results);
         } catch (Exception e) {
             String errStr = "Could not run rule: " + rule.getName() + "\n";
             errStr += e.toString();
