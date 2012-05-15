@@ -18,28 +18,38 @@
 package com.galois.fiveui;
 
 import java.net.URI;
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 
 public class URITest {
 
-    private final URI _uri;
-    private final RuleSet _ruleSet;
+    private URI uri;
+    private int id;
+    private List<ResType> oracle;
 
-    public URITest(URI uri, RuleSet ruleSet) {
-        assert(1 == ruleSet.getRules().size());
-        
-        this._uri = uri;
-        this._ruleSet = ruleSet;
-    }
+    /**
+     * Deserialization constructor.
+     */
+    URITest() {}
+    
+//    public URITest(URI uri, RuleSet ruleSet, ResType oracle) {
+//        assert(1 == ruleSet.getRules().size());
+//        
+//        this._uri = uri;
+//        this._ruleSet = ruleSet;
+//        this._oracle = oracle;
+//    }
 
     public URI getUri() {
-        return _uri;
-    }
-
-    public Rule getRule() {
-        return _ruleSet.getRules().get(0);
+        return uri;
     }
     
-    public RuleSet getRuleSet() {
-        return _ruleSet;
+    public int getId() {
+        return id;
+    }
+    
+    public ImmutableList<ResType> getOracle() {
+        return ImmutableList.copyOf(oracle);
     }
 }

@@ -110,6 +110,15 @@ public class RuleSet {
                 " 'rules': [" + rules.toString() + "]" +
                 "}";
     }
+
+    public Rule getRule(int ruleId) {
+        for (Rule rule : getRules()) {
+            if ( ruleId == rule.getId()) {
+                return rule;
+            }
+        }
+        return null;
+    }
     
     
 }
