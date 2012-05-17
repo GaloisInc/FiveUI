@@ -40,7 +40,7 @@ that it is located at `d:\binaries\fiveui.xpi`
 
  * Click on the `Install Now` button once it becomes active.
 
-FiveUI is now installed.  The [Getting Started guide](gettingStarted)
+FiveUI is now installed.  The [Getting Started guide](gettingStarted.html)
 explains how to configure and use the extension.
 
 ## Installing FiveUI in Chrome
