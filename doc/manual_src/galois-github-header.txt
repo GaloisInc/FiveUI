@@ -2,7 +2,7 @@
   #siteTitle {
     display: block;
     height: 100px;
-    background: url('css-images/5ive_logo.svg') no-repeat 0px 0px;
+    background: url('/css-images/5ive_logo.svg') no-repeat 0px 0px;
     text-indent: -9999em;
     margin-bottom: 1em;
     cursor: pointer;
