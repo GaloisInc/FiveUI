@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 362.734 411.38"
+   id="svg5476"
+   version="1.1"
+   inkscape:version="0.48.1 r9760"
+   width="100%"
+   height="100%"
+   sodipodi:docname="5ive_logo.svg">
+  <metadata
+     id="metadata5504">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>HTML5 Logo</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs5502" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1278"
+     inkscape:window-height="770"
+     id="namedview5500"
+     showgrid="false"
+     inkscape:zoom="1.1601562"
+     inkscape:cx="126.93178"
+     inkscape:cy="215.29057"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer9"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <title
+     id="title5478">HTML5 Logo</title>
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="bw"
+     sodipodi:insensitive="true">
+    <g
+       id="g7298"
+       transform="translate(-226.73129,102.39477)">
+      <polygon
+         transform="translate(153.5791,-200.89534)"
+         style="fill:#231f20;fill-opacity:1"
+         id="polygon5480-3"
+         points="437.367,100.62 404.321,470.819 255.778,512 107.644,470.877 74.633,100.62 " />
+      <polygon
+         transform="translate(153.57911,-200.89534)"
+         style="opacity:0.8;fill:#ffffff;fill-opacity:1"
+         id="polygon5482-6-5"
+         points="404.27,130.894 256,130.894 256,480.523 376.03,447.246 " />
+      <polygon
+         transform="translate(153.5791,-200.89534)"
+         style="opacity:0.8;fill:#231f20;fill-opacity:1"
+         id="polygon5482-6"
+         points="376.03,447.246 404.27,130.894 256,130.894 256,480.523 " />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer8"
+     inkscape:label="color"
+     sodipodi:insensitive="true"
+     style="display:inline">
+    <polygon
+       points="255.778,512 107.644,470.877 74.633,100.62 437.367,100.62 404.321,470.819 "
+       id="polygon5480"
+       style="fill:#e44d26"
+       transform="translate(-73.15219,-98.500573)" />
+    <polygon
+       points="256,480.523 376.03,447.246 404.27,130.894 256,130.894 "
+       id="polygon5482"
+       style="fill:#f16529"
+       transform="translate(-73.15219,-98.500573)" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer9"
+     inkscape:label="Check"
+     sodipodi:insensitive="true">
+    <g
+       transform="translate(-0.14587696,27.751066)"
+       id="g7334">
+      <path
+         transform="matrix(0.5749675,0.81817625,-0.81817625,0.5749675,0,0)"
+         style="fill:#ebebeb;fill-opacity:1"
+         inkscape:transform-center-x="6.0160492"
+         inkscape:transform-center-y="-49.774056"
+         d="m 221.47473,-28.839314 104.97163,0 12.60982,34.4416683 5.21215,13.0998557 -122.7936,-0.134129 z"
+         id="rect5527-2"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccc" />
+      <path
+         inkscape:transform-center-y="-97.695775"
+         inkscape:transform-center-x="-49.038965"
+         sodipodi:nodetypes="cccccc"
+         inkscape:connector-curvature="0"
+         id="rect5527"
+         d="M 182.73112,275.11224 182.53968,209.82323 281.88992,62.819061 321.56404,88.769521 182.64808,292.41778 z"
+         style="fill:#ffffff" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="rect5527-2-6"
+         d="m 164.32165,184.20618 -38.71464,57.77115 -29.69412,-36.35255 40.23837,-63.1042 z"
+         style="fill:#ebebeb;fill-opacity:1" />
+    </g>
+  </g>
+</svg>

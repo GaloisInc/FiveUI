@@ -1,0 +1,11 @@
+</div> </div> <!-- Content (and wrapper) -->
+</div> </div> <!-- Page Body (and wrapper) -->
+
+<!-- PAGE FOOTER -->
+<div id="pageFooterWrapper"> <div id="pageFooter">
+<p id="copyright">Copyright © 2012 Galois, Inc.  All rights reserved.</p>
+</div> </div> <!-- Page Footer -->
+</div> </div> <!-- Canvas -->
+
+<div class="clearer" id="bodyClearer"></div>
+
