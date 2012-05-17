@@ -1,10 +1,10 @@
 
-LIBDIR=.
+LIBDIR=../..
 #LIBDIR=../../../FiveUI-github
-HEADER=$(LIBDIR)/galois-github-header.txt
-BEFORE_BODY=$(LIBDIR)/galois-github-before-body.txt
-AFTER_BODY=$(LIBDIR)/galois-github-after-body.txt
-CSS="/galois-github.css"
+HEADER=galois-github-header.txt
+BEFORE_BODY=galois-github-before-body.txt
+AFTER_BODY=galois-github-after-body.txt
+CSS=$(LIBDIR)/galois-github.css
 HTML5=-t html5
 
 DOCS := $(patsubst %.md,%.html,$(wildcard *.md))
