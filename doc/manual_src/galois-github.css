@@ -60,7 +60,7 @@ a:link, a:visited, a:active {
   display: block;
   width: 200px;
   height: 51px;
-  background: url('css-images/galois_logo.png') no-repeat 0px 0px;
+  background: url('/css-images/galois_logo.png') no-repeat 0px 0px;
   text-indent: -9999em;
   margin-bottom: 1em;
   cursor: pointer;
@@ -83,7 +83,7 @@ a:link, a:visited, a:active {
   margin-right: auto;
   margin-bottom: -3em;
   margin-left: auto;
-  background: transparent url('css-images/pageWrapperBottom.png') no-repeat center bottom;
+  background: transparent url('/css-images/pageWrapperBottom.png') no-repeat center bottom;
   position: relative;
   z-index: 100;
 }
@@ -95,7 +95,7 @@ a:link, a:visited, a:active {
   width: 960px;
   padding:20px 10px;
   margin:0 auto 0;
-  background: transparent url('css-images/pageWrapperTop.png') no-repeat center top;
+  background: transparent url('/css-images/pageWrapperTop.png') no-repeat center top;
   position: relative;
 }
 #pageFooterWrapper {

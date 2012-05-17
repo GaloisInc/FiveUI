@@ -4,7 +4,7 @@ LIBDIR=.
 HEADER=$(LIBDIR)/galois-github-header.txt
 BEFORE_BODY=$(LIBDIR)/galois-github-before-body.txt
 AFTER_BODY=$(LIBDIR)/galois-github-after-body.txt
-CSS=$(LIBDIR)/galois-github.css
+CSS="/galois-github.css"
 HTML5=-t html5
 
 DOCS := $(patsubst %.md,%.html,$(wildcard *.md))
