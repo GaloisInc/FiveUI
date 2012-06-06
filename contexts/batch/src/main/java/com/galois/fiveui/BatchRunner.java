@@ -25,9 +25,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.ImmutableList.Builder;
-import com.google.common.collect.Multiset;
+import com.google.common.collect.Lists;
 
 public class BatchRunner {
 
