@@ -1,0 +1,9 @@
+{ "name": "simpleRuleSet1"
+, "description": ""
+, "rules": [ { "id": 42
+             , "name": "trivial check"
+             , "description": "test desc"
+             , "rule":
+               function() { }
+           }]
+}

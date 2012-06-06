@@ -119,6 +119,44 @@ public class RuleSet {
         }
         return null;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                  + ((_description == null) ? 0 : _description.hashCode());
+        result = prime * result + ((_name == null) ? 0 : _name.hashCode());
+        result = prime * result + ((_rules == null) ? 0 : _rules.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RuleSet other = (RuleSet) obj;
+        if (_description == null) {
+            if (other._description != null)
+                return false;
+        } else if (!_description.equals(other._description))
+            return false;
+        if (_name == null) {
+            if (other._name != null)
+                return false;
+        } else if (!_name.equals(other._name))
+            return false;
+        if (_rules == null) {
+            if (other._rules != null)
+                return false;
+        } else if (!_rules.equals(other._rules))
+            return false;
+        return true;
+    }
     
     
 }

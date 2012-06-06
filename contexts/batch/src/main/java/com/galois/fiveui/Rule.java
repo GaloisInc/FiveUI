@@ -87,4 +87,44 @@ public class Rule {
                 " 'ruleStr': " + gson.toJson(getRule()) + "\n" +
                 "}";
     }
+    
+    /**
+     * Equals and hashCode ignore the rule function text when performing comparisons.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((_desc == null) ? 0 : _desc.hashCode());
+        result = prime * result + _id;
+        result = prime * result + ((_name == null) ? 0 : _name.hashCode());
+        return result;
+    }
+
+    /**
+     * Equals and hashCode ignore the rule function text when performing comparisons.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Rule other = (Rule) obj;
+        if (_desc == null) {
+            if (other._desc != null)
+                return false;
+        } else if (!_desc.equals(other._desc))
+            return false;
+        if (_id != other._id)
+            return false;
+        if (_name == null) {
+            if (other._name != null)
+                return false;
+        } else if (!_name.equals(other._name))
+            return false;
+        return true;
+    }
 }

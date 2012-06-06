@@ -35,6 +35,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * @author creswick
@@ -60,31 +61,10 @@ public class BatchExecutor {
      * @throws URISyntaxException 
      */
     public static void main(final String[] args) throws IOException, URISyntaxException {
-        //Config conf = parseArgs(Lists.newArrayList(args));
+        String runDescFile = args[0];
+        RunDescription descr = RunDescription.deserialize(runDescFile);
 
-        //System.out.println("Running tests with configuration:\n" + conf);
-
-        Gson gson = new Gson();        
-        Reader in = new InputStreamReader(new FileInputStream(args[0]));
-        RunDescription descr = gson.fromJson(in, RunDescription.class);
-
-//        Builder<URITest> testBuilder = ImmutableList.builder();
-//        for (URI uri : conf.getTestUrls()) {
-//            List<RuleSet> ruleSets =
-//                    Lists.transform(readRuleSets(conf), RuleSet.PARSE);
-//
-//            for (RuleSet ruleSet : ruleSets) {
-//                for (Rule rule : ruleSet.getRules()) {
-//                    RuleSet newRS = new RuleSet(ruleSet.getName(), 
-//                            ruleSet.getDescription(), ImmutableList.of(rule));
-//                    URITest test = new URITest(uri, newRS);
-//                    testBuilder.add(test);
-//                }
-//            }
-//        }
-//
         WebDriver driver = new FirefoxDriver();
-        // WebDriver driver = new HtmlUnitDriver(true);
         ImmutableList<Result> results;
         try {
             BatchRunner runner = new BatchRunner(driver);

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
@@ -36,6 +37,7 @@ public class RuleSetTest {
       testParse("the name", "a descr", "[]", new ArrayList<String>());
    }
    
+   @Ignore
    @Test
    public void testParseOneFn() {
       List<String> rules = ImmutableList.of("\n  function () {\n  }\n");
