@@ -1,0 +1,179 @@
+
+#siteTitle, #pageFooterWrapper, #pageBodyWrapper { clear: both; }
+#canvasWrapper, #content { overflow: hidden; }
+#bannerWrapper { line-height: 0; }
+
+body {
+  background-color: transparent;
+  color: black;
+  display: block;
+  float: right;
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande', Tahoma, sans-serif;
+  font-size: 18px;
+  height: 100%;
+  width: 100%;
+  font-weight: normal;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+h1 {
+  font-size: 36px;
+}
+h2 {
+  font-size: 28px;
+}
+h1 .small {
+  font-size: 0.4em;
+}
+h1 a {
+  text-decoration: none
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #4D7FAA;
+  line-height: 1.25em;
+  font-weight: 500 !important;
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+a {
+  color: #385D7C !important;
+}
+a:link, a:visited, a:active {
+  color: #D73F27;
+}
+#canvasWrapper {
+  width: 100% !important;
+  padding-top: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  background-color: white;
+}
+#canvas {
+  width: 100%;
+}
+#siteTitle {
+  display: block;
+  width: 200px;
+  height: 51px;
+  background: url('css-images/galois_logo.png') no-repeat 0px 0px;
+  text-indent: -9999em;
+  margin-bottom: 1em;
+  cursor: pointer;
+}
+#pageHeaderWrapper {
+  background: #A0BFD3;
+  padding-bottom: 2.75em;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+}
+#pageHeader {
+  width: 980px;
+  margin: 0 auto;
+  line-height: 24px;
+  padding: 1px 0 25px !important;
+}
+#pageBodyWrapper {
+  margin-top: -2.5em;
+  margin-right: auto;
+  margin-bottom: -3em;
+  margin-left: auto;
+  background: transparent url('css-images/pageWrapperBottom.png') no-repeat center bottom;
+  position: relative;
+  z-index: 100;
+}
+#pageBody {
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  width: 960px;
+  padding:20px 10px;
+  margin:0 auto 0;
+  background: transparent url('css-images/pageWrapperTop.png') no-repeat center top;
+  position: relative;
+}
+#pageFooterWrapper {
+  background-color: #A0BFD3;
+  width: 100%;
+}
+#pageFooter {
+  color: white;
+  font-size: 13px;
+  margin: 10px auto 0px;
+  padding: 60px;
+  width: 960px;
+  text-align: right;
+  background: url('css-images/galois_logo.png') no-repeat left center;
+  background-origin: content-box;
+  cursor: pointer;
+}
+#forkme {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+}
+pre {
+  background: #FFFFCC;
+  color: black;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+}
+.description {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  font-style: italic;
+}
+.download {
+  float: right;
+  padding-right: 1.5em;
+}
+hr {
+  border: 0;
+  width: 80%;
+  border-bottom: 1px solid #AAAAAA;
+}
+#contentWrapper {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 2em;
+}
+#content {
+  padding-bottom: 2em;
+}
+li {
+  margin-top: .4em;
+  margin-bottom: .4em;
+}
+img {
+  border: 0px;
+}
+#content .callout.yellow {
+  border-color: #BC9826;
+  background-color: #FDD280;
+  text-align: center;
+  font-style: italic;
+  font-size: 16px;
+
+}
+#content .callout {
+  border-top: 3px solid #F7BE56;
+  border-bottom: 3px solid #F7BE56;
+  padding: 1.75em 1em 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  background-color: #EFEFEF;
+  border-color: #F7BE56;
+}
