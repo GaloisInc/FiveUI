@@ -61,7 +61,7 @@ public class RunDescription {
      * @return A populated RunDescription object.
      * @throws FileNotFoundException if runDescFile can't be found.
      */
-    public static RunDescription deserialize(String runDescFile) 
+    public static RunDescription parse(String runDescFile) 
             throws FileNotFoundException {
 
         GsonBuilder gsonBuilder = new GsonBuilder();

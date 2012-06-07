@@ -45,7 +45,7 @@ public class RunDescriptionTest {
                         new ArrayList<RunDescription.URIMap>(), rsOracle); 
         
         
-        RunDescription actual = RunDescription.deserialize(jsonFileName);
+        RunDescription actual = RunDescription.parse(jsonFileName);
         assertObjEqual("Object deserialized incorrectly.", oracle, actual);
     }
 
@@ -69,7 +69,7 @@ public class RunDescriptionTest {
                         new ArrayList<RunDescription.URIMap>(), rsOracle); 
         
         
-        RunDescription actual = RunDescription.deserialize(jsonFileName);
+        RunDescription actual = RunDescription.parse(jsonFileName);
         assertObjEqual("Object deserialized incorrectly.", oracle, actual);
     }
 
