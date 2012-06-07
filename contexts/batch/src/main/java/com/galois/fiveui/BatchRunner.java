@@ -67,31 +67,34 @@ public class BatchRunner {
     public ImmutableList<Result> runTest(final RuleTest test) {
         RuleSet rule = test.getRule();
         
-        ImmutableList<Result> results;
+        ImmutableList<Result> rawResults;
+        Builder<Result> builder = ImmutableList.builder();
         try {
             _driver.get(test.getUri().toString());
-            results = runRule(rule);
+            rawResults = runRule(rule);
             
             List<ResType> oracle = Lists.newArrayList(test.getOracle());
-            for (Result result : results) {
-                // TODO build up Results object *here*
+            for (Result result : rawResults) {
+                Result res;
                 if ( oracle.remove(result.getType()) ) {
-                    System.out.println("Success: expected result type: "+result.getType());
+                    res = Result.pass(_driver,
+                            test.getRuleId() + ": Got expected result: "+result.getType());
                 } else {
-                    System.out.println("Failure: expected result type: "+result.getType());
+                    res = Result.error(_driver,
+                            test.getRuleId() + ": Unexpected Result: "+result);
                 }
+                builder.add(res);
             }
-//            System.out.println(results);
         } catch (Exception e) {
             String errStr = "Could not run rule: " + rule.getName() + "\n";
             errStr += e.toString();
-            results = ImmutableList.of(
-                    Result.exception("Could not run rule: "+errStr));
+            rawResults = ImmutableList.of(
+                    Result.exception(_driver, "Could not run rule: "+errStr));
             
             e.printStackTrace();
         }
         
-        return results;
+        return builder.build();
     }
 
     private ImmutableList<Result> runRule(final RuleSet ruleSet) throws IOException {
@@ -111,7 +114,7 @@ public class BatchRunner {
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
             System.err.println("Exception running rule: " + res);
-            builder.add(Result.exception((String) res));
+            builder.add(Result.exception(_driver, (String) res));
             return builder.build();
         } else {
 
@@ -120,18 +123,18 @@ public class BatchRunner {
                 List<Map<String, Map<String, String>>> results = (List) res;
 
                 if (0 == results.size()) {
-                    builder.add(Result.pass("passed"));
+                    builder.add(Result.pass(_driver, "passed"));
                 }
 
                 for (Map<String, Map<String, String>> r : results) {
                     Map<String, String> problem = r.get("payload");
                     
-                    builder.add(Result.error(problem.get("descr")));
+                    builder.add(Result.error(_driver, problem.get("descr")));
                 }
 
             } catch (ClassCastException e) {
                 // An unexpected error happened:
-                builder.add(Result.exception("Unexpected object returned: "
+                builder.add(Result.exception(_driver, "Unexpected object returned: "
                         + res));
                 e.printStackTrace();
             }

@@ -17,31 +17,35 @@
  */
 package com.galois.fiveui;
 
+import org.openqa.selenium.WebDriver;
+
 public class Result {
 
-    public static Result exception(String res) {
-        return new Result(ResType.Exception, res);
+    public static Result exception(WebDriver driver, String res) {
+        return new Result(ResType.Exception, driver, res);
     }
     
-    public static Result pass(String res) {
-        return new Result(ResType.Pass, res);
+    public static Result pass(WebDriver driver, String res) {
+        return new Result(ResType.Pass, driver, res);
     }
     
-    public static Result error(String res) {
-        return new Result(ResType.Error, res);
+    public static Result error(WebDriver driver, String res) {
+        return new Result(ResType.Error, driver, res);
     }
 
-    public static Result warning(String res) {
-        return new Result(ResType.Warning, res);
+    public static Result warning(WebDriver driver, String res) {
+        return new Result(ResType.Warning, driver, res);
     }
     
     private ResType _type;
     private String _desc;
+    private WebDriver _driver;
     
-    private Result(ResType type, String desc) {
+    private Result(ResType type, WebDriver driver, String desc) {
         super();
         _type = type;
         _desc = desc;
+        _driver = driver;
     }
 
     public ResType getType() {
@@ -51,9 +55,13 @@ public class Result {
     public String getDesc() {
         return _desc;
     }
+    
+    public WebDriver getDriver() {
+        return _driver;
+    }
 
     @Override
     public String toString() {
-        return getType() + ": " + getDesc();
+        return getType() + " - " + _driver + ": " + getDesc();
     }
 }
