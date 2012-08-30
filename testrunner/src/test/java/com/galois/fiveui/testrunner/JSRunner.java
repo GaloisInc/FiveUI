@@ -83,7 +83,7 @@ public class JSRunner extends Runner {
 
 	private void gatherResults(String testUrl) {
 		ImmutableMap<String, WebDriver> drivers = ImmutableMap.of(
-				"Chrome", (WebDriver)Drivers.buildChromeDriver(),
+//				"Chrome", (WebDriver)Drivers.buildChromeDriver(),
 				"FireFox", (WebDriver)Drivers.buildFFDriver());
 		
 		for (String key : drivers.keySet()) {

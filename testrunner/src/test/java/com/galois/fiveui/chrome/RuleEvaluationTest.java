@@ -99,14 +99,14 @@ public class RuleEvaluationTest {
 		
 		_driver.get("http://localhost:"+_server.getPort()+"/exampleData/basic/headings.html");
 				
-		_fiveui.expectCondition("FiveUI Window should be showing", new Predicate<WebDriver>() {
+		_fiveui.expectCondition("FiveUI Window should be showing", 5, new Predicate<WebDriver>() {
 			public boolean apply(WebDriver input) {
 				List<WebElement> uicWindow = _driver.findElements(By.id("uic-top"));
 				return uicWindow.size() != 0 && uicWindow.get(0).isDisplayed();
 			}
 		});
 		
-		_fiveui.expectCondition("Wrong number of problems.", new Predicate<WebDriver>() {
+		_fiveui.expectCondition("Wrong number of problems.", 5, new Predicate<WebDriver>() {
 			public boolean apply(WebDriver input) {
 				List<WebElement> problems = _driver.findElements(By.cssSelector("#problemList>.pr"));
 				return problems.size() != 1;
@@ -133,9 +133,11 @@ public class RuleEvaluationTest {
 		
 		_driver.get("http://localhost:"+_server.getPort()+"/exampleData/basic/headings.html");
 		
-		_fiveui.expectCondition("Wrong number of problems.", new Predicate<WebDriver>() {
+		
+		_fiveui.expectCondition("Wrong number of problems.", 5, new Predicate<WebDriver>() {
 			public boolean apply(WebDriver input) {
-				List<WebElement> problems = _driver.findElements(By.cssSelector("#problemList .prExpand"));
+			    //List<WebElement> problems = _driver.findElements(By.cssSelector("#problemList .prExpand"));
+			    List<WebElement> problems = _driver.findElements(By.className("prExpand"));
 				return problems.size() == 1;
 			}
 		});
@@ -143,7 +145,7 @@ public class RuleEvaluationTest {
 		WebElement expand = _driver.findElement(By.cssSelector("#problemList .prExpand"));
 		expand.click();
 		
-		_fiveui.expectCondition("Nothing was tagged as a uic-problem.", new Predicate<WebDriver>() {
+		_fiveui.expectCondition("Nothing was tagged as a uic-problem.", 5, new Predicate<WebDriver>() {
 			public boolean apply(WebDriver input) {
 				List<WebElement> problems = _driver.findElements(By.className("uic-problem"));
 				return problems.size() == 1;
