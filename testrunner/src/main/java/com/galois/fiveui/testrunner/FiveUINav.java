@@ -21,6 +21,7 @@
 package com.galois.fiveui.testrunner;
 
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import org.openqa.selenium.By;
@@ -44,23 +45,19 @@ public class FiveUINav {
 	}
 
 	public void loadOptionsPage() throws InterruptedException {
-		final Set<String> origHandles = _driver.getWindowHandles();
+		String chromeExtensionId = System.getProperty("FIVE_UI_CHROME_EXT_ID",
+		        "nibbejpbdndgcoohhohlmmnenhdnpekm");
+		String optionsUrl = "chrome-extension://"+chromeExtensionId+"/data/fiveui/options.html";
 
-		_driver.get("chrome://settings/extensions");
-		
-		WebElement optionsLink = _driver.findElement(By.className("extension-links-trailing"));
-		optionsLink.click();
+		_driver.get(optionsUrl);
 		
 		(new WebDriverWait(_driver, 10)).until(new Predicate<WebDriver>() {
 			public boolean apply(WebDriver input) {
-				return _driver.getWindowHandles().size() == origHandles.size() + 1;
+			    List<WebElement> elts = 
+			            _driver.findElements(By.id("navbar-content-title"));
+				return elts.size() != 0;
 			}
-		});		
-		_driver.close();
-		Set<String> newHandles = _driver.getWindowHandles();
-		newHandles.removeAll(origHandles);
-		String optionsHandle = newHandles.iterator().next();
-		_driver.switchTo().window(optionsHandle);
+		});
 	}
 	
 	/**
@@ -205,10 +202,11 @@ public class FiveUINav {
 	 * if the timeout occurs before the condition is satisfied.
 	 * 
 	 * @param msg
+	 * @param timeout The timeout, in seconds, to wait before throwing an AssertionError
 	 * @param condition
 	 */
-	public void expectCondition(final String msg, Predicate<WebDriver> condition) {
-		(new WebDriverWait(_driver, 5) {
+	public void expectCondition(final String msg, long timeout, Predicate<WebDriver> condition) {
+		(new WebDriverWait(_driver, timeout) {
 
 			@Override
 			protected RuntimeException timeoutException(String message,

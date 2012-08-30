@@ -45,7 +45,6 @@ public class FirefoxExtensionRunsTest {
 	public void testRuns() throws InterruptedException {
 		loadOptionsPage();
 		
-		
 		WebElement optionsTitle = _driver.findElement(By.id("navbar-content-title"));
 		Assert.assertEquals("Wrong options page?", "Settings", optionsTitle.getText());
 	}

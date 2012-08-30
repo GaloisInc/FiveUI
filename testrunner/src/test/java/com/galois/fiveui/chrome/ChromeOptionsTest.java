@@ -81,10 +81,10 @@ public class ChromeOptionsTest {
 			WebElement link = _driver.findElementByCssSelector(key);
 			link.click();
 			_fiveui.expectCondition("Expected title never became visible",
-					new Predicate<WebDriver>(){
+					5, new Predicate<WebDriver>(){
 						public boolean apply(WebDriver input) {
 							WebElement elt = _driver.findElementByCssSelector(navAndTitles.get(key));
-							return elt.getText() != "" && elt.isDisplayed();
+							return (! elt.getText().equals("")) && elt.isDisplayed();
 						}
 			        });
 		}

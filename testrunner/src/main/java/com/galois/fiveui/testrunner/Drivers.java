@@ -23,8 +23,10 @@ package com.galois.fiveui.testrunner;
 import java.io.File;
 import java.io.IOException;
 
+import org.openqa.selenium.browserlaunchers.locators.FirefoxLocator;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
@@ -50,8 +52,18 @@ public class Drivers {
 			e.printStackTrace();
 		}
 		
-		FirefoxDriver driver = new FirefoxDriver(profile);
+		String ffBinaryPath = System.getProperty("FIREFOX_BIN_PATH");
 		
+		FirefoxDriver driver;
+		if (null == ffBinaryPath) {
+		    System.err.println("WARNING: Running essentially random version of FireFox!");
+		    System.err.println("         set a path to firefox with -DFIREFOX_BIN_PATH=<path to firefox>");
+		    driver = new FirefoxDriver(profile);
+		} else {
+	        FirefoxBinary binary = new FirefoxBinary(new File(ffBinaryPath));
+	        driver = new FirefoxDriver(binary, profile);
+		}
+       
 		return driver;
 	}
 
@@ -62,7 +74,7 @@ public class Drivers {
 
 		// setting the path to chrome also seems to cause issues:
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--user-data-dir=../profiles/chrome");
+		options.addArguments("--user-data-dir=../profiles/chrome"); // , "--enable-logging", "--v=1");
         options.addExtensions(new File("../contexts/fiveui.crx"));
 		// options.setBinary(new File("/usr/bin/google-chrome"));
 
