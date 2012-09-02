@@ -1,0 +1,13 @@
+{
+  'ruleSet': '../ruleSets/headingGuidelines.json',
+  'tests': [ { 'url': 'http://localhost:8000/exampleData/basic/headings.html',
+               'oracle': [ { 'ruleId': 1
+                           , 'results': ['Error', 'Error']
+                           },
+                           { 'ruleId': 2
+                           , 'results': ['Error']
+                           }
+                         ]
+             }
+           ]
+}

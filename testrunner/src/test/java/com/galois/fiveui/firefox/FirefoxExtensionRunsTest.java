@@ -30,7 +30,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import com.galois.fiveui.testrunner.Drivers;
+import com.galois.fiveui.drivers.Drivers;
 
 public class FirefoxExtensionRunsTest {
 	static FirefoxDriver _driver;

@@ -34,6 +34,7 @@ import org.junit.runner.notification.RunNotifier;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import com.galois.fiveui.drivers.Drivers;
 import com.google.common.collect.ImmutableMap;
 
 /**
