@@ -35,7 +35,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.galois.fiveui.testrunner.Drivers;
+import com.galois.fiveui.drivers.Drivers;
 import com.galois.fiveui.testrunner.FileServer;
 import com.galois.fiveui.testrunner.FiveUINav;
 import com.google.common.base.Predicate;

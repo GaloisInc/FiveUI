@@ -34,7 +34,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.galois.fiveui.testrunner.Drivers;
+import com.galois.fiveui.drivers.Drivers;
 import com.galois.fiveui.testrunner.FiveUINav;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
