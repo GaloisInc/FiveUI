@@ -81,8 +81,13 @@ public class BatchRunner {
                             test.getRuleId() + ": Got expected result: "+result.getType());
                 } else {
                     res = Result.error(_driver,
-                            test.getRuleId() + ": Unexpected Result: "+result);
+                            test.getRuleId() + ": Unexpected result: "+result);
                 }
+                builder.add(res);
+            }
+            for (ResType o : oracle) {
+                Result res = Result.error(_driver, 
+                        test.getRuleId() + ": missing expected result: "+o);
                 builder.add(res);
             }
         } catch (Exception e) {

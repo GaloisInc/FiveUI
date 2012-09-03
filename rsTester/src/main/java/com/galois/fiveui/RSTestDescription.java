@@ -206,16 +206,16 @@ public class RSTestDescription {
         private URI url;
         private List<RuleMap> oracle;
         
-        @SuppressWarnings("unused")
         URIMap(){}
 
         @Override
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result =
-                    prime * result + ((getOracle() == null) ? 0 : getOracle().hashCode());
-            result = prime * result + ((getUrl() == null) ? 0 : getUrl().hashCode());
+            result = prime * result + 
+                    ((getOracle() == null) ? 0 : getOracle().hashCode());
+            result = prime * result + 
+                    ((getUrl() == null) ? 0 : getUrl().hashCode());
             return result;
         }
 
@@ -258,9 +258,8 @@ public class RSTestDescription {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result =
-                    prime * result
-                            + ((getResults() == null) ? 0 : getResults().hashCode());
+            result = prime * result
+                     + ((getResults() == null) ? 0 : getResults().hashCode());
             result = prime * result + getRuleId();
             return result;
         }
