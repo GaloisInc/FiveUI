@@ -41,7 +41,6 @@ public class RuleSetTester {
      */
     public static void main(final String[] args) throws IOException,
             URISyntaxException {
-        System.out.println(args.length);
 
         if (0 == args.length) {
             printHelp();
