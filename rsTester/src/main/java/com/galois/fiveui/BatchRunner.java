@@ -34,7 +34,7 @@ public class BatchRunner {
     private final JavascriptExecutor _exe;
 
     // Relative to the batch directory.
-    private static final String DATA_DIR = "../data/";
+    private static final String DATA_DIR = "../contexts/data/";
     private static final String J_QUERY_JS = DATA_DIR
             + "lib/jquery/jquery-1.7.1.min.js";
     private static final String PRELUDE_JS = DATA_DIR
