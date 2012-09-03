@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 
 import org.openqa.selenium.WebDriver;
 
+import com.galois.fiveui.drivers.Drivers;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -68,7 +69,7 @@ public class RuleSetTester {
     }
 
     private static ImmutableList<WebDriver> getDrivers() {
-        return ImmutableList.of(
+        return ImmutableList.<WebDriver>of(
                   Drivers.buildFFDriver()
              // , Drivers.buildChromeDriver()
                 );
