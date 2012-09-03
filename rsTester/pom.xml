@@ -28,6 +28,7 @@
   <build>
     <plugins>
       <plugin>
+      <!-- package with 'mvn assembly:single'  -->
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <archive>

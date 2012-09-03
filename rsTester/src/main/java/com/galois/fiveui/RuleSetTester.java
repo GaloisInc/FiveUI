@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.google.common.collect.ImmutableList;
 
@@ -70,14 +68,15 @@ public class RuleSetTester {
     }
 
     private static ImmutableList<WebDriver> getDrivers() {
-        return ImmutableList.of(Drivers.buildFFDriver()
-        // , Drivers.buildChromeDriver()
+        return ImmutableList.of(
+                  Drivers.buildFFDriver()
+             // , Drivers.buildChromeDriver()
                 );
     }
 
     private static void printHelp() {
-        System.out
-                .println("Usage: RuleSetTester [<ruleSetTestDescirption.json>]");
+        System.out.println(
+                "Usage: RuleSetTester [<ruleSetTestDescirption.json>]");
     }
 
     private static ImmutableList<Result> invokeTest(RSTestDescription descr,
@@ -85,6 +84,5 @@ public class RuleSetTester {
         BatchRunner runner = new BatchRunner(driver);
 
         return runner.runTests(descr.getTests());
-
     }
 }
