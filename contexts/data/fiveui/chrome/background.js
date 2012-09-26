@@ -60,7 +60,7 @@ fiveui.chrome.background = function() {
 
       var script = scripts.shift();
 
-      console.log('injecting: ' + script);
+      // console.log('injecting: ' + script);
 
       if (/css$/.test(script)) {
         chrome.tabs.insertCSS(tabid, { 'file' : script }, next);
@@ -137,7 +137,7 @@ fiveui.chrome.background = function() {
 
 
   chrome.tabs.onCreated.addListener(function(tab) {
-    console.log('in oncreated');
+    // console.log('in oncreated');
     if (tab.url) {
       background.pageLoad(tab.id, tab.url);
     }

@@ -202,9 +202,9 @@
         function(e)  {
            var eTagName = e.target.tagName;
            if (eTagName == 'IFRAME' || eTagName == 'FRAME') {
-             console.log('frame added');
+             // console.log('frame added');
              e.target.onload = function() {
-               console.log('frame loaded');
+               // console.log('frame loaded');
                core.scheduleRules();
                registerDomListeners(e.target.contentDocument);
              };
