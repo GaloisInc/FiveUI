@@ -27,9 +27,9 @@ goog.require('goog.asserts');
 goog.require('goog.async.Deferred');
 goog.require('goog.debug.Logger');
 goog.require('goog.debug.Trace');
-goog.require('goog.module.AbstractModuleLoader');
 goog.require('goog.module.ModuleInfo');
 goog.require('goog.module.ModuleLoadCallback');
+goog.require('goog.object');
 
 
 
@@ -439,6 +439,29 @@ goog.module.ModuleManager.prototype.preloadModule = function(
 
 
 /**
+ * Prefetches a JavaScript module and its dependencies, which means that the
+ * module will be downloaded, but not evaluated. To complete the module load,
+ * the caller should also call load or execOnLoad after prefetching the module.
+ *
+ * @param {string} id The id of the module to prefetch.
+ */
+goog.module.ModuleManager.prototype.prefetchModule = function(id) {
+  var moduleInfo = this.getModuleInfo(id);
+  if (moduleInfo.isLoaded() || this.isModuleLoading(id)) {
+    throw Error('Module load already requested: ' + id);
+  } else if (this.batchModeEnabled_) {
+    throw Error('Modules prefetching is not supported in batch mode');
+  } else {
+    var idWithDeps = this.getNotYetLoadedTransitiveDepIds_(id);
+    for (var i = 0; i < idWithDeps.length; i++) {
+      this.loader_.prefetchModule(idWithDeps[i],
+          this.moduleInfoMap_[idWithDeps[i]]);
+    }
+  }
+};
+
+
+/**
  * Loads a single module for use with a given deferred.
  *
  * @param {string} id The id of the module to load.
@@ -474,11 +497,12 @@ goog.module.ModuleManager.prototype.addLoadModule_ = function(id, d) {
  */
 goog.module.ModuleManager.prototype.loadModulesOrEnqueueIfNotLoadedOrLoading_ =
     function(ids, opt_userInitiated) {
-  goog.array.removeDuplicates(ids);
+  var uniqueIds = [];
+  goog.array.removeDuplicates(ids, uniqueIds);
   var idsToLoad = [];
   var deferredMap = {};
-  for (var i = 0; i < ids.length; i++) {
-    var id = ids[i];
+  for (var i = 0; i < uniqueIds.length; i++) {
+    var id = uniqueIds[i];
     var moduleInfo = this.getModuleInfo(id);
     var d = new goog.async.Deferred();
     deferredMap[id] = d;
@@ -944,6 +968,27 @@ goog.module.ModuleManager.prototype.registerInitializationCallback = function(
 
 
 /**
+ * Register a late initialization callback for the currently loading module.
+ * Callbacks registered via this function are executed similar to
+ * {@see registerInitializationCallback}, but they are fired after all
+ * initialization callbacks are called.
+ *
+ * @param {Function} fn A callback function that takes a single argument
+ *    which is the module context.
+ * @param {Object=} opt_handler Optional handler under whose scope to execute
+ *     the callback.
+ */
+goog.module.ModuleManager.prototype.registerLateInitializationCallback =
+    function(fn, opt_handler) {
+  if (!this.currentlyLoadingModule_) {
+    this.logger_.severe('No module is currently loading');
+  } else {
+    this.currentlyLoadingModule_.registerCallback(fn, opt_handler);
+  }
+};
+
+
+/**
  * Sets the constructor to use for the module object for the currently
  * loading module. The constructor should derive from {@see
  * goog.module.BaseModule}.
@@ -983,7 +1028,7 @@ goog.module.ModuleManager.FailureType = {
 /**
  * Handles a module load failure.
  *
- * @param {number} status The error status.
+ * @param {?number} status The error status.
  * @private
  */
 goog.module.ModuleManager.prototype.handleLoadError_ = function(status) {

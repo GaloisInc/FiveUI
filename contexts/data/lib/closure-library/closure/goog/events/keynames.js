@@ -119,11 +119,14 @@ goog.events.KeyNames = {
   123: 'f12',
   186: 'semicolon',
   187: 'equals',
+  189: 'dash',
   188: ',',
   190: '.',
   191: '/',
   192: '~',
   219: 'open-square-bracket',
   220: '\\',
+  221: 'close-square-bracket',
+  222: 'single-quote',
   224: 'win'
 };
