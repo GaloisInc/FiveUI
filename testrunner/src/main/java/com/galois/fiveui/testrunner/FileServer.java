@@ -64,6 +64,7 @@ public class FileServer {
 				try {
 					FileServer.this.runServer();
 				} catch (Exception e) {
+					System.err.println("Exception starting server:");
 					e.printStackTrace();
 				}
 			}
@@ -75,7 +76,7 @@ public class FileServer {
 	private void runServer() throws Exception {
 		_server = new Server();
 		SelectChannelConnector connector = new SelectChannelConnector();
-		connector.setPort(8080);
+		connector.setPort(getPort());
 		_server.addConnector(connector);
 
 		ResourceHandler resource_handler = new ResourceHandler();

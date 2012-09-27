@@ -26,6 +26,7 @@ import java.util.List;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -40,6 +41,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
+@Ignore
 public class ChromeOptionsTest {
 	private static ChromeDriver _driver;
 	private static FiveUINav _fiveui;
@@ -47,7 +49,7 @@ public class ChromeOptionsTest {
 	
 	@BeforeClass
 	public static void setUp() {
-		_driver = Drivers.buildChromeDriver();
+		//_driver = Drivers.buildChromeDriver();
 		_fiveui = new FiveUINav(_driver);
 	}
 	
@@ -67,6 +69,7 @@ public class ChromeOptionsTest {
 	 * @throws InterruptedException
 	 */
 	@Test
+	@Ignore
 	public void testOptionsPageLoads() throws InterruptedException {
 		
 		WebElement optionsTitle = _driver.findElement(By.id("navbar-content-title"));
@@ -115,6 +118,7 @@ public class ChromeOptionsTest {
 	 * @throws InterruptedException
 	 */
 	@Test
+	@Ignore
 	public void simpleRuleSetTest() throws InterruptedException {
 		String rsName = "Test rule set";
 		String ruleSet = "{ 'name': '"+rsName+"', " +
@@ -139,6 +143,7 @@ public class ChromeOptionsTest {
 	 * @throws InterruptedException
 	 */
 	@Test
+	@Ignore
 	public void simpleUlPatTest() throws InterruptedException {
 		String rsName = "Test rule set";
 		String ruleSet = "{ 'name': '"+rsName+"', " +
@@ -164,6 +169,7 @@ public class ChromeOptionsTest {
 	
 	
 	@Test
+	@Ignore
 	public void runRuleSetTest() throws InterruptedException {
 		String rsName = "Test rule set";
 		String ruleSet = "{ 'name': '"+rsName+"', " +
