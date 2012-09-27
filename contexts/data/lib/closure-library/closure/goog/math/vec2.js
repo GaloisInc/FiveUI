@@ -20,6 +20,7 @@
  * Coordinate is required. Where appropriate, Vec2 functions accept both Vec2
  * and Coordinate objects as input.
  *
+ * @author brenneman@google.com (Shawn Brenneman)
  */
 
 goog.provide('goog.math.Vec2');
@@ -86,6 +87,7 @@ goog.math.Vec2.fromCoordinate = function(a) {
 
 /**
  * @return {!goog.math.Vec2} A new vector with the same coordinates as this one.
+ * @override
  */
 goog.math.Vec2.prototype.clone = function() {
   return new goog.math.Vec2(this.x, this.y);
@@ -103,7 +105,7 @@ goog.math.Vec2.prototype.magnitude = function() {
 
 /**
  * Returns the squared magnitude of the vector measured from the origin.
- * NOTE(user): Leaving out the square root is not a significant
+ * NOTE(brenneman): Leaving out the square root is not a significant
  * optimization in JavaScript.
  * @return {number} The length of the vector, squared.
  */
