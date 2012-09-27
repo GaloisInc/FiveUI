@@ -69,10 +69,12 @@ goog.events.EventType = {
 
   // Drag and drop
   DRAGSTART: 'dragstart',
+  DRAG: 'drag',
   DRAGENTER: 'dragenter',
   DRAGOVER: 'dragover',
   DRAGLEAVE: 'dragleave',
   DROP: 'drop',
+  DRAGEND: 'dragend',
 
   // WebKit touch events.
   TOUCHSTART: 'touchstart',
@@ -81,6 +83,7 @@ goog.events.EventType = {
   TOUCHCANCEL: 'touchcancel',
 
   // Misc
+  BEFOREUNLOAD: 'beforeunload',
   CONTEXTMENU: 'contextmenu',
   ERROR: 'error',
   HELP: 'help',
@@ -108,6 +111,11 @@ goog.events.EventType = {
   BEFORECOPY: 'beforecopy',
   BEFORECUT: 'beforecut',
   BEFOREPASTE: 'beforepaste',
+
+  // HTML5 online/offline events.
+  // http://www.w3.org/TR/offline-webapps/#related
+  ONLINE: 'online',
+  OFFLINE: 'offline',
 
   // HTML 5 worker events
   MESSAGE: 'message',

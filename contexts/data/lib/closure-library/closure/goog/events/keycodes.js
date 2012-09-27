@@ -27,12 +27,13 @@ goog.require('goog.userAgent');
 /**
  * Key codes for common characters.
  *
- * This list is not localized and therefor some of the key codes are not correct
- * for non US keyboard layouts. See comments below.
+ * This list is not localized and therefore some of the key codes are not
+ * correct for non US keyboard layouts. See comments below.
  *
  * @enum {number}
  */
 goog.events.KeyCodes = {
+  WIN_KEY_FF_LINUX: 0,
   MAC_ENTER: 3,
   BACKSPACE: 8,
   TAB: 9,
@@ -67,6 +68,7 @@ goog.events.KeyCodes = {
   EIGHT: 56,
   NINE: 57,
   FF_SEMICOLON: 59, // Firefox (Gecko) fires this for semicolon instead of 186
+  FF_EQUALS: 61, // Firefox (Gecko) fires this for equals instead of 187
   QUESTION_MARK: 63, // needs localization
   A: 65,
   B: 66,
@@ -199,6 +201,8 @@ goog.events.KeyCodes.isTextModifyingKeyEvent = function(e) {
     case goog.events.KeyCodes.WIN_KEY:
     case goog.events.KeyCodes.WIN_KEY_RIGHT:
       return false;
+    case goog.events.KeyCodes.WIN_KEY_FF_LINUX:
+      return !goog.userAgent.GECKO;
     default:
       return e.keyCode < goog.events.KeyCodes.FIRST_MEDIA_KEY ||
           e.keyCode > goog.events.KeyCodes.LAST_MEDIA_KEY;
@@ -254,8 +258,29 @@ goog.events.KeyCodes.firesKeyPressEvent = function(keyCode, opt_heldKeyCode,
   // check the user agent.
   if (!opt_shiftKey &&
       (opt_heldKeyCode == goog.events.KeyCodes.CTRL ||
-       opt_heldKeyCode == goog.events.KeyCodes.ALT)) {
+       opt_heldKeyCode == goog.events.KeyCodes.ALT ||
+       goog.userAgent.MAC &&
+       opt_heldKeyCode == goog.events.KeyCodes.META)) {
     return false;
+  }
+
+  // Some keys with Ctrl/Shift do not issue keypress in WEBKIT.
+  if (goog.userAgent.WEBKIT && opt_ctrlKey && opt_shiftKey) {
+    switch (keyCode) {
+      case goog.events.KeyCodes.BACKSLASH:
+      case goog.events.KeyCodes.OPEN_SQUARE_BRACKET:
+      case goog.events.KeyCodes.CLOSE_SQUARE_BRACKET:
+      case goog.events.KeyCodes.TILDE:
+      case goog.events.KeyCodes.SEMICOLON:
+      case goog.events.KeyCodes.DASH:
+      case goog.events.KeyCodes.EQUALS:
+      case goog.events.KeyCodes.COMMA:
+      case goog.events.KeyCodes.PERIOD:
+      case goog.events.KeyCodes.SLASH:
+      case goog.events.KeyCodes.APOSTROPHE:
+      case goog.events.KeyCodes.SINGLE_QUOTE:
+        return false;
+    }
   }
 
   // When Ctrl+<somekey> is held in IE, it only fires a keypress once, but it
@@ -315,6 +340,7 @@ goog.events.KeyCodes.isCharacterKey = function(keyCode) {
     case goog.events.KeyCodes.FF_SEMICOLON:
     case goog.events.KeyCodes.DASH:
     case goog.events.KeyCodes.EQUALS:
+    case goog.events.KeyCodes.FF_EQUALS:
     case goog.events.KeyCodes.COMMA:
     case goog.events.KeyCodes.PERIOD:
     case goog.events.KeyCodes.SLASH:
@@ -326,5 +352,26 @@ goog.events.KeyCodes.isCharacterKey = function(keyCode) {
       return true;
     default:
       return false;
+  }
+};
+
+
+/**
+ * Normalizes key codes from their Gecko-specific value to the general one.
+ * @param {number} keyCode The native key code.
+ * @return {number} The normalized key code.
+ */
+goog.events.KeyCodes.normalizeGeckoKeyCode = function(keyCode) {
+  switch (keyCode) {
+    case goog.events.KeyCodes.FF_EQUALS:
+      return goog.events.KeyCodes.EQUALS;
+    case goog.events.KeyCodes.FF_SEMICOLON:
+      return goog.events.KeyCodes.SEMICOLON;
+    case goog.events.KeyCodes.MAC_FF_META:
+      return goog.events.KeyCodes.META;
+    case goog.events.KeyCodes.WIN_KEY_FF_LINUX:
+      return goog.events.KeyCodes.WIN_KEY;
+    default:
+      return keyCode;
   }
 };

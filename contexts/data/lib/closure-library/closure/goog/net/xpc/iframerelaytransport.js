@@ -56,14 +56,15 @@ goog.net.xpc.IframeRelayTransport = function(channel, opt_domHelper) {
    * @private
    */
   this.peerRelayUri_ =
-      this.channel_.cfg_[goog.net.xpc.CfgFields.PEER_RELAY_URI];
+      this.channel_.getConfig()[goog.net.xpc.CfgFields.PEER_RELAY_URI];
 
   /**
    * The id of the iframe the peer page lives in.
    * @type {string}
    * @private
    */
-  this.peerIframeId_ = this.channel_.cfg_[goog.net.xpc.CfgFields.IFRAME_ID];
+  this.peerIframeId_ =
+      this.channel_.getConfig()[goog.net.xpc.CfgFields.IFRAME_ID];
 
   if (goog.userAgent.WEBKIT) {
     goog.net.xpc.IframeRelayTransport.startCleanupTimer_();
@@ -183,13 +184,15 @@ goog.net.xpc.IframeRelayTransport.fragmentMap_ = {};
 /**
  * The transport type.
  * @type {number}
+ * @override
  */
 goog.net.xpc.IframeRelayTransport.prototype.transportType =
-  goog.net.xpc.TransportTypes.IFRAME_RELAY;
+    goog.net.xpc.TransportTypes.IFRAME_RELAY;
 
 
 /**
  * Connects this transport.
+ * @override
  */
 goog.net.xpc.IframeRelayTransport.prototype.connect = function() {
   if (!this.getWindow()['xpcRelay']) {
@@ -248,19 +251,20 @@ goog.net.xpc.IframeRelayTransport.receiveMessage_ =
     }
 
     // We've received all outstanding fragments; combine what we've received
-    // into payload and fall out to the call to deliver_.
+    // into payload and fall out to the call to xpcDeliver.
     payload = fragmentInfo.fragments.join('');
     delete goog.net.xpc.IframeRelayTransport.fragmentMap_[messageIdStr];
   }
 
-  goog.net.xpc.channels_[channelName].deliver_(service,
-                                               decodeURIComponent(payload));
+  goog.net.xpc.channels[channelName].
+      xpcDeliver(service, decodeURIComponent(payload));
 };
 
 
 /**
  * Handles transport service messages (internal signalling).
  * @param {string} payload The message content.
+ * @override
  */
 goog.net.xpc.IframeRelayTransport.prototype.transportServiceHandler =
     function(payload) {
@@ -268,10 +272,10 @@ goog.net.xpc.IframeRelayTransport.prototype.transportServiceHandler =
     // TODO(user) Safari swallows the SETUP_ACK from the iframe to the
     // container after hitting reload.
     this.send(goog.net.xpc.TRANSPORT_SERVICE_, goog.net.xpc.SETUP_ACK_);
-    this.channel_.notifyConnected_();
+    this.channel_.notifyConnected();
   }
   else if (payload == goog.net.xpc.SETUP_ACK_) {
-    this.channel_.notifyConnected_();
+    this.channel_.notifyConnected();
   }
 };
 
@@ -281,6 +285,7 @@ goog.net.xpc.IframeRelayTransport.prototype.transportServiceHandler =
  *
  * @param {string} service Name of service this the message has to be delivered.
  * @param {string} payload The message content.
+ * @override
  */
 goog.net.xpc.IframeRelayTransport.prototype.send = function(service, payload) {
   // If we're on IE and the post-encoding payload is large, split it

@@ -63,6 +63,13 @@ goog.inherits(goog.testing.net.XhrIo, goog.events.EventTarget);
 
 
 /**
+ * Alias this enum here to make mocking of goog.net.XhrIo easier.
+ * @enum {string}
+ */
+goog.testing.net.XhrIo.ResponseType = goog.net.XhrIo.ResponseType;
+
+
+/**
  * All non-disposed instances of goog.testing.net.XhrIo created
  * by {@link goog.testing.net.XhrIo.send} are in this Array.
  * @see goog.testing.net.XhrIo.cleanup
@@ -417,6 +424,13 @@ goog.testing.net.XhrIo.prototype.simulateReadyStateChange =
     throw Error('Readystate cannot go backwards');
   }
 
+  // INTERACTIVE can be dispatched repeatedly as more data is reported.
+  if (readyState == goog.net.XmlHttp.ReadyState.INTERACTIVE &&
+      readyState == this.readyState_) {
+    this.dispatchEvent(goog.net.EventType.READY_STATE_CHANGE);
+    return;
+  }
+
   while (this.readyState_ < readyState) {
     this.readyState_++;
     this.dispatchEvent(goog.net.EventType.READY_STATE_CHANGE);
@@ -426,6 +440,21 @@ goog.testing.net.XhrIo.prototype.simulateReadyStateChange =
       this.dispatchEvent(goog.net.EventType.COMPLETE);
     }
   }
+};
+
+
+/**
+ * Simulate receiving some bytes but the request not fully completing, and
+ * the XHR entering the 'INTERACTIVE' state.
+ * @param {string} partialResponse A string to append to the response text.
+ * @param {Object=} opt_headers Simulated response headers.
+ */
+goog.testing.net.XhrIo.prototype.simulatePartialResponse =
+    function(partialResponse, opt_headers) {
+  this.response_ += partialResponse;
+  this.responseHeaders_ = opt_headers || {};
+  this.statusCode_ = 200;
+  this.simulateReadyStateChange(goog.net.XmlHttp.ReadyState.INTERACTIVE);
 };
 
 
