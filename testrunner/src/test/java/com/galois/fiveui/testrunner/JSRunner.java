@@ -60,10 +60,17 @@ public class JSRunner extends Runner {
 			
 			gatherResults(getUrl(_clazz));
 			
-			_server.stop();
+			
 		} catch (Exception e) {
 			scream("Unhandled catch in JSRunner constructor");
 			e.printStackTrace();
+		} finally {
+			try {
+				_server.stop();
+			} catch (Exception e) {
+				System.err.println("Exception while stopping server: ");
+				e.printStackTrace();
+			}
 		}
 	}
 
