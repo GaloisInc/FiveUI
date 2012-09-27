@@ -21,7 +21,7 @@
 
 (function() {
    $('#options-div').click(function() {
-                             console.log('options-div handler');
+                             //console.log('options-div handler');
                              self.port.emit('showOptions');
                            });
  })();
