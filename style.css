@@ -133,6 +133,7 @@ em {font-style: italic;}
 strong {font-weight: 600;}
 
 
+.clearfix {clear:both;}
 
 
 .title {
@@ -326,6 +327,5 @@ ul.steps li {
 
 
 
-.clearfix {clear:both;}
 
 
