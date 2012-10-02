@@ -103,7 +103,7 @@ fiveui.Background.prototype.connect = function(tabId, port, url, isUiPort) {
   if (isUiPort) {
     tabState.uiPort = port;
     this._registerUiListeners(port, tabState);
-    port.emit('RestoreUI', tabState);
+    port.emit('RestoreUI', tabState.toEmit());
     this.updateWidget(tabState);
   } else {
     tabState.computePorts.push(port);
