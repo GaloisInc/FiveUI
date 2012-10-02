@@ -97,6 +97,15 @@ fiveui.TabState.prototype.clearProblems = function() {
   this.seenProblems = new goog.structs.Set();
 };
 
+/*
+ * Returns a copy of only the attributes in a TabState that are needed for
+ * interpage communication.
+ */
+fiveui.TabState.prototype.toEmit = function() {
+  // return jQuery.extend(true, {}, { winState: this.winState, problems: this.problems });
+  return { winState: this.winState, problems: this.problems };
+}
+
 /**
  * @constructor
  * @param {!fiveui.Settings} settings The settings object to obtain

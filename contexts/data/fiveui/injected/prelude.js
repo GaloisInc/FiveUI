@@ -202,4 +202,26 @@ fiveui.word.allCaps = function(word) {
     && (word == word.toUpperCase());
 };
 
+/* Hack-y stuff to be removed later when the extension works */
+fiveui.highlight = function(elt) {
+  // console.log('fiveui.highlight');
+  elt.css('background-color', 'rgba(255,0,0,0.3)')
+     .css('border', 'solid')
+     .css('border-color', 'red')
+     .addClass('uic-top');
+};
 
+/* covert rgb(a) colors to hex */
+fiveui.colorToHex = function(color) {
+    if (color.substr(0, 1) === '#') {
+        return color;
+    }
+    var digits = /rgb(a)?\((\d+), (\d+), (\d+)/.exec(color);
+
+    var red = parseInt(digits[2]);
+    var green = parseInt(digits[3]);
+    var blue = parseInt(digits[4]);
+
+    var rgb = blue | (green << 8) | (red << 16);
+    return '#' + rgb.toString(16).toUpperCase();
+};
