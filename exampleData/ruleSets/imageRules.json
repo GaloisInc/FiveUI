@@ -1,0 +1,34 @@
+{ 'name': "Image exists and links back to URL"
+, 'description': "A specific image file should be included in the page and link back to a specific URL"
+, 'rules': [
+             { 'image-appears': "Image appears on page"
+             , 'description': "A specific image should appear somewhere on the page."
+             , 'rule':
+             function() {
+                 var flag = false;
+                 fiveui.query("img[src$='star.jpeg']").each(function(i, elt) { flag = true; });
+                 if (!flag) {
+                   report('Image star.gif does not appear');
+                 }
+             }
+             },
+             { 'image-links-back': "Image links back"
+             , 'description': "Each instance of a specific image must link back to a specific URL"
+             , 'rule':
+             function() {
+               fiveui.query('a').has('img').each(
+                 function(i, elt) {
+                   fiveui.query('img', elt).each(
+                     function(j, elt2) {
+                       if (/star.jpeg$/.test(elt2['src']) && !/star/.test(elt['href'])) {
+                         report('Image star.jpeg does not link back to google');
+                       }
+                     }
+                   );
+                 }
+               );
+             }
+             }
+           ]
+}
+
