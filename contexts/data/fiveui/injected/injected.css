@@ -34,12 +34,22 @@
 /* Reduce the JQuery UI spacing on the left of the dialog content. */
 #uic-dialog {
     padding-left: 3px;
+    font-family: Courier;
+}
+
+#uic-top {
+  font-family: Courier;
 }
 
 .ui-dialog .ui-dialog-content {
     overflow: hidden !important;
     position: relative;
 }
+
+#breakButton, #clearButton {
+  font-family: Courier;
+}
+
 
 
 /* #listWrapper { */
