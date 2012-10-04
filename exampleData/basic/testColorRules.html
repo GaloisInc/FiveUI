@@ -1,23 +1,50 @@
 <!DOCTYPE html>
 <html>
-  <head></head>
+
+  <title>Test Color Rules</title>
+  <head>
+
+    <!-- Simple embedded style sheet -->
+    <style type="text/css">
+      #nav-left { color: #C3C2C5; }
+      #nav-left a:hover { color: #B4B4B4; }
+      #nav-left a:active { color: #4E4E4E; }
+    </style>
+  </head>
+
 <body>
-<h1>Color tests</h1>
-<p style="color: #FFFFF1">This (almost) is an FF paragraph.</p>
-<p style="color: #CCCCCC">This is an CC paragraph.</p>
-<p style="color: #3D3D3D">This is an 3D paragraph.</p>
-<p style="color: #000000">This is an 00 paragraph.</p>
-<hr>
-<p style="color: #3D3D3D; background-color: #C2C2C2">This is a paragraph with OK bg color</p>
-<p style="color: #3D3D3D; background-color: #CCCC00">This is a paragraph with BAD bg color</p>
-<hr>
-<div id="content" style="color: #F7F7F7">
-  This is a DIV ID=content
-</div>
-random text here
-<div id="content" style="color: #C7C7C7">
-  This is a DIV ID=content with bad colors!
-</div>
+
+  <div id='nav-left'>
+    Left Navigation
+    <ul>
+      <li><a href="#link1">A link</a></li>
+      <li><a href="#link2">Another link</a></li>
+      <li><a href="#link3">Yet a third link</a></li>
+    </ul>
+  </div>
+
+  <div id='main'>
+    <h1>Color tests</h1>
+    <p style="color: #FFFFF1">This (almost) is an FF paragraph.</p>
+    <p style="color: #CCCCCC">This is an CC paragraph.</p>
+    <p style="color: #3D3D3D">This is an 3D paragraph.</p>
+    <p style="color: #000000">This is an 00 paragraph.</p>
+    <hr>
+    <p style="color: #3D3D3D; background-color: #C2C2C2">This is a paragraph with OK bg color</p>
+    <p style="color: #3D3D3D; background-color: #CCCC00">This is a paragraph with BAD bg color</p>
+    <hr>
+    <div id="content" style="color: #F7F7F7">
+      This is a DIV ID=content
+    </div>
+    random text here
+    <div id="content" style="color: #C7C7C7">
+      This is a DIV ID=content with bad colors!
+    </div>
+  </div>
+
+  <a name="link1">link 1 ref</a>
+  <a name="link2">link 2 ref</a>
+  <a name="link3">link 3 ref</a>
 </body>
 </html>
 

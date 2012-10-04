@@ -1,3 +1,13 @@
+/*
+ * imageRules.json
+ * Author: Benjamin Jones <bjones@galois.com>
+ *
+ * Simple rules for checking that specific images appear on a page and that specific images
+ * link back to specific URLs.
+ *
+ * Test using exampleData/basic/testImageRules.html
+ */
+
 { 'name': "Image exists and links back to URL"
 , 'description': "A specific image file should be included in the page and link back to a specific URL"
 , 'rules': [

@@ -1,5 +1,5 @@
 { "name": "always errors"
-, "description": "A trivila rule set for experimentation."
+, "description": "A trivial rule set for experimentation."
 , "rules": [ { "id":13
              , "name": "Reports three times"
              , "description": "Test guideline that reports three errors"
