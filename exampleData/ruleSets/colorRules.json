@@ -1,8 +1,16 @@
+/* colorRules.json
+ * Author: Benjamin Jones <bjones@galois.com>
+ *
+ * Simple rules for checking that the colors of specific elements are in a specific set.
+ * Test using exampleData/basic/testColorRules.html
+ */
+
 { 'name': "Colors are in a specified set"
 , 'description': "All background and foreground colors used on a page should be in a specificed set"
 , 'rules': [
-             { 'image-appears': "Foregrounds"
-             , 'description': "Foreground colors are in a specified set"
+             { 'name': "Foregrounds"
+             , 'description': "Foreground colors should be in the set:"+
+                              "'#0, #FFFFFF, #3D3D3D, #B4B4B4, #4E4E4E, #C2C2C2, #F7F7F7"
              , 'rule':
              function() { //----------------------------------------------
                var allowableColors = { '#0': 1, '#FFFFFF': 1, '#3D3D3D': 1,
@@ -11,15 +19,17 @@
                fiveui.query(':visible').each(
                    function(i, elt) {
                      var color =  $(elt).css('color');
-                     // console.log('color: ' + color + ' --> ' + fiveui.colorToHex(color));
-                     if (!(fiveui.colorToHex(color) in allowableColors)) {
-                       report('Disallowed FOREground color appears');
+                     if (!(fiveui.color.color.colorToHex(color) in allowableColors)) {
+                       report('Disallowed FOREground color ' +
+                              fiveui.color.colorToHex(color) +
+                              ' appears', $(elt));
                      }
                    });
              } //---------------------------------------------------------
              },//==============================================================
-             { 'image-appears': "Backgrounds"
-             , 'description': "Backgrounds colors are in a specified set"
+             { 'name': "Backgrounds"
+             , 'description': "Backgrounds colors are in the set:" +
+                              "#000000, #FFFFFF, #3D3D3D, #B4B4B4, #4E4E4E, #C2C2C2"
              , 'rule':
              function() { //----------------------------------------------
                var allowableColors = { '#0': 1, '#FFFFFF': 1,
@@ -28,23 +38,59 @@
                fiveui.query(':visible').each(
                    function(i, elt) {
                      var color =  $(elt).css('background-color');
-                     if (!(fiveui.colorToHex(color) in allowableColors)) {
-                       report('Disallowed BACKground color appears');
+                     if (!(fiveui.color.colorToHex(color) in allowableColors)) {
+                       report('Disallowed BACKground color ' +
+                              fiveui.color.colorToHex(color) +
+                              ' appears', $(elt));
                      }
                    });
              } //---------------------------------------------------------
              },//==============================================================
-             { 'image-appears': "Content Area Color"
-             , 'description': "Content Area Color is #F7"
+             { 'name': "Content Area Color"
+             , 'description': "Content Area Color should be #F7"
              , 'rule':
              //----------
              function() {
                var allowableColors = { '#F7F7F7': 1 };
-               fiveui.query("div[id='content'").each(
+               fiveui.query("#content").each(
                    function(i, elt) {
                      var color =  $(elt).css('color');
-                     if (!(fiveui.colorToHex(color) in allowableColors)) {
-                       report('Invalid color in content area');
+                     if (!(fiveui.color.colorToHex(color) in allowableColors)) {
+                       report('Invalid color '+fiveui.color.colorToHex(color) +
+                              ' in content area', $(elt));
+                     }
+                   });
+             } //---------------------------------------------------------
+             },//==============================================================
+             { 'name': "Left Nav Color"
+             , 'description': "Left Nav Color should be #C2 (#4E if active)"
+             , 'rule':
+             //----------
+             function() {
+               var allowableColors = { '#C2C2C2': 1 };
+               fiveui.query("#nav-left").each(
+                   function(i, elt) {
+                     var color =  $(elt).css('color');
+                     // if active then .. 4E
+                     if (!(fiveui.color.colorToHex(color) in allowableColors)) {
+                       report('Invalid color '+fiveui.color.colorToHex(color) +
+                              ' in left nav area', $(elt));
+                     }
+                   });
+             } //---------------------------------------------------------
+             },//==============================================================
+             { 'name': "Header Color"
+             , 'description': "Header Color should be #3D"
+             , 'rule':
+             //----------
+             function() {
+               var allowableColors = { '#3D3D3D': 1 };
+               fiveui.query(":header").each(
+                   function(i, elt) {
+                     var color =  $(elt).css('color');
+                     if (!(fiveui.color.colorToHex(color) in allowableColors)) {
+                       report('Invalid color '+fiveui.color.colorToHex(color) +
+                              ' in header', $(elt));
                      }
                    });
              } //---------------------------------------------------------

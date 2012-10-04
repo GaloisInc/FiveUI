@@ -1,32 +1,17 @@
-{ 'name': "Colors are in a specified set"
-, 'description': "All background and foreground colors used on a page should be in a specificed set"
+/*
+ * template.json
+ * Author: Benjamin Jones <bjones@galois.com>
+ *
+ * Template ruleset containing one empty rule.
+ */
+
+{ 'name': "NAME"
+, 'description': "DESCRIPTION"
 , 'rules': [
-             { 'image-appears': "Foregrounds"
-             , 'description': "Foreground colors are in a specified set"
+             { 'name': "RULE NAME"
+             , 'description': "RULE DESC"
              , 'rule':
-             function() {
-                 var allowableColors = [ '#000000', '#FFFFFF', '#3D3D3D', '#B4B4B4', '#4E4E4E', '#C2C2C2' ];
-                 fiveui.query('').each(
-                    function(i, elt) {
-                      if ($(elt).css('color') in allowableColors) {
-                        $(elt).addClass('reportColor');
-                      }
-                    });
-               }
+             function() {} // Function that checks the rule
              },
-             { 'image-appears': "Backgrounds"
-             , 'description': "Backgrounds colors are in a specified set"
-             , 'rule':
-             function() {
-                 var allowableColors = [ 'transparent', '#000000', '#FFFFFF', '#3D3D3D', '#B4B4B4', '#4E4E4E', '#C2C2C2' ];
-                 fiveui.query('').each(
-                    function(i, elt) {
-                      if ($(elt).css('color') in allowableColors) {
-                        $(elt).addClass('reportBackColor');
-                      }
-                    });
-               }
-             }
- 
-          ]
+           ]
 }

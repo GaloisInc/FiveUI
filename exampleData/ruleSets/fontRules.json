@@ -1,0 +1,38 @@
+/*
+ * fontRules.json
+ * Author: Benjamin Jones <bjones@galois.com>
+ *
+ * Simple rules for checking that fonts (family/weight/size) of specific elements are
+ * in a specific set.
+ *
+ * Test using exampleData/basic/testFontRules.html
+ */
+
+{ 'name': "Fonts (family/size/style) are in a specified set"
+, 'description': "All fonts used on a page should be in a specificed set"
+, 'rules': [
+             { 'name': "Font set"
+             , 'description': "Font (family/weight/size) should be in the set ..."
+             , 'rule':
+             function() { //----------------------------------------------
+               var allowableFonts = {
+                 "Verdana": { "bold": ["25", "22", "12", "10"]
+                            , "normal": ["12", "11", "10"] } }
+               fiveui.query('body *').each(
+                   function(i, elt) {
+                     var family =  $(elt).css('font-family');
+                     var sizeTxt =  $(elt).css('font-size');
+                     var size = /([1-9][0-9])/.exec(sizeTxt)[0];
+                     var weight =  $(elt).css('font-weight');
+                     console.log('Found font: ' + family + size + weight);
+                     if (!(family in allowableFonts) ||
+                         !(weight in allowableFonts[family]) ||
+                         !(size in allowableFonts[family][weight])) {
+                       report('Disallowed font: ' +
+                              family + size + weight, $(elt));
+                     }
+                   });
+             } //---------------------------------------------------------
+             }//==============================================================
+           ]
+}
