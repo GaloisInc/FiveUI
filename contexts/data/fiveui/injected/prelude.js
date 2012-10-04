@@ -22,25 +22,6 @@
 if (typeof goog != 'undefined') {
   goog.provide('fiveui.prelude.string');
 }
-/**
- * <p>Report a problem to FiveUI.</p>
- *
- * <p>report is used to indicate that a guideline has been violated.
- * Invocations should provide a short (1-line) string description of
- * the problem, as well as a reference to the element of the DOM that
- * violated the guideline.</p>
- *
- * <p>The second parameter is not strictly required, but we strongly
- * suggest providing a node if at all possible, as that is used to
- * visually highlight the problematic areas of the DOM at runtime.
- * Debugging a guideline violation becomes much more difficult without
- * the visual indicator.</p>
- *
- * @function
- * @param {!string} desc The description of the problem to report.
- * @param {?Node} node The node in the DOM that caused the problem.
- * @name report
- */
 
 /**
  * The FiveUI Prelude.
@@ -202,17 +183,16 @@ fiveui.word.allCaps = function(word) {
     && (word == word.toUpperCase());
 };
 
-/* Hack-y stuff to be removed later when the extension works */
-fiveui.highlight = function(elt) {
-  // console.log('fiveui.highlight');
-  elt.css('background-color', 'rgba(255,0,0,0.3)')
-     .css('border', 'solid')
-     .css('border-color', 'red')
-     .addClass('uic-top');
-};
+
+/**
+ * Utilities for dealing with color.
+ *
+ * @namespace
+ */
+fiveui.color = {};
 
 /* covert rgb(a) colors to hex */
-fiveui.colorToHex = function(color) {
+fiveui.color.colorToHex = function(color) {
     if (color.substr(0, 1) === '#') {
         return color;
     }
@@ -225,3 +205,13 @@ fiveui.colorToHex = function(color) {
     var rgb = blue | (green << 8) | (red << 16);
     return '#' + rgb.toString(16).toUpperCase();
 };
+
+
+/**
+ * Utilities for dealing with font.
+ *
+ * @namespace
+ */
+fiveui.font = {};
+
+
