@@ -130,6 +130,25 @@
    core.evaluate = function(rs) {
      var theRule = null;
 
+     /**
+      * <p>Report a problem to FiveUI.</p>
+      *
+      * <p>report is used to indicate that a guideline has been violated.
+      * Invocations should provide a short (1-line) string description of
+      * the problem, as well as a reference to the element of the DOM that
+      * violated the guideline.</p>
+      *
+      * <p>The second parameter is not strictly required, but we strongly
+      * suggest providing a node if at all possible, as that is used to
+      * visually highlight the problematic areas of the DOM at runtime.
+      * Debugging a guideline violation becomes much more difficult without
+      * the visual indicator.</p>
+      *
+      * @function
+      * @param {!string} desc The description of the problem to report.
+      * @param {?Node} node The node in the DOM that caused the problem.
+      * @name report
+      */
      var report = function(name, node) {
        var prob = core.hash(theRule, name, node);
        var query = $(node);
