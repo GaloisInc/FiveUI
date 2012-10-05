@@ -145,8 +145,9 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
     }
 
     var computeScripts = goog.array.concat(
-        [ this.dataLoader('lib/jquery/jquery-1.7.1.min.js'),
-          this.dataLoader('fiveui/injected/prelude.js') ],
+        [ this.dataLoader('lib/jquery/jquery-1.7.1.min.js')
+        , this.dataLoader('fiveui/injected/prelude.js')
+        , this.dataLoader('lib/jshash/md5.js') ],
         dependencies,
         [
           this.dataLoader('fiveui/injected/fiveui-injected-compute.js')

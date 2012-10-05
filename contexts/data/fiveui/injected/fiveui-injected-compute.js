@@ -115,14 +115,7 @@
      var str = prob.name + prob.descr + prob.url + prob.severity
              + name + nodeHash(node);
 
-     prob.hash = 0;
-     for(var i=0; i<str.length; ++i) {
-       var x = str.charCodeAt(i);
-       prob.hash = ((prob.hash << 5) - prob.hash) + x;
-       prob.hash = prob.hash & prob.hash; // convert to 32-bit?
-     }
-
-     prob.hash = prob.hash.toString();
+     prob.hash = hex_md5(str); // hex_md5() is from md5.js
 
      return prob;
    };
