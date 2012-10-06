@@ -28,6 +28,9 @@ goog.require('fiveui.RuleSetEntry');
 goog.require('fiveui.UpdateManager');
 goog.require('fiveui.UrlPat');
 goog.require('fiveui.UrlPatEntry');
+
+goog.require('fiveui.prelude.color');
+
 goog.require('goog.dom');
 goog.require('goog.dom.forms');
 goog.require('goog.dom.query');

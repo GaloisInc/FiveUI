@@ -20,6 +20,8 @@
  */
 
 goog.require('fiveui.prelude.string');
+goog.require('fiveui.prelude.word');
+goog.require('fiveui.prelude.color');
 
 goog.require('goog.asserts');
 goog.require('goog.testing');
@@ -119,6 +121,24 @@ var runTests = function() {
       }
     });
   });
+
+  // custom assertions for rule compiler
+  goog.asserts.assert(typeof fiveui.color.colorCheck('', ['']) === 'function',
+      'Wrong type for: fiveui.color.colorCheck( ... )');
+
+  var colorToHexTests = [
+    ['colorToHex: full white'         , '#000000', '#000000'],
+    ['colorToHex: abreviated white 1' , '#0', '#000000'],
+    ['colorToHex: abreviated white 2' , '#00', '#000000'],
+    ['colorToHex: black'              , '#FFFFFF', '#FFFFFF'],
+    ['colorToHex: abreviated black'   , '#FF', '#FFFFFF'],
+    ['colorToHex: abreviated C7 grey' , '#C7', '#C7C7C7'],
+    ['colorToHex: rgb(0, 0, 0)'       , 'rgb(0, 0, 0)', '#000000'],
+    ['colorToHex: rgb(255, 255, 255)' , 'rgb(255, 255, 255)', '#FFFFFF'],
+    ['colorToHex: rgb(222, 173, 190)' , 'rgb(222, 173, 190)', '#DEADBE'],
+    ['colorToHex: rgba(255, 255, 255, 100)', 'rgba(255, 255, 255, 100)', '#FFFFFF'] // alpha is ignored
+  ];
+  test.addTestSet(fiveui.color.colorToHex, colorToHexTests);
 
   test.run();
 };
