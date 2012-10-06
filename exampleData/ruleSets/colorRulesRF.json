@@ -1,0 +1,17 @@
+/* colorRules.json
+ * Author: Benjamin Jones <bjones@galois.com>
+ *
+ * Simple rules for checking that the colors of specific elements are in a specific set.
+ * Test using exampleData/basic/testColorRules.html
+ */
+
+{ 'name': "Colors are in a specified set"
+, 'description': "All background and foreground colors used on a page should be in a specificed set"
+, 'rules': [
+             { 'name': "Foregrounds"
+             , 'description': "Foreground colors should be in the set:"+
+                              "'#0, #FFFFFF, #3D3D3D, #B4B4B4, #4E4E4E, #C2C2C2, #F7F7F7"
+             , 'rule': fiveui.color.colorCheck(':visible', [ '#0', '#000000', '#FFFFFF', '#3D3D3D', '#B4B4B4', '#4E4E4E', '#C2C2C2', '#F7F7F7' ])
+             }
+          ]
+}

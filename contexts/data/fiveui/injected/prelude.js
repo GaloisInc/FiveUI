@@ -21,6 +21,11 @@
 
 if (typeof goog != 'undefined') {
   goog.provide('fiveui.prelude.string');
+  goog.provide('fiveui.prelude.word');
+  goog.provide('fiveui.prelude.color');
+  goog.provide('fiveui.prelude.font');
+
+  goog.require('goog.json');
 }
 
 /**
@@ -191,11 +196,45 @@ fiveui.word.allCaps = function(word) {
  */
 fiveui.color = {};
 
+/* Color check compiler.
+ * @param {!string} selector The HTML element selector to check.
+ * @param {!array}  colorSet An array of strings containing the HEX values of
+ *                           colors in the desired color set.
+ * @returns {!function}      A function which checks the rule
+ */
+fiveui.color.colorCheck = function (selector, colorSet) {
+  var allowable, i, fnStr, forEachFuncStr;
+  allowable = {};
+  for (i = 0; i < colorSet.length; i += 1) { allowable[colorSet[i]] = true; }
+  forEachFuncStr  = 'function (j, elt) {\n'
+                  + '  var allowable = ' + goog.json.serialize(allowable) + ';\n'
+                  + '  var color = fiveui.color.colorToHex($(elt).css("color"));\n'
+                  + '  if (!(color in allowable)) {\n'
+                  + '    report("Disallowed color " + color + " in element matching " + ' + goog.json.serialize(selector) + ', $(elt));\n'
+                  + '  }\n'
+                  + '}\n';
+  fnStr = 'function () { fiveui.query("' + selector + '").each(' + forEachFuncStr + '); }';
+  return eval('false||'+fnStr); // the `false||` trick is required for eval to parse a
+                                // function expression ?!?
+};
+
 /* covert rgb(a) colors to hex */
 fiveui.color.colorToHex = function(color) {
+    var have, need;
     if (color.substr(0, 1) === '#') {
+      if (color.length === 7) {
         return color;
+      }
+      else { // deal with #0 or #F7 cases
+        var have = color.length - 1;
+        var haveDigits = color.substr(1, color.length);
+        var need = 6 - have;
+        var reps = Math.ceil(need / have);
+        for (i = 0, stdColor = color; i < reps; i += 1) { stdColor += haveDigits; }
+        return stdColor.substr(0, 7);
+      }
     }
+
     var digits = /rgb(a)?\((\d+), (\d+), (\d+)/.exec(color);
 
     var red = parseInt(digits[2]);
@@ -203,7 +242,12 @@ fiveui.color.colorToHex = function(color) {
     var blue = parseInt(digits[4]);
 
     var rgb = blue | (green << 8) | (red << 16);
-    return '#' + rgb.toString(16).toUpperCase();
+    if (rgb === 0) {
+      return '#000000'; // normalized form
+    }
+    else {
+      return '#' + rgb.toString(16).toUpperCase();
+    }
 };
 
 
