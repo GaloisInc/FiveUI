@@ -84,8 +84,6 @@
      core.port.emit('ReportProblem', prob);
    };
 
-   // XXX this hash isn't very unique, and should really be replaced with
-   // something a little bit more robust
    core.hash = function(rule, name, node) {
      var prob = {
        name: name,
