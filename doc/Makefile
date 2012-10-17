@@ -18,7 +18,10 @@ $(MANUAL_DIR):
 web-manual: $(MANUAL_DIR) $(MAN_DEPS)
 	@make -C $(MANUAL_SRC)
 	@cp -r $(MANUAL_SRC)/figures $(MANUAL_DIR)
-	@mv $(MANUAL_SRC)/*.html $(MANUAL_DIR)
+	@cp -r $(MANUAL_SRC)/images $(MANUAL_DIR)
+	@cp $(MANUAL_SRC)/*.html $(MANUAL_DIR)
+	@cp $(MANUAL_SRC)/*.css $(MANUAL_DIR)
+#	@mv $(MANUAL_SRC)/*.html $(MANUAL_DIR)
 
 clean:
 	@make -C $(MANUAL_SRC) clean

@@ -1,3 +1,11 @@
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Install Guide</title>
+
+	<link rel="stylesheet" type="text/css" href="../../reset.css" media="all">
+  <link rel="stylesheet" type="text/css" href="../../style.css" media="all">
+
   <style type="text/css">
   #siteTitle {
     display: block;
