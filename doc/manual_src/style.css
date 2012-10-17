@@ -1,0 +1,339 @@
+
+
+/* Layout */
+.wrap {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* Global */
+body {
+   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   font-weight: 300;
+   color: #2C2C2C;
+}
+#content p {
+  font-size: 1em;
+  line-height: 1.125em;
+}
+  /* Header */
+  header {
+    background: #366689;
+    height: 45px;
+  }
+  #logo {
+    display: inline-block;
+    margin-top: 8px;
+    float: left;
+    margin-right: 10px;
+  }
+  header h2,
+  .interior header h2 {
+    font-weight: 300;
+    color: white;
+    padding-top: 10px;
+    font-size: 1.4375em;
+    float: left;
+  }
+    /* Navigation */
+    nav#primary {
+      float: right;
+      margin-top: 8px;
+    }
+      nav#primary ul {
+        margin-right: 70px;
+      }
+        nav#primary ul li {
+          display: inline-block;
+          margin-left: 10px;
+          padding-left: 10px;
+          border-left: 1px solid #fff;
+        }
+          nav#primary ul li:first-child {
+            margin-left: 0;
+            padding-left: 0;
+            border-left: none;
+          }
+          nav#primary ul li a {
+            font-size: 0.875em;
+            text-decoration: none;
+            color: white;
+          }
+
+  /* Footer */
+  footer {
+    clear: both;
+    margin-top: 120px;
+    padding-top: 20px;
+    background: #366689;
+    min-height: 150px;
+    color: white;
+  }
+  footer p {
+    float: right;
+  }
+  footer nav {
+    float: left;
+  }
+  footer nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.875em;
+  }
+
+a.button {
+  border: 2px solid #618200;
+  background:#8ea548;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: inset 0px 0px 12px 1px rgba(150, 150, 155, .75);
+  box-shadow: inset 0px 0px 12px 1px rgba(150, 150, 155, .75);
+  text-shadow: 1px 1px 1px #628200;
+  filter: dropshadow(color=#628200, offx=1, offy=1);
+  color: white;
+  font-size: 1.5em;
+  text-decoration: none;
+  padding:20px;
+  width: 300px;
+  display: inline-block;
+  text-align: center;
+  margin: 25px 12px;
+}
+p + p,
+p + ul,
+p + a,
+p + h2,
+p + h3,
+p + h4,
+p + img,
+ul + img,
+ol + img,
+ul + div,
+ol + div,
+ul + p,
+ul + h2,
+ul + h3,
+ul + h4,
+ol + p {
+  margin-top: 1em;
+}
+li + li {
+  margin-top: 0.5em;
+}
+a, a:visited {
+  color: #d73f27;
+}
+a:hover {
+  color: #aa2f1b;
+}
+h2{}
+h3{}
+h4{}
+em {font-style: italic;}
+strong {font-weight: 600;}
+
+
+.clearfix {clear:both;}
+
+
+.title {
+
+}
+
+/* Landing Page Styles */
+#content .download {
+  background: #e1e1e1;
+  border: 1px solid #cacaca;
+  -webkit-box-shadow: inset 0px 0px 10px 1px rgba(150, 150, 155, .5);
+  box-shadow: inset 0px 0px 10px 1px rgba(150, 150, 155, .5);
+  text-align: center;
+  padding: 45px 0;
+}
+#content .download h1 {
+  font-weight: 600;
+  font-size: 5.9375em;
+}
+#content .download h1 a {
+  color: #2c2c2c;
+  text-decoration: none;
+}
+#content .download h1 small {
+  font-size: 0.252631578947368em;
+  font-weight: 300;
+  display: block;
+  font-style: italic;
+  line-height: .75em;
+}
+#content .download h2 {
+  font-size: 2.1875em;
+  margin-top: 20px;
+}
+#content .download p {
+  font-size: 1.5em;
+  line-height: 1.25em;
+}
+#content .download pre {
+  background: #2c2c2c;
+  padding: 5px;
+  color: white;
+  font: normal 1em/1em "Lucida Console", "Courier New", Courier, monospace;
+  display: block;
+  max-width: 60%;
+  text-align: left;
+  margin: 0 auto;
+  -webkit-border-radius: 2px;
+  margin-top: 25px;
+  border-radius: 2px;
+}
+.column {
+  width: 31%;
+  float: left;
+  margin-top: 40px;
+  border-left: 1px solid #d7d7d9;
+  padding-left: 2%;
+  margin-right: .3%;
+}
+.column:last-of-type {
+  margin-right: 0;
+}
+.column h2 {
+  font-size: 1.5em;
+  margin-bottom: .75em;
+}
+
+
+
+
+
+/* Interior Page Styles */
+
+/* Subnav */
+.subnav {
+  width: 100%;
+  background: #e1e1e1;
+}
+  .interior .subnav ul {
+    width: 90%;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 15px 0;
+  }
+    .subnav ul li {
+      display: inline;
+      padding: 0 7px;
+      border-right: 2px solid #2c2c2c;
+    }
+      .subnav ul li:last-of-type {
+        border-right: none;
+      }
+      .subnav ul li a {
+        color: #2c2c2c;
+        font-weight: 600;
+        font-size: 0.875em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+        .subnav ul li a:hover {
+          text-decoration: underline;
+        }
+
+.interior h1.title {
+  font-size: 5.9375em;
+  font-weight: 600;
+  text-align: center;
+  margin: 45px 0;
+}
+
+.interior h1 {
+  font-size: 2.625em;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+}
+
+.interior h2 {
+  font-size: 2.125em;
+  margin-bottom: 0.5em;
+}
+.interior h3 {
+  font-size: 1.5em;
+  margin-bottom: 0.75em;
+  font-weight: 600;
+}
+.interior h4 {
+  font-size: 1em;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+}
+
+.interior #content .wrap > p {
+  line-height: 1.25em;
+  max-width: 80%;
+}
+.interior ul,
+.interior ol {
+  max-width: 80%;
+}
+.interior .figure,
+.interior figure {
+  background: #e1e1e1;
+  padding: 10px;
+  display: inline-block;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.interior code {
+  font-family: Consolas, monospace;
+}
+.interior pre {
+  border-top: 1px solid #E1E1E1;
+  padding: 25px;
+  display: inline-block;
+  border-bottom: 1px solid #E1E1E1;
+  margin: 25px 0;
+  /*background: url(images/code-tag.png) right 5px no-repeat; */
+}
+figure,
+.figure + .figure,
+.figure + p,
+.figure + ul,
+.figure + ol,
+.figure + h2,
+.figure + h3,
+.figure + h4,
+p + .figure,
+ul + .figure,
+ol + .figure,
+.figure + h2,
+.figure + h3,
+.figure + h4,
+pre + p,
+pre + h2,
+pre + h3,
+pre + h4,
+p + pre,
+h2 + pre,
+h3 + pre,
+h4 + pre {
+  margin-top: 1em;
+}
+figure img, .figure img {
+  max-width: 100%;
+  height: auto;
+}
+figcaption, .caption {
+  font-size: 0.875em;
+  font-weight: 600;
+  padding-top: 10px;
+}
+
+ul.steps li {
+  color: #366689;
+  font-weight: 600;
+  padding-left: 1em;
+  list-style: square inside;
+}
+
+
+
+
+
