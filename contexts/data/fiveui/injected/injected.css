@@ -19,7 +19,11 @@
  * limitations under the License.
  */
 
-.uic-problem {}
+.uic-problem {
+  background-color: rgba(255, 0, 0, 0.3);
+  border: 2px solid;
+  border-color: red;
+}
 
 /* p.solid {border-style: solid; }  */
 /* p.double {border-style: double; }  */
