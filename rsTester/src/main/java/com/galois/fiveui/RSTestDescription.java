@@ -25,7 +25,7 @@ import com.google.gson.JsonParseException;
 /**
  * RSTestDescriptions represent a set of tests for a specific RuleSet.
  * 
- * RSTestDescriptions are also GSON-serializiable (and deserializable).
+ * RSTestDescriptions are also JSON-serializiable (and deserializable).
  * 
  * An example of the JSON is given below:
  * 
