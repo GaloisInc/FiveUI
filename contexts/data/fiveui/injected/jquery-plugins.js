@@ -80,12 +80,11 @@ fiveui.jqueryPlugins.notColorSet = function (cset) {
 fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
   var allowable = {};
   fn = fn || function (x) { return x; }; // default is Id
-
-  if (typeof set == "string") {
+  if (typeof set === "string") {
     allowable[fn(set)] = true;
   }
   else { // assume `set` is an array of strings
-    for (i = 0; i < set.length; i += 1) { allowable[fn(set[i])] = true; } // array -> object
+   for (var i = 0; i < set.length; i += 1) { allowable[fn(set[i])] = true; } // array -> object
   }
   return this.filter(function (index) {
     var cssProp = fn($(this).css(prop));

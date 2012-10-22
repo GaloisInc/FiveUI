@@ -230,16 +230,23 @@ fiveui.color.colorToHex = function(color) {
         var haveDigits = color.substr(1, color.length);
         var need = 6 - have;
         var reps = Math.ceil(need / have);
+        var i, strColor;
         for (i = 0, stdColor = color; i < reps; i += 1) { stdColor += haveDigits; }
         return stdColor.substr(0, 7);
       }
     }
 
-    var digits = /rgb(a)?\((\d+), (\d+), (\d+)/.exec(color);
+    var digits = /rgba?\((\d+), (\d+), (\d+)/.exec(color);
+    if (!digits) {
+      throw {
+        name: 'ParseError',
+        message: 'Could not parse rgb color: ' + color
+      };
+    }
 
-    var red = parseInt(digits[2]);
-    var green = parseInt(digits[3]);
-    var blue = parseInt(digits[4]);
+    var red = parseInt(digits[1]);
+    var green = parseInt(digits[2]);
+    var blue = parseInt(digits[3]);
 
     var rgb = blue | (green << 8) | (red << 16);
     if (rgb === 0) {
