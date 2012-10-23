@@ -24,8 +24,6 @@ if (typeof goog != 'undefined') {
 }
 
 /**
- * FiveUI jQuery plugins
- *
  * This module provides several useful jQuery plugins related to checking and reporting
  * UI consistency issues.
  *
@@ -34,12 +32,24 @@ if (typeof goog != 'undefined') {
 fiveui.jqueryPlugins = fiveui.jqueryPlugins || {};
 
 /**
- * Provide a short alias for fiveui.query along the lines of the jQuery $ alias
+ * Provide a short alias for fiveui.query along the lines of the jQuery $ alias.
+ *
+ * <p><pre>
+ * EXAMPLES:
+ *
+ *   $5("p").hasText("foo") -> jQuery object containing paragraph elements
+ *   containing the text "foo"
+ * </pre></p>
+ *
+ * @const
+ *
  */
 var $5 = fiveui.query;
 
 /**
  * Simple proof of concept plugin
+ *
+ * @return {!object} A modified jQuery object
  */
 fiveui.jqueryPlugins.myPlugin = function () {
   return this.css("border-style", "solid").css("border-color", "red");
@@ -47,35 +57,46 @@ fiveui.jqueryPlugins.myPlugin = function () {
 
 /**
  * Wrapper for the :contains('text') selector
+ *
+ * @param {!string} text Text to select for
+ * @return {!object} A modified jQuery object
  */
 fiveui.jqueryPlugins.hasText = function (text) {
   return this.filter(":contains('" + text + "')")
 }
 
 /**
- * Color checker plugin
+ * Color checker plugin: filters for elements whose CSS color property is
+ * not in the given set.
  *
  * Note: This is a special case of fiveui.jqueryPlugins.cssIsNot, i.e.
  *       $(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
+ *       @see {fiveui.color.colorToHex}
+ *
+ * @param {Array.<string>} cset A set of allowable color strings
+ * @return {!object} A modified jQuery object
  */
 fiveui.jqueryPlugins.notColorSet = function (cset) {
   var allowable = {};
-  for (i = 0; i < cset.length; i += 1) { allowable[cset[i]] = true; } // array -> object
+  for (var i = 0; i < cset.length; i += 1) { allowable[cset[i]] = true; } // array -> object
   return this.filter(function (index) {
     var color = fiveui.color.colorToHex($(this).css("color")); // .css("color") returns rgb(...)
     return !(color in allowable);
   });
 }
 
-/*
+/**
  * General CSS propetry checker plugin
  *
- * @param{string}         prop  CSS property selector
- * @param{string, array}  set   allowable values (either a string or an array of strings)
- * @param{function}       fn    (optional) Function to apply to return values of $(this).css(prop)
- *                              fn defaults to the identity function.
+ * This plugin filters for elements whose CSS property `prop` is not a member
+ * of the given array `cset`. The values checked are transformed using the
+ * optional given function `fn`. This may be used to normalize values that the
+ * browser returns so they can be compared to values in `cset`.
  *
- * @return{jQuery}              jQuery object
+ * @param {string} prop  CSS property selector
+ * @param {string, Array.<string>} set allowable values (either a string or an array of strings)
+ * @param {function(string):string=} fn Function to apply to return values of $(this).css(prop), fn defaults to the identity function.
+ * @return{Object} jQuery object
  */
 fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
   var allowable = {};
@@ -92,7 +113,7 @@ fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
   });
 }
 
-/*
+/**
  * Send a report to FiveUI reporting a problem with each element in the
  * jQuery object.
  *
@@ -104,31 +125,33 @@ fiveui.jqueryPlugins.report = function (msg) {
   });
 }
 
-/*
+/**
  * Visually highlight elements in the jQuery object (mostly for debugging purposes).
  *
- * @param{string} borderHint Highlighted border color, defaults to "red"
+ * @param {?string=} hint Highlighted border color, defaults to "red"
+ * @return {!Object} A modified jQuery object
  */
-fiveui.jqueryPlugins.highlight = function (borderHint) {
-  borderHint = borderHint || "red"; // Default is "red"
+fiveui.jqueryPlugins.highlight = function (hint) {
+  hint = hint || "red"; // Default is "red"
   return this.css("background-color", "rgba(255, 0, 0, 0.3)")
              .css("border-style", "solid")
-             .css("border-color", borderHint);
+             .css("border-color", hint);
 }
 
-/*
+/**
  * Returns a list of css properties that element in the jQuery
  * object have. This is useful for analysis of a given page when
  * writing guielines.
  *
- * @param{string} prop CSS property to be inspected
- *
- * @return{object} A frequence map { "property": frequency }
+ * @param {!string} prop CSS property to be inspected
+ * @param {bool=} log Boolean which enables console logging of the result; default is `false`.
+ * @return {Object.<string, number>} A frequence map { "property": frequency }
  */
-fiveui.jqueryPlugins.propDist = function (prop) {
-  res = {};
+fiveui.jqueryPlugins.propDist = function (prop, log) {
+  var res = {};
+  log = log || false;
   this.each(function (i, elt) {
-    p = $(elt).css(prop)
+    var p = $(elt).css(prop);
     if (p in res) {
       res[p] += 1;
     }
@@ -136,15 +159,18 @@ fiveui.jqueryPlugins.propDist = function (prop) {
       res[p] = 1;
     }
   });
-  console.log("Distribution of property: " + prop);
-  for (p in res) {
-    console.log("  " + p + ": " + res[p]);
+  if (log) {
+    console.log("Property distribution:");
+    for (var p in res) {
+      console.log("  " + p + ": " + res[p]);
+    }
   }
-  return null;
+  return res;
 }
 
-
-// register the plugins
+/**
+ * Register the plugins. This adds methods to the jQuery.fn namespace.
+ */
 fiveui.jqueryPlugins.init = function () {
   for (fn in fiveui.jqueryPlugins) {
     f = fiveui.jqueryPlugins[fn];
@@ -154,5 +180,3 @@ fiveui.jqueryPlugins.init = function () {
   }
 }
 fiveui.jqueryPlugins.init();
-
-/* :vim makecmd="make -C ../../../" */

@@ -179,6 +179,7 @@ fiveui.word.capitalized = function(word) {
 
 /**
  * Check to see if a sting consists entirely of capital letters.
+ *
  * @param {!string} word The string to check for capitalization.
  * @returns {!boolean}
  */
@@ -196,11 +197,15 @@ fiveui.word.allCaps = function(word) {
  */
 fiveui.color = {};
 
-/* Color check compiler.
+/**
+ * Color check compiler. It is recommended to use the jQuery plugin
+ * fiveui.jqueryPlugins.cssIsNot instead.
+ *
  * @param {!string} selector The HTML element selector to check.
  * @param {!array}  colorSet An array of strings containing the HEX values of
  *                           colors in the desired color set.
  * @returns {!function}      A function which checks the rule
+ * @see fiveui.jqueryPlugins.cssIsNot
  */
 fiveui.color.colorCheck = function (selector, colorSet) {
   var allowable, i, fnStr, forEachFuncStr;
@@ -218,7 +223,14 @@ fiveui.color.colorCheck = function (selector, colorSet) {
                                 // function expression ?!?
 };
 
-/* covert rgb(a) colors to hex */
+/**
+ * Covert rgb colors to hex and abreviated hex colors to their full 3 byte
+ * form.
+ *
+ * @param {!string} color The color string to convert. This should be either of the form rgb(...) or #...
+ * @returns {!string} The color string in #XXXXXX form
+ * @throws {ParseError} if the rgb color string cannot be parsed
+ */
 fiveui.color.colorToHex = function(color) {
     var have, need;
     if (color.substr(0, 1) === '#') {
@@ -259,11 +271,57 @@ fiveui.color.colorToHex = function(color) {
 
 
 /**
- * Utilities for dealing with font.
+ * Utilities for dealing with fonts.
  *
  * @namespace
  */
 fiveui.font = {};
+
+/**
+ * Extracts the font-family, font-size (in px, as an int), and font-weight
+ * from a jQuery object.
+ *
+ * @param {!object} jElt A jQuery object to extract font info from
+ * @returns {!object} An object with properties: 'family', 'size', and 'weight'
+ * @throws {ParseError} if the font size cannot be parsed
+ */
+fiveui.font.getFont = function (jElt) {
+  var res = {};
+  var sizeTxt = /(\d+)/.exec(jElt.css('font-size'));
+  if (!sizeTxt) {
+    throw { name: 'ParseError', message: 'Could not parse font size: ' + jElt.css('font-size') };
+  }
+  else {
+    res.size = sizeTxt[1];
+  }
+  res.family =  jElt.css('font-family');
+  res.weight =  jElt.css('font-weight');
+  return res;
+}
+
+/**
+ * Validate a font property object extracted using fiveui.font.getFont
+ *
+ * <p><pre>
+ * EXAMPLES::
+ *
+ *   > allow = { 'Verdana': { 'bold': {"10":{}, "12":{}}, 'normal': {"10":{}, "12":{}} } };
+ *   > font = { family: 'Verdana Arial sans-serif', size: "10", weight: "normal" };
+ *   > fiveui.font.validate(allow, font) -> true
+ * </pre></p>
+ *
+ * @param {!object} allow Object containing allowable font sets (see EXAMPLES)
+ * @param {!object} font object to check
+ * @returns {!boolean}
+ */
+fiveui.font.validate = function (allow, font) {
+  var x;
+  for (x in allow) { // loop over allowed font family keywords
+    if (font.family.indexOf(x) != -1) { break; }
+    else { return false; }
+  }
+  return (font.weight in allow[x] && font.size in allow[x][font.weight]);
+}
 
 /**
  * Functions outside the fiveui namespace that can be called during rule
