@@ -5,8 +5,8 @@ MAN_DEPS=$(MANUAL_SRC)/*.md $(MANUAL_SRC)/figures/*.png
 
 jsdoc-toolkit=../build/jsdoc
 
-jsdoc: ../contexts/data/fiveui/injected/prelude.js
-	@$(jsdoc-toolkit) ../contexts/data/fiveui/injected/prelude.js
+jsdoc: ../contexts/data/fiveui/injected/prelude.js ../contexts/data/fiveui/injected/jquery-plugins.js
+	@$(jsdoc-toolkit) ../contexts/data/fiveui/injected/prelude.js ../contexts/data/fiveui/injected/jquery-plugins.js
 
 .PHONY: man
 man: web-manual
