@@ -77,6 +77,18 @@
      });
    };
 
+   core.renderStats = function (stats) {
+     core.maskRules(function () {
+       var statsDiv, statsDetail;
+       statsDiv = $('#fiveui-stats');
+       statsDiv.children().remove();
+       statsDetail = $('<table class="fiveui-table"><tr><td>rules checked:</td><td class="fiveui-table-number">' + stats.numRules + '</td></tr>' +
+                           '<tr><td>elements checked:</td><td class="fiveui-table-number">' + stats.numElts + '</td></tr>' +
+                           '<tr><td>elapsed time (ms):</td><td class="fiveui-table-number">' + (stats.end - stats.start) + '</td></tr></table>');
+       statsDiv.append(statsDetail);
+     });
+   };
+
    core.renderProblem = function(prob) {
      core.maskRules(function() {
        var probDiv = $('<div class="pr"></div>');
@@ -157,6 +169,10 @@
        core.renderProblem(problem);
      });
 
+     port.on('ShowStats', function(stats) {
+       core.renderStats(stats);
+     });
+
      port.on('RestoreUI', function(state) {
        core.ui.append($('<div id="controls"></div>'));
 
@@ -194,6 +210,7 @@
                                });               //
        ////////////////////////////////////////////
 
+       core.ui.append($('<div id="fiveui-stats"></div>'));
 
        if(!state.winState.closed) {
          core.ui.dialog('open');
@@ -202,7 +219,8 @@
        $(state.problems).each(function(ix,prob) {
                                 core.renderProblem(prob);
                               });
-       });
+       core.renderStats(state.stats);
+     });
    };
 
    registerBackendListeners(core.port);

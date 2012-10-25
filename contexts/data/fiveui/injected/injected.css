@@ -54,21 +54,31 @@
   font-family: Courier;
 }
 
+#fiveui-stats {
+  font-family: Courier;
+  font-size: 10px;
+  background-color: #F0F0F0;
+  border: 1px solid #DDDDDD;
+  padding: 3px;
+  height: 45px;
+  width: 97%;
+}
 
+.fiveui-table-number {
+  align: right;
+  color: blue;
+}
 
-/* #listWrapper { */
-/*     overflow: auto; */
-/*     position: relative */
-/*     top: 0px; */
-/*     bottom: 0px; */
-/* } */
+.fiveui-table {
+  cell-padding: 2px;
+}
 
 #problemList {
     border-style: groove;
     background: white;
 
     position: absolute;
-    top: 49px;
+    top: 95px;
     bottom: 0px;
 
     /* coarse estimate of width in most standard sizes */
