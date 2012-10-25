@@ -158,7 +158,7 @@ lint_excludes   := lib/jquery.js
 # Run the linter over the project javascript sources.
 .PHONY: lint
 lint:
-	find . -name "*.js" | xargs $(cl_linter) --strict --exclude_files=$(lint_excludes)
+	find data/fiveui -name "*.js" | xargs $(cl_linter) --strict --exclude_files=$(lint_excludes)
 
 closurebuilder := $(CLOSURE_LIB)/closure/bin/build/closurebuilder.py \
 	--root=$(CLOSURE_LIB) --root=$(FIVEUI_DATA_DIR) \
