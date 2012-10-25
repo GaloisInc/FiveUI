@@ -204,7 +204,7 @@ fiveui.color = {};
  * @param {!string} selector The HTML element selector to check.
  * @param {!array}  colorSet An array of strings containing the HEX values of
  *                           colors in the desired color set.
- * @returns {!function}      A function which checks the rule
+ * @returns {!function()}      A function which checks the rule
  * @see fiveui.jqueryPlugins.cssIsNot
  */
 fiveui.color.colorCheck = function (selector, colorSet) {
@@ -251,8 +251,8 @@ fiveui.color.colorToHex = function(color) {
     var digits = /rgba?\((\d+), (\d+), (\d+)/.exec(color);
     if (!digits) {
       throw {
-        name: 'ParseError',
-        message: 'Could not parse rgb color: ' + color
+        'name': 'ParseError',
+        'message': 'Could not parse rgb color: ' + color
       };
     }
 
@@ -289,7 +289,10 @@ fiveui.font.getFont = function (jElt) {
   var res = {};
   var sizeTxt = /(\d+)/.exec(jElt.css('font-size'));
   if (!sizeTxt) {
-    throw { name: 'ParseError', message: 'Could not parse font size: ' + jElt.css('font-size') };
+    throw {
+      name: 'ParseError',
+      message: 'Could not parse font size: ' + jElt.css('font-size')
+    };
   }
   else {
     res.size = sizeTxt[1];
@@ -297,7 +300,7 @@ fiveui.font.getFont = function (jElt) {
   res.family =  jElt.css('font-family');
   res.weight =  jElt.css('font-weight');
   return res;
-}
+};
 
 /**
  * Validate a font property object extracted using fiveui.font.getFont
@@ -321,7 +324,7 @@ fiveui.font.validate = function (allow, font) {
     else { return false; }
   }
   return (font.weight in allow[x] && font.size in allow[x][font.weight]);
-}
+};
 
 /**
  * Functions outside the fiveui namespace that can be called during rule
