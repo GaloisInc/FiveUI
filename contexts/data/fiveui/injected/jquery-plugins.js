@@ -49,7 +49,7 @@ var $5 = fiveui.query;
 /**
  * Simple proof of concept plugin
  *
- * @return {!object} A modified jQuery object
+ * @returns {!Object} A modified jQuery object
  */
 fiveui.jqueryPlugins.myPlugin = function () {
   return this.css("border-style", "solid").css("border-color", "red");
@@ -59,7 +59,7 @@ fiveui.jqueryPlugins.myPlugin = function () {
  * Wrapper for the :contains('text') selector
  *
  * @param {!string} text Text to select for
- * @return {!object} A modified jQuery object
+ * @returns {!Object} A modified jQuery object
  */
 fiveui.jqueryPlugins.hasText = function (text) {
   return this.filter(":contains('" + text + "')")
@@ -74,7 +74,7 @@ fiveui.jqueryPlugins.hasText = function (text) {
  *       @see {fiveui.color.colorToHex}
  *
  * @param {Array.<string>} cset A set of allowable color strings
- * @return {!object} A modified jQuery object
+ * @returns {!Object} A modified jQuery object
  */
 fiveui.jqueryPlugins.notColorSet = function (cset) {
   var allowable = {};
@@ -96,7 +96,7 @@ fiveui.jqueryPlugins.notColorSet = function (cset) {
  * @param {string} prop  CSS property selector
  * @param {string, Array.<string>} set allowable values (either a string or an array of strings)
  * @param {function(string):string=} fn Function to apply to return values of $(this).css(prop), fn defaults to the identity function.
- * @return{Object} jQuery object
+ * @returns {Object} jQuery object
  */
 fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
   var allowable = {};
@@ -117,7 +117,7 @@ fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
  * Send a report to FiveUI reporting a problem with each element in the
  * jQuery object.
  *
- * @param{string} msg Message to report
+ * @param {!string} msg Message to report
  */
 fiveui.jqueryPlugins.report = function (msg) {
   this.each(function (i, elt) {
@@ -129,7 +129,7 @@ fiveui.jqueryPlugins.report = function (msg) {
  * Visually highlight elements in the jQuery object (mostly for debugging purposes).
  *
  * @param {?string=} hint Highlighted border color, defaults to "red"
- * @return {!Object} A modified jQuery object
+ * @returns {!Object} A modified jQuery object
  */
 fiveui.jqueryPlugins.highlight = function (hint) {
   hint = hint || "red"; // Default is "red"
@@ -145,7 +145,7 @@ fiveui.jqueryPlugins.highlight = function (hint) {
  *
  * @param {!string} prop CSS property to be inspected
  * @param {bool=} log Boolean which enables console logging of the result; default is `false`.
- * @return {Object.<string, number>} A frequence map { "property": frequency }
+ * @returns {Object.<string, number>} A frequence map { "property": frequency }
  */
 fiveui.jqueryPlugins.propDist = function (prop, log) {
   var res = {};
