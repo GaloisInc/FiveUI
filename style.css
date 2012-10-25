@@ -237,23 +237,23 @@ strong {font-weight: 600;}
           text-decoration: underline;
         }
 
-.interior h1 {
+.interior .title {
   font-size: 5.9375em;
   font-weight: 600;
   text-align: center;
   margin: 45px 0;
 }
 
-.interior h2 {
+.interior h1 {
   font-size: 2.125em;
   margin-bottom: 0.5em;
 }
-.interior h3 {
+.interior h2 {
   font-size: 1.5em;
   margin-bottom: 0.75em;
   font-weight: 600;
 }
-.interior h4 {
+.interior h3 {
   font-size: 1em;
   margin-bottom: 1em;
   text-transform: uppercase;
