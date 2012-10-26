@@ -22,10 +22,18 @@
   <head>
     <script src="../../lib/closure-library/closure/goog/base.js"></script>
     <script src="../../target/deps.js"></script>
+    <script src="../../lib/jquery/jquery-1.7.1.min.js"></script>
     <script src="prelude.js"></script>
     <script src="../test-wrapper.js"></script>
     <script src="prelude-test.js"></script>
   </head>
   <body onload="runTests()">
+
+  <!-- getFontTests -->
+  <p id="getFontTest1" style="font-family: Arial; font-weight: normal; font-size: 12px">FontTest1</p>
+  <p id="getFontTest2" style="font-family: Arial sans-serif; font-weight: normal; font-size: 12px">FontTest2</p>
+  <p id="getFontTest3" style="font-family: Arial; font-weight: bold; font-size: 12px">FontTest3</p>
+  <p id="getFontTest4" style="font-family: Verdana; font-weight: bold; font-size: 12">FontTest4</p>
+
   </body>
 </html>
