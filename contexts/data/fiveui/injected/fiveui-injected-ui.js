@@ -82,9 +82,9 @@
        var statsDiv, statsDetail;
        statsDiv = $('#fiveui-stats');
        statsDiv.children().remove();
-       statsDetail = $('<table class="fiveui-table"><tr><td>rules checked:</td><td class="fiveui-table-number">' + stats.numRules + '</td></tr>' +
-                           '<tr><td>elements checked:</td><td class="fiveui-table-number">' + stats.numElts + '</td></tr>' +
-                           '<tr><td>elapsed time (ms):</td><td class="fiveui-table-number">' + (stats.end - stats.start) + '</td></tr></table>');
+       statsDetail = $('<table class="fiveui-table"><tr><td class="fiveui-table-text">rules checked:</td><td class="fiveui-table-number">' + stats.numRules + '</td></tr>' +
+                           '<tr><td class="fiveui-table-text">elements checked:</td><td class="fiveui-table-number">' + stats.numElts + '</td></tr>' +
+                           '<tr><td class="fiveui-table-text">elapsed time (ms):</td><td class="fiveui-table-number">' + (stats.end - stats.start) + '</td></tr></table>');
        statsDiv.append(statsDetail);
      });
    };

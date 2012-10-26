@@ -25,16 +25,6 @@
   border-color: red;
 }
 
-/* p.solid {border-style: solid; }  */
-/* p.double {border-style: double; }  */
-/* p.groove {border-style: groove; }  */
-/* p.dotted {border-style: dotted; }  */
-/* p.dashed {border-style: dashed; }  */
-/* p.inset {border-style: inset; }  */
-/* p.outset {border-style: outset; }  */
-/* p.ridge {border-style: ridge; }  */
-/* p.hidden {border-style: hidden; } */
-
 /* Reduce the JQuery UI spacing on the left of the dialog content. */
 #uic-dialog {
     padding-left: 3px;
@@ -54,24 +44,33 @@
   font-family: Courier;
 }
 
+/* stats area style */
+
 #fiveui-stats {
   font-family: Courier;
   font-size: 10px;
   background-color: #F0F0F0;
   border: 1px solid #DDDDDD;
+  border-style: groove;
   padding: 3px;
-  height: 45px;
+  height: 40px;
   width: 97%;
+  margin-top: 0.5em;
+  margin-bottom: 0.75em;
 }
 
 .fiveui-table-number {
-  align: right;
+  text-align: right;
   color: blue;
 }
 
-.fiveui-table {
-  cell-padding: 2px;
+.fiveui-table-text {
+  text-align: left;
+  color: black;
+  padding-right: 3px;
 }
+
+/* problem list style */
 
 #problemList {
     border-style: groove;
