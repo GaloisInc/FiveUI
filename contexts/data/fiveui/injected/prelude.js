@@ -314,6 +314,9 @@ fiveui.font.getFont = function (jElt) {
   }
   res.family =  jElt.css('font-family');
   res.weight =  jElt.css('font-weight');
+  // normalize reporting of the following two synonyms
+  if (res.weight === '400') { res.weight = 'normal'; }
+  if (res.weight === '700') { res.weight = 'bold'; }
   return res;
 };
 
