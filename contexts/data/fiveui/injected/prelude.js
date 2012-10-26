@@ -54,7 +54,7 @@ fiveui = fiveui || {};
  *
  * @param {string} sel The jQuery selector string.
  * @param {?Object} context Optional: The context to run the query within.  This is often a DOM object/tree.
- * @return {Object} A jQuery object, suitable for chaining.
+ * @returns {Object} A jQuery object, suitable for chaining.
  */
 fiveui.query = function (sel, context) {
   var ctx = context || document;
@@ -97,7 +97,7 @@ fiveui.string = {};
  * string.
  *
  * @param {?string} s The string to trim of whitespace.
- * @return {?string} The input string, without leading or trailing
+ * @returns {?string} The input string, without leading or trailing
  * whitespace. Returns null if you gave it null.
  */
 fiveui.string.trim = function(s) {
@@ -111,7 +111,7 @@ fiveui.string.trim = function(s) {
  * Tokenize a string on whitespace.
  *
  * @param {!string} s The string to tokenize.
- * @return {!Array.<!string>} An array of substrings.
+ * @returns {!Array.<!string>} An array of substrings.
  */
 fiveui.string.tokens = function (s) {
   var posLength = function(ar) {
