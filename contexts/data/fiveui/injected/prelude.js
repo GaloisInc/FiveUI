@@ -308,7 +308,7 @@ fiveui.font.getFont = function (jElt) {
  * <p><pre>
  * EXAMPLES::
  *
- *   > allow = { 'Verdana': { 'bold': {"10":{}, "12":{}}, 'normal': {"10":{}, "12":{}} } };
+ *   > allow = { 'Verdana': { 'bold': [10, 12], 'normal': [10, 12]}};
  *   > font = { family: 'Verdana Arial sans-serif', size: "10", weight: "normal" };
  *   > fiveui.font.validate(allow, font) -> true
  * </pre></p>
@@ -323,7 +323,7 @@ fiveui.font.validate = function (allow, font) {
     if (font.family.indexOf(x) != -1) { break; }
     else { return false; }
   }
-  return (font.weight in allow[x] && font.size in allow[x][font.weight]);
+  return (font.weight in allow[x] &&  allow[x][font.weight].indexOf(parseInt(font.size)) != -1);
 };
 
 /**
