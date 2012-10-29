@@ -36,7 +36,7 @@
 }
 
 .ui-dialog .ui-dialog-content {
-    overflow: hidden !important;
+    /* overflow: hidden !important; */
     position: relative;
 }
 
@@ -76,9 +76,11 @@
     border-style: groove;
     background: white;
 
+    /*
     position: absolute;
     top: 95px;
     bottom: 0px;
+    */
 
     /* coarse estimate of width in most standard sizes */
     width: 97%;
