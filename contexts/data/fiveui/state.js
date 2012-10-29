@@ -105,7 +105,7 @@ fiveui.TabState.prototype.clearProblems = function() {
 };
 
 fiveui.TabState.prototype.clearStats = function() {
-  this.stats = { start: 0, end: 0, numRules: 0, numElts: 0 };
+  for (var p in fiveui.stats.zero) { this.stats[p] = fiveui.stats.zero[p]; }
 };
 
 /*

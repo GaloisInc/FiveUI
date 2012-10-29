@@ -41,6 +41,17 @@ if (typeof goog != 'undefined') {
  */
 fiveui = fiveui || {};
 
+/**
+ * A global namespace for statistics collection.
+ *
+ * @namespace
+ */
+fiveui.stats = fiveui.stats || {};
+/** @global */
+fiveui.stats.numElts = 0;
+/** @const */
+fiveui.stats.zero = { numRules: 0, start: 0, end: 0, numElts: 0 };
+
 /** DOM Traversal ************************************************************/
 
 /**
@@ -70,7 +81,10 @@ fiveui.query = function (sel, context) {
     }
   );
 
-  return $results.not('#uic-top').filter(':visible');
+  // update global stats
+  $filteredResults = $results.not('#uic-top').filter(':visible');
+  fiveui.stats.numElts += $filteredResults.length;
+  return $filteredResults;
 };
 
 /**

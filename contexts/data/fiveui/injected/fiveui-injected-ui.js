@@ -196,6 +196,7 @@
        $('#clearButton').click(function() {
              $('#problemList').children().remove();
              port.emit('ClearProblems');
+             core.renderStats(fiveui.stats.zero);
              core.maskProblem(fiveui.query('.uic-problem'));
          });
 

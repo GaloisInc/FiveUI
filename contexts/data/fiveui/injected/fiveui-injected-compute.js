@@ -127,6 +127,7 @@
      var theRule = null;
      var date = new Date();
      var stats = { start: date.getTime(), end: null, numRules: 0, numElts: 0 };
+     fiveui.stats.numElts = 0; // reset stats element counter
 
      var report = function(name, node) {
        var prob = core.hash(theRule, name, node);
@@ -154,6 +155,7 @@
 
        if (fn) {
          try {
+           // note: fiveui.stats.numElts is updated as a side effect here
            fn.apply(scope);
          } catch (e) {
            console.log('exception running rule: '+theRule.name);
@@ -164,6 +166,7 @@
      }
      date = new Date();
      stats.end = date.getTime();
+     stats.numElts = fiveui.stats.numElts;
      core.reportStats(stats);
    };
 
