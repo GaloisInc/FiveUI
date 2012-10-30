@@ -2,11 +2,13 @@ JSDOC_DIR=jsdoc
 MANUAL_DIR=manual
 MANUAL_SRC=manual_src
 MAN_DEPS=$(MANUAL_SRC)/*.md $(MANUAL_SRC)/figures/*.png
+JSDOC_TOOLKIT=../build/jsdoc
 
-jsdoc-toolkit=../build/jsdoc
+all: jsdoc man
 
+.PHONY: jsdoc
 jsdoc: ../contexts/data/fiveui/injected/prelude.js ../contexts/data/fiveui/injected/jquery-plugins.js
-	@$(jsdoc-toolkit) ../contexts/data/fiveui/injected/prelude.js ../contexts/data/fiveui/injected/jquery-plugins.js
+	@$(JSDOC_TOOLKIT) ../contexts/data/fiveui/injected/prelude.js ../contexts/data/fiveui/injected/jquery-plugins.js
 
 .PHONY: man
 man: web-manual
