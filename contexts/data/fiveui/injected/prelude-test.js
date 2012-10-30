@@ -35,21 +35,18 @@ var runTests = function() {
   var gt = goog.testing;
   var ga = goog.asserts;
 
-
-
-
   var test = new Test('Prelude tests');
   test.setUp(function() { });
 
   var isStringTests = [
+    //   name             ,  input   , oracle
     ['isString: undefined', undefined, false],
-    ['isString: null'     , null, false],
-    ['isString: a string' , 'str', true]
+    ['isString: null'     , null,      false],
+    ['isString: a string' , 'str',     true]
   ];
   test.addTestSet(fiveui.isString, isStringTests);
 
   var trimTests = [
-    //   name                     ,  input , oracle
     ['string.trim leading space'  , '  str', 'str'],
     ['string.trim on null'        , null, null],
     ['string.trim trailing space' , 'str   ', 'str'],
@@ -139,6 +136,63 @@ var runTests = function() {
     ['colorToHex: rgba(255, 255, 255, 100)', 'rgba(255, 255, 255, 100)', '#FFFFFF'] // alpha is ignored
   ];
   test.addTestSet(fiveui.color.colorToHex, colorToHexTests);
+
+  // fiveui.font API tests
+  var getFontTests = [
+    // CSS ID,        Family,  Weight,   Size
+    ['#getFontTest1', 'Arial', 'normal', '12'],
+    ['#getFontTest2', 'Arial sans-serif', 'normal', '12'],
+    ['#getFontTest3', 'Arial', 'bold', '12'],
+    ['#getFontTest4', 'Verdana', 'bold', '12']
+  ];
+  goog.structs.forEach(getFontTests, function (spec) {
+    var desc = spec[0];
+    test.add(desc, function() {
+      var jElt = $5(spec[0]);
+      var font = fiveui.font.getFont(jElt);
+      if (font.family.indexOf(spec[1]) === -1) {
+        goog.asserts.fail(spec[0]+': got wrong family: ' + font.family +
+                          ' expected: ' + spec[1]);
+      }
+      if (font.weight.indexOf(spec[2]) === -1) {
+        goog.asserts.fail(spec[0]+': got wrong weight: ' + font.weight);
+      }
+      if (font.size.indexOf(spec[3]) === -1) {
+        goog.asserts.fail(spec[0]+': got wrong size: ' + font.size);
+      }
+    });
+  });
+
+  // fiveui.font.validate API tests
+  var validateTests =
+    // name, allow, font, oracle
+    [ ['a:verdana-bold-10 f:verdana+sans-bold-10', {'Verdana':{'bold':[10]}},
+        {'family':'Verdana sans-serif', 'weight':'bold', 'size':'10'},
+        true ]
+    , ['a:verdana-normal-12 f:verdana+sans-bold-10', {'Verdana':{'normal':[12]}},
+        {'family':'Verdana sans-serif', 'weight':'bold', 'size':'10'},
+        false ]
+    , ['a:arial-normal-12 f:verdana+sans-bold-10', {'Arial':{'normal':[12]}},
+        {'family':'Verdana sans-serif', 'weight':'bold', 'size':'10'},
+        false ]
+    , ['a:verdana-normal-10,12,14 f:verdana-normal-14', {'Verdana':{'normal':[10, 12, 14]}},
+        {'family':'Verdana', 'weight':'normal', 'size':'14'},
+        true ]
+    , ['a:verdana-normal,bold-12 f:verdana-bold-12', {'Verdana':{'normal':[12], 'bold':[12]}},
+        {'family':'Verdana', 'weight':'bold', 'size':'12'},
+        true ]
+    , ['a:verdana,arial-normal-12 f:arial-normal-12', {'Verdana':{'normal':[12]}, 'Arial':{'normal':[12]}},
+        {'family':'Arial', 'weight':'normal', 'size':'12'},
+        false ]
+    ];
+  goog.structs.forEach(validateTests, function (spec) {
+    var desc = spec[0];
+    test.add(desc, function () {
+      if (fiveui.font.validate(spec[1], spec[2]) !== spec[3]) {
+        goog.asserts.fail(spec[0] + 'Font did not validate');
+      }
+    });
+  });
 
   test.run();
 };
