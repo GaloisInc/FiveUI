@@ -17,3 +17,6 @@ pandoc ${template}/static/preludeIntro.md \
 	--template=${script_path}/jsdoc.css
 
 java -jar ${jsrun_jar} ${runjs} -a --template="${template}" -d="${target}" $@
+
+# copy the some of the content of the 'static' template directory into the destination:
+cp -rv ${template}/static/images/ "${target}/images"
