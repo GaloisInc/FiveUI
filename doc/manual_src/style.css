@@ -237,7 +237,7 @@ strong {font-weight: 600;}
           text-decoration: underline;
         }
 
-.interior h1.title {
+.interior .title {
   font-size: 5.9375em;
   font-weight: 600;
   text-align: center;
