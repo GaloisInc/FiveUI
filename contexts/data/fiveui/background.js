@@ -27,7 +27,7 @@ goog.require('fiveui.State');
 
 /**
  * @constructor
- * 
+ *
  * @param {!function(!string):!string} dataLoader
  */
 fiveui.Background = function(settings, updateWidget, loadScripts, dataLoader) {
@@ -60,6 +60,12 @@ fiveui.Background.prototype._registerComputeListeners = function(port, tabState)
       if(tabState.addProblem(problem) && tabState.uiPort != null) {
         bg.updateWidget(tabState);
         tabState.uiPort.emit('ShowProblem', problem);
+      }
+    });
+    port.on('ReportStats', function (stats) {
+      if (tabState.addStats(stats) && tabState.uiPort != null) {
+        bg.updateWidget(tabState);
+        tabState.uiPort.emit('ShowStats', stats);
       }
     });
 };
@@ -195,7 +201,7 @@ fiveui.Background.prototype.showUI = function(tabId) {
   var tabState = this.state.getTabState(tabId);
   if(null == tabState) {
     return;
-  };
+  }
 
   if(tabState.winState.closed) {
     tabState.winState.closed = false;

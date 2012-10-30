@@ -84,6 +84,10 @@
      core.port.emit('ReportProblem', prob);
    };
 
+   core.reportStats = function(stats) {
+     core.port.emit('ReportStats', stats);
+   };
+
    core.hash = function(rule, name, node) {
      var prob = {
        name: name,
@@ -119,27 +123,12 @@
    };
 
    core.evaluate = function(rs) {
+     var i;
      var theRule = null;
+     var date = new Date();
+     var stats = { start: date.getTime(), end: null, numRules: 0, numElts: 0 };
+     fiveui.stats.numElts = 0; // reset stats element counter
 
-     /**
-      * <p>Report a problem to FiveUI.</p>
-      *
-      * <p>report is used to indicate that a guideline has been violated.
-      * Invocations should provide a short (1-line) string description of
-      * the problem, as well as a reference to the element of the DOM that
-      * violated the guideline.</p>
-      *
-      * <p>The second parameter is not strictly required, but we strongly
-      * suggest providing a node if at all possible, as that is used to
-      * visually highlight the problematic areas of the DOM at runtime.
-      * Debugging a guideline violation becomes much more difficult without
-      * the visual indicator.</p>
-      *
-      * @function
-      * @param {!string} desc The description of the problem to report.
-      * @param {?Node} node The node in the DOM that caused the problem.
-      * @name report
-      */
      var report = function(name, node) {
        var prob = core.hash(theRule, name, node);
        var query = $(node);
@@ -149,13 +138,13 @@
        }
      };
 
-     for (var i=0 ; i < rs.length; ++i) {
+     for (i = 0; i < rs.length; i += 1) {
        theRule = rs[i];
        try {
          var fn = eval('('+rs[i].ruleStr+')');
-       } catch (x) {
+       } catch (e) {
          console.log('could not load ruleStr for rule: '+theRule.name);
-         console.log(x);
+         console.log(e);
        }
 
        var scope = {
@@ -166,13 +155,19 @@
 
        if (fn) {
          try {
+           // note: fiveui.stats.numElts is updated as a side effect here
            fn.apply(scope);
-         } catch (x) {
+         } catch (e) {
            console.log('exception running rule: '+theRule.name);
-           console.log(x);
+           console.log(e);
          }
+         stats.numRules += 1;
        }
      }
+     date = new Date();
+     stats.end = date.getTime();
+     stats.numElts = fiveui.stats.numElts;
+     core.reportStats(stats);
    };
 
    /**
@@ -212,9 +207,7 @@
         function(e)  {
            var eTagName = e.target.tagName;
            if (eTagName == 'IFRAME' || eTagName == 'FRAME') {
-             // console.log('frame added');
              e.target.onload = function() {
-               // console.log('frame loaded');
                core.scheduleRules();
                registerDomListeners(e.target.contentDocument);
              };
@@ -235,5 +228,5 @@
    };
 
    registerBackendListeners(core.port);
-})();
+}());
 

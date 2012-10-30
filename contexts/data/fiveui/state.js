@@ -80,6 +80,7 @@ fiveui.TabState = function(tabId, winState, uiPort) {
   this.computePorts = [];
   this.problems = [];
   this.seenProblems = new goog.structs.Set();
+  this.stats = {};
 };
 
 fiveui.TabState.prototype.addProblem = function(prob) {
@@ -87,9 +88,15 @@ fiveui.TabState.prototype.addProblem = function(prob) {
     this.problems.push(prob);
     this.seenProblems.add(prob.hash);
     return true;
-  } else {
+  }
+  else {
     return false;
   }
+};
+
+fiveui.TabState.prototype.addStats = function (stats) {
+  this.stats = stats;
+  return true;
 };
 
 fiveui.TabState.prototype.clearProblems = function() {
@@ -97,14 +104,17 @@ fiveui.TabState.prototype.clearProblems = function() {
   this.seenProblems = new goog.structs.Set();
 };
 
+fiveui.TabState.prototype.clearStats = function() {
+  for (var p in fiveui.stats.zero) { this.stats[p] = fiveui.stats.zero[p]; }
+};
+
 /*
  * Returns a copy of only the attributes in a TabState that are needed for
  * interpage communication.
  */
 fiveui.TabState.prototype.toEmit = function() {
-  // return jQuery.extend(true, {}, { winState: this.winState, problems: this.problems });
-  return { winState: this.winState, problems: this.problems };
-}
+  return { winState: this.winState, problems: this.problems, stats: this.stats };
+};
 
 /**
  * @constructor

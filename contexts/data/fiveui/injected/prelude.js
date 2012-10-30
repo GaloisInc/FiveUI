@@ -31,6 +31,7 @@ if (typeof goog != 'undefined') {
 /**
  * The FiveUI Prelude.
  *
+ * @description
  * The prelude provides a collection of utilities to ease the
  * conversion from human-readable guideline documents (such as the Web
  * Accessibilty Guidelines, or Apple Human Interface Guidelines) to
@@ -40,11 +41,23 @@ if (typeof goog != 'undefined') {
  */
 fiveui = fiveui || {};
 
+/**
+ * A global namespace for statistics collection.
+ *
+ * @namespace
+ */
+fiveui.stats = fiveui.stats || {};
+/** @global */
+fiveui.stats.numElts = 0;
+/** @const */
+fiveui.stats.zero = { numRules: 0, start: 0, end: 0, numElts: 0 };
+
 /** DOM Traversal ************************************************************/
 
 /**
  * fiveui.query is a wrapper around the jQuery $() function.
  *
+ * @description
  * fiveui.query recurses into iframes and frames, whereas $(...) stops
  * when it encounters internal frames.
  *
@@ -52,9 +65,9 @@ fiveui = fiveui || {};
  * visible page, and as such, should use fiveui.query; however, $(...)
  * is available if recursing into frames is not necessary.
  *
- * @param {string} sel The jQuery selector string.
- * @param {?Object} context Optional: The context to run the query within.  This is often a DOM object/tree.
- * @return {Object} A jQuery object, suitable for chaining.
+ * @param {String} sel The jQuery selector string.
+ * @param {Object} [context] The context to run the query within. This is often a DOM object/tree.
+ * @returns {Object} A jQuery object, suitable for chaining.
  */
 fiveui.query = function (sel, context) {
   var ctx = context || document;
@@ -68,15 +81,30 @@ fiveui.query = function (sel, context) {
     }
   );
 
-  return $results.not('#uic-top').filter(':visible');
+  // update global stats
+  $filteredResults = $results.not('#uic-top').filter(':visible');
+  fiveui.stats.numElts += $filteredResults.length;
+  return $filteredResults;
 };
+
+/**
+ * Provide a short alias for fiveui.query along the lines of the jQuery $ alias.
+ *
+ * @example $5("p").hasText("foo") -> jQuery object containing paragraph elements
+ * containing the text "foo"
+ * </pre></p>
+ *
+ * @const
+ *
+ */
+var $5 = fiveui.query;
 
 /** Utilities ****************************************************************/
 
 /**
  * Determine if a given value is a string or not.
  *
- * @param {?*} o A value of some type that may or may not be defined.
+ * @param {*} [o] A value of some type that may or may not be defined.
  * @returns {!boolean} true if the object is a defined, non-null string, false
  * otherwise.
  */
@@ -96,8 +124,8 @@ fiveui.string = {};
  * Non-destructively removes whitespace from the start and end of a
  * string.
  *
- * @param {?string} s The string to trim of whitespace.
- * @return {?string} The input string, without leading or trailing
+ * @param {String} [s] The string to trim of whitespace.
+ * @returns {String} The input string, without leading or trailing
  * whitespace. Returns null if you gave it null.
  */
 fiveui.string.trim = function(s) {
@@ -110,8 +138,8 @@ fiveui.string.trim = function(s) {
 /**
  * Tokenize a string on whitespace.
  *
- * @param {!string} s The string to tokenize.
- * @return {!Array.<!string>} An array of substrings.
+ * @param {!String} s The string to tokenize.
+ * @returns {String[]>} An array of substrings.
  */
 fiveui.string.tokens = function (s) {
   var posLength = function(ar) {
@@ -125,12 +153,13 @@ fiveui.string.tokens = function (s) {
 /**
  * A simple heuristic check to see if a string is in Title Case.
  *
+ * @description
  * This does not perform an exhaustive gramatical analysis, and as
  * such, it is prone to generating false-positives in some cases.  In
  * particular, it only has a short 'white list' of articles,
  * conjections, and prepositions that are allowed to be in lower case.
  *
- * @param {!string} str The string to check.
+ * @param {!String} str The string to check.
  * @returns {!boolean} true if the string is in title case, false if
  * it is not.
  */
@@ -159,7 +188,7 @@ fiveui.string.isTitleCase = function(str) {
 /**
  * Utilities for word-specific processing.
  *
- * The fiveui.word namespace focuses on tools for working directly
+ * @description The fiveui.word namespace focuses on tools for working directly
  * with words in the sense of natural languages, rather than general
  * strings (as is the case for the fiveui.string namespace).
  *
@@ -170,7 +199,7 @@ fiveui.word = {};
 /**
  * Check to see if a sting begins with a capital letter.
  *
- * @param {!string} word The string to check for capitalization.
+ * @param {!String} word The string to check for capitalization.
  * @returns {!boolean}
  */
 fiveui.word.capitalized = function(word) {
@@ -180,7 +209,7 @@ fiveui.word.capitalized = function(word) {
 /**
  * Check to see if a sting consists entirely of capital letters.
  *
- * @param {!string} word The string to check for capitalization.
+ * @param {!String} word The string to check for capitalization.
  * @returns {!boolean}
  */
 fiveui.word.allCaps = function(word) {
@@ -201,10 +230,10 @@ fiveui.color = {};
  * Color check compiler. It is recommended to use the jQuery plugin
  * fiveui.jqueryPlugins.cssIsNot instead.
  *
- * @param {!string} selector The HTML element selector to check.
- * @param {!array}  colorSet An array of strings containing the HEX values of
+ * @param {!String} selector The HTML element selector to check.
+ * @param {String[]}  colorSet An array of strings containing the HEX values of
  *                           colors in the desired color set.
- * @returns {!function}      A function which checks the rule
+ * @returns {!function()}      A function which checks the rule
  * @see fiveui.jqueryPlugins.cssIsNot
  */
 fiveui.color.colorCheck = function (selector, colorSet) {
@@ -227,8 +256,8 @@ fiveui.color.colorCheck = function (selector, colorSet) {
  * Covert rgb colors to hex and abreviated hex colors to their full 3 byte
  * form.
  *
- * @param {!string} color The color string to convert. This should be either of the form rgb(...) or #...
- * @returns {!string} The color string in #XXXXXX form
+ * @param {!String} color The color string to convert. This should be either of the form rgb(...) or #...
+ * @returns {!String} The color string in #XXXXXX form
  * @throws {ParseError} if the rgb color string cannot be parsed
  */
 fiveui.color.colorToHex = function(color) {
@@ -251,8 +280,8 @@ fiveui.color.colorToHex = function(color) {
     var digits = /rgba?\((\d+), (\d+), (\d+)/.exec(color);
     if (!digits) {
       throw {
-        name: 'ParseError',
-        message: 'Could not parse rgb color: ' + color
+        'name': 'ParseError',
+        'message': 'Could not parse rgb color: ' + color
       };
     }
 
@@ -281,47 +310,61 @@ fiveui.font = {};
  * Extracts the font-family, font-size (in px, as an int), and font-weight
  * from a jQuery object.
  *
- * @param {!object} jElt A jQuery object to extract font info from
- * @returns {!object} An object with properties: 'family', 'size', and 'weight'
+ * @param {!Object} jElt A jQuery object to extract font info from
+ * @returns {!Object} An object with properties: 'family', 'size', and 'weight'
  * @throws {ParseError} if the font size cannot be parsed
  */
 fiveui.font.getFont = function (jElt) {
   var res = {};
   var sizeTxt = /(\d+)/.exec(jElt.css('font-size'));
   if (!sizeTxt) {
-    throw { name: 'ParseError', message: 'Could not parse font size: ' + jElt.css('font-size') };
+    throw {
+      name: 'ParseError',
+      message: 'Could not parse font size: ' + jElt.css('font-size')
+    };
   }
   else {
     res.size = sizeTxt[1];
   }
   res.family =  jElt.css('font-family');
   res.weight =  jElt.css('font-weight');
+  // normalize reporting of the following two synonyms
+  if (res.weight === '400') { res.weight = 'normal'; }
+  if (res.weight === '700') { res.weight = 'bold'; }
   return res;
-}
+};
 
 /**
- * Validate a font property object extracted using fiveui.font.getFont
+ * Validate a font property object extracted using fiveui.font.getFont().
  *
- * <p><pre>
- * EXAMPLES::
+ * @description The `allow` parameter should be an object whose top level properties are
+ * (partial) font family names (e.g. 'Verdana'). For each font family name
+ * there should be an object whose properties are font weights (e.g. 'bold'),
+ * and for each font weight there should be an array of allowable sizes
+ * (e.g. [10, 11, 12]).
  *
- *   > allow = { 'Verdana': { 'bold': {"10":{}, "12":{}}, 'normal': {"10":{}, "12":{}} } };
- *   > font = { family: 'Verdana Arial sans-serif', size: "10", weight: "normal" };
- *   > fiveui.font.validate(allow, font) -> true
- * </pre></p>
+ * The `font` parameter should be an object containing 'family', 'weight', and
+ * 'size' properties. These are returned by @see fiveui.font.getFont().
  *
- * @param {!object} allow Object containing allowable font sets (see EXAMPLES)
- * @param {!object} font object to check
+ * @example > allow = { 'Verdana': { 'bold': [10, 12], 'normal': [10, 12]}};
+ * > font = { family: 'Verdana Arial sans-serif', size: "10", weight: "normal" };
+ * > fiveui.font.validate(allow, font) -> true
+ *
+ * @param {!Object} allow Object containing allowable font sets (see description and examples)
+ * @param {!Object} font object to check
+ * @param font.family A partial font family name (e.g. 'Verdana')
+ * @param font.weight A font weight (e.g. 'bold')
+ * @param font.size   A font size string (e.g. "10")
  * @returns {!boolean}
  */
 fiveui.font.validate = function (allow, font) {
   var x;
   for (x in allow) { // loop over allowed font family keywords
-    if (font.family.indexOf(x) != -1) { break; }
+    if (font.family.indexOf(x) !== -1) { break; }
     else { return false; }
   }
-  return (font.weight in allow[x] && font.size in allow[x][font.weight]);
-}
+  return (font.weight in allow[x] &&  allow[x][font.weight].indexOf(parseInt(font.size)) != -1);
+};
 
 /**
  * Functions outside the fiveui namespace that can be called during rule
@@ -331,6 +374,7 @@ fiveui.font.validate = function (allow, font) {
 /**
  * <p>Report a problem to FiveUI.</p>
  *
+ * @description
  * <p>report is used to indicate that a guideline has been violated.
  * Invocations should provide a short (1-line) string description of
  * the problem, as well as a reference to the element of the DOM that
@@ -343,7 +387,7 @@ fiveui.font.validate = function (allow, font) {
  * the visual indicator.</p>
  *
  * @function
- * @param {!string} desc The description of the problem to report.
+ * @param {!String} desc The description of the problem to report.
  * @param {?Node} node The node in the DOM that caused the problem.
  * @name report
  */

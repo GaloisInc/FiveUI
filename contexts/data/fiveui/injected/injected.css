@@ -25,16 +25,6 @@
   border-color: red;
 }
 
-/* p.solid {border-style: solid; }  */
-/* p.double {border-style: double; }  */
-/* p.groove {border-style: groove; }  */
-/* p.dotted {border-style: dotted; }  */
-/* p.dashed {border-style: dashed; }  */
-/* p.inset {border-style: inset; }  */
-/* p.outset {border-style: outset; }  */
-/* p.ridge {border-style: ridge; }  */
-/* p.hidden {border-style: hidden; } */
-
 /* Reduce the JQuery UI spacing on the left of the dialog content. */
 #uic-dialog {
     padding-left: 3px;
@@ -46,7 +36,7 @@
 }
 
 .ui-dialog .ui-dialog-content {
-    overflow: hidden !important;
+    /* overflow: hidden !important; */
     position: relative;
 }
 
@@ -54,22 +44,43 @@
   font-family: Courier;
 }
 
+/* stats area style */
 
+#fiveui-stats {
+  font-family: Courier;
+  font-size: 10px;
+  background-color: #F0F0F0;
+  border: 1px solid #DDDDDD;
+  border-style: groove;
+  padding: 3px;
+  height: 40px;
+  width: 97%;
+  margin-top: 0.5em;
+  margin-bottom: 0.75em;
+}
 
-/* #listWrapper { */
-/*     overflow: auto; */
-/*     position: relative */
-/*     top: 0px; */
-/*     bottom: 0px; */
-/* } */
+.fiveui-table-number {
+  text-align: right;
+  color: blue;
+}
+
+.fiveui-table-text {
+  text-align: left;
+  color: black;
+  padding-right: 3px;
+}
+
+/* problem list style */
 
 #problemList {
     border-style: groove;
     background: white;
 
+    /*
     position: absolute;
-    top: 49px;
+    top: 95px;
     bottom: 0px;
+    */
 
     /* coarse estimate of width in most standard sizes */
     width: 97%;
