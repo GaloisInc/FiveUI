@@ -1,6 +1,6 @@
 {
     "name": "Five UI",
-    "version": "0.1",
+    "version": "0.2",
     "description": "UI Constraint Checker",
 
     "icons": { "16": "data/fiveui/images/fiveui-icon-16.png",
