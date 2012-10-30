@@ -101,8 +101,6 @@ fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
  *
  * @example > $5("p").hasText("foo").highlight();
  *
- * to visually inspect which elements in the page match the query.
- *
  * @param {String} [hint] Highlighted border color, defaults to "red"
  * @returns {!Object} A modified jQuery object
  */
@@ -123,8 +121,6 @@ fiveui.jqueryPlugins.highlight = function (hint) {
  * Javascript console:
  *
  * @example > $5("*").propDist("font-size", true);
- *
- * and a frequency table of font-sizes is logged to the console.
  *
  * @param {String} prop CSS property to be inspected
  * @param {boolean} [log] Boolean which enables console logging of the result; default is `false`.
