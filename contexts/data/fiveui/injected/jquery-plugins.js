@@ -33,15 +33,6 @@ fiveui.jqueryPlugins = fiveui.jqueryPlugins || {};
 
 
 /**
- * Simple proof of concept plugin
- *
- * @returns {!Object} A modified jQuery object
- */
-fiveui.jqueryPlugins.myPlugin = function () {
-  return this.css("border-style", "solid").css("border-color", "red");
-}
-
-/**
  * Wrapper for the :contains('text') selector
  *
  * @param {!String} text Text to select for
@@ -99,20 +90,18 @@ fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
   });
 }
 
-/**
- * Send a report to FiveUI reporting a problem with each element in the
- * jQuery object.
- *
- * @param {!String} msg Message to report
- */
-fiveui.jqueryPlugins.report = function (msg) {
-  this.each(function (i, elt) {
-    report(msg, elt); // NOTE: this doesn't work. report() is not in scope here!
-  });
-}
 
 /**
- * Visually highlight elements in the jQuery object (mostly for debugging purposes).
+ * Visually highlight elements in the jQuery object.
+ *
+ * @description This plugin is useful mostly in the process of writing
+ * guidelines, for example the guideline developer can load a page,
+ * click the "Break" button on the FiveUI window, enter the browser's
+ * Javascript console, and run:
+ *
+ * @example > $5("p").hasText("foo").highlight();
+ *
+ * to visually inspect which elements in the page match the query.
  *
  * @param {String} [hint] Highlighted border color, defaults to "red"
  * @returns {!Object} A modified jQuery object
@@ -126,8 +115,16 @@ fiveui.jqueryPlugins.highlight = function (hint) {
 
 /**
  * Returns a list of css properties that element in the jQuery
- * object have. This is useful for analysis of a given page when
- * writing guielines.
+ * object have.
+ *
+ * @description This plugin is useful for analysis of a given page when
+ * writing guielines. For example if the guideline developer wants to
+ * know what font sizes are used on a loaded page, they can run from the
+ * Javascript console:
+ *
+ * @example > $5("*").propDist("font-size", true);
+ *
+ * and a frequency table of font-sizes is logged to the console.
  *
  * @param {String} prop CSS property to be inspected
  * @param {boolean} [log] Boolean which enables console logging of the result; default is `false`.
