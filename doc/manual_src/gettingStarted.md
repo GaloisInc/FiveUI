@@ -41,7 +41,7 @@ Sets` tab.
 `Rule Sets` can be managed by clicking on the `Rule Sets` tab on the left-hand
 side of the options page.
 
-`Rule Sets` in FiveUi are specified as a json-like object that
+`Rule Sets` in FiveUi are specified as a JSON-like object that
 contains javascript functions for the rule implementations.  Each
 `Rule Set` contains a **name**, **description** and list of zero or
 more **rules**.  The following snippet exhibits the minimal definition
@@ -58,7 +58,7 @@ fields, along with an empty set of **rules**.
 ### Rules
 
 The elements of the **rules** array in the `Rule Set` are also represented as
-json objects.  A minimal rule consists of three fields: **name**,
+JSON Objects.  A minimal rule consists of three fields: **name**,
 **description** and **rule**.  While **name** and **description** are just
 strings, like the definition of a `Rule Set`, the **rule** field is a javascript
 function.
@@ -234,3 +234,9 @@ for a specific problem will highlight the element of the DOM that
 caused the violation.
 
 ![Expanding a Problem entry in the FiveUI Problem List highlights the element of the DOM that caused the violation.](figures/ff-heading-highlight.png)
+
+## Where to go from here
+
+For more detail on the API available when writing new rules, see the
+[Javascript documentation](../jsdoc/index.html).
+
