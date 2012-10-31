@@ -64,7 +64,7 @@ located at `d:\binaries\fiveui_chrome.zip`
 
 ![Unpack the extension](figures/unzip_ext.png)
 
- * Open Chrome and navigate to the extensions manager (this can be reached
+ * Open Chrome and navigate to the extensions manager.  The extensions manager can be reached
    through Chrome's menu system or by entering ```chrome://extensions```
    in the URL bar.
 
@@ -73,10 +73,10 @@ located at `d:\binaries\fiveui_chrome.zip`
  * Check the box labeled "Developer Mode" at the top of the extensions manager
    page (if it is not already checked):
 
-![Chrome developer mode](figures/chrome_developer_mode.png)
+![Enable Chrome developer mode](figures/chrome_developer_mode.png)
 
  * Click "Load Unpacked Extension" and choose the directory where you unpacked
-   the Chrome extension file, in our example this would be `d:\binaries`.
+   the Chrome extension file. The directory should contain the file `manifest.json`.
 
 ![Load Unpacked Extension](figures/load_unpacked_extension.png)
 
@@ -86,7 +86,7 @@ located at `d:\binaries\fiveui_chrome.zip`
 ![FiveUI Installed](figures/fiveui_installed.png)
 
  * **Note:** The warning message reading "Support for manifest version 1 is being phased out."
-   is a known issue and does not affect the FiveUI extension (for now).
+   is a known issue and does not currently affect the FiveUI extension.
 
 FiveUI is now installed.  The [Getting Started guide](gettingStarted.html)
 explains how to configure and use the extension.
