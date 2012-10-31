@@ -64,7 +64,7 @@ located at `d:\binaries\fiveui_chrome.zip`
 
 ![Unpack the extension](figures/unzip_ext.png)
 
- * Open Chrome and navigate to the extensions manager (this can be reached
+ * Open Chrome and navigate to the extensions manager.  The extensions manager can be reached
    through Chrome's menu system or by entering ```chrome://extensions```
    in the URL bar.
 
@@ -73,10 +73,10 @@ located at `d:\binaries\fiveui_chrome.zip`
  * Check the box labeled "Developer Mode" at the top of the extensions manager
    page (if it is not already checked):
 
-![Chrome developer mode](figures/chrome_developer_mode.png)
+![Enable Chrome developer mode](figures/chrome_developer_mode.png)
 
  * Click "Load Unpacked Extension" and choose the directory where you unpacked
-   the Chrome extension file, in our example this would be `d:\binaries`.
+   the Chrome extension file. The directory should contain the file `manifest.json`.
 
 ![Load Unpacked Extension](figures/load_unpacked_extension.png)
 
