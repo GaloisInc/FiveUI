@@ -48,38 +48,42 @@ explains how to configure and use the extension.
 All recent versions of Google Chrome should support FiveUI.
 
 Chrome is primarily designed to install extensions from the on-line
-extension marketplace, however, local extensions can be installed by
-navigating to the extension on disk.  To do this, you must enter a
-`file:///` url in the url bar.
+extension marketplace. However, local extensions can be installed by
+unpacking the extension file, in this case `fiveui_chrome.zip`, and
+enabling Chrome's extension developer mode.
 
 The following steps describe how to install FiveUI in Chrome, using an
 extension file from the local file system.
 
-The FiveUI Chrome extension is packaged in a file called `fiveui.crx`.
+The FiveUI Chrome extension is packaged in a file called `fiveui_chrome.zip`.
 Locate this file in your distribution (or download) and take note of
 the location for the following steps.  We will assume that it is
-located at `d:\binaries\fiveui.crx`
+located at `d:\binaries\fiveui_chrome.zip`
 
- * Open Google Chrome, and enter the `file:///` url in the url bar, as
-   shown.  In our case, the url is `file:///d:/binaries/fiveui.crx`.
+ * Use your system's archive utility to unpack the zip file `fiveui_chrome.zip`.
 
-![Use a file:/// url to install local extensions in Chrome.](figures/chrome-file-url.png)
+![Unpack the extension](figures/unzip_ext.png)
 
- * Chrome should open a download and install bar at the bottom of the
-   window and begin adding FiveUI to the browser.
+ * Open Chrome and navigate to the extensions manager (this can be reached
+   through Chrome's menu system or by entering ```chrome://chrome/extensions/```
+   in the URL bar.
 
-![Chrome shows an install indicator at the bottom of the window](figures/chrome-adding.png)
+![Navigate to the extension manager](figures/chrome-menu.png)
 
- * After a few minutes of processing, Chrome will open a confirmation
-   dialog, as shown.  Confirm the installation to complete the
-   process.
+ * Check the box labeled "Developer Mode" at the top of the extensions manager
+   page (if it is not already checked):
 
-![Confirm the FiveUI installation to finish adding the extension.](figures/chrome-confirm-add-fiveui.png)
+![Chrome developer mode](figures/chrome_developer_mode.png)
 
- * The FiveUI Button should appear in the Chrome toolbar after you
-   dismiss the confirmation dialog.
+ * Click "Load Unpacked Extension" and choose the directory where you unpacked
+   the Chrome extension file, in our example this would be `d:\binaries`.
 
-![The FiveUI Button will be added to the Chrome toolbar.](figures/chrome-install-done.png)
+![Load Unpacked Extension](figures/load_unpacked_extension.png)
 
-FiveUI is now installed.  The [Getting Started guide](gettingStarted)
+ * The FiveUI extension should now appear in the extension manager and the
+   FiveUI button should appear in the Chrome toolbar as shown:
+
+![FiveUI Installed](figures/fiveui_installed.png)
+
+FiveUI is now installed.  The [Getting Started guide](gettingStarted.html)
 explains how to configure and use the extension.
