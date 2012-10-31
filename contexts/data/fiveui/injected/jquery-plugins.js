@@ -20,7 +20,7 @@
  */
 
 if (typeof goog != 'undefined') {
-  goog.provide('fiveui.jqueryPlugins');
+  goog.provide('fiveui.jquery');
 }
 
 /**
@@ -29,7 +29,7 @@ if (typeof goog != 'undefined') {
  *
  * @namespace
  */
-fiveui.jqueryPlugins = fiveui.jqueryPlugins || {};
+fiveui.jquery = fiveui.jquery || {};
 
 
 /**
@@ -38,7 +38,7 @@ fiveui.jqueryPlugins = fiveui.jqueryPlugins || {};
  * @param {!String} text Text to select for
  * @returns {!Object} A modified jQuery object
  */
-fiveui.jqueryPlugins.hasText = function (text) {
+fiveui.jquery.hasText = function (text) {
   return this.filter(":contains('" + text + "')")
 }
 
@@ -46,14 +46,14 @@ fiveui.jqueryPlugins.hasText = function (text) {
  * Color checker plugin: filters for elements whose CSS color property is
  * not in the given set.
  *
- * @description Note: This is a special case of fiveui.jqueryPlugins.cssIsNot, i.e.
+ * @description Note: This is a special case of fiveui.jquery.cssIsNot, i.e.
  * $(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
  * @see {fiveui.color.colorToHex}
  *
  * @param {String[]} cset A set of allowable color strings
  * @returns {!Object} A modified jQuery object
  */
-fiveui.jqueryPlugins.notColorSet = function (cset) {
+fiveui.jquery.notColorSet = function (cset) {
   var allowable = {};
   for (var i = 0; i < cset.length; i += 1) { allowable[cset[i]] = true; } // array -> object
   return this.filter(function (index) {
@@ -75,7 +75,7 @@ fiveui.jqueryPlugins.notColorSet = function (cset) {
  * @param {function(String):String} [fn] Function to apply to return values of $(this).css(prop), fn defaults to the identity function.
  * @returns {Object} jQuery object
  */
-fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
+fiveui.jquery.cssIsNot = function (prop, set, fn) {
   var allowable = {};
   fn = fn || function (x) { return x; }; // default is Id
   if (typeof set === "string") {
@@ -104,7 +104,7 @@ fiveui.jqueryPlugins.cssIsNot = function (prop, set, fn) {
  * @param {String} [hint] Highlighted border color, defaults to "red"
  * @returns {!Object} A modified jQuery object
  */
-fiveui.jqueryPlugins.highlight = function (hint) {
+fiveui.jquery.highlight = function (hint) {
   hint = hint || "red"; // Default is "red"
   return this.css("background-color", "rgba(255, 0, 0, 0.3)")
              .css("border-style", "solid")
@@ -126,7 +126,7 @@ fiveui.jqueryPlugins.highlight = function (hint) {
  * @param {boolean} [log] Boolean which enables console logging of the result; default is `false`.
  * @returns {Object} A frequence map { "property": frequency }
  */
-fiveui.jqueryPlugins.propDist = function (prop, log) {
+fiveui.jquery.propDist = function (prop, log) {
   var res = {};
   log = log || false;
   this.each(function (i, elt) {
@@ -150,12 +150,12 @@ fiveui.jqueryPlugins.propDist = function (prop, log) {
 /**
  * Register the plugins. This adds methods to the jQuery.fn namespace.
  */
-fiveui.jqueryPlugins.init = function () {
-  for (fn in fiveui.jqueryPlugins) {
-    f = fiveui.jqueryPlugins[fn];
+fiveui.jquery.init = function () {
+  for (fn in fiveui.jquery) {
+    f = fiveui.jquery[fn];
     if (jQuery.isFunction(f) && fn != "init") {
-      jQuery.fn[fn] = fiveui.jqueryPlugins[fn];
+      jQuery.fn[fn] = fiveui.jquery[fn];
     }
   }
 }
-fiveui.jqueryPlugins.init();
+fiveui.jquery.init();
