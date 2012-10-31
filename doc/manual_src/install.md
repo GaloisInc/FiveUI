@@ -86,7 +86,7 @@ located at `d:\binaries\fiveui_chrome.zip`
 ![FiveUI Installed](figures/fiveui_installed.png)
 
  * **Note:** The warning message reading "Support for manifest version 1 is being phased out."
-   is a known issue and does not affect the FiveUI extension (for now).
+   is a known issue and does not currently affect the FiveUI extension.
 
 FiveUI is now installed.  The [Getting Started guide](gettingStarted.html)
 explains how to configure and use the extension.
