@@ -65,10 +65,10 @@ located at `d:\binaries\fiveui_chrome.zip`
 ![Unpack the extension](figures/unzip_ext.png)
 
  * Open Chrome and navigate to the extensions manager (this can be reached
-   through Chrome's menu system or by entering ```chrome://chrome/extensions/```
+   through Chrome's menu system or by entering ```chrome://extensions```
    in the URL bar.
 
-![Navigate to the extension manager](figures/chrome-menu.png)
+![Navigate to the extension manager](figures/chrome_menu.png)
 
  * Check the box labeled "Developer Mode" at the top of the extensions manager
    page (if it is not already checked):
