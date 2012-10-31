@@ -228,13 +228,13 @@ fiveui.color = {};
 
 /**
  * Color check compiler. It is recommended to use the jQuery plugin
- * fiveui.jqueryPlugins.cssIsNot instead.
+ * fiveui.jquery.cssIsNot instead.
  *
  * @param {!String} selector The HTML element selector to check.
  * @param {String[]}  colorSet An array of strings containing the HEX values of
  *                           colors in the desired color set.
  * @returns {!function()}      A function which checks the rule
- * @see fiveui.jqueryPlugins.cssIsNot
+ * @see fiveui.jquery.cssIsNot
  */
 fiveui.color.colorCheck = function (selector, colorSet) {
   var allowable, i, fnStr, forEachFuncStr;
