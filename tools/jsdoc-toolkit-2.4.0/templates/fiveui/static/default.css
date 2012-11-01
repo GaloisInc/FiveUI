@@ -1,7 +1,7 @@
 /* default.css */
 body
 {
-	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	font: 16px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
 }
 
 .header
@@ -68,16 +68,17 @@ pre.code
 
 .summaryTable { width: 100%; }
 
-h1.classTitle
-{
-	font-size:170%;
-	line-height:130%;
-}
+/* h1.classTitle */
+/* { */
+/* 	font-size:170%; */
+/* 	line-height:130%; */
+/* } */
 
 h2 { font-size: 110%; }
 caption, div.sectionTitle
 {
-	background-color: #7F8FB1;
+	/* background-color: #7F8FB1; */
+    background-color: #366689;
 	color: #fff;
 	font-size:130%;
 	text-align: left;
@@ -106,22 +107,22 @@ div.sectionTitle { margin-bottom: 8px; }
 
 td.attributes, .fixedFont
 {
-	line-height: 15px;
+	/* line-height: 15px; */
 	color: #002EBE;
 	font-family: "Courier New",Courier,monospace;
-	font-size: 13px;
+	/* font-size: 13px; */
 }
 
 .summaryTable td.nameDescription
 {
 	text-align: left;
-	font-size: 13px;
-	line-height: 15px;
+	/* font-size: 13px; */
+	/* line-height: 15px; */
 }
 
 .summaryTable td.nameDescription, .description
 {
-	line-height: 15px;
+	/* line-height: 15px; */
 	padding: 4px;
 	padding-left: 4px;
 }
@@ -136,10 +137,11 @@ ul.inheritsList
 }
 
 .detailList {
-	margin-left: 20px; 
-	line-height: 15px;
+	margin-left: 20px;
+	/* line-height: 15px; */
 }
 .detailList dt { margin-left: 20px; }
+.detailList dd { margin-left: 50px; }
 
 .detailList .heading
 {
