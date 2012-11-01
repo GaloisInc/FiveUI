@@ -36,6 +36,7 @@ div#icon {
     background-repeat: no-repeat;
     background-position-x: 32px;
     background-position-y: -16px;
+    background-position: -16px 32px;
     width: 113px;
     height: 128px;
     margin: 0;
@@ -61,7 +62,7 @@ div#icon {
 
 #navbar-content-title {
     font-size: 200%;
-    font-weigth: normal;
+    font-weight: normal;
     color: #53637D;
     padding-right: 1em;
     padding-bottom: 0.5em;
