@@ -33,7 +33,8 @@
 			
 			<for each="item" in="data">
 			<div>
-				<h2>{+new Link().toSrc(item.alias).withText(item.name)+}</h2>
+				<!-- <h2>{+new Link().toSrc(item.alias).withText(item.name)+}</h2> -->
+				<li>{+new Link().toSrc(item.alias).withText(item.name)+}</li>
 				<if test="item.desc">{+resolveLinks(item.desc)+}</if>
 				<dl>
 					<if test="item.author">
