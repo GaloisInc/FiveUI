@@ -2,7 +2,7 @@
 
 /* Layout */
 .wrap {
-  width: 90%;
+  width: 60%;
   margin: 0 auto;
 }
 
@@ -324,6 +324,12 @@ figcaption, .caption {
   font-size: 0.875em;
   font-weight: 600;
   padding-top: 10px;
+}
+
+#content li {
+  font-weight: 600;
+  padding-left: 1em;
+  list-style: square inside;
 }
 
 ul.steps li {
