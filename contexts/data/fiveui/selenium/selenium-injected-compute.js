@@ -76,10 +76,25 @@ fiveui.SeleniumPort.prototype.send = function(evt, obj) {
 
 /**
  * Check to see if any messages have been generated.
+ *
+ * @param {[String]} type Message type to filter for (default: no filter)
  * @return {!Array.<{string, Object}>}
  */
-fiveui.SeleniumPort.prototype.query = function () {
-  var msgs = this._messages;
+fiveui.SeleniumPort.prototype.query = function (type) {
+  var msgs = [];
+  var i;
+
+  if (!type) {
+    msgs = this._messages;
+  }
+  else {
+    for (i=0; i < this._messages.length; i += 1) {
+      console.log(this._messages);
+      if (this._messages[i].type === type) {
+        msgs.push(this._messages[i]);
+      }
+    }
+  }
 
   // flush the read messages:
   this._messages = [];

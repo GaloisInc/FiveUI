@@ -39,6 +39,10 @@ public class BatchRunner {
             + "lib/jquery/jquery-1.7.1.min.js";
     private static final String PRELUDE_JS = DATA_DIR
             + "fiveui/injected/prelude.js";
+    private static final String MD5_JS = DATA_DIR
+            + "lib/jshash/md5.js";
+    private static final String JQUERY_PLUGIN_JS = DATA_DIR
+            + "fiveui/injected/jquery-plugins.js";
     private static final String SEL_INJECTED_COMPUTE_JS = DATA_DIR + 
             "/fiveui/selenium/selenium-injected-compute.js";
 
@@ -114,7 +118,7 @@ public class BatchRunner {
             e1.printStackTrace();
         }
         
-        Object res = _exe.executeScript("return fiveui.selPort.query()");
+        Object res = _exe.executeScript("return fiveui.selPort.query(type='ReportProblem')");
         
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
@@ -157,6 +161,8 @@ public class BatchRunner {
         injected += Utils.readFile(SEL_INJECTED_COMPUTE_JS);
         injected += Utils.readFile(J_QUERY_JS);
         injected += Utils.readFile(PRELUDE_JS);
+        injected += Utils.readFile(MD5_JS);
+        injected += Utils.readFile(JQUERY_PLUGIN_JS);
         injected += Utils.readFile(INJECTED_COMPUTE_JS);
         
         injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
