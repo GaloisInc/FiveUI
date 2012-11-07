@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 public class Rule {
 
     /**
-     * Function wrapper around `RuleSet.parse` for use in `transform` and other
+     * Function wrapper around `Rule.parse` for use in `transform` and other
      * functional combinators.
      */
     public static final Function<HashMap<String, Object>, Rule> PARSE =
@@ -36,7 +36,7 @@ public class Rule {
             };
 
     /**
-     * Parse a string representation of a Rule into a Java POJO.
+     * Parse a string representation of a Rule into a plain old Java object.
      * 
      * @param str
      * @return

@@ -34,24 +34,30 @@ import com.google.common.collect.ImmutableList;
 public class RuleSetTest {
    @Test
    public void testParseNoFns() {
-      testParse("the name", "a descr", "[]", new ArrayList<String>());
+      testParse("the name", "a descr", "[]", new ArrayList<Rule>());
    }
    
-   @Ignore
    @Test
    public void testParseOneFn() {
-      List<String> rules = ImmutableList.of("\n  function () {\n  }\n");
-      testParse("the name", "a descr", "[function () {}]", rules);
+	  String str = "[{'name':'a', 'description':'b', 'id':1, 'rule':function () {}}]";
+      List<Rule> rules = ImmutableList.of(new Rule("a", "b", "function () {}", 1));
+      testParse("the name", "a descr", str, rules);
    }
    
-   private void testParse(String name, String desc, String rules, List<String> rulesOracle) {
+   private void testParse(String name, String desc, String rules, List<Rule> rulesOracle) {
       RuleSet rs = RuleSet.parse("{ 'name': '" +name+"'" +
                     ", 'description': '"+desc+"'" +
                     ", 'rules': " + rules +
                     "};");
+      ImmutableList<Rule> rsRules = rs.getRules();
       
-      assertEquals("", name, rs.getName());
-      assertEquals("", desc, rs.getDescription());
-      Assert.assertArrayEquals("", rulesOracle.toArray(), rs.getRules().toArray());
+      assertEquals("name cmp", name, rs.getName());
+      assertEquals("desc cmp", desc, rs.getDescription());
+      assertEquals("number of rules", rulesOracle.size(), rsRules.size());
+      for (int i=0; i<rulesOracle.size(); i++) {
+    	  assertEquals(String.format("rule %d", i), 
+    			       rulesOracle.get(i),
+    			       rsRules.get(i));
+      }
    }
 }
