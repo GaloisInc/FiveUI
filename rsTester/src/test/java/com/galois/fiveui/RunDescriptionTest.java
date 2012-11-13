@@ -5,9 +5,6 @@
  */
 package com.galois.fiveui;
 
-import static org.junit.Assert.fail;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -26,7 +23,7 @@ public class RunDescriptionTest {
     private static final String RUN_DESCRIPTION_DIR = "src/test/resources/runDescriptions/";
 
     /**
-     * Test method for {@link com.galois.fiveui.RSTestDescription#RunDescription(java.lang.String, java.util.List, com.galois.fiveui.RuleSet)}.
+     * Test method for {@link com.galois.fiveui.RSTestDescription}.
      * @throws FileNotFoundException 
      */
     @Test
@@ -50,7 +47,7 @@ public class RunDescriptionTest {
     }
 
     /**
-     * Test method for {@link com.galois.fiveui.RSTestDescription#RunDescription(java.lang.String, java.util.List, com.galois.fiveui.RuleSet)}.
+     * Test method for {@link com.galois.fiveui.RSTestDescription}.
      * @throws FileNotFoundException 
      */
     @Test

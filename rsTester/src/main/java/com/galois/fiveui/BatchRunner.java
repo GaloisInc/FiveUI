@@ -28,6 +28,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Lists;
 
+/**
+ * BatchRunner is initialized with a WebDriver object. It provides an interface
+ * for running {@code RuleSet}s and {@code RuleTest}s with the WebDriver.
+ * 
+ * @see #runTest
+ * @see #runRule
+ * @author creswick
+ */
 public class BatchRunner {
 
     private final WebDriver _driver;
@@ -49,24 +57,50 @@ public class BatchRunner {
     private static final String INJECTED_COMPUTE_JS = DATA_DIR + 
             "/fiveui/injected/fiveui-injected-compute.js";
 
+    /**
+     * BatchRunner constructor, stores the given WebDriver. 
+     *
+     * @param driver the WebDriver object to run tests with
+     */
     public BatchRunner(WebDriver driver) {
         _driver = driver;
         _exe = (JavascriptExecutor) _driver;
     }
 
-    public ImmutableList<Result> runTests(ImmutableList<RuleTest> build) {
+    /**
+     * Run a collection of RuleTests and return the concatenated results.
+     * 
+     * @param tests a list of RuleTest objects
+     * @return a list of Result objects
+     * @see #runTest
+     */
+    public ImmutableList<Result> runTests(ImmutableList<RuleTest> tests) {
         Builder<Result> resBuilder = ImmutableList.builder();
-        for (RuleTest test : build) {
+        for (RuleTest test : tests) {
             resBuilder.addAll(runTest(test));
         }
         return resBuilder.build();
     }
 
     /**
-     * Run a URITest, returning the result (success, failure details, or
+     * Run a RuleTest, returning the result (success, failure details, or
      * indicator of exceptional conditions.)
+     * <p>
+     * The test URI is loaded using the WebDriver and the rule set contained in
+     * {@code test} is run.
+     * <p>
+     * For each result, look in the oracle collection for a corresponding ResType
+     * (exception, pass, error, ...). If one is found, remove it from the oracle
+     * and report that we got an expected result. If one is not found, report that
+     * we got an unexpected result.
+     * <p>
+     * Finally, for each ResType left over in the oracle, report that we missed
+     * an expected result.
+     * <p>
+     * Note: This method catches all exceptions generated during the rule run and
+     * reports them as "exception" ResType results in its return value.
      * 
-     * @param test
+     * @param test a RuleTest to run
      */
     public ImmutableList<Result> runTest(final RuleTest test) {
         RuleSet rule = test.getRule();
@@ -74,8 +108,8 @@ public class BatchRunner {
         ImmutableList<Result> rawResults;
         Builder<Result> builder = ImmutableList.builder();
         try {
-            _driver.get(test.getUri().toString());
-            rawResults = runRule(rule);
+            loadURL(test.getUri().toString()); // set state of the WebDriver
+            rawResults = runRule(rule); // run the ruleset, collect results
             
             List<ResType> oracle = Lists.newArrayList(test.getOracle());
             for (Result result : rawResults) {
@@ -105,7 +139,21 @@ public class BatchRunner {
         
         return builder.build();
     }
-
+    
+    /**
+     * Run a rule set on a page.
+     * <p>
+     * This method uses the web driver instance to run a rule set on the currently
+     * loaded page. The webdriver injects javascript that
+     * includes all the dependencies (JQuery, etc..) as well as the function which
+     * executes the rule check. The method sleeps the thread for 1 second and 
+     * queries the results, which are then parsed and returned as a list of
+     * Result objects.
+     *  
+     * @param ruleSet the rule set to be run
+     * @return results of running the rule set
+     * @throws IOException
+     */
     private ImmutableList<Result> runRule(final RuleSet ruleSet) throws IOException {
         String contentScript = wrapRule(ruleSet);
         Builder<Result> builder = ImmutableList.builder();
@@ -152,8 +200,13 @@ public class BatchRunner {
     }
 
     /**
-     * Build up the complete content script needed to run the rule
+     * Build up the complete content script needed to run the rule.
+     * <p>
+     * The string returned contains all the javascript dependencies required
+     * to run a rule set and the function that is injected into the page which
+     * executes the rule set.
      * 
+     * @param ruleSet a RuleSet object
      * @throws IOException
      */
     private String wrapRule(RuleSet ruleSet) throws IOException {
@@ -169,4 +222,14 @@ public class BatchRunner {
         
         return injected;
     }
+    
+    /**
+     * Sets the state of the WebDriver by loading a given URL.
+     * 
+     * @param url URL to load
+     */
+    private void loadURL(String url) {
+    	_driver.get(url);
+    }
+   
 }

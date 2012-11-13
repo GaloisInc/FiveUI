@@ -27,7 +27,10 @@ import com.google.common.collect.ImmutableList;
 
 /**
  * The main entry point for testing Rule Sets.
- * 
+ * <p>
+ * The {@link #main(String[])} method of this class sets up a WebDriver, loads
+ * a test run description from disk, and executes the test run which includes
+ * loading URL's and running rule sets on their content.
  * 
  * @author creswick
  * 

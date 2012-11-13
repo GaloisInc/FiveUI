@@ -25,6 +25,11 @@ import java.io.InputStreamReader;
 
 import com.google.common.io.CharStreams;
 
+/**
+ * Provides helper functions for reading files from disk.
+ * 
+ * @author creswick
+ */
 public class Utils {
 
     public static String readFile(String fileName) throws IOException {

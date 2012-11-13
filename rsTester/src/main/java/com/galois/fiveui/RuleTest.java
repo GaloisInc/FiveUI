@@ -27,6 +27,15 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultiset;
 
 /**
+ * A RuleTest object encapsulates the following data: 
+ * <ol>
+ *   <li> a URI on which to run rules, accessed using {@code getUri}</li>
+ *   <li> a RuleSet object encapsulating the rule to run on the URI</li>
+ *   <li> a rule ID, signifying we expect results for the corresponding rule
+ *        (defined in the rule set) of the type(s) given in the oracle</li>
+ *   <li> an oracle, the expected results of the test}</li>
+ * </ol>
+ *
  * @author creswick
  *
  */
