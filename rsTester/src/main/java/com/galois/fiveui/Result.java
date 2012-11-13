@@ -19,20 +19,58 @@ package com.galois.fiveui;
 
 import org.openqa.selenium.WebDriver;
 
+/**
+ * A Result object encapsulates the result of running a rule set check on a URI
+ * with a WebDriver. Results are organized into four categories:
+ * <ol>
+ *   <li> exception: an uncaught exception occurred while running the rule set</li>
+ *   <li> pass: the expected result was returned</li>
+ *   <li> error: an unexpected result was returned</li>
+ *   <li> warning: a warning was returned, currently this type is unused</li>
+ * </ol>
+ */
 public class Result {
 
+	/**
+	 * Result constructor, returns an "exception" type result.
+	 * 
+	 * @param driver WebDriver the result came from
+	 * @param res description of the result
+	 * @return a Result object
+	 */
     public static Result exception(WebDriver driver, String res) {
         return new Result(ResType.Exception, driver, res);
     }
     
+    /**
+	 * Result constructor, returns a "pass" type result.
+	 * 
+	 * @param driver WebDriver the result came from
+	 * @param res description of the result
+	 * @return a Result object
+	 */
     public static Result pass(WebDriver driver, String res) {
         return new Result(ResType.Pass, driver, res);
     }
     
+    /**
+	 * Result constructor, returns an "error" type result.
+	 * 
+	 * @param driver WebDriver the result came from
+	 * @param res description of the result
+	 * @return a Result object
+	 */
     public static Result error(WebDriver driver, String res) {
         return new Result(ResType.Error, driver, res);
     }
 
+    /**
+	 * Result constructor, returns a "warning" type result.
+	 * 
+	 * @param driver WebDriver the result came from
+	 * @param res description of the result
+	 * @return a Result object
+	 */
     public static Result warning(WebDriver driver, String res) {
         return new Result(ResType.Warning, driver, res);
     }

@@ -18,6 +18,15 @@
 
 package com.galois.fiveui;
 
+/**
+* Results are organized into categories as follows:
+* <ol>
+*   <li> exception: an uncaught exception occurred while running the rule set</li>
+*   <li> pass: the expected result was returned</li>
+*   <li> error: an unexpected result was returned</li>
+*   <li> warning: a warning was returned, currently this type is unused</li>
+* </ol>
+*/
 public enum ResType {
     Pass, Error, Warning, Exception
 }

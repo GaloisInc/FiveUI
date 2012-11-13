@@ -146,6 +146,17 @@ public class RSTestDescription {
         return _ruleSetLoc;
     }
 
+    /**
+     * Combines the URI in each test from the rule set test description with
+     * each rule that accompanies it.
+     * <p>
+     * The result is a list of RuleTest objects
+     * that each contain: a URI and rule set (to be run), a rule ID and list
+     * of results the we expect from the run.
+     * 
+     * @return a list of RuleTest objects
+     * @throws IOException
+     */
     public ImmutableList<RuleTest> getTests() throws IOException {
         Builder<RuleTest> builder = ImmutableList.builder();
         for (URIMap uriMap : _tests) {
