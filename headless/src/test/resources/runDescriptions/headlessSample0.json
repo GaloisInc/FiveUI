@@ -1,0 +1,4 @@
+[{
+  'url': 'http://testhost',
+  'ruleSet': '../ruleSets/emptyRuleSet.json'
+}]

@@ -1,0 +1,4 @@
+[{
+  'url': 'http://www.cnn.com',
+  'ruleSet': '../ruleSets/headingGuidelines.json'
+}]
