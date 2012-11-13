@@ -11,7 +11,10 @@
              { 'name': "Foregrounds"
              , 'description': "Foreground colors should be in the set:"+
                               "'#0, #FFFFFF, #3D3D3D, #B4B4B4, #4E4E4E, #C2C2C2, #F7F7F7"
-             , 'rule': fiveui.color.colorCheck(':visible', [ '#0', '#000000', '#FFFFFF', '#3D3D3D', '#B4B4B4', '#4E4E4E', '#C2C2C2', '#F7F7F7' ])
+             , 'rule': function () {
+               (fiveui.color.colorCheck(':visible', [ '#0', '#000000', '#FFFFFF', '#3D3D3D', '#B4B4B4', '#4E4E4E', '#C2C2C2', '#F7F7F7' ]))();
+             },
+               'id': 1
              }
           ]
 }
