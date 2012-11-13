@@ -24,26 +24,68 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
 
+/**
+ * Test parsing of RuleSet and Rule objects using the built-in parse methods
+ * of both classes.
+ * <p>
+ * Currently there are tests for parsing rule sets containing 0, 1, and 2
+ * rules.
+ *
+ */
 public class RuleSetTest {
+	
+   /**
+    * Test parsing a rule set containing no rules.
+    * 
+    * @throws AssertionError
+    */
    @Test
-   public void testParseNoFns() {
+   public void testParseNoRule() {
       testParse("the name", "a descr", "[]", new ArrayList<Rule>());
    }
    
+   /**
+    * Test parsing a rule set containing one rule.
+    * 
+    * @throws AssertionError
+    */
    @Test
-   public void testParseOneFn() {
+   public void testParseOneRule() {
 	  String str = "[{'name':'a', 'description':'b', 'id':1, 'rule':function () {}}]";
       List<Rule> rules = ImmutableList.of(new Rule("a", "b", "function () {}", 1));
       testParse("the name", "a descr", str, rules);
    }
    
+   /**
+    * Test parsing a rule set containing two distinct rules.
+    * 
+    * @throws AssertionError
+    */
+   @Test
+   public void testParseTwoRule() {
+	  String str = "[{'name':'a', 'description':'b', 'id':1, 'rule':function () {}},"
+			     + " {'name':'c', 'description':'d', 'id':2, 'rule':function () {}}]";
+      List<Rule> rules = ImmutableList.of(new Rule("a", "b", "function () {}", 1),
+    		                              new Rule("c", "d", "function () {}", 2));
+      testParse("the name", "a descr", str, rules);
+   }
+   
+   /**
+    * Helper function for parsing unit tests.
+    * <p>
+    * testParse takes a String name, description, and list of rules and constructs
+    * a RuleSet object using RuleSet.parse. This object is compared to the given
+    * oracle.
+    * 
+    * @param name name of the rule set
+    * @param desc description of the ruleset
+    * @param rules a string representing a list of rules
+    * @param rulesOracle list of Rule objects
+    */
    private void testParse(String name, String desc, String rules, List<Rule> rulesOracle) {
       RuleSet rs = RuleSet.parse("{ 'name': '" +name+"'" +
                     ", 'description': '"+desc+"'" +
