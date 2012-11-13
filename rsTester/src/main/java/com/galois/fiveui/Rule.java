@@ -36,16 +36,33 @@ public class Rule {
             };
 
     /**
-     * Parse a string representation of a Rule into a plain old Java object.
+     * Parse a HashMap representation of a Rule into a plain old Java object.
+     * The input object must have keys: name, description, and rule. The 'id'
+     * key is optional.
      * 
-     * @param str
-     * @return
+     * @param obj a HashMap to convert
+     * @return a Rule object
+     * @throws IllegalArgumentException
      */
-    public static final Rule parse(final HashMap<String, Object> res) {
-        String name = (String) res.get("name");
-        String desc = (String) res.get("description");
-        String rule = res.get("rule").toString();
-        int id = ((Long)res.get("id")).intValue();
+    public static final Rule parse(final HashMap<String, Object> obj) {
+        if (!(obj.containsKey("name") &&
+        	   obj.containsKey("description") &&
+        	   obj.containsKey("rule")))
+        	throw new IllegalArgumentException("Rule.parse:"
+        	        + "failed to find all required Rule fields (name, description, and rule) in rule description:\n"
+        			+ obj.toString());
+       
+    	String name = (String) obj.get("name");
+        String desc = (String) obj.get("description");
+        String rule = obj.get("rule").toString();
+        int id;
+        if (obj.containsKey("id")) {
+        	id = ((Long)obj.get("id")).intValue();
+        } else {
+        	System.err.println("Warning: rule " + name + " has no ID #, using ID 0");
+        	id = 0;
+        } 
+        
         return new Rule(name, desc, rule, id);
     }
 

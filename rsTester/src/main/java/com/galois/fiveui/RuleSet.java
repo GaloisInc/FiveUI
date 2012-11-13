@@ -45,8 +45,8 @@ public class RuleSet {
      * 
      * TODO Extract out a js evaluation env.
      * 
-     * @param str
-     * @return
+     * @param str string representing a rule set
+     * @return a RuleSet object
      */
     @SuppressWarnings("unchecked")
     public static final RuleSet parse(String str) {
@@ -55,21 +55,33 @@ public class RuleSet {
         String desc = "";
         List<Rule> rules = Lists.newArrayList();
         HashMap<String, Object> res = null;
+        String stmt = "var x = " + str + "; return x;";
         try {
             driver.get("http://localhost:8000/test.html");
-            res =
-                    (HashMap<String, Object>) driver.executeScript("var x = "
-                            + str + "; return x;");
+            res = (HashMap<String, Object>) driver.executeScript(stmt);
             name = (String) res.get("name");
             desc = (String) res.get("description");
             List<HashMap<String, Object>> rawRules =
                     (List<HashMap<String, Object>>) res.get("rules");
 
             rules = Lists.transform(rawRules, Rule.PARSE);
+        } catch (Exception e) {
+        	System.err.println("RuleSet.parse: Exception parsing rule set\n" +
+                               e.getMessage());
+        	return RuleSet.empty();
         } finally {
             driver.quit();
         }
-        return new RuleSet(name, desc, ImmutableList.copyOf(rules));
+        
+        RuleSet ruleSet;
+        try {
+        	ruleSet = new RuleSet(name, desc, ImmutableList.copyOf(rules));
+        } catch (Exception e) {
+        	System.err.println("RuleSet.parse: Exception occured while constructing rule set \"" + name + "\"\n"
+        			+ e.getMessage());
+        	ruleSet = RuleSet.empty();
+        }
+        return ruleSet;
     }
 
     private final String _name;
@@ -81,6 +93,16 @@ public class RuleSet {
         _name = name;
         _description = description;
         _rules = immutableList;
+    }
+    
+    /**
+     * Construct a new empty rule set.
+     * 
+     * @return a new empty RuleSet object
+     */
+    public static RuleSet empty() {
+    	List<Rule> rules = Lists.newArrayList();
+    	return new RuleSet("", "", ImmutableList.copyOf(rules));
     }
 
     public String getName() {
