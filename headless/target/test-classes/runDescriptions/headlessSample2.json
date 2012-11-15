@@ -1,9 +1,0 @@
-[
-{
-  'url': 'http://testhost1',
-  'ruleSet': '../ruleSets/emptyRuleSet.json'
-},
-{
-  'url': 'http://testhost2',
-  'ruleSet': '../ruleSets/headingGuidelines.json'
-}]
