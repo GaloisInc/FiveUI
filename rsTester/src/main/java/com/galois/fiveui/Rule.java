@@ -45,12 +45,13 @@ public class Rule {
      * @throws IllegalArgumentException
      */
     public static final Rule parse(final HashMap<String, Object> obj) {
-        if (!(obj.containsKey("name") &&
-        	   obj.containsKey("description") &&
-        	   obj.containsKey("rule")))
+        if ((obj !=null) && 
+           !(obj.containsKey("name") &&
+        	 obj.containsKey("description") &&
+        	 obj.containsKey("rule")))
         	throw new IllegalArgumentException("Rule.parse:"
         	        + "failed to find all required Rule fields (name, description, and rule) in rule description:\n"
-        			+ obj.toString());
+        			+ ((obj == null) ? "null" : obj.toString()));
        
     	String name = (String) obj.get("name");
         String desc = (String) obj.get("description");
