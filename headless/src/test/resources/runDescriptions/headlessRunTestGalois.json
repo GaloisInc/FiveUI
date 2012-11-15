@@ -3,7 +3,6 @@
   'crawlType' :    'none',
   'runs': [
     { 'url': 'http://corp.galois.com', 'ruleSet': 'colorRulesRF.json' },
-    { 'url': 'http://corp.galois.com', 'ruleSet': 'emptyHeadings.json' },
     { 'url': 'http://corp.galois.com', 'ruleSet': 'fontRules.json' },
     { 'url': 'http://corp.galois.com', 'ruleSet': 'headingGuidelines.json' },
     { 'url': 'http://corp.galois.com', 'ruleSet': 'imageRules.json' }

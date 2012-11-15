@@ -43,8 +43,8 @@ public class HeadlessRunner {
      * @throws IOException
      * @throws URISyntaxException
      */
-    public static void main(final String[] args) throws IOException,
-            URISyntaxException {
+    public static void main(final String[] args)
+    	throws IOException, URISyntaxException {
 
         if (0 == args.length) {
             printHelp();
@@ -60,7 +60,7 @@ public class HeadlessRunner {
                     ImmutableList<Result> results = invokeHeadlessRun(driver, descr);
 
                     for (Result result : results) {
-                        System.out.println(result);
+                        System.out.println(result.toString());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -76,7 +76,7 @@ public class HeadlessRunner {
 	 * HeadlessRunDescription and returns the list of results. If the file cannot
 	 * be read, an empty list is returned.
 	 *  
-	 * @param driver webdrive to use for the run
+	 * @param driver webdriver to use for the run
 	 * @param descr a headless run description object
 	 */
 	private static ImmutableList<Result> invokeHeadlessRun(WebDriver driver, HeadlessRunDescription descr) {
