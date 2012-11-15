@@ -63,7 +63,7 @@ public class Result {
     public static Result error(WebDriver driver, String res) {
         return new Result(ResType.Error, driver, res);
     }
-
+    
     /**
 	 * Result constructor, returns a "warning" type result.
 	 * 
@@ -98,8 +98,12 @@ public class Result {
         return _driver;
     }
 
+    /**
+     * Stringify the result, returning the type, shortened driver name, and
+     * full description.
+     */
     @Override
     public String toString() {
-        return getType() + " - " + _driver + ": " + getDesc();
+        return getType() + " - " + _driver.toString().split(":")[0] + ": " + getDesc();
     }
 }
