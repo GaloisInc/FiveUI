@@ -1,7 +1,7 @@
 { "name": "Header Rule Set"
 , "description": "Simple rules about HTML headers."
 , "rules":
-  [ { "name": "Disallow Empty Headers"
+  [ { "id": 1, "name": "Disallow Empty Headers"
     , "description": "Heading elements should contain text."
     , "rule": function() {
         fiveui.query(':header').each(function(ix, elt) {

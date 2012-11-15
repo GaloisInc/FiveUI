@@ -11,7 +11,7 @@
 { 'name': "Image exists and links back to URL"
 , 'description': "A specific image file should be included in the page and link back to a specific URL"
 , 'rules': [
-             { 'image-appears': "Image appears on page"
+             { 'id': 1, 'name': "Image appears on page"
              , 'description': "A specific image should appear somewhere on the page."
              , 'rule':
              function() {
@@ -22,7 +22,7 @@
                  }
              }
              },
-             { 'image-links-back': "Image links back"
+             { 'id': 2, 'name': "Image links back"
              , 'description': "Each instance of a specific image must link back to a specific URL"
              , 'rule':
              function() {
