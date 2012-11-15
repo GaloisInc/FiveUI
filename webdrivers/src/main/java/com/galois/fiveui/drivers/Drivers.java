@@ -37,13 +37,31 @@ public class Drivers {
     private static final String CD_BINARY_NAME = "chromedriver";
     private static final String CD_BASE_PATH = mkPath("..", "tools",
             "seleniumChromeDrivers");
-
+    
+    private static final String FIVEUI_ROOT_PATH = "FIVEUI_ROOT_PATH";
+    private static final String defaultFiveuiRootPath = "../";
+    private static final String firefoxProfilePath = "profiles/firefox";
+    private static final String chromeProfilePath = "profiles/chrome";
+    private static final String firefoxExtensionPath = "contexts/fiveui.xpi";
+    private static final String chromeExtensionPath = "contexts/fiveui.crx";
+    
+    /**
+     * Query the OS environment for the FiveUI root path, or return a default.
+     */
+    public static String getRootPath() {
+    	String rootPath = System.getProperty(FIVEUI_ROOT_PATH);
+    	return (null != rootPath) ? rootPath + File.separator : defaultFiveuiRootPath;
+    }
+    
     public static FirefoxDriver buildFFDriver() {
         // Extracted into a method so we can set up profiles
 
-        File profileDir = new File("../profiles/firefox/");
+    	String rootPath = getRootPath();
+    	
+        File profileDir = new File(rootPath+firefoxProfilePath);
         FirefoxProfile profile = new FirefoxProfile(profileDir);
-        File fiveuiXpi = new File("../contexts/fiveui.xpi");
+        
+        File fiveuiXpi = new File(rootPath+firefoxExtensionPath);
         try {
             profile.addExtension(fiveuiXpi);
         } catch (IOException e) {
@@ -69,17 +87,20 @@ public class Drivers {
     }
 
     public static ChromeDriver buildChromeDriver() {
-        // set the chrome driver path:
+        
+    	String rootPath = getRootPath();
+    	
+    	// set the chrome driver path:
         String chromeDriverPth =
                 mkPath(CD_BASE_PATH, osNameArch(), CD_BINARY_NAME);
         System.setProperty("webdriver.chrome.driver", chromeDriverPth);
 
         // setting the path to chrome also seems to cause issues:
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=../profiles/chrome"); // ,
+        options.addArguments("--user-data-dir=" + rootPath + chromeProfilePath); // ,
                                                                     // "--enable-logging",
                                                                     // "--v=1");
-        options.addExtensions(new File("../contexts/fiveui.crx"));
+        options.addExtensions(new File(rootPath + chromeExtensionPath));
 
         String chromeBinaryPath = System.getProperty(CHROME_BIN_PATH);
         if (null == chromeBinaryPath) {

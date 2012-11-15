@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableList.Builder;
 import com.galois.fiveui.Result;
 import com.galois.fiveui.RuleSet;
 import com.galois.fiveui.Utils;
+import com.galois.fiveui.drivers.Drivers;
 
 /**
  * BatchRunner is initialized with a WebDriver object. It provides an interface
@@ -40,19 +41,36 @@ public class BatchRunner {
 
     private final WebDriver _driver;
     private final JavascriptExecutor _exe;
+    private final String _root; // FiveUI root directory
 
+    // Hard coded JS files, relative to the FiveUI root directory.
+    private static final String DATA_DIR = "contexts/data/";
+    private static final String J_QUERY_JS = DATA_DIR
+            + "lib/jquery/jquery-1.7.1.min.js";
+    private static final String PRELUDE_JS = DATA_DIR
+            + "fiveui/injected/prelude.js";
+    private static final String MD5_JS = DATA_DIR
+            + "lib/jshash/md5.js";
+    private static final String JQUERY_PLUGIN_JS = DATA_DIR
+            + "fiveui/injected/jquery-plugins.js";
+    private static final String SEL_INJECTED_COMPUTE_JS = DATA_DIR + 
+            "/fiveui/selenium/selenium-injected-compute.js";
+
+    private static final String INJECTED_COMPUTE_JS = DATA_DIR + 
+            "/fiveui/injected/fiveui-injected-compute.js";
     
     /**
      * BatchRunner constructor, stores the given WebDriver. 
+     * 
+     * TODO DRY
      *
      * @param driver the WebDriver object to run tests with
      */
     public BatchRunner(WebDriver driver) {
         _driver = driver;
         _exe = (JavascriptExecutor) _driver;
+        _root = Drivers.getRootPath();
     }
-
-    
 
     /**
      * Run a headless run description, returning the raw results: 'PASS' if
@@ -80,7 +98,6 @@ public class BatchRunner {
 	            builder.add(Result.exception(_driver, "Could not run rule: "+errStr));
 	        }
         }
-        
         return builder.build();
     }
     
@@ -101,7 +118,9 @@ public class BatchRunner {
     private ImmutableList<Result> runRule(final RuleSet ruleSet) throws IOException {
         String contentScript = wrapRule(ruleSet);
         Builder<Result> builder = ImmutableList.builder();
-
+        String state = "url=" +  _driver.getCurrentUrl() + 
+                ", ruleSet=\"" + ruleSet.getName() + "\"";
+        
         _exe.executeScript(contentScript);
         
         try {
@@ -115,68 +134,56 @@ public class BatchRunner {
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
             System.err.println("Exception running rule: " + res);
-            builder.add(Result.exception(_driver, (String) res));
+            builder.add(Result.exception(_driver, (String) res + ", state: " + state));
             return builder.build();
         } else {
 
             try {
                 @SuppressWarnings({ "unchecked", "rawtypes" })
                 List<Map<String, Map<String, String>>> results = (List) res;
-
+                
                 if (0 == results.size()) {
-                    builder.add(Result.pass(_driver, "passed"));
+                    builder.add(Result.pass(_driver, "passed: " + state));
                 }
 
                 for (Map<String, Map<String, String>> r : results) {
                     Map<String, String> problem = r.get("payload");
                     
-                    builder.add(Result.error(_driver, problem.get("descr")));
+                    builder.add(Result.error(_driver, "problem: " + 
+                                             problem.toString() +
+                                             ", state: " + state));
                 }
 
             } catch (ClassCastException e) {
                 // An unexpected error happened:
                 builder.add(Result.exception(_driver, "Unexpected object returned: "
-                        + res));
+                        + res + ", state: " + state));
                 e.printStackTrace();
             }
         }
         return builder.build();
     }
-
- // Relative to the batch directory.
-    private static final String DATA_DIR = "../contexts/data/";
-    private static final String J_QUERY_JS = DATA_DIR
-            + "lib/jquery/jquery-1.7.1.min.js";
-    private static final String PRELUDE_JS = DATA_DIR
-            + "fiveui/injected/prelude.js";
-    private static final String MD5_JS = DATA_DIR
-            + "lib/jshash/md5.js";
-    private static final String JQUERY_PLUGIN_JS = DATA_DIR
-            + "fiveui/injected/jquery-plugins.js";
-    private static final String SEL_INJECTED_COMPUTE_JS = DATA_DIR + 
-            "/fiveui/selenium/selenium-injected-compute.js";
-
-    private static final String INJECTED_COMPUTE_JS = DATA_DIR + 
-            "/fiveui/injected/fiveui-injected-compute.js";
-    
+   
     /**
      * Build up the complete content script needed to run the rule.
      * <p>
      * The string returned contains all the javascript dependencies required
      * to run a rule set and the function that is injected into the page which
-     * executes the rule set.
+     * executes the rule set. 
+     * 
+     * TODO DRY
      * 
      * @param ruleSet a RuleSet object
      * @throws IOException
      */
     private String wrapRule(RuleSet ruleSet) throws IOException {
         String injected = "";
-        injected += Utils.readFile(SEL_INJECTED_COMPUTE_JS);
-        injected += Utils.readFile(J_QUERY_JS);
-        injected += Utils.readFile(PRELUDE_JS);
-        injected += Utils.readFile(MD5_JS);
-        injected += Utils.readFile(JQUERY_PLUGIN_JS);
-        injected += Utils.readFile(INJECTED_COMPUTE_JS);
+        injected += Utils.readFile(_root + SEL_INJECTED_COMPUTE_JS);
+        injected += Utils.readFile(_root + J_QUERY_JS);
+        injected += Utils.readFile(_root + PRELUDE_JS);
+        injected += Utils.readFile(_root + MD5_JS);
+        injected += Utils.readFile(_root + JQUERY_PLUGIN_JS);
+        injected += Utils.readFile(_root + INJECTED_COMPUTE_JS);
         
         injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
         
@@ -191,5 +198,4 @@ public class BatchRunner {
     private void loadURL(String url) {
     	_driver.get(url);
     }
-   
 }
