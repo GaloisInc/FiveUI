@@ -22,7 +22,7 @@ import edu.uci.ics.crawler4j.util.IO;
 public class CrawlTest {
 	
 	// TODO need a system independent way of getting the resources path
-	private static String resourceDir = "/Users/bjones/galois/FiveUI/headless/src/test/resources/crawlTest/";
+	private static String resourceDir = "src/test/resources/crawlTest/";
 	private static Logger logger = Logger.getLogger(CrawlTest.class);
 	private static NanoHTTPD httpServer = null;
 	
