@@ -34,7 +34,8 @@ public class HeadlessTest {
         String jsonFileName = RUN_DESCRIPTION_DIR + "headlessSample0.json";
         String ruleSetLoc = 
                 RUN_DESCRIPTION_DIR + "../ruleSets/emptyRuleSet.json";
-        RuleSet ruleSetOracle = RuleSet.parse(Utils.readFile(ruleSetLoc));
+        String ruleContent = Utils.readFile(ruleSetLoc);
+        RuleSet ruleSetOracle = RuleSet.parse(ruleContent);
         HeadlessAtom headlessAtomOracle = 
                 new HeadlessAtom("http://testhost", ruleSetOracle);  
         HeadlessRunDescription oracle = 
