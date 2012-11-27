@@ -89,5 +89,15 @@
     	<artifactId>crawler4j</artifactId>
     	<version>3.3</version>
     </dependency>
+    <dependency>
+    	<groupId>org.apache.httpcomponents</groupId>
+    	<artifactId>httpclient</artifactId>
+    	<version>4.2.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.httpcomponents</groupId>
+    	<artifactId>httpcore</artifactId>
+    	<version>4.2.1</version>
+    </dependency>
   </dependencies>
 </project>
