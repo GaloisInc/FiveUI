@@ -17,6 +17,8 @@ import org.apache.log4j.BasicConfigurator;
 
 import com.google.common.io.Files;
 
+import edu.uci.ics.crawler4j.util.IO;
+
 public class CrawlTest {
 	
 	// TODO need a system independent way of getting the resources path
@@ -49,14 +51,15 @@ public class CrawlTest {
 		httpServer.stop();
 	}
 	
-	// Requires internet access
+	// Requires Internet access
 	@Test
 	public void corpDotGaloisCrawlTest() {
+		File tmpPath = Files.createTempDir();
 		BasicCrawlerController con = 
 				new BasicCrawlerController("http://corp.galois.com",
 						                   "http://corp.galois.com", 
 						                   2, 5, 1000, 1,
-						                   "/tmp/com.galois.fiveui.headless/test");
+						                   tmpPath.getAbsolutePath());
 		List<String> urls = null;
 		try {
 			urls = con.go();
@@ -64,6 +67,8 @@ public class CrawlTest {
 		} catch (Exception e) {
 			Assert.assertTrue("failed to complete webcrawl", false);
 			e.printStackTrace();
+		} finally {
+			IO.deleteFolder(tmpPath);
 		}
 		
 		Assert.assertEquals((urls != null) && (urls.size() == 5), true);
@@ -97,12 +102,12 @@ public class CrawlTest {
 		try {
 			logger.info("Starting webcrawl ...");
 			urls = con.go();
-			logger.info("\nRETURN -- " + urls.toString() + "\n");
+			logger.info("RETURN -- " + urls.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.assertTrue("failed to run webcrawler", false);
 		} finally {
-			// delete tmpPath?
+			IO.deleteFolder(tmpPath);
 		}
 		
 		// assert that we got oracle number of URLs

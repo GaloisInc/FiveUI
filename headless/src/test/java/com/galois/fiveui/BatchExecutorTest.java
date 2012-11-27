@@ -61,7 +61,7 @@ public class BatchExecutorTest {
 	}
 	
 	/**
-	 * This unit test requires internet access to http://www.cnn.com
+	 * This unit test requires Internet access to http://www.cnn.com
 	 * 
 	 * @throws IOException 
 	 * @throws FileNotFoundException

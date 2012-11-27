@@ -80,7 +80,12 @@ public class BasicCrawlerController {
 		 * is -1 for unlimited number of pages
 		 */
 		config.setMaxPagesToFetch(this.maxFetch);
-
+		
+		/*
+		 * Delete the temporary crawl storage after we're done.
+		 */
+		config.setResumableCrawling(false);
+		
 		/*
 		 * Instantiate the controller for this crawl.
 		 */
@@ -89,7 +94,7 @@ public class BasicCrawlerController {
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
-		// add a seed url
+		// add a seed URL
 		controller.addSeed(this.seed);
 
 		/*
