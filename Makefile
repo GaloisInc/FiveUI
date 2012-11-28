@@ -21,6 +21,8 @@ REPO_ROOT=.
 CHROME_EXTDIR=contexts
 FF_EXTDIR=contexts
 TEST_RUNNER_DIR=testrunner
+HEADLESS_DIR=headless
+RSTESTER_DIR=rsTester
 DOC_DIR=doc
 
 UNAME := $(shell uname)
@@ -29,7 +31,7 @@ MVN_EXE=`which mvn`
 # MVN_EXE=/usr/local/apache-maven-3.0.4/bin/mvn
 else
 # Non-Linux platfoms not yet supported
-MVN_EXE=""
+MVN_EXE=`which mvn`
 endif
 
 define profile
@@ -66,8 +68,10 @@ $(eval $(call profile,firefox))
 
 $(eval $(call profile,chrome))
 
-test: chromeExtension profile-chrome profile-firefox
+test: chromeExtension profile-chrome profile-firefox ffExtension
 	cd $(TEST_RUNNER_DIR) && $(MVN_TEST_CMD)
+	cd $(RSTESTER_DIR) && $(MVN_TEST_CMD)
+	cd $(HEADLESS_DIR) && $(MVN_TEST_CMD)
 
 .PHONY: doc
 doc: doc/jsdoc doc/manual
