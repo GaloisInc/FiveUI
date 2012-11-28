@@ -53,7 +53,6 @@ public class CrawlTest {
 	
 	// Requires Internet access
 	// @Test
-    @Ignore
 	public void corpDotGaloisCrawlTest() {
 		File tmpPath = Files.createTempDir();
 		BasicCrawlerController con = 
