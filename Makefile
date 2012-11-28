@@ -81,7 +81,7 @@ $(eval $(call pkg,rsTester))
 $(eval $(call pkg,headless))
 
 
-test: chromeExtension profile-chrome profile-firefox ffExtension pkg-testrunner pkg-rstester pkg-headless
+test: chromeExtension profile-chrome profile-firefox ffExtension pkg-rsTester
 	cd $(TEST_RUNNER_DIR) && $(MVN_TEST_CMD)
 	cd $(RSTESTER_DIR) && $(MVN_TEST_CMD)
 	cd $(HEADLESS_DIR) && $(MVN_TEST_CMD)
