@@ -48,6 +48,14 @@ clean-profile-$1:
 clean: clean-profile-$1
 endef
 
+# package/install various maven sub-projects
+define pkg
+.PHONY: pkg-$1
+pkg-$1:
+	cd $1; xvfb-run -a $(MVN_EXE) install
+
+endef
+
 MVN_TEST_CMD=xvfb-run -a $(MVN_EXE) test
 
 all: chromeExtension
@@ -68,7 +76,12 @@ $(eval $(call profile,firefox))
 
 $(eval $(call profile,chrome))
 
-test: chromeExtension profile-chrome profile-firefox ffExtension
+$(eval $(call pkg,rsTester))
+
+$(eval $(call pkg,headless))
+
+
+test: chromeExtension profile-chrome profile-firefox ffExtension pkg-testrunner pkg-rstester pkg-headless
 	cd $(TEST_RUNNER_DIR) && $(MVN_TEST_CMD)
 	cd $(RSTESTER_DIR) && $(MVN_TEST_CMD)
 	cd $(HEADLESS_DIR) && $(MVN_TEST_CMD)
