@@ -20,8 +20,15 @@
  */
 package com.galois.fiveui;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.BindException;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
@@ -41,10 +48,28 @@ import junit.framework.Assert;
 public class BatchExecutorTest {
 
 	private static final String RUN_DESCRIPTION_DIR = "src/test/resources/runDescriptions/";
+	private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchExecutorTest");
+	private static NanoHTTPD httpServer;
 	
-	@Test
-	public void simpleTest() {
-		Assert.assertEquals("Booleans are not equal.", true, true);
+	@BeforeClass
+	public static void setupTests() {
+		BasicConfigurator.configure();
+	    // start up local web server for crawl tests
+		File dir = new File(".");
+		logger.info("Starting NanoHTTPD webserver in " + dir.getAbsolutePath() + " on port 8000 ...");
+		try {
+			httpServer = new NanoHTTPD(8000, dir);
+		} catch (BindException e) {
+			logger.debug("assuming that local web server is already running");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			Assert.assertTrue("failed to start NanoHTTPD in current directory " + dir.getAbsolutePath(), false);
+		}
+	}
+	
+	@AfterClass
+	public static void teardown() {
+		httpServer.stop();
 	}
 	
 	/**
@@ -66,7 +91,7 @@ public class BatchExecutorTest {
 	 * @throws IOException 
 	 * @throws FileNotFoundException
 	 */
-	@Test
+	@Ignore
 	public void headlessRunTestCNN() throws IOException {
 		String jsonFileName = RUN_DESCRIPTION_DIR + "headlessRunTestCNN.json";
 		testHeadlessRun(jsonFileName);
@@ -78,7 +103,7 @@ public class BatchExecutorTest {
 	 * @throws IOException 
 	 * @throws FileNotFoundException
 	 */
-	@Test
+	@Ignore
 	public void headlessRunTestMil() throws IOException {
 		String jsonFileName = RUN_DESCRIPTION_DIR + "headlessRunTestMil.json";
 		testHeadlessRun(jsonFileName);
@@ -96,14 +121,14 @@ public class BatchExecutorTest {
 			HeadlessRunDescription descr = HeadlessRunDescription.parse(fn);
 			BatchRunner runner = new BatchRunner(driver);              // setup the batch runner
 			ImmutableList<Result> results = runner.runHeadless(descr); // excecute the run
-			System.out.println(results.toString());                    // print out results
+			logger.info(results.toString());                    // print out results
 		} catch (Exception e) {
-			System.err.println("testHeadlessRun: exception caught while running a headless run description");
+			logger.error("testHeadlessRun: exception caught while running a headless run description");
 			flag = false;
 		} finally {
 			driver.quit();
 		}
-		assert(flag);
+		Assert.assertTrue(flag);
 	}
 
 }
