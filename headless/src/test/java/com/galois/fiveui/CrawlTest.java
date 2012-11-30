@@ -23,7 +23,7 @@ public class CrawlTest {
 	
 	// TODO need a system independent way of getting the resources path
 	private static String resourceDir = "src/test/resources/crawlTest/";
-	private static Logger logger = Logger.getLogger(CrawlTest.class);
+	private static Logger logger = Logger.getLogger("com.galois.fiveui.CrawlTest");
 	private static NanoHTTPD httpServer = null;
 	
 	@BeforeClass
