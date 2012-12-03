@@ -5,6 +5,7 @@ package com.galois.fiveui;
 
 import java.io.File;
 import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -38,21 +39,6 @@ public class HeadlessAtom {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
-	
-	/**
-     * Parse a JSON file into a HeadlessAtom
-     * 
-     * @param str The string to parse
-     * @return A populated HeadlessAtom object.
-     */
-//    public static HeadlessAtom parse(String str) 
-//            throws FileNotFoundException {
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(HeadlessAtom.class, 
-//                new HeadlessAtom.Deserializer());
-//        Gson gson = gsonBuilder.create();
-//        return gson.fromJson(str, HeadlessAtom.class);
-//    }
 
     /**
      * Construct a HeadlessAtom from a JsonObject
@@ -78,23 +64,6 @@ public class HeadlessAtom {
         
         return new HeadlessAtom(url, parsed);
     }
-    
-//    public static class Deserializer implements JsonDeserializer<HeadlessAtom> {
-//
-//        public Deserializer() {}
-//
-//        public HeadlessAtom deserialize(JsonElement json, Type typeOfT,
-//                JsonDeserializationContext context) throws JsonParseException {
-//            JsonObject obj = json.getAsJsonObject();
-//            try {
-//				return HeadlessAtom.fromJsonObject(obj);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//				// TODO bad stop gap
-//				return new HeadlessAtom(null, null);
-//			}
-//        }
-//    }
 	
 	@Override
     public int hashCode() {
