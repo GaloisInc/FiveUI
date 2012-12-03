@@ -8,11 +8,14 @@ import edu.uci.ics.crawler4j.url.WebURL;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author bjones
  */
 public class BasicCrawler extends WebCrawler {
 
+		private static Logger logger = Logger.getLogger("com.galois.fiveui.BasicCrawler");
         private final static Pattern FILTERS = Pattern.compile(
         		                                 ".*(\\.(css|js|bmp|gif|jpe?g"
                                                + "|png|tiff?|mid|mp2|mp3|mp4"
@@ -45,7 +48,7 @@ public class BasicCrawler extends WebCrawler {
 
         /**
          * This function is called when a page is fetched and ready to be processed
-         * by your program.
+         * by the program.
          */
         @Override
         public void visit(Page page) {
@@ -56,12 +59,12 @@ public class BasicCrawler extends WebCrawler {
                 String subDomain = page.getWebURL().getSubDomain();
                 String parentUrl = page.getWebURL().getParentUrl();
 
-                System.out.println(" - Docid: " + docid);
-                System.out.println(" - URL: " + url);
-                System.out.println(" - Domain: '" + domain + "'");
-                System.out.println(" - Sub-domain: '" + subDomain + "'");
-                System.out.println(" - Path: '" + path + "'");
-                System.out.println(" - Parent page: " + parentUrl);
+                logger.debug(" - Docid: " + docid);
+                logger.debug(" - URL: " + url);
+                logger.debug(" - Domain: '" + domain + "'");
+                logger.debug(" - Sub-domain: '" + subDomain + "'");
+                logger.debug(" - Path: '" + path + "'");
+                logger.debug(" - Parent page: " + parentUrl);
 
                 if (page.getParseData() instanceof HtmlParseData) {
                         HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
@@ -69,11 +72,11 @@ public class BasicCrawler extends WebCrawler {
                         String html = htmlParseData.getHtml();
                         List<WebURL> links = htmlParseData.getOutgoingUrls();
 
-                        System.out.println(" -- Text length: " + text.length());
-                        System.out.println(" -- Html length: " + html.length());
-                        System.out.println(" -- Number of outgoing links: " + links.size());
+                        logger.debug(" -- Text length: " + text.length());
+                        logger.debug(" -- Html length: " + html.length());
+                        logger.debug(" -- Number of outgoing links: " + links.size());
                 }
-                System.out.println(" - =============");
+                logger.debug(" - =============");
                 
                 // append to URLs list
                 if (null != _urls) {
