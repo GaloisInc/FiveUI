@@ -39,7 +39,7 @@ public class CrawlParameters {
 		String[] l = desc.split("\\s+");
 		if (desc == "none" || l.length != 4) {
 			this.doNotCrawl = true;
-			logger.warn("setting doNotCrawl = True");
+			logger.debug("setting doNotCrawl = True");
 			return;
 		} else {	
 			this.depth = Integer.parseInt(l[0]);
