@@ -1,11 +1,25 @@
 package com.galois.fiveui;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
 import com.galois.fiveui.CrawlParameters;
+
 
 public class CrawlParametersTest {
 
+	private static Logger logger = Logger.getLogger("com.galois.fiveui.CrawlParameters");
+	
+	@Before
+	public void before() {
+		if (!Logger.getRootLogger().getAllAppenders().hasMoreElements())
+			BasicConfigurator.configure();
+		logger.info("running unit tests...");
+	}
+	
 	@Test
 	public void testConstructorFields() {
 		CrawlParameters c;
@@ -17,6 +31,12 @@ public class CrawlParametersTest {
 		}
 		Assert.assertArrayEquals(new int[]{0, 1, 100}, new int[]{c.depth, c.maxFetch, c.politeness});
 		Assert.assertEquals("foo", c.match);
+	}
+	
+	@Test
+	public void testNone() {
+		CrawlParameters c = CrawlParameters.none();
+		Assert.assertTrue(c.isNone());
 	}
 	
 	@Test
