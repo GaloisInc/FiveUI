@@ -26,74 +26,98 @@ import com.galois.fiveui.Result;
 import com.galois.fiveui.drivers.Drivers;
 import com.google.common.collect.ImmutableList;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.BasicConfigurator;
+
 /**
  * The main entry point for running headless rule set runs.
  * <p>
  * The {@link #main(String[])} method of this class sets up a WebDriver, loads
  * a headless run description from disk, and executes the run which includes
- * loading URL's and running rule sets on their content.
+ * loading seed URL's, performing a webcrawl, and running rule sets on each of
+ * the crawled pages.
  * 
  * @author bjones
  * 
  */
 public class HeadlessRunner {
 
+	private static Logger logger = Logger.getLogger("com.galois.fiveui.HeadlessRunner");
+	
     /**
-     * @param args
+     * @param args list of headless run description filenames
      * @throws IOException
      * @throws URISyntaxException
      */
     public static void main(final String[] args)
     	throws IOException, URISyntaxException {
 
+    	// Configure logging output based on configuration in the
+    	// programs.properties file
+    	Level logLevel;
+    	String logLevelProp = System.getProperty("LOG_LEVEL");
+    	if (logLevelProp == "DEBUG") 
+    		logLevel = Level.DEBUG;
+    	else if (logLevelProp == "INFO") 
+    		logLevel = Level.INFO;
+    	else if (logLevelProp == "WARN") 
+    		logLevel = Level.WARN;
+    	else if (logLevelProp == "ERROR") 
+        	logLevel = Level.ERROR;
+    	else if (logLevelProp == "FATAL") 
+            logLevel = Level.FATAL;
+    	else
+    		logLevel = Level.FATAL;
+    	
+    	BasicConfigurator.configure();
+    	Logger rootLogger = Logger.getRootLogger();
+    	rootLogger.setLevel(logLevel);
+    	
+    	// Process the command line arguments
         if (0 == args.length) {
             printHelp();
             System.exit(1);
         }
-
+ 
         for (int i = 0; i < args.length; i++) {
             String runDescFileName = args[i];
+            logger.debug("parsing headless run description: " + args[i]);
             HeadlessRunDescription descr = HeadlessRunDescription.parse(runDescFileName);
-
             for (WebDriver driver : getDrivers()) {
-                try {
-                    ImmutableList<Result> results = invokeHeadlessRun(driver, descr);
-
-                    for (Result result : results) {
-                        System.out.println(result.toString());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    driver.quit();
+            	logger.debug("invoking headless run...");
+            	BatchRunner runner = new BatchRunner(driver);
+                ImmutableList<Result> results = runner.runHeadless(descr);
+                logger.debug("runHeadless returned " + results.size() + " results");
+                System.out.println("\n=========================\n");
+                System.out.println( "         RESULTS         \n");
+                System.out.println( "=========================\n\n");
+                for (Result result : results) {
+                    System.out.println(result.toString()); // TODO add support for file output
                 }
+            	driver.quit();
             }
         }
     }
 
     /**
-	 * Helper method for executing headless runs. This method runs a single
-	 * HeadlessRunDescription and returns the list of results. If the file cannot
-	 * be read, an empty list is returned.
-	 *  
-	 * @param driver webdriver to use for the run
-	 * @param descr a headless run description object
-	 */
-	private static ImmutableList<Result> invokeHeadlessRun(WebDriver driver, HeadlessRunDescription descr) {
-		BatchRunner runner = new BatchRunner(driver);  // setup the batch runner
-		return runner.runHeadless(descr);              // execute the run
-	}
-    
+     * Build a list of webdrivers with which to run each ruleset.
+     * 
+     * @return list of initialized WebDriver objects
+     */
     private static ImmutableList<WebDriver> getDrivers() {
-        return ImmutableList.<WebDriver>of(
+    	logger.debug("building webdrivers ...");
+        ImmutableList<WebDriver> r = ImmutableList.<WebDriver>of(
                   Drivers.buildFFDriver()
              // , Drivers.buildChromeDriver()
                 );
+        logger.debug("built: " + r.toString());
+        return r;
     }
 
     private static void printHelp() {
         System.out.println(
-                "Usage: HeadlessRunner [<runDescirption.json>]");
+                "Usage: HeadlessRunner [<runDescirption.json> ...]");
     }
 
 }
