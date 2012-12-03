@@ -15,9 +15,10 @@ public class CrawlParameters {
 	public int politeness;
 	public String match;
 	public Function<String, Boolean> matchFcn;
+	public Boolean doNotCrawl;
 	
 	/**
-	 * Parse a crawl type object from a string description
+	 * Construct (parse) a crawl type object from a string description
 	 * 
 	 * A valid description is a whitespace separated list as follows:
 	 * "<depth> <maxFetch> <politeness> <start>"
@@ -28,7 +29,8 @@ public class CrawlParameters {
 	 *   <li> (politeness :: int) number of milliseconds between hits on same domain </li>
 	 *   <li> (match :: String) glob pattern to match URLs </li>
 	 *  </ol>
-	 *  or the string "none" which is equivalent to "0 1 1000 *".
+	 *  or the string "none" which is, in spirit, equivalent to "0 1 1000 *",
+	 *  but in practice the webcrawl is skipped entirely in this case.
 	 * 
 	 * @param desc a string description of the crawl type
 	 * @throws Exception 
@@ -36,22 +38,21 @@ public class CrawlParameters {
 	public CrawlParameters(String desc) {
 		String[] l = desc.split("\\s+");
 		if (desc == "none" || l.length != 4) {
-			this.depth = 0;
-			this.maxFetch = 1;
-			this.politeness = 1000;
-			this.match = "*";
-			logger.warn("setting default crawl type");
+			this.doNotCrawl = true;
+			logger.warn("setting doNotCrawl = True");
+			return;
 		} else {	
 			this.depth = Integer.parseInt(l[0]);
 			this.maxFetch = Integer.parseInt(l[1]);
 			this.politeness = Integer.parseInt(l[2]);
 			this.match = l[3];
+			this.doNotCrawl = false;
+			this.matchFcn = compileMatchFcn(this.match);
+			logger.debug("setting depth: " + this.depth);
+			logger.debug("setting maxFetch: " + this.maxFetch);
+			logger.debug("setting politeness: " + this.politeness);
+			logger.debug("setting match: " + this.match);
 		}
-		this.matchFcn = compileMatchFcn(this.match);
-		logger.debug("setting depth: " + this.depth);
-		logger.debug("setting maxFetch: " + this.maxFetch);
-		logger.debug("setting politeness: " + this.politeness);
-		logger.debug("setting match: " + this.match);
 	}
 	
 	public static Function<String, Boolean> compileMatchFcn(String glob) {
@@ -67,5 +68,9 @@ public class CrawlParameters {
 	
 	public static CrawlParameters none() {
 		return new CrawlParameters("none");
+	}
+	
+	public Boolean isNone() {
+		return this.doNotCrawl;
 	}
 }
