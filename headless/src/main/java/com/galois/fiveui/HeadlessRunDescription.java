@@ -14,6 +14,8 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.gson.Gson;
@@ -31,6 +33,8 @@ import com.google.gson.JsonParseException;
  */
 public class HeadlessRunDescription {
 
+	private static Logger logger = Logger.getLogger("com.galois.fiveui.HeadlessRunDescription");
+	private static String _crawlType;
 	private List<HeadlessAtom> _atoms;
 	
 	public HeadlessRunDescription (List<HeadlessAtom> atoms) {
@@ -54,19 +58,16 @@ public class HeadlessRunDescription {
      */
     public static HeadlessRunDescription parse(String runDescFileName) 
             throws FileNotFoundException {
-
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(HeadlessRunDescription.class, 
                 new HeadlessRunDescription.Deserializer(runDescFileName));
         Gson gson = gsonBuilder.create();
-        
         Reader in = new InputStreamReader(new FileInputStream(runDescFileName));
-        
         return gson.fromJson(in, HeadlessRunDescription.class);
     }
 
     public static class Deserializer implements JsonDeserializer<HeadlessRunDescription> {
-
+    	
     	private String _fn; // stores the filename on disk being parsed
     	private String _ctxDir; // stores the parent dir of _fn
     	
@@ -78,8 +79,9 @@ public class HeadlessRunDescription {
              }
         }
         
-        public static void printErr(JsonElement json) {
-        	System.err.println("HeadlessRunDescription.parse: ran into unexpected jsonElement type");
+        public static void reportError(JsonElement json) {
+        	logger.error("HeadlessRunDescription.parse: ran into unexpected jsonElement type:");
+        	logger.error("                              " + json.getAsString());
         }
         
         /**
@@ -93,8 +95,8 @@ public class HeadlessRunDescription {
         	try {
         		return obj.get(prop).getAsString();
         	} catch (NullPointerException e) {
-        		System.err.println("HeadlessRunDescription.parse: failed to lookup property: " + prop);
-        		e.printStackTrace();
+        		logger.error("HeadlessRunDescription.parse: failed to lookup JSON property: " + prop);
+        		logger.error(e.toString());
         		return null;
         	}
         }
@@ -102,21 +104,20 @@ public class HeadlessRunDescription {
         public HeadlessRunDescription deserialize(JsonElement json, Type typeOfT,
                 JsonDeserializationContext context) throws JsonParseException {
         	
-        	@SuppressWarnings("unused")
-			String ruleSetDir, crawlType;
+        	String ruleSetDir;
         	JsonArray arr;
         	
         	if (json.isJsonObject()) { // check if the description is an extended one
         		JsonObject obj = json.getAsJsonObject();
         		ruleSetDir = objGetString(obj, "rulePath");
-        		crawlType = objGetString(obj, "crawlType"); // TODO not implemented
+        		_crawlType = objGetString(obj, "crawlType");
         		arr = obj.get("runs").getAsJsonArray();
         	} else if (json.isJsonArray()) {
         		ruleSetDir = _ctxDir;
-        		crawlType = "none";
+        		_crawlType = "none";
         		arr = json.getAsJsonArray();
         	} else {
-        		printErr(json);
+        		reportError(json);
         		return new HeadlessRunDescription(null);
         	}
             
@@ -126,14 +127,18 @@ public class HeadlessRunDescription {
                 	JsonObject obj = jsonElement.getAsJsonObject();
                 	atoms.add(HeadlessAtom.fromJsonObject(obj, ruleSetDir));
                 } catch (IOException e) {
-                	System.err.println("HeadlessAtom.parse: error parsing ruleSet file: " + e.getMessage());
+                	logger.error("HeadlessAtom.parse: error parsing ruleSet file: " + e.getMessage());
                 } catch (IllegalStateException e) {
-                	printErr(jsonElement);
+                	reportError(jsonElement);
                 }
             }
             
             return new HeadlessRunDescription(atoms.build());
         }
+    }
+    
+    public String getCrawlType() {
+    	return _crawlType;
     }
     
     public String toString() {
