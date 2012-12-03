@@ -30,7 +30,7 @@ public class CrawlTest {
 	public static void setupCrawlTests() {
 		// Set up a simple configuration that logs on the console.
     	BasicConfigurator.configure();
-    	logger.setLevel((Level) Level.INFO);
+    	Logger.getRootLogger().setLevel((Level) Level.INFO);
 	    
 	    // start up local web server for crawl tests
 		
