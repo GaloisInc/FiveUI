@@ -57,18 +57,21 @@ public class HeadlessRunner {
     	// programs.properties file
     	Level logLevel;
     	String logLevelProp = System.getProperty("LOG_LEVEL");
-    	if (logLevelProp == "DEBUG") 
+    	if (logLevelProp == null)
+    		logLevelProp = System.getenv("LOG_LEVEL");
+    	
+    	if (logLevelProp.equals("DEBUG")) 
     		logLevel = Level.DEBUG;
-    	else if (logLevelProp == "INFO") 
+    	else if (logLevelProp.equals("INFO"))
     		logLevel = Level.INFO;
-    	else if (logLevelProp == "WARN") 
+    	else if (logLevelProp.equals("WARN"))
     		logLevel = Level.WARN;
-    	else if (logLevelProp == "ERROR") 
+    	else if (logLevelProp.equals("ERROR"))
         	logLevel = Level.ERROR;
-    	else if (logLevelProp == "FATAL") 
+    	else if (logLevelProp.equals("FATAL"))
             logLevel = Level.FATAL;
     	else
-    		logLevel = Level.FATAL;
+    		logLevel = Level.DEBUG;
     	
     	BasicConfigurator.configure();
     	Logger rootLogger = Logger.getRootLogger();
