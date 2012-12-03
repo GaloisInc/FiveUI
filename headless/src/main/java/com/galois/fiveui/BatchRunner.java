@@ -106,26 +106,31 @@ public class BatchRunner {
 	        File tmpPath = Files.createTempDir();
 	        logger.debug("tmp directory for crawl data: " + tmpPath.toString());
 	        
-	        // Crawl starting at the seed page	        
-	        logger.debug("starting web crawl controller ...");
-			BasicCrawlerController con = 
-					new BasicCrawlerController(seedUrl,
-							                   params.match, 
-							                   params.depth, params.maxFetch,
-							                   params.politeness,
-							                   1, // TODO only one thread is currently supported
-							                   tmpPath.getAbsolutePath());
-			try {
-				urls = con.go();
-			} catch (Exception e) {
-				String errStr = "failed to complete webcrawl of" + seedUrl + "\n";
-	            errStr += e.toString();
-	            builder.add(Result.exception(_driver, errStr));
-	            logger.error(errStr);
-	            continue;
-			} finally {
-				IO.deleteFolder(tmpPath); // does its own logging
-			}
+	        if (params.isNone()) {
+	        	urls = ImmutableList.of(seedUrl);
+	        	logger.debug("skipping webcrawl");
+	        } else {
+		        // Crawl starting at the seed page	        
+		        logger.debug("starting webcrawl controller ...");
+				BasicCrawlerController con = 
+						new BasicCrawlerController(seedUrl,
+								                   params.match, 
+								                   params.depth, params.maxFetch,
+								                   params.politeness,
+								                   1, // TODO only one thread is currently supported
+								                   tmpPath.getAbsolutePath());
+				try {
+					urls = con.go();
+				} catch (Exception e) {
+					String errStr = "failed to complete webcrawl of" + seedUrl + "\n";
+		            errStr += e.toString();
+		            builder.add(Result.exception(_driver, errStr));
+		            logger.error(errStr);
+		            continue;
+				} finally {
+					IO.deleteFolder(tmpPath); // does its own logging
+				}
+	        }
 	        
 			// run ruleset on each discovered URL
 			for (String url: urls) {
