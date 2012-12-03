@@ -1,14 +1,14 @@
 /**
  * Module : BatchRunner.java Copyright : (c) 2011-2012, Galois, Inc.
- * 
+ *
  * Maintainer : Stability : Provisional Portability: Portable
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,6 +17,7 @@
  */
 package com.galois.fiveui;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +27,21 @@ import org.openqa.selenium.WebDriver;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.io.Files;
 import com.galois.fiveui.Result;
 import com.galois.fiveui.RuleSet;
 import com.galois.fiveui.Utils;
 import com.galois.fiveui.drivers.Drivers;
 
+import edu.uci.ics.crawler4j.util.IO;
+
+import org.apache.log4j.Logger; // System.out.* is old fashioned
+
+
 /**
  * BatchRunner is initialized with a WebDriver object. It provides an interface
  * for running {@code RuleSet}s and {@code RuleTest}s with the WebDriver.
- * 
+ *
  * @author bjones
  */
 public class BatchRunner {
@@ -55,9 +62,10 @@ public class BatchRunner {
             + "fiveui/injected/jquery-plugins.js";
     private static final String SEL_INJECTED_COMPUTE_JS = DATA_DIR + 
             "/fiveui/selenium/selenium-injected-compute.js";
-
     private static final String INJECTED_COMPUTE_JS = DATA_DIR + 
             "/fiveui/injected/fiveui-injected-compute.js";
+    
+    private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchRunner");
     
     /**
      * BatchRunner constructor, stores the given WebDriver. 
@@ -67,9 +75,11 @@ public class BatchRunner {
      * @param driver the WebDriver object to run tests with
      */
     public BatchRunner(WebDriver driver) {
+    	logger.debug("initializing BatchRunner ...");
         _driver = driver;
         _exe = (JavascriptExecutor) _driver;
         _root = Drivers.getRootPath();
+        logger.debug("root path for webdriver is " + _root);
     }
 
     /**
@@ -82,27 +92,62 @@ public class BatchRunner {
      * 
      * @param run a headless run description object
      */
-    public ImmutableList<Result> runHeadless(final HeadlessRunDescription run) {
-        
-    	Builder<Result> builder = ImmutableList.builder();
+    public ImmutableList<Result> runHeadless(HeadlessRunDescription run) {
+    	String seedUrl;
+    	Builder<Result> builder = ImmutableList.builder(); // for results
         ImmutableList<Result> rawResults;
+        CrawlParameters params = new CrawlParameters(run.getCrawlType());
+        
         for (HeadlessAtom a: run.getAtoms()) {
 	        RuleSet rs = a.getRuleSet();
-	        try {
-	            loadURL(a.getURL()); // set state of the WebDriver
-	            rawResults = runRule(rs); // run the ruleset, collect results
-	            builder.addAll(rawResults);
-	        } catch (Exception e) {
-	            String errStr = "Exception during runRule: " + rs.getName() + "\n";
+	        seedUrl = a.getURL();
+	        logger.debug("setting seed URL for crawl: " + seedUrl);
+	        List<String> urls = null;
+	        File tmpPath = Files.createTempDir();
+	        logger.debug("tmp directory for crawl data: " + tmpPath.toString());
+	        
+	        // Crawl starting at the seed page	        
+	        logger.debug("starting web crawl controller ...");
+			BasicCrawlerController con = 
+					new BasicCrawlerController(seedUrl,
+							                   params.match, 
+							                   params.depth, params.maxFetch,
+							                   params.politeness,
+							                   1, // TODO only one thread is currently supported
+							                   tmpPath.getAbsolutePath());
+			try {
+				urls = con.go();
+			} catch (Exception e) {
+				String errStr = "failed to complete webcrawl of" + seedUrl + "\n";
 	            errStr += e.toString();
-	            builder.add(Result.exception(_driver, "Could not run rule: "+errStr));
-	        }
+	            builder.add(Result.exception(_driver, errStr));
+	            logger.error(errStr);
+	            continue;
+			} finally {
+				IO.deleteFolder(tmpPath); // does its own logging
+			}
+	        
+			// run ruleset on each discovered URL
+			for (String url: urls) {
+				logger.info("loading " + url + " for ruleset run ...");
+		        loadURL(url); // set state of the WebDriver (blocking)
+		        try {
+		        	logger.info("running ruleset \"" + rs.getName() + "\"");
+		        	rawResults = runRule(rs); // run the ruleset, collect results
+		            builder.addAll(rawResults);
+		        } catch (Exception e) {
+		            String errStr = "exception during runRule: " + rs.getName() + "\n";
+		            errStr += e.toString();
+		            builder.add(Result.exception(_driver, errStr));
+		            logger.error(errStr);
+		        }
+			}
         }
         return builder.build();
     }
     
     /**
-     * Run a rule set on a page.
+     * Run a rule set on the currently loaded page.
      * <p>
      * This method uses the web driver instance to run a rule set on the currently
      * loaded page. The webdriver injects javascript that
@@ -120,24 +165,24 @@ public class BatchRunner {
         Builder<Result> builder = ImmutableList.builder();
         String state = "url=" +  _driver.getCurrentUrl() + 
                 ", ruleSet=\"" + ruleSet.getName() + "\"";
+        logger.debug("runRule: " + state);
         
         _exe.executeScript(contentScript);
         
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e1) {
-            e1.printStackTrace();
+            logger.error(e1.toString());
         }
         
         Object res = _exe.executeScript("return fiveui.selPort.query(type='ReportProblem')");
         
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
-            System.err.println("Exception running rule: " + res);
+            logger.error("exception running rule: " + res);
             builder.add(Result.exception(_driver, (String) res + ", state: " + state));
             return builder.build();
         } else {
-
             try {
                 @SuppressWarnings({ "unchecked", "rawtypes" })
                 List<Map<String, Map<String, String>>> results = (List) res;
@@ -156,9 +201,9 @@ public class BatchRunner {
 
             } catch (ClassCastException e) {
                 // An unexpected error happened:
-                builder.add(Result.exception(_driver, "Unexpected object returned: "
+            	builder.add(Result.exception(_driver, "Unexpected object returned: "
                         + res + ", state: " + state));
-                e.printStackTrace();
+                logger.error("unexpected object returned: " + e.toString());
             }
         }
         return builder.build();
