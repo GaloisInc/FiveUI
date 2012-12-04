@@ -47,9 +47,9 @@ import org.apache.log4j.Logger; // System.out.* is old fashioned
  */
 public class BatchRunner {
 
-    private final WebDriver _driver;
-    private final JavascriptExecutor _exe;
-    private final String _root; // FiveUI root directory
+    private WebDriver _driver;
+    private JavascriptExecutor _exe;
+    private String _root; // FiveUI root directory
 
     // Hard coded JS files, relative to the FiveUI root directory.
     private static final String DATA_DIR = "contexts/data/";
@@ -68,21 +68,18 @@ public class BatchRunner {
     
     private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchRunner");
     
-    /**
-     * BatchRunner constructor, stores the given WebDriver. 
-     * 
-     * TODO DRY
-     *
-     * @param driver the WebDriver object to run tests with
-     */
-    public BatchRunner(WebDriver driver) {
-    	logger.debug("initializing BatchRunner ...");
-        _driver = driver;
-        _exe = (JavascriptExecutor) _driver;
-        _root = Drivers.getRootPath();
+    private void registerDriver(WebDriver driver) {
+    	logger.debug("registering new webdriver...");
+    	this._driver = driver;
+        this._exe = (JavascriptExecutor) driver;
+        this._root = Drivers.getRootPath();
         logger.debug("root path for webdriver is " + _root);
     }
-
+    
+    public BatchRunner() {
+    	logger.debug("initializing BatchRunner ...");
+    }
+    
     /**
      * Run a headless run description, returning the raw results: 'PASS' if
      * no inconsistencies were found, 'ERROR' for each inconsistency found,
@@ -110,6 +107,9 @@ public class BatchRunner {
 	        logger.debug("setting seed URL for crawl: " + seedUrl);
 	        urls = null;
 	        
+	        /**************
+	         * Gather URLs
+	         **************/
 	        
 	        if (params.isNone()) {
 	        	urls = ImmutableList.of(seedUrl);
@@ -147,27 +147,34 @@ public class BatchRunner {
 				}
 	        }
 	        
-			// run ruleset on each discovered URL
-			for (String url: urls) {
-				logger.info("loading " + url + " for ruleset run ...");
-		        loadURL(url); // set state of the WebDriver (blocking)
-		        try {
-		        	logger.info("running ruleset \"" + rs.getName() + "\"");
-		        	rawResults = runRule(rs); // run the ruleset, collect results
-		            builder.addAll(rawResults);
-		        } catch (Exception e) {
-		            String errStr = "exception during runRule: " + rs.getName() + "\n";
-		            errStr += e.toString();
-		            builder.add(Result.exception(_driver, errStr));
-		            logger.error(errStr);
-		        }
-		        try {
-		        	logger.debug("being polite for " + politeness + " millis...");
-					Thread.sleep(politeness);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+	        /***********************
+	         * Drive the browser(s)
+	         ***********************/
+	        
+	        for (WebDriver driver: getDrivers()) {
+	        	registerDriver(driver);
+				for (String url: urls) {
+					logger.info("loading " + url + " for ruleset run ...");
+			        loadURL(url); // set state of the WebDriver (blocking)
+			        try {
+			        	logger.info("running ruleset \"" + rs.getName() + "\"");
+			        	rawResults = runRule(rs); // run the ruleset, collect results
+			            builder.addAll(rawResults);
+			        } catch (Exception e) {
+			            String errStr = "exception during runRule: " + rs.getName() + "\n";
+			            errStr += e.toString();
+			            builder.add(Result.exception(_driver, errStr));
+			            logger.error(errStr);
+			        }
+			        try {
+			        	logger.debug("being polite for " + politeness + " millis...");
+						Thread.sleep(politeness);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-			}
+				driver.quit();
+	        }
         }
         return builder.build();
     }
@@ -259,6 +266,21 @@ public class BatchRunner {
         injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
         
         return injected;
+    }
+    
+    /**
+     * Build a list of webdrivers with which to run each ruleset.
+     * 
+     * @return list of initialized WebDriver objects
+     */
+    private static ImmutableList<WebDriver> getDrivers() {
+    	logger.debug("building webdrivers ...");
+        ImmutableList<WebDriver> r = ImmutableList.<WebDriver>of(
+                  Drivers.buildFFDriver()
+             // , Drivers.buildChromeDriver()
+                );
+        logger.debug("built: " + r.toString());
+        return r;
     }
     
     /**

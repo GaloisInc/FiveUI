@@ -7,6 +7,10 @@ import java.io.IOException;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.galois.fiveui.HeadlessAtom;
@@ -21,7 +25,16 @@ import com.google.common.collect.ImmutableList;
  */
 public class HeadlessTest {
 	private static final String RUN_DESCRIPTION_DIR = "src/test/resources/runDescriptions/";
-
+	private static Logger logger = Logger.getLogger("com.galois.fiveui.HeadlessTest");
+	
+	@BeforeClass
+	public static void beforeClass() {
+		BasicConfigurator.configure();
+		Logger root = Logger.getRootLogger();
+		root.setLevel(Level.ERROR);
+		logger.setLevel(Level.DEBUG);
+		logger.debug("running headless tests...");
+	}
     /**
      * Test method for {@link com.galois.com.galois.fiveui.HeadlessRunDescription}, parses
      * 'src/test/resources/runDescriptions/headlessSample0.json'.

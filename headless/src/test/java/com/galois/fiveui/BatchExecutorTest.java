@@ -30,12 +30,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-
 import com.galois.fiveui.BatchRunner;
 import com.galois.fiveui.HeadlessRunDescription;
 import com.galois.fiveui.Result;
-import com.galois.fiveui.drivers.Drivers;
 import com.google.common.collect.ImmutableList;
 
 import junit.framework.Assert;
@@ -115,19 +112,16 @@ public class BatchExecutorTest {
 	 * @param fn filename of a .json file containing a headless run description
 	 */
 	private static void testHeadlessRun(String fn) {
-		WebDriver driver = Drivers.buildFFDriver();                    // initialize the webdriver
 		boolean flag = true;
 		try {
 			HeadlessRunDescription descr = HeadlessRunDescription.parse(fn);
-			BatchRunner runner = new BatchRunner(driver);              // setup the batch runner
-			ImmutableList<Result> results = runner.runHeadless(descr); // excecute the run
-			logger.info(results.toString());                    // print out results
+			BatchRunner runner = new BatchRunner();
+			ImmutableList<Result> results = runner.runHeadless(descr);
+			logger.info(results.toString());
 		} catch (Exception e) {
 			logger.error("testHeadlessRun: exception caught while running a headless run description");
 			flag = false;
-		} finally {
-			driver.quit();
-		}
+		} 
 		Assert.assertTrue(flag);
 	}
 
