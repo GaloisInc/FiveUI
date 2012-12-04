@@ -20,10 +20,7 @@ package com.galois.fiveui;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.openqa.selenium.WebDriver;
-
 import com.galois.fiveui.Result;
-import com.galois.fiveui.drivers.Drivers;
 import com.google.common.collect.ImmutableList;
 
 import org.apache.log4j.Level;
@@ -74,8 +71,13 @@ public class HeadlessRunner {
     		logLevel = Level.DEBUG;
     	
     	BasicConfigurator.configure();
+    	
+    	// com.galois.fiveui.* loggers get logLevel
+    	Logger fiveuiLogger = Logger.getLogger("com.galois.fiveui");
+    	fiveuiLogger.setLevel(logLevel);
+    	// root logger gets ERROR level (and hence all 3rd party libraries do too)
     	Logger rootLogger = Logger.getRootLogger();
-    	rootLogger.setLevel(logLevel);
+    	rootLogger.setLevel(Level.ERROR);
     	
     	// Process the command line arguments
         if (0 == args.length) {
@@ -86,37 +88,21 @@ public class HeadlessRunner {
         for (int i = 0; i < args.length; i++) {
             String runDescFileName = args[i];
             logger.debug("parsing headless run description: " + args[i]);
-            HeadlessRunDescription descr = HeadlessRunDescription.parse(runDescFileName);
-            for (WebDriver driver : getDrivers()) {
-            	logger.debug("invoking headless run...");
-            	BatchRunner runner = new BatchRunner(driver);
-                ImmutableList<Result> results = runner.runHeadless(descr);
-                logger.debug("runHeadless returned " + results.size() + " results");
-                System.out.println("\n=========================\n");
-                System.out.println( "         RESULTS         \n");
-                System.out.println( "=========================\n\n");
-                for (Result result : results) {
-                    System.out.println(result.toString()); // TODO add support for file output
-                }
-            	driver.quit();
+         	HeadlessRunDescription descr = HeadlessRunDescription.parse(runDescFileName);
+        	logger.debug("invoking headless run...");
+        	BatchRunner runner = new BatchRunner();
+            ImmutableList<Result> results = runner.runHeadless(descr);
+            logger.debug("runHeadless returned " + results.size() + " results");
+            System.out.println("\n=========================\n");
+            System.out.println( "         RESULTS\n");
+            System.out.println( "=========================\n\n");
+            for (Result result : results) {
+                System.out.println(result.toString()); // TODO add support for file output
             }
         }
     }
 
-    /**
-     * Build a list of webdrivers with which to run each ruleset.
-     * 
-     * @return list of initialized WebDriver objects
-     */
-    private static ImmutableList<WebDriver> getDrivers() {
-    	logger.debug("building webdrivers ...");
-        ImmutableList<WebDriver> r = ImmutableList.<WebDriver>of(
-                  Drivers.buildFFDriver()
-             // , Drivers.buildChromeDriver()
-                );
-        logger.debug("built: " + r.toString());
-        return r;
-    }
+    
 
     private static void printHelp() {
         System.out.println(
