@@ -60,7 +60,7 @@ public class Rule {
         if (obj.containsKey("id")) {
         	id = ((Long)obj.get("id")).intValue();
         } else {
-        	System.err.println("Warning: rule " + name + " has no ID #, using ID 0");
+        	//System.err.println("Warning: rule " + name + " has no ID #, using ID 0");
         	id = 0;
         } 
         
