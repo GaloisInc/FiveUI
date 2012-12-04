@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import com.google.common.base.Function;
+
 /**
  * @author bjones
  */
@@ -21,19 +23,19 @@ public class BasicCrawler extends WebCrawler {
                                                + "|png|tiff?|mid|mp2|mp3|mp4"
                                                + "|wav|avi|mov|mpeg|ram|m4v|pdf"
                                                + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
-        public static String _starts = "";
+        public static Function<String, Boolean> _predicate;
         public static List<String> _urls;
         
         /**
          * Configure static properties of the class before a crawl.
          * 
-         * @param starts URLs will be crawled only if url.startsWith(starts)
-         *               true
-         * @param urls   reference to a list of strings which the crawler will
-         *               append URLs to as it works
+         * @param pred URLs will be crawled only if pred.apply(URL) is
+         *             true
+         * @param urls reference to a list of strings which the crawler will
+         *             append URLs to as it works
          */
-        public static void configure(String starts, List<String> urls) {
-        	_starts = starts;
+        public static void configure(Function<String, Boolean> pred, List<String> urls) {
+        	_predicate = pred;
         	_urls = urls;
         }
         
@@ -42,8 +44,10 @@ public class BasicCrawler extends WebCrawler {
          */
         @Override
         public boolean shouldVisit(WebURL url) {
-                String href = url.getURL().toLowerCase();
-                return !FILTERS.matcher(href).matches() && href.startsWith(_starts);
+                String href = url.getURL();
+                Boolean yesno = !FILTERS.matcher(href).matches() && _predicate.apply(href);
+                logger.debug("saying " + (yesno ? "yes" : "no") + " to " + href);
+                return yesno;
         }
 
         /**
