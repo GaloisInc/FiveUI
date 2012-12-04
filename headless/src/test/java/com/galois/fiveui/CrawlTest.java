@@ -15,6 +15,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 
+import com.google.common.base.Function;
 import com.google.common.io.Files;
 
 import edu.uci.ics.crawler4j.util.IO;
@@ -89,14 +90,29 @@ public class CrawlTest {
 		doLocalCrawlTest("http://localhost:8080/one.html", 0, 10, 1);
 	}
 	
-	public void doLocalCrawlTest(String seed, int depth, int maxFetch, int oracle) {	
+	@Test
+	public void testCrawlWithPredicate() {
+		CrawlParameters c = new CrawlParameters("5 5 100 *one.html");
+		doLocalCrawlTest("http://localhost:8080/one.html", c.matchFcn, c.depth, c.maxFetch, 1);
+	}
+	
+	public void doLocalCrawlTest(String seed, int depth, int maxFetch, int oracle) {
+		Function<String, Boolean> pred = new Function<String, Boolean>() {
+			public Boolean apply(String s) {
+				return s.startsWith("http");
+			}
+		};
+		doLocalCrawlTest(seed, pred, depth, maxFetch, oracle);
+	}
+	
+	public void doLocalCrawlTest(String seed, Function<String, Boolean> pred, int depth, int maxFetch, int oracle) {	
 
 	    logger.info("Starting localCrawlTest ...");
 	    logger.info("  seed " + seed + ", depth " + depth);
 	    
 	    File tmpPath = Files.createTempDir();
 		BasicCrawlerController con = 
-			new BasicCrawlerController(seed, "http", depth, maxFetch, 100, 1,
+			new BasicCrawlerController(seed, pred, depth, maxFetch, 100, 1,
 					                   tmpPath.getAbsolutePath());
 		List<String> urls = null;
 		try {
@@ -114,4 +130,5 @@ public class CrawlTest {
 		Assert.assertTrue("got " + urls.size() + " URLs, expected " + oracle,
 			(urls != null) && (urls.size() == oracle));
 	}
+
 }

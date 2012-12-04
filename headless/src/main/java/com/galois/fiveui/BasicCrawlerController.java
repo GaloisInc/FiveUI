@@ -3,6 +3,8 @@ package com.galois.fiveui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Function;
+
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -15,12 +17,12 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class BasicCrawlerController {
 
 	private String seed;
-	private String domain;
 	private String tmpDir;
 	private int depth;
 	private int maxFetch;
 	private int politeness;
 	private int threads;
+	private Function<String, Boolean> predicate;
 	
 	/**
 	 * Initialize a basic web crawler controller.
@@ -34,10 +36,37 @@ public class BasicCrawlerController {
 	 * @param tmpDir temporary directory to store intermediate crawl data
 	 *               (must exist and be read/write before crawl starts)
 	 */
-	public BasicCrawlerController (String seed, String domain, int depth, int maxFetch,
+	public BasicCrawlerController (String seed, final String domain, int depth, int maxFetch,
 			                       int politeness, int threads, String tmpDir) {
 		this.seed = seed;
-		this.domain = domain;
+		this.predicate = new Function<String, Boolean>() {
+			public Boolean apply(String s) {
+				return s.startsWith(domain);
+			}
+		};
+		this.depth = depth;
+		this.maxFetch = maxFetch;
+		this.politeness = politeness;
+		this.threads = threads;
+		this.tmpDir = tmpDir;
+	}
+	
+	/**
+	 * Initialize a basic web crawler controller.
+	 * 
+	 * @param seed URL to start the crawl
+	 * @param pred a Function<String, Boolean> to be used as a predicate that all crawled URLs must pass
+	 * @param depth maximum depth to crawl
+	 * @param maxFetch maximum number of pages to crawl
+	 * @param politeness time in milliseconds to wait before making requests on same domain
+	 * @param threads number of concurrent threads to use while crawling
+	 * @param tmpDir temporary directory to store intermediate crawl data
+	 *               (must exist and be read/write before crawl starts)
+	 */
+	public BasicCrawlerController (String seed, Function<String, Boolean> pred, int depth, int maxFetch,
+            int politeness, int threads, String tmpDir) {
+		this.seed = seed;
+		this.predicate = pred;
 		this.depth = depth;
 		this.maxFetch = maxFetch;
 		this.politeness = politeness;
@@ -101,7 +130,7 @@ public class BasicCrawlerController {
 		 * Setup storage for data collection by the BasicCrawler class
 		 */
 		List<String> store = new ArrayList<String>();
-		BasicCrawler.configure(this.domain, store);
+		BasicCrawler.configure(this.predicate, store);
 		
 		/*
 		 * Start the crawl. This is a blocking operation.
