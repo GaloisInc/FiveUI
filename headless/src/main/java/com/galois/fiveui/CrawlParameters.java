@@ -15,7 +15,9 @@ public class CrawlParameters {
 	public int politeness;
 	public String match;
 	public Function<String, Boolean> matchFcn;
-	public Boolean doNotCrawl;
+	
+	private Boolean _doNotCrawl;
+	private String _str;
 	
 	/**
 	 * Construct (parse) a crawl type object from a string description
@@ -38,7 +40,8 @@ public class CrawlParameters {
 	public CrawlParameters(String desc) {
 		String[] l = desc.split("\\s+");
 		if (desc == "none" || l.length != 4) {
-			this.doNotCrawl = true;
+			this._doNotCrawl = true;
+			this._str = desc;
 			logger.debug("setting doNotCrawl = True");
 			return;
 		} else {	
@@ -46,7 +49,8 @@ public class CrawlParameters {
 			this.maxFetch = Integer.parseInt(l[1]);
 			this.politeness = Integer.parseInt(l[2]);
 			this.match = l[3];
-			this.doNotCrawl = false;
+			this._doNotCrawl = false;
+			this._str = desc;
 			this.matchFcn = compileMatchFcn(this.match);
 			logger.debug("setting depth: " + this.depth);
 			logger.debug("setting maxFetch: " + this.maxFetch);
@@ -71,6 +75,10 @@ public class CrawlParameters {
 	}
 	
 	public Boolean isNone() {
-		return this.doNotCrawl;
+		return this._doNotCrawl;
+	}
+	
+	public String toString() {
+		return _str;
 	}
 }
