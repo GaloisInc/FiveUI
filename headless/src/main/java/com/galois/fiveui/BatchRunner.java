@@ -19,6 +19,7 @@ package com.galois.fiveui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,30 +98,44 @@ public class BatchRunner {
     	Builder<Result> builder = ImmutableList.builder(); // for results
         ImmutableList<Result> rawResults;
         CrawlParameters params = new CrawlParameters(run.getCrawlType());
+        int politeness = params.toString().equals("none") ? 1000 : params.politeness;
+        List<String> urls;
+        Map<String, Map<String, List<String>>> urlCache;
+        //-    URL,     params, urls
+        urlCache = new HashMap<String, Map<String, List<String>>>();
         
         for (HeadlessAtom a: run.getAtoms()) {
 	        RuleSet rs = a.getRuleSet();
 	        seedUrl = a.getURL();
 	        logger.debug("setting seed URL for crawl: " + seedUrl);
-	        List<String> urls = null;
-	        File tmpPath = Files.createTempDir();
-	        logger.debug("tmp directory for crawl data: " + tmpPath.toString());
+	        urls = null;
+	        
 	        
 	        if (params.isNone()) {
 	        	urls = ImmutableList.of(seedUrl);
 	        	logger.debug("skipping webcrawl");
+	        } else if (urlCache.containsKey(seedUrl) && 
+	        	       urlCache.get(seedUrl).containsKey(params.toString())) {
+	        	logger.debug("retreiving urls list from cache");
+	        	urls = urlCache.get(seedUrl).get(params.toString());
 	        } else {
-		        // Crawl starting at the seed page	        
+	        	File tmpPath = Files.createTempDir();
+		        logger.debug("tmp directory for crawl data: " + tmpPath.toString());	        
 		        logger.debug("starting webcrawl controller ...");
 				BasicCrawlerController con = 
 						new BasicCrawlerController(seedUrl,
-								                   params.match, 
+								                   params.matchFcn, 
 								                   params.depth, params.maxFetch,
 								                   params.politeness,
 								                   1, // TODO only one thread is currently supported
 								                   tmpPath.getAbsolutePath());
 				try {
 					urls = con.go();
+					logger.debug("adding urls list to cache");
+					logger.debug("URLs: " + urls.toString());
+					Map<String, List<String>> entry = (Map<String, List<String>>) new HashMap<String, List<String>>();
+					entry.put(params.toString(), urls);
+					urlCache.put(seedUrl, entry);
 				} catch (Exception e) {
 					String errStr = "failed to complete webcrawl of" + seedUrl + "\n";
 		            errStr += e.toString();
@@ -146,6 +161,12 @@ public class BatchRunner {
 		            builder.add(Result.exception(_driver, errStr));
 		            logger.error(errStr);
 		        }
+		        try {
+		        	logger.debug("being polite for " + politeness + " millis...");
+					Thread.sleep(politeness);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
         }
         return builder.build();
