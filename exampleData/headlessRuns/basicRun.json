@@ -1,0 +1,8 @@
+{
+  'rulePath'  : '../ruleSets/',
+  'crawlType' :    'none',
+  'runs': [
+    { 'url': 'http://localhost:8000/testColorRules.html', 'ruleSet': 'colorRulesRF.json' },
+    { 'url': 'http://localhost:8000/testFontRules.html', 'ruleSet': 'fontRules.json' }
+  ]
+}
