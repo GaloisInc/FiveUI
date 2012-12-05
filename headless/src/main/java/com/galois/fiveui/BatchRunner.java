@@ -221,15 +221,15 @@ public class BatchRunner {
                 List<Map<String, Map<String, String>>> results = (List) res;
                 
                 if (0 == results.size()) {
-                    builder.add(Result.pass(_driver, "passed: " + state));
+                    builder.add(Result.pass(_driver, "", _driver.getCurrentUrl(), ruleSet.getName()));
                 }
 
                 for (Map<String, Map<String, String>> r : results) {
                     Map<String, String> problem = r.get("payload");
                     
                     builder.add(Result.error(_driver, "problem: " + 
-                                             problem.toString() +
-                                             ", state: " + state));
+                                             problem.toString(),
+                                             _driver.getCurrentUrl(), ruleSet.getName()));
                 }
 
             } catch (ClassCastException e) {
