@@ -17,12 +17,23 @@
  */
 package com.galois.fiveui;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 
 import com.galois.fiveui.Result;
 import com.google.common.collect.ImmutableList;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
@@ -47,66 +58,81 @@ public class HeadlessRunner {
      * @throws IOException
      * @throws URISyntaxException
      */
-    public static void main(final String[] args)
+    @SuppressWarnings("static-access")
+	public static void main(final String[] args)
     	throws IOException, URISyntaxException {
 
-    	// Configure logging output based on configuration in the
-    	// programs.properties file
-    	Level logLevel;
-    	String logLevelProp = System.getProperty("LOG_LEVEL");
-    	if (logLevelProp == null)
-    		logLevelProp = System.getenv("LOG_LEVEL");
-    	
-    	if (logLevelProp.equals("DEBUG")) 
-    		logLevel = Level.DEBUG;
-    	else if (logLevelProp.equals("INFO"))
-    		logLevel = Level.INFO;
-    	else if (logLevelProp.equals("WARN"))
-    		logLevel = Level.WARN;
-    	else if (logLevelProp.equals("ERROR"))
-        	logLevel = Level.ERROR;
-    	else if (logLevelProp.equals("FATAL"))
-            logLevel = Level.FATAL;
-    	else
-    		logLevel = Level.DEBUG;
-    	
-    	BasicConfigurator.configure();
-    	
-    	// com.galois.fiveui.* loggers get logLevel
-    	Logger fiveuiLogger = Logger.getLogger("com.galois.fiveui");
-    	fiveuiLogger.setLevel(logLevel);
-    	// root logger gets ERROR level (and hence all 3rd party libraries do too)
-    	Logger rootLogger = Logger.getRootLogger();
-    	rootLogger.setLevel(Level.ERROR);
-    	
-    	// Process the command line arguments
-        if (0 == args.length) {
-            printHelp();
-            System.exit(1);
-        }
+    	// Setup command line options
+    	Options options = new Options();
+        Option help = new Option( "h", "print this help message" );
+        Option output = OptionBuilder.withArgName("outfile")
+        		                     .hasArg()
+        		                     .withDescription("write output to file")
+        		                     .create("o");
+        options.addOption(output);
+        options.addOption("v", false, "verbose output");
+        options.addOption("vv", false, "VERY verbose output");
+        options.addOption(help);
  
-        for (int i = 0; i < args.length; i++) {
-            String runDescFileName = args[i];
-            logger.debug("parsing headless run description: " + args[i]);
-         	HeadlessRunDescription descr = HeadlessRunDescription.parse(runDescFileName);
+        // Parse command line options
+        CommandLineParser parser = new GnuParser();
+        CommandLine cmd = null;
+        try {
+			cmd = parser.parse( options, args);
+		} catch (ParseException e) {
+			System.err.println( "Command line option parsing failed.  Reason: " + e.getMessage() );
+			System.exit(1);
+		}
+        
+        // Display help if requested
+        if (cmd.hasOption("h")) {
+        	HelpFormatter formatter = new HelpFormatter();
+        	formatter.printHelp("headless", options);
+        	System.exit(1);
+        }	
+        
+        // Set logging levels
+        BasicConfigurator.configure();
+        Logger fiveuiLogger = Logger.getLogger("com.galois.fiveui");
+        Logger rootLogger = Logger.getRootLogger();
+        if (cmd.hasOption("v")) {
+        	fiveuiLogger.setLevel(Level.DEBUG);
+        	rootLogger.setLevel(Level.ERROR);
+        } else if (cmd.hasOption("vv")) {
+        	fiveuiLogger.setLevel(Level.DEBUG);
+        	rootLogger.setLevel(Level.DEBUG);
+        } else {
+        	fiveuiLogger.setLevel(Level.ERROR);
+        	rootLogger.setLevel(Level.ERROR);
+        }
+        
+        // Setup output file if requested
+        PrintWriter outStream = null;
+        if (cmd.hasOption("o")) {
+        	String outfile = cmd.getOptionValue("o");
+        	try {
+        		outStream = new PrintWriter(new BufferedWriter(new FileWriter(outfile)));
+        	} catch (IOException e) {
+        		System.err.println("Could not open outfile for writing: " + cmd.getOptionValue("outfile"));
+        		System.exit(1);
+        	}
+        } else {
+        	outStream = new PrintWriter(new BufferedWriter(new PrintWriter(System.out)));
+        }
+    	 
+        // Process input files
+        for (String in: cmd.getArgs()) {
+            logger.debug("parsing headless run description: " + in);
+         	HeadlessRunDescription descr = HeadlessRunDescription.parse(in);
         	logger.debug("invoking headless run...");
         	BatchRunner runner = new BatchRunner();
             ImmutableList<Result> results = runner.runHeadless(descr);
             logger.debug("runHeadless returned " + results.size() + " results");
-            System.out.println("\n=========================\n");
-            System.out.println( "         RESULTS\n");
-            System.out.println( "=========================\n\n");
             for (Result result : results) {
-                System.out.println(result.toString()); // TODO add support for file output
+                outStream.println(result.toString());
             }
+            outStream.flush();
         }
+        outStream.close();
     }
-
-    
-
-    private static void printHelp() {
-        System.out.println(
-                "Usage: HeadlessRunner [<runDescirption.json> ...]");
-    }
-
 }
