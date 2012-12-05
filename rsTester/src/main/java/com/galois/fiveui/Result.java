@@ -53,6 +53,10 @@ public class Result {
         return new Result(ResType.Pass, driver, res);
     }
     
+    public static Result pass(WebDriver driver, String res, String url, String ruleName) {
+        return new Result(ResType.Pass, driver, res, url, ruleName);
+    }
+
     /**
 	 * Result constructor, returns an "error" type result.
 	 * 
@@ -64,6 +68,10 @@ public class Result {
         return new Result(ResType.Error, driver, res);
     }
     
+    public static Result error(WebDriver driver, String res, String url, String ruleName) {
+        return new Result(ResType.Error, driver, res, url, ruleName);
+    }
+
     /**
 	 * Result constructor, returns a "warning" type result.
 	 * 
@@ -78,12 +86,25 @@ public class Result {
     private ResType _type;
     private String _desc;
     private WebDriver _driver;
+    private String _url;
+    private String _ruleName;
     
     private Result(ResType type, WebDriver driver, String desc) {
         super();
         _type = type;
         _desc = desc;
         _driver = driver;
+        _url = "";
+        _ruleName = "";
+    }
+
+    private Result(ResType type, WebDriver driver, String desc, String url, String ruleName) {
+        super();
+        _type = type;
+        _desc = desc;
+        _driver = driver;
+        _url = url;
+        _ruleName = ruleName;
     }
 
     public ResType getType() {
@@ -98,12 +119,31 @@ public class Result {
         return _driver;
     }
 
+    public String getURL() {
+        return _url;
+    }
+
+    public String getRuleName() {
+        return _ruleName;
+    }
+
     /**
      * Stringify the result, returning the type, shortened driver name, and
      * full description.
      */
     @Override
     public String toString() {
-        return getType() + " - " + _driver.toString().split(":")[0] + ": " + getDesc();
+        return getType() + " - " + _driver.toString().split(":")[0] + ": "
+             + _truncate(30, _desc) + "\n"
+             + " |\\- " + _truncate(40, _url) + "\n"
+             + " |__ "  + _truncate(40, _ruleName);
+    }
+    
+    private static String _truncate(int n, String s) {
+    	if (s.length() <= n) {
+    		return s;
+    	} else {
+    		return s.substring(0, n) + " ...";
+    	}
     }
 }
