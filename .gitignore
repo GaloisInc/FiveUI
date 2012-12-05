@@ -5,3 +5,5 @@ doc/jsdoc
 doc/manual
 .project
 .DS_Store
+**/.classpath
+**/.settings
