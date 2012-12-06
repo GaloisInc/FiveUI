@@ -221,7 +221,7 @@ public class BatchRunner {
                 List<Map<String, Map<String, String>>> results = (List) res;
                 
                 if (0 == results.size()) {
-                    builder.add(Result.pass(_driver, "", _driver.getCurrentUrl(), ruleSet.getName()));
+                    builder.add(Result.pass(_driver, "passed " + ruleSet.getRules().size() + " tests", _driver.getCurrentUrl(), ruleSet.getName()));
                 }
 
                 for (Map<String, Map<String, String>> r : results) {

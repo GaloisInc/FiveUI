@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.net.BindException;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -51,6 +53,9 @@ public class BatchExecutorTest {
 	@BeforeClass
 	public static void setupTests() {
 		BasicConfigurator.configure();
+        logger.setLevel(Level.DEBUG);
+        Logger root = Logger.getRootLogger();
+        root.setLevel(Level.ERROR);
 	    // start up local web server for crawl tests
 		File dir = new File(".");
 		logger.info("Starting NanoHTTPD webserver in " + dir.getAbsolutePath() + " on port 8000 ...");
@@ -66,6 +71,7 @@ public class BatchExecutorTest {
 	
 	@AfterClass
 	public static void teardown() {
+		LogManager.shutdown();
 		httpServer.stop();
 	}
 	

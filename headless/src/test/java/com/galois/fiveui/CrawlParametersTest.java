@@ -1,9 +1,11 @@
 package com.galois.fiveui;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.galois.fiveui.CrawlParameters;
@@ -13,11 +15,16 @@ public class CrawlParametersTest {
 
 	private static Logger logger = Logger.getLogger("com.galois.fiveui.CrawlParameters");
 	
-	@Before
-	public void before() {
-		if (!Logger.getRootLogger().getAllAppenders().hasMoreElements())
-			BasicConfigurator.configure();
+	@BeforeClass
+	public static void before() {
+		//if (!Logger.getRootLogger().getAllAppenders().hasMoreElements())
+		BasicConfigurator.configure();
 		logger.info("running unit tests...");
+	}
+	
+	@AfterClass
+	public static void after() {
+		LogManager.shutdown();
 	}
 	
 	@Test

@@ -31,7 +31,9 @@ public class CrawlTest {
 	public static void setupCrawlTests() {
 		// Set up a simple configuration that logs on the console.
     	BasicConfigurator.configure();
-    	Logger.getRootLogger().setLevel((Level) Level.INFO);
+    	logger.setLevel(Level.DEBUG);
+    	Logger root = Logger.getRootLogger();
+    	root.setLevel(Level.ERROR);
 	    
 	    // start up local web server for crawl tests
 		
