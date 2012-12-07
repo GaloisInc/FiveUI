@@ -18,6 +18,7 @@
 package com.galois.fiveui;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -76,7 +77,12 @@ public class HeadlessRunner {
         		                     .hasArg()
         		                     .withDescription("write output to file")
         		                     .create("o");
+        Option report = OptionBuilder.withArgName("report directory")
+                .hasArg()
+                .withDescription("write HTML reports to given directory")
+                .create("r");
         options.addOption(output);
+        options.addOption(report);
         options.addOption("v", false, "verbose output");
         options.addOption("vv", false, "VERY verbose output");
         options.addOption(help);
@@ -127,12 +133,37 @@ public class HeadlessRunner {
         	outStream = new PrintWriter(new BufferedWriter(new PrintWriter(System.out)));
         }
     	 
+        // Setup HTML reports directory before the major work happens in case we 
+        // have to throw an exception.
+        PrintWriter summaryFile = null;
+        PrintWriter byURLFile = null;
+        PrintWriter byRuleFile = null;
+        if (cmd.hasOption("r")) {
+        	String repDir = cmd.getOptionValue("r");
+        	try {
+        		File file = new File(repDir);
+        		if (!file.exists()) {
+        			file.mkdir();
+        		    logger.info("report directory created: " + repDir);
+        		} else {
+        			logger.info("report directory already exists!");
+        		}
+        		summaryFile = new PrintWriter(new FileWriter(repDir + File.separator + "summary.html"));
+        		byURLFile = new PrintWriter(new FileWriter(repDir + File.separator + "byURL.html"));
+        		byRuleFile = new PrintWriter(new FileWriter(repDir + File.separator + "byRule.html"));
+        	} catch (IOException e) {
+        		System.err.println("could not open report directory / files for writing");
+        		System.exit(1);
+        	}
+        } 
+        
         // Process input files
+        ImmutableList<Result> results = null;
         for (String in: cmd.getArgs()) {
          	HeadlessRunDescription descr = HeadlessRunDescription.parse(in);
         	logger.debug("invoking headless run...");
         	BatchRunner runner = new BatchRunner();
-            ImmutableList<Result> results = runner.runHeadless(descr);
+            results = runner.runHeadless(descr);
             logger.debug("runHeadless returned " + results.size() + " results");
             updateStats(results);
             // write results to the output stream as we go
@@ -144,11 +175,25 @@ public class HeadlessRunner {
         
         reportStats();
         outStream.close();
+        
+        // Write report files
+        if (cmd.hasOption("r") && results != null) {
+        	Reporter kermit = new Reporter(results);
+        	summaryFile.write(kermit.getSummary());
+        	summaryFile.close();
+        	byURLFile.write(kermit.getByURL());
+        	byURLFile.close();
+        	byRuleFile.write(kermit.getByRule());
+        	byRuleFile.close();
+        }
+        
     }
 
     /**
      * Update the global frequency map we're using to keep track of unique URLs,
      * passes, and fails.
+     * 
+     * TODO refector, absorb into Reporter class
      */
     private static void updateStats(List<Result> results) throws ParseException {  
     	// compute statistics on results
@@ -193,6 +238,8 @@ public class HeadlessRunner {
      * Report statistics on the headless run to the log. Note, "pass"
      * means the URL passed all tests in the ruleset, but "fail" can be
      * reported for the same test on multiple offenders in the page.
+     * 
+     * TODO refactor this, absorb into Reporter class
      */
     private static void reportStats() {
     	// report statistics on results
