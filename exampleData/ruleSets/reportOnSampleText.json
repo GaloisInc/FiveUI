@@ -1,6 +1,8 @@
 { 'name': 'reportOnSampleText',
   'description': 'test',
-  'rules': [ { 'name': 'Test rule',
+  'rules': [
+//---
+  { 'name': 'Test rule',
                'description': 'An empty test rule',
                'rule': function() {
                   fiveui.query('p').each(
@@ -10,5 +12,7 @@
                       }
                     });
                }
-             } ]
+             }//,
+ //----
+ ]
 }

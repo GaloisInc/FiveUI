@@ -3,6 +3,9 @@
 # This script builds a collection of FiveUI rulesets (contained in various .json files)
 # into a combined rule sets file: combinedRules.json.
 #
+# For the script to work, the input .json files must have rules separated by
+# comment lines starting with //---. Also, the last rule in the file must be
+# followed by //,. See colorRules.json for an example.
 
 FILES=`ls *.json | grep -v combinedRules`
 OUTFILE="combinedRules.json"

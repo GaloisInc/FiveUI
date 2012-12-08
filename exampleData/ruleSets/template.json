@@ -8,10 +8,12 @@
 { 'name': "NAME"
 , 'description': "DESCRIPTION"
 , 'rules': [
+//--------------------------------------------
              { 'name': "RULE NAME"
              , 'description': "RULE DESC"
              , 'rule':
              function() {} // Function that checks the rule
-             },
+             }//,
+//--------------------------------------------
            ]
 }

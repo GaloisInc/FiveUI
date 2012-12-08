@@ -12,4 +12,4 @@ textRules.json         : rules checking text style
 
 buildCombinedRules.sh  : shell script which merges all the .json files in
                          the current directory into the file combinedRules.json
-combinedRules.json     : collection of all the above rules in one file
+combinedRules.json     : collection of all the above rules in the directory into one file
