@@ -1,0 +1,40 @@
+/*
+ * miscRules.json
+ *
+ * Simple rules for checking miscellaneous things.
+ *
+ */
+
+{ 'name': "Misc"
+, 'description': "Miscellaneous rules"
+, 'rules': [
+  //---------------------------------------------------------
+  { 'name': "Footer check"
+  , 'description': "Footer should appear on the page"
+  , 'rule':
+  function() {
+    if ($5("div.footer").length === 0) {
+      report('Footer does not appear', elt);
+    }
+  }
+  },
+  //---------------------------------------------------------
+  { 'name': "Main content width check"
+  , 'description': "Main content div should be between 520px and 1200px wide"
+  , 'rule':
+  function() {
+    var width;
+    var elt = $5("#content");
+    if (elt) {
+      width = elt.width();
+      if (width > 1200) {
+        report('Main content is too wide: ' + width, elt);
+      } else if (width < 520) {
+        report('Main content is too narrow: ' + width, elt);
+      }
+    }
+  }
+  }//,
+  //---------------------------------------------------------
+]
+}

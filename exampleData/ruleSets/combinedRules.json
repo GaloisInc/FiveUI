@@ -1,0 +1,236 @@
+{ 'name': "Combined color, font, image, and text rules"
+, 'description': "Site colors, fonts, images, and text should conform to these general guidelines"
+, 'rules': [
+  //----------------------------------------------------------------
+  { 'name': "Foreground check"
+  , 'description': "Foreground colors should be in the set:"+
+                   "#00 #FF #3D #F7 #C2 #B4 #4E #FFCB05 #7B8738"
+  , 'rule':
+  function () {
+    var allow = "#00 #FF #3D #F7 #C2 #B4 #4E #FFCB05 #7B8738".split(" ");
+    $5(":visible")
+      .cssIsNot("color", allow, fiveui.color.colorToHex)
+      .each(function (i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css("color"));
+        report("foreground color: " + color, elt);
+      });
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Background check"
+  , 'description': "Backgrounds colors should be in the set:" +
+                   "#00 #FF #3D #F7 #C2 #B4 #4E"
+  , 'rule':
+  function () {
+    var allow = "#00 #FF #3D #F7 #C2 #B4 #4E".split(" ");
+    $5(":visible")
+      .cssIsNot("background-color", allow, fiveui.color.colorToHex)
+      .each(function (i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css("background-color"));
+        report("non-standard background color: " + color, elt);
+      });
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Content area color"
+  , 'description': "Background color should be: " +
+                   "#F7"
+  , 'rule':
+  function () {
+    var allow = "#F7";
+    $5("#content")
+      .cssIsNot("background-color", allow, fiveui.color.colorToHex)
+      .each(function (i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css("background-color"));
+        report("non-standard content background color: " + color, elt);
+      });
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Left navigation color"
+  , 'description': "Left navigation color should be: " +
+                   "#C2"
+  , 'rule':
+  function () {
+    var allow = "#C2";
+    $5("#leftNav")
+      .cssIsNot("color", allow, fiveui.color.colorToHex)
+      .each(function (i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css("color"));
+        report("non-standard left navigation color: " + color, elt);
+      });
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Header color check"
+  , 'description': "Header color should be: " +
+                   "#3D"
+  , 'rule':
+  function () {
+    var allow = "#3D";
+    $5(":header")
+      .cssIsNot("color", allow, fiveui.color.colorToHex)
+      .each(function (i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css("color"));
+        report("non-standard header color: " + color, elt);
+      });
+  }
+  },
+  //---------------------------------------------------------
+  { 'name': "Font properties check"
+  , 'description': "Verify that fonts (family, size, weight) are \"standard\""
+  , 'rule':
+  function() {
+    var allow = {
+      "Verdana": { "bold": [25, 22, 12, 10]
+                 , "normal": [12, 11, 10] }};
+    fiveui.query('body p,:header').each(
+      function(i, elt) {
+        var font = fiveui.font.getFont($(elt));
+        if (!fiveui.font.validate(allow, font)) {
+          report('non-standard font: ' +
+                 font.family + ", " +
+                 font.size + ", " +
+                 font.weight, $(elt));
+        }
+      });
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Banner check"
+  , 'description': "Banner image banner.gif must appear and link to somewhere"
+  , 'severity': 1
+  , 'rule':
+  function() {
+      var elt = $5("div[id=header]");          // get the div with id=header
+      var b = elt.css("background");           // get its background CSS property
+      var l = $5("a[href]", elt).prop("href"); // get the <a href=...> string inside the div
+      if (/banner\.gif/.test(b)) {
+        report("banner.gif missing", elt);
+      }
+      if (l.length == 0) {                     // this list will be empty if there is no link
+        report("banner.gif link is missing", elt);
+      }
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Image Size check"
+  , 'description': "All site images should have height and width in a given set of choices"
+  , 'severity': 2
+  , 'rule':
+  function() {
+    var allowedDimensions = { 446: { 300: {}}               // allow any image with these height:width pairs
+                            , 342: { 228: {}}
+                            , 150: { 100: {}} };
+    var specialWidths     = { 640: {}                       // allow any image with these special widths
+                            , 100: {} };
+    $5("img").not("div.filmstrip *")                        // skip filmstrip images
+             .each(function (i, elt) {
+      var borderStr = /^[0-9]+/.exec($(elt).css("border")); // compensate for image border
+      var border = borderStr ? parseInt(borderStr[0]) : 0;
+      var w = $(elt).width() + 2*border;
+      var h = $(elt).height() + 2*border;
+      if (!((w in specialWidths) ||
+            (h in allowedDimensions && w in allowedDimensions[h]))) {
+        report("non-standard dimensions "+h+"x"+w, elt);
+      }
+    });
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Image Border check"
+  , 'description': "All site images should have 1px solid #3D border"
+  , 'severity': 1
+  , 'rule':
+  function() {
+    var norm = function (s) { return /^\w+\s+\w+/.exec(s)[0]; } // select out first two words of the input
+    var imgs = $5("img").not("div.filmstrip *");         // select images not in the filmstrip
+    imgs.cssIsNot("border", "1px solid", norm)
+        .each(function (i, elt) {
+          report("non-standard border style", elt);
+        });
+    imgs.cssIsNot("border-color", "#3D3D3D", fiveui.color.colorToHex)
+        .each(function (i, elt) {
+          report("non-standard border color", elt);
+        });
+  }
+  },
+  //---------------------------------------------------------
+  { 'name': "Footer check"
+  , 'description': "Footer should appear on the page"
+  , 'rule':
+  function() {
+    if ($5("div.footer").length === 0) {
+      report('Footer does not appear', elt);
+    }
+  }
+  },
+  //---------------------------------------------------------
+  { 'name': "Main content width check"
+  , 'description': "Main content div should be between 520px and 1200px wide"
+  , 'rule':
+  function() {
+    var width;
+    var elt = $5("#content");
+    if (elt) {
+      width = elt.width();
+      if (width > 1200) {
+        report('Main content is too wide: ' + width, elt);
+      } else if (width < 520) {
+        report('Main content is too narrow: ' + width, elt);
+      }
+    }
+  }
+  },
+  //---------------------------------------------------------------
+  { "id": 13
+   , "name": "Sentence case"
+   , "description": "Titles should be written in sentence case"
+   , "rule":
+     function() {
+       var posLength = function(ar) {
+         return 1 <= ar.length;
+       };
+
+       /**
+        * Test str to see if it is in sentence case.
+        */
+       var assertSentenceCase = function(inStr, elt) {
+         var str = fiveui.string.trim(inStr);
+
+         if ( !fiveui.word.capitalized(str[0]) ) {
+           report('The heading: "'+str+'" is not in sentence case.', elt);
+           return;
+         }
+
+         var tokens = str.split(' ').filter(posLength);
+
+         for (var i=1; i < tokens.length; ++i) {
+           if (fiveui.word.capitalized(tokens[i])) {
+             report('The heading: "'+str+'" is not in sentence case.', elt);
+             return;
+           }
+         }
+       };
+
+       fiveui.query(':header').each(function(idx, elt) {
+                                      assertSentenceCase($(elt).text(), elt);
+                                    });
+     }
+   },
+   //---------------------------------------------------------------
+   { "id":14
+   , "name": "Capitalization check"
+   , "description": "Capitalize \"Galois\" and \"Galwegian\" when referring to the company"
+   , "rule":
+     function() {
+       fiveui.query('*').hasText('galois').each(function (i, elt) {
+         report('"Galois" should be capitalized', elt);
+       })
+
+       fiveui.query('*').hasText('galwegian').each(function (i, elt) {
+         report('"Galwegian" should be capitalized', elt);
+       })
+     }
+}
+]}

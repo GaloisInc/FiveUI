@@ -1,44 +1,74 @@
 /*
  * imageRules.json
- * Author: Benjamin Jones <bjones@galois.com>
  *
- * Simple rules for checking that specific images appear on a page and that specific images
- * link back to specific URLs.
+ * Simple rules for checking that specific images appear on a page, that specific images
+ * link back to specific URLs, and that image sizes fall into a proscribed set.
  *
  * Test using exampleData/basic/testImageRules.html
  */
 
-{ 'name': "Image exists and links back to URL"
-, 'description': "A specific image file should be included in the page and link back to a specific URL"
+{ 'name': "Image Rules"
+, 'description': "General guidelines regarding site images"
 , 'rules': [
-             { 'id': 1, 'name': "Image appears on page"
-             , 'description': "A specific image should appear somewhere on the page."
-             , 'rule':
-             function() {
-                 var flag = false;
-                 fiveui.query("img[src$='star.jpeg']").each(function(i, elt) { flag = true; });
-                 if (!flag) {
-                   report('Image star.gif does not appear');
-                 }
-             }
-             },
-             { 'id': 2, 'name': "Image links back"
-             , 'description': "Each instance of a specific image must link back to a specific URL"
-             , 'rule':
-             function() {
-               fiveui.query('a').has('img').each(
-                 function(i, elt) {
-                   fiveui.query('img', elt).each(
-                     function(j, elt2) {
-                       if (/star.jpeg$/.test(elt2['src']) && !/star/.test(elt['href'])) {
-                         report('Image star.jpeg does not link back to google');
-                       }
-                     }
-                   );
-                 }
-               );
-             }
-             }
-           ]
+  //----------------------------------------------------------------
+  { 'name': "Banner check"
+  , 'description': "Banner image banner.gif must appear and link to somewhere"
+  , 'severity': 1
+  , 'rule':
+  function() {
+      var elt = $5("div[id=header]");          // get the div with id=header
+      var b = elt.css("background");           // get its background CSS property
+      var l = $5("a[href]", elt).prop("href"); // get the <a href=...> string inside the div
+      if (/banner\.gif/.test(b)) {
+        report("banner.gif missing", elt);
+      }
+      if (l.length == 0) {                     // this list will be empty if there is no link
+        report("banner.gif link is missing", elt);
+      }
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Image Size check"
+  , 'description': "All site images should have height and width in a given set of choices"
+  , 'severity': 2
+  , 'rule':
+  function() {
+    var allowedDimensions = { 446: { 300: {}}               // allow any image with these height:width pairs
+                            , 342: { 228: {}}
+                            , 150: { 100: {}} };
+    var specialWidths     = { 640: {}                       // allow any image with these special widths
+                            , 100: {} };
+    $5("img").not("div.filmstrip *")                        // skip filmstrip images
+             .each(function (i, elt) {
+      var borderStr = /^[0-9]+/.exec($(elt).css("border")); // compensate for image border
+      var border = borderStr ? parseInt(borderStr[0]) : 0;
+      var w = $(elt).width() + 2*border;
+      var h = $(elt).height() + 2*border;
+      if (!((w in specialWidths) ||
+            (h in allowedDimensions && w in allowedDimensions[h]))) {
+        report("non-standard dimensions "+h+"x"+w, elt);
+      }
+    });
+  }
+  },
+  //----------------------------------------------------------------
+  { 'name': "Image Border check"
+  , 'description': "All site images should have 1px solid #3D border"
+  , 'severity': 1
+  , 'rule':
+  function() {
+    var norm = function (s) { return /^\w+\s+\w+/.exec(s)[0]; } // select out first two words of the input
+    var imgs = $5("img").not("div.filmstrip *");         // select images not in the filmstrip
+    imgs.cssIsNot("border", "1px solid", norm)
+        .each(function (i, elt) {
+          report("non-standard border style", elt);
+        });
+    imgs.cssIsNot("border-color", "#3D3D3D", fiveui.color.colorToHex)
+        .each(function (i, elt) {
+          report("non-standard border color", elt);
+        });
+  }
+  }//,
+  //----------------------------------------------------------------
+]
 }
-
