@@ -1,0 +1,818 @@
+0 [main] INFO com.galois.fiveui.HeadlessRunner  - report directory already exists!
+41 [main] ERROR com.galois.fiveui.HeadlessRunDescription  - HeadlessAtom.parse: error parsing ruleSet file: ../ruleSets/headingRules.json (No such file or directory)
+1085 [main] DEBUG com.galois.fiveui.HeadlessRunner  - invoking headless run...
+1086 [main] DEBUG com.galois.fiveui.BatchRunner  - initializing BatchRunner ...
+1087 [main] DEBUG com.galois.fiveui.CrawlParameters  - setting depth: 2
+1087 [main] DEBUG com.galois.fiveui.CrawlParameters  - setting maxFetch: 20
+1087 [main] DEBUG com.galois.fiveui.CrawlParameters  - setting politeness: 500
+1087 [main] DEBUG com.galois.fiveui.CrawlParameters  - setting match: *.galois.com*
+1089 [main] DEBUG com.galois.fiveui.BatchRunner  - setting seed URL for crawl: http://corp.galois.com
+1090 [main] DEBUG com.galois.fiveui.BatchRunner  - tmp directory for crawl data: /var/folders/xf/5mv8974j7y90czd24z53ggg00000gp/T/1354930155630-0
+1090 [main] DEBUG com.galois.fiveui.BatchRunner  - starting webcrawl controller ...
+Deleting content of: /var/folders/xf/5mv8974j7y90czd24z53ggg00000gp/T/1354930155630-0/frontier
+2082 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/people/
+2082 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/cryptol-course
+2083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/about-us/
+2083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/solutions/
+2084 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/john-launchbury
+2084 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+2084 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+2084 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/research/
+2085 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+2085 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/were-open/
+2085 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/technologies/
+2086 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to https://www.acsac.org/2012/workshops/law/
+2086 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html
+2087 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+2087 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads/
+2087 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+2087 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+2088 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74
+2088 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/terms-and-conditions
+2089 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/events
+2089 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html
+2089 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Empowering%20the%20Experts_web.pdf
+2089 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/services/
+2090 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/
+2090 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html
+2091 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+2091 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/careers/
+2091 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/images/Portland_HomePageImage.jpg
+2092 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 1
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/'
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: null
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 2797
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 17307
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 29
+2093 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+2548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/melissa-angeli/
+2549 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/matt-sottile/
+2549 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Trevor.jpg
+2549 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/jef-bell/
+2550 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Simon_Winwood.jpg
+2550 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Lindsay_Errington.jpg
+2550 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+2550 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/dylan-mcnamee/
+2551 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/mark-tullsen/
+2551 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/isaac-potoczny-jones/
+2551 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/jean-herbst/
+2552 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+2552 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+2552 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Aaron.jpg
+2553 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Markupdated.jpg
+2553 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/lee-pike/
+2553 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Pat_Hickey.jpg
+2554 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/jodee-leroux/
+2554 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Jason.jpg
+2554 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+2555 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/people
+2555 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/adam-foltzer/
+2556 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/jason-dagit/
+2556 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Ledah.jpg
+2557 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/trevor-elliott/
+2557 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/JoeHX.jpg
+2557 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+2557 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Jef.jpg
+2558 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/david-archer/
+2558 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Benjamin_Jones.jpg
+2558 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Iavor.jpg
+2559 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Leah.jpg
+2559 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Tom_DuBuisson.jpg
+2559 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/john-launchbury/
+2559 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Matt.jpg
+2560 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/benjamin-jones/
+2560 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Melissa_Angeli.jpg
+2560 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/AnneMarie_McClaran.jpg
+2561 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/sally-browning/
+2561 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Getty_Ritter.jpg
+2561 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Eric.jpg
+2561 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/David%20II.jpg
+2562 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/christine-uri/
+2562 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/david-burke/
+2563 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Lee.jpg
+2563 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/careers
+2563 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+2563 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/jonathan-daugherty/
+2564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads
+2564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/paul.jpg
+2564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/eric-mertens/
+2565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Rogan.jpg
+2565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/ledah-casburn/
+2565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/John.jpeg
+2566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/tom-dubuisson/
+2566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Sally.jpg
+2566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Adam_Foltzer.jpg
+2566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/David.jpg
+2567 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+2567 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/aaron-tomb/
+2567 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+2567 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/anne-marie-mcclaran/
+2568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/were-open
+2568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/leah-daniels/
+2569 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/lindsay-errington/
+2569 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/paul-heinlein/
+2569 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/rogan-creswick/
+2570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/adam-wick/
+2570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/getty-ritter/
+2571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/simon-winwood/
+2571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/pat-hickey/
+2571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Jodee.jpg
+2572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Adam.jpg
+2572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/iavor-diatchki/
+2572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Isaac.jpg
+2572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Jonathan.jpg
+2572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Jean_Herbst.jpg
+2573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+2573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Christine_Uri.jpg
+2573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/Dylan.jpg
+2573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/joe-hendrix/
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 2
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/people/
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/people/'
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 3015
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 20488
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 94
+2574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+3030 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Cryptol_CourseFlyer.pdf
+3031 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+3031 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+3031 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+3031 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 3
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/cryptol-course
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/cryptol-course'
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 2506
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 15105
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 21
+3032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+3544 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+3544 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/secure-virtualization
+3544 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+3545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+3545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/core-principles
+3545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+3545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/scientific-computing
+3546 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+3546 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+3546 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+3546 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/software-trust-assurance
+3546 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/cyber-physical-systems
+3547 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/ais-research
+3547 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://en.wikipedia.org/wiki/%C3%89variste_Galois
+3547 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+3547 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/networking
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Galois_TechnologyCatalog.pdf
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/formal-methods
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/programming-languages
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 4
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/about-us/
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/about-us/'
+3548 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+3549 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 4964
+3549 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 20532
+3549 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 37
+3549 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+4034 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/trusted-collaboration
+4035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+4035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/policy-management
+4035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+4035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/critical-systems
+4035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+4036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+4036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/mobile-security
+4036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Cryptol_Casestudy.pdf
+4036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/research-and-discovery
+4036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+4037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+4037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+4037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/information-security
+4037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/compliance
+4038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/licensing
+4038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+4038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/training
+4038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/why-are-quotes-anonymous
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 5
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/solutions/
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/solutions/'
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 3841
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 18884
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 32
+4039 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+4645 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/How%20to%20Give%20a%20Good%20Research%20Talk.pdf
+4645 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Recursive%20Mondaic%20Bindings.pdf
+4646 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Monadic%20State.pdf
+4646 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/A%20Recursive%20Do%20for%20Haskell.pdf
+4646 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+4646 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Embedding%20a%20Microprocessor%20Specification%20Language.pdf
+4646 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+4647 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+4647 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Reversing%20Abstract%20Interpretations.pdf
+4647 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Elementary%20Microarchitectural%20Algebra.pdf
+4647 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+4647 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+4648 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.linkedin.com/pub/john-launchbury/10/a9a/1b1
+4648 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Disposable%20Memo-Functions.pdf
+4648 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Trust-Relationship-Modeling-for-Software-Assurance.pdf
+4648 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Implicit%20Parameters.pdf
+4648 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/short%20cut%20deforestation.pdf
+4648 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+4649 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.acm.org/
+4649 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Unboxed%20Values%20as%20First%20Class%20Citizens.pdf
+4649 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/people/John.jpeg
+4649 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://code.galois.com/paper/2010/Hask-Orc-DRAFT.pdf
+4649 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Warm%20Fusion.pdf
+4650 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/programming-languages-research
+4650 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Structuring%20DFS%20Algorithms.pdf
+4650 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+4650 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+4650 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Implementing%20Projection%20Based%20Strictness%20Analysis.pdf
+4650 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Bridging%20the%20Gulf.pdf
+4651 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Parametricity%20and%20Unboxing%20with%20Unpointed%20Types.pdf
+4651 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Microporocessor%20Specification%20in%20Hawk.pdf
+4651 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Formal%20Verification%20of%20Explicitly%20Parallel%20Microprocessors.pdf
+4651 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Constructing%20Natural%20Language%20Interpreters.pdf
+4651 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/State%20in%20Haskell.pdf
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/Natural%20Semantics%20for%20Lazy%20Evaluation.pdf
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/publications-jl/lazy-functional-state-threads.pdf
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 6
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/john-launchbury
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/john-launchbury'
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 12800
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 30693
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 55
+4652 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+5034 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Trust-Relationship-Modeling-for-Software-Assurance.pdf
+5034 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Copilot_Whitepaper.pdf
+5035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+5035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+5035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+5035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+5035 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/FM_Whitepaper_Composable-Packages-for-Higher-Order-Logic-Theories.pdf
+5036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/cryptography-research
+5036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+5036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+5036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+5037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://blogs.forbes.com/andygreenberg/2011/04/06/darpa-will-spend-20-million-to-search-for-cryptos-holy-grail/?feed=rss_tickers
+5037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/secure-communications
+5037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.ok-labs.com/releases/release/ok-labs-and-galois-partner-in-original-research-for-ultra-secure-systems/
+5037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 7
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/research/
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/research/'
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 4636
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 21033
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 36
+5038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+5533 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+5533 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+5533 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+5533 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+5533 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/open-source
+5534 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+5534 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+5534 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+5534 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Galois_TechnologyCatalog.pdf
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://en.wikipedia.org/wiki/Open_innovation
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 8
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/were-open/
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/were-open/'
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 4667
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 18875
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 30
+5535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+6121 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/identity-management
+6121 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+6121 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+6122 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+6122 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+6122 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/ais
+6122 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://player.vimeo.com/video/22669718?byline=0&color=ffffff&portrait=0
+6122 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/systems-software
+6123 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+6123 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Whitepaper_SecureHistorianAccessInSCADASystems.pdf
+6123 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+6123 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/cryptography
+6123 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Empowering%20the%20Experts_web.pdf
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 9
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/technologies/
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/technologies/'
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+6124 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 5748
+6125 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 21495
+6125 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 36
+6125 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+6563 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/open-source
+6563 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/atom.xml
+6563 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/rss.xml
+6564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/author/diatchki
+6564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+6564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/tech-talks
+6564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/assured-information-sharing
+6564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+6564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/security
+6564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/domain-specific-languages
+6564 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+6565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/functional-programming
+6565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/technology
+6565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/universal/images/transparent.png
+6565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/formal-methods
+6565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/community
+6565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/haskell
+6565 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/cryptography
+6566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+6566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+6566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/video
+6566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+6566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/white-papers
+6566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+6566 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/galois-news
+6567 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/events
+6567 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/trackback/31454645
+6567 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/rdf.xml
+6567 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/cryptol
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.aclu-or.org/
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 10
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html'
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 6757
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 31746
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 46
+6568 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+7079 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+7079 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+7079 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads/cryptography/
+7080 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+7080 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+7080 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/universal/images/transparent.png
+7080 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads/networking/
+7080 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads/formal-methods/
+7081 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+7081 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads/scientific-computing/
+7081 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+7081 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+7082 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads/assured-information-sharing/
+7082 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+7082 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads/cyber-physical-systems/
+7082 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/Galois_TechnologyCatalog.pdf
+7082 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/downloads/programming-languages/
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 11
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/downloads/
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/downloads/'
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 3418
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 20811
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 36
+7083 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+7570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 12
+7570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74
+7570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+7570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+7570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/universal/styles/squarespace-gallery-slideshow.css'
+7570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+7571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 4591
+7571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 4592
+7571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 0
+7571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+8036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+8036 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+8037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+8037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+8037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+8037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+8037 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/privacy-policy
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 13
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/terms-and-conditions
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/terms-and-conditions'
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 15283
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 29983
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 21
+8038 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+8598 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/open-source
+8598 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/tech-talks
+8598 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+8598 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/assured-information-sharing
+8598 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+8598 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/technology
+8599 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/formal-methods
+8599 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/haskell
+8599 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/cryptography
+8599 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/video
+8599 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+8599 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contributor/20421909
+8599 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.bicycling.com/news/advocacy/americas-best-bike-city-portland-oregon
+8599 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+8600 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/events
+8600 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/galois-news
+8600 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://btaoregon.org/wp-content/uploads/2012/10/Non-Profits-25-991.pdf
+8600 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://bikecommutechallenge.com/
+8600 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+8600 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://ohmcycles.com/electric-bikes/
+8601 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/security
+8601 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/functional-programming
+8601 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/domain-specific-languages
+8601 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/universal/images/transparent.png
+8601 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/community
+8601 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+8601 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+8601 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/white-papers
+8602 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/author/heinlein
+8602 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/cryptol
+8602 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+8602 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/trackback/29805067
+8602 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 14
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/blog/2012/10/12/2012-bike-commute-challenge.html'
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 6558
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 32173
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 51
+8603 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+9074 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+9074 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+9074 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/cybersecurity-risk-management
+9074 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+9074 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+9075 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+9075 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+9075 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+9075 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/advanced-development
+9075 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/partnering
+9076 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/transition-support
+9076 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 15
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/services/
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/services/'
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 3857
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 18605
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 30
+9077 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+9570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/open-source
+9570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/2012/9/26/galois-at-icfp-2012.html
+9570 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/tech-talks
+9571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/assured-information-sharing
+9571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+9571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.cs.indiana.edu/~rrnewton/papers/2012-ICFP_meta-par.pdf
+9571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+9571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/technology
+9571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/formal-methods
+9571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/haskell
+9571 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/cryptography
+9572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/video
+9572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+9572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.bicycling.com/news/advocacy/americas-best-bike-city-portland-oregon
+9572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+9572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/galois-news
+9572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/events
+9572 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/author/galois
+9573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://btaoregon.org/wp-content/uploads/2012/10/Non-Profits-25-991.pdf
+9573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/2012/9/26/galois-is-hiring.html
+9573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://bikecommutechallenge.com/
+9573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/author/diatchki
+9573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+9573 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.youtube.com/watch?v=I79PwWpUx9c
+9574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/security
+9574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/functional-programming
+9574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/domain-specific-languages
+9574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/universal/images/transparent.png
+9574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/community
+9574 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/?currentPage=42
+9575 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+9575 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+9575 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.cs.indiana.edu/~lepike/pubs/pike-icfp12.pdf
+9575 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/white-papers
+9575 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/author/heinlein
+9575 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/lee-pike
+9575 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/?currentPage=3
+9576 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/?currentPage=2
+9576 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/?currentPage=5
+9576 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/?currentPage=4
+9576 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/cryptol
+9577 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.aclu-or.org/
+9577 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.youtube.com/watch?v=7zXhP--9axQ
+9577 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/storage/files/downloads/icfp47-launchbury.pdf
+9577 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+9577 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/rsd.xml
+9577 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.youtube.com/watch?v=SGMKv9DxpZs
+9577 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 16
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/blog/
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/blog/'
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 12482
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 39142
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 67
+9578 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+10107 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/open-source
+10108 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/author/diatchki
+10108 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+10108 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/tech-talks
+10108 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/assured-information-sharing
+10108 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+10109 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/trackback/29739331
+10109 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/security
+10109 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/domain-specific-languages
+10109 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+10109 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/functional-programming
+10109 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/technology
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/universal/images/transparent.png
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/formal-methods
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/community
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/haskell
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/cryptography
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/video
+10110 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+10111 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/white-papers
+10111 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+10111 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/galois-news
+10111 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/events
+10111 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/cryptol
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 17
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html'
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 6806
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 31733
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 46
+10112 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+10535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/blog/rss.xml
+10535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://twitter.com/
+10535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.acm.org/press-room/news-releases/2010/fellows-2010
+10535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact
+10535 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.linkedin.com/company/galois-inc.?trk=fc_badge
+10536 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/display/common.css?CE=74&RK=1348245772293&styleId=1150632
+10536 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.inc.com/inc5000/2007/company-profile.html?id=200719620
+10536 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/principal-investigator
+10536 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.greenlightgreaterportland.com/
+10536 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/project-lead
+10536 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.vimeo.com/galois
+10537 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://corp.galois.com/favicon.png
+10537 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.facebook.com/pages/galois/433286370012
+10537 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://static01.linkedin.com/scds/common/u/img/webpromo/btn_cofollow_badge.png
+10537 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/software-engineer
+10537 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/blog/category/press-releases
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://www.gencubed.com/what-we-do/programs-conferences/next-generation-companies/nominate-a-next-generation-company/
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://galois.squarespace.com/storage/files/downloads/2010-Portland-Prosperity-Index.pdf
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://money.cnn.com/magazines/fsb/bestplaces/2008/
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying yes to http://corp.galois.com/contact/
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  - saying no to http://blog.ezyang.com/2010/08/day-in-the-life-of-a-galois-intern/
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 18
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/careers/
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/careers/'
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 5467
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 20848
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 38
+10538 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+11032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 19
+11032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/melissa-angeli/
+11032 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+11033 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+11033 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/melissa-angeli/'
+11033 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/people/
+11033 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 2060
+11033 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 15303
+11033 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 27
+11033 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Docid: 20
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - URL: http://corp.galois.com/matt-sottile/
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Domain: 'galois.com'
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Sub-domain: 'corp'
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Path: '/matt-sottile/'
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - Parent page: http://corp.galois.com/people/
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Text length: 10985
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Html length: 26305
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  -- Number of outgoing links: 31
+11545 [Crawler 1] DEBUG com.galois.fiveui.BasicCrawler  -  - =============
+41923 [main] DEBUG com.galois.fiveui.BatchRunner  - adding urls list to cache
+41923 [main] DEBUG com.galois.fiveui.BatchRunner  - URLs: [http://corp.galois.com/, http://corp.galois.com/people/, http://corp.galois.com/cryptol-course, http://corp.galois.com/about-us/, http://corp.galois.com/solutions/, http://corp.galois.com/john-launchbury, http://corp.galois.com/research/, http://corp.galois.com/were-open/, http://corp.galois.com/technologies/, http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html, http://corp.galois.com/downloads/, http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74, http://corp.galois.com/terms-and-conditions, http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html, http://corp.galois.com/services/, http://corp.galois.com/blog/, http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html, http://corp.galois.com/careers/, http://corp.galois.com/melissa-angeli/, http://corp.galois.com/matt-sottile/]
+Deleting content of: /var/folders/xf/5mv8974j7y90czd24z53ggg00000gp/T/1354930155630-0
+Deleting content of: /var/folders/xf/5mv8974j7y90czd24z53ggg00000gp/T/1354930155630-0/frontier
+41924 [main] DEBUG com.galois.fiveui.BatchRunner  - building webdrivers ...
+53543 [main] DEBUG com.galois.fiveui.BatchRunner  - built: [FirefoxDriver: firefox on MAC (edb28488-c1ce-7440-b2d1-2e3aaeeafb95)]
+53544 [main] DEBUG com.galois.fiveui.BatchRunner  - registering new webdriver...
+53544 [main] DEBUG com.galois.fiveui.BatchRunner  - root path for webdriver is ../..//
+53544 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/ for ruleset run ...
+54955 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+55090 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/, ruleSet="Misc"
+56218 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+56719 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/people/ for ruleset run ...
+58077 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+58290 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/people/, ruleSet="Misc"
+59420 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+59921 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/cryptol-course for ruleset run ...
+60311 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+60417 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/cryptol-course, ruleSet="Misc"
+61547 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+62048 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/about-us/ for ruleset run ...
+62580 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+62597 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/about-us/, ruleSet="Misc"
+63733 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+64234 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/solutions/ for ruleset run ...
+64588 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+64602 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/solutions/, ruleSet="Misc"
+65761 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+66262 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/john-launchbury for ruleset run ...
+66746 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+66762 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/john-launchbury, ruleSet="Misc"
+67913 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+68414 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/research/ for ruleset run ...
+68756 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+68770 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/research/, ruleSet="Misc"
+69918 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+70419 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/were-open/ for ruleset run ...
+70910 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+70924 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/were-open/, ruleSet="Misc"
+72077 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+72579 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/technologies/ for ruleset run ...
+73282 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+73289 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/technologies/, ruleSet="Misc"
+74398 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+74899 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html for ruleset run ...
+75478 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+75486 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html, ruleSet="Misc"
+76605 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+77106 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/downloads/ for ruleset run ...
+77604 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+77613 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/downloads/, ruleSet="Misc"
+78763 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+79264 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74 for ruleset run ...
+79353 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+79366 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74, ruleSet="Misc"
+80490 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+80991 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/terms-and-conditions for ruleset run ...
+81343 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+81353 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/terms-and-conditions, ruleSet="Misc"
+82474 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+82975 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html for ruleset run ...
+83387 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+83403 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html, ruleSet="Misc"
+84521 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+85022 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/services/ for ruleset run ...
+85622 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+85637 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/services/, ruleSet="Misc"
+86770 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+87271 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/blog/ for ruleset run ...
+87652 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+87681 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/blog/, ruleSet="Misc"
+88809 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+89310 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html for ruleset run ...
+89861 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+89887 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html, ruleSet="Misc"
+91019 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+91519 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/careers/ for ruleset run ...
+91899 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+91907 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/careers/, ruleSet="Misc"
+93032 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+93533 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/melissa-angeli/ for ruleset run ...
+94231 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+94250 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/melissa-angeli/, ruleSet="Misc"
+95392 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+95893 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/matt-sottile/ for ruleset run ...
+96223 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Misc"
+96237 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/matt-sottile/, ruleSet="Misc"
+97369 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+98257 [main] DEBUG com.galois.fiveui.BatchRunner  - setting seed URL for crawl: http://corp.galois.com
+98257 [main] DEBUG com.galois.fiveui.BatchRunner  - retreiving urls list from cache
+98257 [main] DEBUG com.galois.fiveui.BatchRunner  - building webdrivers ...
+104199 [main] DEBUG com.galois.fiveui.BatchRunner  - built: [FirefoxDriver: firefox on MAC (ea89ebb6-9f22-8940-bf44-eb6d9d15c236)]
+104199 [main] DEBUG com.galois.fiveui.BatchRunner  - registering new webdriver...
+104199 [main] DEBUG com.galois.fiveui.BatchRunner  - root path for webdriver is ../..//
+104199 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/ for ruleset run ...
+105417 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+105632 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/, ruleSet="Text capitalization guidelines"
+106791 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+107292 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/people/ for ruleset run ...
+108432 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+108440 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/people/, ruleSet="Text capitalization guidelines"
+109892 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+110393 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/cryptol-course for ruleset run ...
+110898 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+110914 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/cryptol-course, ruleSet="Text capitalization guidelines"
+112136 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+112636 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/about-us/ for ruleset run ...
+113105 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+113118 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/about-us/, ruleSet="Text capitalization guidelines"
+114285 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+114785 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/solutions/ for ruleset run ...
+115113 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+115126 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/solutions/, ruleSet="Text capitalization guidelines"
+116287 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+116788 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/john-launchbury for ruleset run ...
+117276 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+117303 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/john-launchbury, ruleSet="Text capitalization guidelines"
+118517 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+119018 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/research/ for ruleset run ...
+119365 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+119379 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/research/, ruleSet="Text capitalization guidelines"
+120563 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+121064 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/were-open/ for ruleset run ...
+121556 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+121570 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/were-open/, ruleSet="Text capitalization guidelines"
+122749 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+123250 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/technologies/ for ruleset run ...
+123998 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+124007 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/technologies/, ruleSet="Text capitalization guidelines"
+125166 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+125668 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html for ruleset run ...
+126104 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+126126 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html, ruleSet="Text capitalization guidelines"
+127266 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+127767 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/downloads/ for ruleset run ...
+128172 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+128180 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/downloads/, ruleSet="Text capitalization guidelines"
+129383 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+129884 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74 for ruleset run ...
+129982 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+129998 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74, ruleSet="Text capitalization guidelines"
+131119 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+131620 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/terms-and-conditions for ruleset run ...
+131969 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+131983 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/terms-and-conditions, ruleSet="Text capitalization guidelines"
+133230 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+133731 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html for ruleset run ...
+134210 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+134228 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html, ruleSet="Text capitalization guidelines"
+135413 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+135914 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/services/ for ruleset run ...
+136301 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+136315 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/services/, ruleSet="Text capitalization guidelines"
+137459 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+137961 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/blog/ for ruleset run ...
+138302 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+138328 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/blog/, ruleSet="Text capitalization guidelines"
+139625 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+140126 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html for ruleset run ...
+140580 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+140607 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html, ruleSet="Text capitalization guidelines"
+141745 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+142246 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/careers/ for ruleset run ...
+142622 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+142647 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/careers/, ruleSet="Text capitalization guidelines"
+143842 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+144343 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/melissa-angeli/ for ruleset run ...
+145391 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+145403 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/melissa-angeli/, ruleSet="Text capitalization guidelines"
+146619 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+147121 [main] INFO com.galois.fiveui.BatchRunner  - loading http://corp.galois.com/matt-sottile/ for ruleset run ...
+147454 [main] INFO com.galois.fiveui.BatchRunner  - running ruleset "Text capitalization guidelines"
+147481 [main] DEBUG com.galois.fiveui.BatchRunner  - runRule: url=http://corp.galois.com/matt-sottile/, ruleSet="Text capitalization guidelines"
+148751 [main] DEBUG com.galois.fiveui.BatchRunner  - being polite for 500 millis...
+149616 [main] DEBUG com.galois.fiveui.HeadlessRunner  - runHeadless returned 234 results
