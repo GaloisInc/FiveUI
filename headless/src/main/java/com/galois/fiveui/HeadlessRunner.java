@@ -1,5 +1,5 @@
 /**
- * Module : HeadlessRunner.java Copyright : (c) 2011-2012, Galois, Inc.
+ * Module : HeadlessRunner.java Copyright : (c) 2012, Galois, Inc.
  * 
  * Maintainer : Stability : Provisional Portability: Portable
  * 
@@ -23,12 +23,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.galois.fiveui.Result;
 import com.google.common.collect.ImmutableList;
 

@@ -1,5 +1,5 @@
 /**
- * Module : BatchRunner.java Copyright : (c) 2011-2012, Galois, Inc.
+ * Module : BatchRunner.java Copyright : (c) 2012, Galois, Inc.
  *
  * Maintainer : Stability : Provisional Portability: Portable
  *
@@ -213,7 +213,8 @@ public class BatchRunner {
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
             logger.error("exception running rule: " + res);
-            builder.add(Result.exception(_driver, (String) res + ", state: " + state));
+            builder.add(Result.exception(_driver,
+            		                     (String) res + ", state: " + state));
             return builder.build();
         } else {
             try {
@@ -221,15 +222,21 @@ public class BatchRunner {
                 List<Map<String, Map<String, String>>> results = (List) res;
                 
                 if (0 == results.size()) {
-                    builder.add(Result.pass(_driver, "passed " + ruleSet.getRules().size() + " tests", _driver.getCurrentUrl(), ruleSet.getName()));
+                    builder.add(Result.pass(_driver, 
+                    		"passed " + ruleSet.getRules().size() + " tests",
+                    		_driver.getCurrentUrl(), ruleSet.getName()));
                 }
 
                 for (Map<String, Map<String, String>> r : results) {
                     Map<String, String> problem = r.get("payload");
-                    
-                    builder.add(Result.error(_driver, "problem: " + 
-                                             problem.toString(),
-                                             _driver.getCurrentUrl(), ruleSet.getName()));
+                    // TODO decide what to extract from problem object and what
+                    //      to do with it.
+                    //
+                    //      Probably we should just pass along the Map<String, String>
+                    //      and let the reporter deal with it.
+                    builder.add(Result.error(_driver, problem.toString(),
+                                             _driver.getCurrentUrl(),
+                                             ruleSet.getName()));
                 }
 
             } catch (ClassCastException e) {
