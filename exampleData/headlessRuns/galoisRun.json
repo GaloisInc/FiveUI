@@ -1,0 +1,9 @@
+{
+  'rulePath'  : '../ruleSets/',
+  'crawlType' :    '2 20 500 *.galois.com*',
+  'runs': [
+  { 'url': 'http://corp.galois.com', 'ruleSet': 'headingRules.json' },
+  { 'url': 'http://corp.galois.com', 'ruleSet': 'miscRules.json' },
+  { 'url': 'http://corp.galois.com', 'ruleSet': 'textRules.json' }
+  ]
+}
