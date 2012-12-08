@@ -1,27 +1,6 @@
 { 'name': "Combined color, font, image, and text rules"
 , 'description': "Site colors, fonts, images, and text should conform to these general guidelines"
 , 'rules': [
-//---------------------------------
-          { "id":13
-             , "name": "Reports three times"
-             , "description": "Test guideline that reports three errors"
-             , "rule":
-               function() {
-                 report('Problem 1 (g1)', null);
-                 report('Problem 3 (g1)', null);
-                 report('Problem 2 (g1)', null);
-               }
-             },
-//---------------------------------
-           { "id":14
-             , "name": "Reports two times"
-             , "description": "Test guideline that reports two errors."
-             , "rule":
-               function() {
-                 report('Problem 1 (g2)', null);
-                 report('Problem 2 (g2)', null);
-               }
-              },
   //----------------------------------------------------------------
   { 'name': "Foreground check"
   , 'description': "Foreground colors should be in the set:"+
@@ -97,17 +76,6 @@
       });
   }
   },
-  //---
-  { "id": 1, "name": "Disallow Empty Headers"
-    , "description": "Heading elements should contain text."
-    , "rule": function() {
-        fiveui.query(':header').each(function(ix, elt) {
-          if($(elt).text() == '') {
-            report('Heading does not contain text', elt);
-          }
-        });
-      }
-    },
   //---------------------------------------------------------
   { 'name': "Font properties check"
   , 'description': "Verify that fonts (family, size, weight) are \"standard\""
@@ -127,41 +95,6 @@
         }
       });
   }
-  },
-//------------
-  { "id": 1
-  , "name": "Headings are capitalized"
-  , "description": "Check to see if all headings use leading capital letters"
-  , "rule":
-    function() {
-      var badHeadings =
-        fiveui.query(':header').filter(
-          function(idx) {
-            var ch = $(this).text()[0];
-            if (ch) {
-              return (ch == ch.toLowerCase() );
-            } else {
-              return false;
-            }
-          });
-      $(badHeadings).map(function(idx, elt){
-                           report('Heading does not start with a capital letter', elt);
-                         });
-
-    }
-  },
-//------------
-  { "id": 2
-    , "name": "Disallow Empty Headers"
-    , "description": "Heading elements should contain text"
-    , "rule": function() {
-      fiveui.query(':header').each(
-        function(ix, elt) {
-          if($(elt).text() == '') {
-            report('Heading does not contain text', elt);
-          }
-        });
-    }
   },
   //----------------------------------------------------------------
   { 'name': "Banner check"
@@ -222,6 +155,41 @@
         });
   }
   },
+//------------
+  { "id": 1
+  , "name": "Headings are capitalized"
+  , "description": "Check to see if all headings use leading capital letters"
+  , "rule":
+    function() {
+      var badHeadings =
+        fiveui.query(':header').filter(
+          function(idx) {
+            var ch = $(this).text()[0];
+            if (ch) {
+              return (ch == ch.toLowerCase() );
+            } else {
+              return false;
+            }
+          });
+      $(badHeadings).map(function(idx, elt){
+                           report('Heading does not start with a capital letter', elt);
+                         });
+
+    }
+  },
+//------------
+  { "id": 2
+    , "name": "Disallow Empty Headers"
+    , "description": "Heading elements should contain text"
+    , "rule": function() {
+      fiveui.query(':header').each(
+        function(ix, elt) {
+          if($(elt).text() == '') {
+            report('Heading does not contain text', elt);
+          }
+        });
+    }
+  },
   //---------------------------------------------------------
   { 'name': "Footer check"
   , 'description': "Footer should appear on the page"
@@ -249,47 +217,6 @@
     }
   }
   },
-//---
-  { 'name': 'Test rule',
-               'description': 'An empty test rule',
-               'rule': function() {
-                  fiveui.query('p').each(
-                    function(idx, elt) {
-                      if ($(elt).text().indexOf('Sample text') != -1) {
-                        report('test error', elt);
-                      }
-                    });
-               }
-             },
-  //---
-  {"id":42,"name":"r1","description":"desc1","rule":"rule txt1"},
-  //---
-  {"id":43,"name":"r2","description":"desc2","rule":"rule txt2"},
-//---
-          { "id":42
-             , "name": "Headings are capitalized"
-             , "description": "Check to see if all h1 headings use leading capital letters."
-             , "rule":
-               function() {
-                 var badHeadings = $('h1').filter(function(idx) {
-                                                    var ch = $(this).text()[0];
-                                                    if (ch) {
-                                                      return (ch == ch.toLowerCase() );
-                                                    } else {
-                                                      return false;
-                                                    }
-                                                  });
-                 $(badHeadings).map(function(idx, elt){
-                                      report('Heading does not start with a capitol letter.', elt);
-                 });
-
-               },
-//--------------------------------------------
-             { 'name': "RULE NAME"
-             , 'description': "RULE DESC"
-             , 'rule':
-             function() {} // Function that checks the rule
-             },
   //---------------------------------------------------------------
   { "id": 13
    , "name": "Sentence case"
@@ -327,7 +254,7 @@
      }
    },
    //---------------------------------------------------------------
-   { "id":14
+   { "id":12
    , "name": "Capitalization check"
    , "description": "Capitalize \"Galois\" and \"Galwegian\" when referring to the company"
    , "rule":
@@ -341,9 +268,25 @@
        })
      }
     },
-//-----------------------------------
-  { 'id': 1, 'name': 'Test rule',
-               'description': 'An empty test rule',
-               'rule': function() { report('test error'); }
+//---------------------------------
+          { "id":13
+             , "name": "Reports three times"
+             , "description": "Test guideline that reports three errors"
+             , "rule":
+               function() {
+                 report('Problem 1 (g1)', null);
+                 report('Problem 3 (g1)', null);
+                 report('Problem 2 (g1)', null);
+               }
+             },
+//---------------------------------
+           { "id":14
+             , "name": "Reports two times"
+             , "description": "Test guideline that reports two errors."
+             , "rule":
+               function() {
+                 report('Problem 1 (g2)', null);
+                 report('Problem 2 (g2)', null);
+               }
 }
 ]}
