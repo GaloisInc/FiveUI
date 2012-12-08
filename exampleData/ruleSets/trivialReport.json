@@ -1,7 +1,11 @@
 { 'name': 'Test rule set',
   'description': 'test',
-  'rules': [ { 'id': 1, 'name': 'Test rule',
+  'rules': [
+//-----------------------------------
+  { 'id': 1, 'name': 'Test rule',
                'description': 'An empty test rule',
                'rule': function() { report('test error'); }
-             } ]
+             }//,
+//-----------------------------------
+]
 }

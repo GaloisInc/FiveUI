@@ -1,37 +1,41 @@
 { "name": "Heading Guidelines"
 , "description": "Guidelines pertaining to the formatting and content of headings"
-, "rules": [ { "id": 1
-             , "name": "Headings are capitalized"
-             , "description": "Check to see if all headings use leading capital letters"
-             , "rule":
-               function() {
-                 var badHeadings =
-                   fiveui.query(':header').filter(
-                     function(idx) {
-                       var ch = $(this).text()[0];
-                       if (ch) {
-                         return (ch == ch.toLowerCase() );
-                       } else {
-                         return false;
-                       }
-                     });
-                 $(badHeadings).map(function(idx, elt){
-                                      report('Heading does not start with a capital letter', elt);
-                                    });
+, "rules": [
+//------------
+  { "id": 1
+  , "name": "Headings are capitalized"
+  , "description": "Check to see if all headings use leading capital letters"
+  , "rule":
+    function() {
+      var badHeadings =
+        fiveui.query(':header').filter(
+          function(idx) {
+            var ch = $(this).text()[0];
+            if (ch) {
+              return (ch == ch.toLowerCase() );
+            } else {
+              return false;
+            }
+          });
+      $(badHeadings).map(function(idx, elt){
+                           report('Heading does not start with a capital letter', elt);
+                         });
 
-               }
-             },
-             { "id": 2
-               , "name": "Disallow Empty Headers"
-               , "description": "Heading elements should contain text"
-               , "rule": function() {
-                 fiveui.query(':header').each(
-                   function(ix, elt) {
-                     if($(elt).text() == '') {
-                       report('Heading does not contain text', elt);
-                     }
-                   });
-               }
-             }
+    }
+  },
+//------------
+  { "id": 2
+    , "name": "Disallow Empty Headers"
+    , "description": "Heading elements should contain text"
+    , "rule": function() {
+      fiveui.query(':header').each(
+        function(ix, elt) {
+          if($(elt).text() == '') {
+            report('Heading does not contain text', elt);
+          }
+        });
+    }
+  }//,
+//------------
            ]
 }

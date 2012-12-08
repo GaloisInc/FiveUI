@@ -1,6 +1,8 @@
 { "name": "always errors"
 , "description": "A trivial rule set for experimentation."
-, "rules": [ { "id":13
+, "rules": [
+//---------------------------------
+          { "id":13
              , "name": "Reports three times"
              , "description": "Test guideline that reports three errors"
              , "rule":
@@ -9,8 +11,9 @@
                  report('Problem 3 (g1)', null);
                  report('Problem 2 (g1)', null);
                }
-             }
-           , { "id":14
+             },
+//---------------------------------
+           { "id":14
              , "name": "Reports two times"
              , "description": "Test guideline that reports two errors."
              , "rule":
@@ -18,6 +21,7 @@
                  report('Problem 1 (g2)', null);
                  report('Problem 2 (g2)', null);
                }
-              }
+              }//,
+//---------------------------------
            ]
 }

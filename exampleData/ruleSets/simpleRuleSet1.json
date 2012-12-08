@@ -1,6 +1,8 @@
 { "name": "Simple Rule Set 1"
 , "description": "A trivila rule set for experimentation."
-, "rules": [ { "id":42
+, "rules": [
+//---
+          { "id":42
              , "name": "Headings are capitalized"
              , "description": "Check to see if all h1 headings use leading capital letters."
              , "rule":
@@ -17,6 +19,7 @@
                                       report('Heading does not start with a capitol letter.', elt);
                  });
 
-               }
+               }//,
+//---
            }]
 }
