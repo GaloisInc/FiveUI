@@ -47,19 +47,22 @@ import com.googlecode.jatl.Html;
 public class Reporter {
 	
 	/** see sortBy* and computeSummaryStats methods for map semantics */ 
-	private final Map<String, List<String>> _byURLMap;
-	private final Map<String, List<String>> _byRuleMap;
+	private final Map<String, List<Result>> _byURLMap;
+	private final Map<String, List<Result>> _byRuleMap;
 	private final Map<String, int[]> _passFailMap;
+	private Map<String, String> _ruleNameToDesc;
 	private static String GLOBAL_CSS =
 			"h1 { font-size: 150%; }" +
 			"h2 { font-size: 110%; }" +
+			"li { margin: 5 0 0 0; }" +
 			"table { border: 1px solid grey; cellpadding: 5%; width: 200px; }\n" +
 			"td.pass-number{ text-align: right;color: green; }\n" +
 			"td.fail-number{ text-align: right;color: red; }\n" +
 			"td.text{ text-align: left; }\n" +
 			"th { font-weight: bold; }\n" +
 			"td, th { border: 1px solid grey; }\n" +
-			"tr.hlRow { background: #EEEEEE; }\n";
+			".hlRow { background: #EEEEEE; }\n" +
+			".regRow { background: #FFFFFF; }\n";
 	
 	/**
 	 * Construct a Reporter object. The constructor takes a list of results
@@ -71,6 +74,7 @@ public class Reporter {
 		this._byURLMap = sortByURL(results);
 		this._byRuleMap = sortByRule(results);
 		this._passFailMap = computeSummaryStats(results);
+		this._ruleNameToDesc = extractRuleDesc(results);
 	}
 			
 	/**
@@ -148,7 +152,7 @@ public class Reporter {
 	 */
 	public String getByURL() {
 		StringWriter byURLPage = new StringWriter();
-		final Map<String, List<String>> scopedMap = this._byURLMap;
+		final Map<String, List<Result>> scopedMap = this._byURLMap;
 		Html page = new Html(byURLPage);
 		page = makeHead(page, "Results sorted by URL");
 		page = new Html(page) {{
@@ -161,8 +165,12 @@ public class Reporter {
 				for (String url: sortedKeys) {
 					li().h2().a().href(url).text(url).end().end();
 						ul();
-							for (String entry: scopedMap.get(url)) {
-								li().text(entry).end();
+							int i = 0;
+							for (Result r: scopedMap.get(url)) {
+								li().classAttr(i % 2 == 0 ? "regRow" : "hlRow");
+								text(r.getRuleName() + ": " + r.getRuleDesc()).br();
+								text(r.getProblem()).end();
+								i++;
 							}
 						end();
 					end();
@@ -180,7 +188,8 @@ public class Reporter {
 	 */
 	public String getByRule() {
 		StringWriter byRulePage = new StringWriter();
-		final Map<String, List<String>> scopedMap = this._byRuleMap;
+		final Map<String, List<Result>> scopedMap = this._byRuleMap;
+		final Map<String, String> scopedRuleNameToDesc = this._ruleNameToDesc;
 		Html page = new Html(byRulePage);
 		page = makeHead(page, "Results sorted by rule");
 		page = new Html(page) {{
@@ -190,10 +199,15 @@ public class Reporter {
 			    sortedKeys.addAll(scopedMap.keySet());
 			    Collections.sort(sortedKeys);
 				for (String rule: sortedKeys) {
-					li().h2().text(rule).end();
+					li();
+						b().text(rule).end().text(": " + scopedRuleNameToDesc.get(rule));
 						ul();
-							for (String url: scopedMap.get(rule)) {
-								li().a().href(url).text(url).end().end();
+							int i = 0;
+							for (Result r: scopedMap.get(rule)) {
+								li().classAttr(i % 2 == 0 ? "regRow" : "hlRow");
+								text("Problem: " + r.getProblem()).br();
+								text("URL: ").a().href(r.getURL()).text(r.getURL()).end().end();
+								i++;
 							}
 						end();
 					end();
@@ -237,28 +251,25 @@ public class Reporter {
 	}
 	
 	/**
-	 * Populate a Map<String, List<String>> representing the results sorted by
+	 * Populate a Map<String, List<Result>> representing the results sorted by
 	 * URL.
 	 * 
 	 * @param results a list of results
 	 * @return a map representing the results sorted by URL.
 	 */
-	private Map<String, List<String>>sortByURL(List<Result> results) {
+	private Map<String, List<Result>>sortByURL(List<Result> results) {
     	/** map semantics: Map< url, [rule1, rule2, ...] > */
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		String url, rule;
-		List<String> list;
-		ResType type;
+		Map<String, List<Result>> map = new HashMap<String, List<Result>>();
+		String url;
+		List<Result> list;
 		for (Result r: results) {
 			url = r.getURL();
-			rule = r.getRuleName();
-			type = r.getType();
 			if (map.containsKey(url)) {
 				list = map.get(url);
-				list.add(type.toString() + ": " + rule);
+				list.add(r);
 			} else {
-				list = new ArrayList<String>();
-				list.add(type.toString() + ": " + rule);
+				list = new ArrayList<Result>();
+				list.add(r);
 				map.put(url, list);
 			}
 		}
@@ -266,30 +277,44 @@ public class Reporter {
 	}
 	
 	/**
-	 * Populate a Map<String, List<String>> representing the results sorted by
+	 * Populate a Map<String, List<Result>> representing the results sorted by
 	 * rule name.
 	 * 
 	 * @param results a list of results
 	 * @return a map representing the results sorted by rule name.
 	 */
-	private Map<String, List<String>>sortByRule(List<Result> results) {
+	private Map<String, List<Result>>sortByRule(List<Result> results) {
     	/** map semantics: Map< rule, [url1, url2, ...] > */
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		String url, rule;
-		List<String> list;
+		Map<String, List<Result>> map = new HashMap<String, List<Result>>();
+		String rule;
+		List<Result> list;
 		for (Result r: results) {
-			url = r.getURL();
 			rule = r.getRuleName();
 			if (map.containsKey(rule)) {
 				list = map.get(rule);
-				list.add(url);
+				list.add(r);
 			} else {
-				list = new ArrayList<String>();
-				list.add(url);
+				list = new ArrayList<Result>();
+				list.add(r);
 				map.put(rule, list);
 			}
 		}
 		return map;
+	}
+	
+	/**
+	 * Build a map of ruleName -> ruleDesc entries occurring in the given list of
+	 * results.
+	 * 
+	 * @param results a list of results
+	 * @return a map associating rule names to rule descriptions
+	 */
+	private Map<String, String> extractRuleDesc(List<Result> results) {
+		Map<String, String> assoc = new HashMap<String, String>();
+		for (Result r: results)
+			if (!assoc.containsKey(r.getRuleName()))
+				assoc.put(r.getRuleName(), r.getRuleDesc());
+		return assoc;
 	}
 	
 	 /**
@@ -313,7 +338,7 @@ public class Reporter {
         	url = result.getURL();
         	if (result.getType() == ResType.Pass) {
         		// now we have to parse out how many tests passed
-        		matcher = numberPassedPattern.matcher(result.getDesc());
+        		matcher = numberPassedPattern.matcher(result.getMsg());
         		if (matcher.find())
         			pass = Integer.parseInt(matcher.group(1)); // throws exception if parse fails
         	} else if (result.getType() == ResType.Error) {

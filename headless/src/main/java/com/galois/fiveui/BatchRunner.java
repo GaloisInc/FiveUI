@@ -139,7 +139,8 @@ public class BatchRunner {
 				} catch (Exception e) {
 					String errStr = "failed to complete webcrawl of" + seedUrl + "\n";
 		            errStr += e.toString();
-		            builder.add(Result.exception(_driver, errStr));
+		            builder.add(new Result(ResType.Exception, _driver, errStr, seedUrl,
+		            		               rs.getName(), rs.getDescription(), ""));
 		            logger.error(errStr);
 		            continue;
 				} finally {
@@ -163,7 +164,8 @@ public class BatchRunner {
 			        } catch (Exception e) {
 			            String errStr = "exception during runRule: " + rs.getName() + "\n";
 			            errStr += e.toString();
-			            builder.add(Result.exception(_driver, errStr));
+			            builder.add(new Result(ResType.Exception, _driver, errStr, url,
+         		               rs.getName(), rs.getDescription(), ""));
 			            logger.error(errStr);
 			        }
 			        try {
@@ -213,8 +215,8 @@ public class BatchRunner {
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
             logger.error("exception running rule: " + res);
-            builder.add(Result.exception(_driver,
-            		                     (String) res + ", state: " + state));
+            builder.add(new Result(ResType.Exception, _driver, "", _driver.getCurrentUrl(),
+		               ruleSet.getName(), ruleSet.getDescription(), ""));
             return builder.build();
         } else {
             try {
@@ -222,9 +224,9 @@ public class BatchRunner {
                 List<Map<String, Map<String, String>>> results = (List) res;
                 
                 if (0 == results.size()) {
-                    builder.add(Result.pass(_driver, 
+                    builder.add(new Result(ResType.Pass, _driver, 
                     		"passed " + ruleSet.getRules().size() + " tests",
-                    		_driver.getCurrentUrl(), ruleSet.getName()));
+                    		_driver.getCurrentUrl(), ruleSet.getName(), ruleSet.getDescription(), ""));
                 }
 
                 for (Map<String, Map<String, String>> r : results) {
@@ -234,16 +236,22 @@ public class BatchRunner {
                     //
                     //      Probably we should just pass along the Map<String, String>
                     //      and let the reporter deal with it.
-                    builder.add(Result.error(_driver, problem.toString(),
-                                             _driver.getCurrentUrl(),
-                                             ruleSet.getName()));
+                    builder.add(new Result(ResType.Error, _driver, "",
+                                           _driver.getCurrentUrl(),
+                                           ruleSet.getName(),
+                                           ruleSet.getDescription(),
+                                           problem.toString()));
                 }
 
             } catch (ClassCastException e) {
                 // An unexpected error happened:
-            	builder.add(Result.exception(_driver, "Unexpected object returned: "
-                        + res + ", state: " + state));
-                logger.error("unexpected object returned: " + e.toString());
+            	logger.error("unexpected object returned: " + e.toString());
+            	builder.add(new Result(ResType.Exception, _driver,
+            			               "Unexpected object returned: " + res + ", state: " + state,
+            			               _driver.getCurrentUrl(),
+            			               ruleSet.getName(),
+            			               ruleSet.getDescription(),
+            			               ""));
             }
         }
         return builder.build();
