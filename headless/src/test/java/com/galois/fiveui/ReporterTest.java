@@ -24,6 +24,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import org.junit.Test;
+import org.openqa.selenium.WebDriver;
 
 import com.google.common.collect.ImmutableList;
 
@@ -32,9 +33,9 @@ public class ReporterTest {
 	@Test
     public void testConstructor() {
 		ImmutableList<Result> r = ImmutableList.of(
-				Result.pass(null, "OK", "http://nonexistant", "test rule 1"),
-				Result.pass(null, "OK", "http://intransigent", "test rule 1"),
-				Result.error(null, "ERROR", "http://nonexistant", "test rule 2"));
+				new Result(ResType.Pass, (WebDriver) null, "OK", "http://nonexistant", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://nonexistant", "test rule 2", "a desc or test rule 1", "problem!"));
 		Reporter kermit = new Reporter(r);
 		System.out.println("Summary page size: " + kermit.getSummary().length() + " bytes");
 		System.out.println("Summary page size: " + kermit.getByURL().length() + " bytes");
@@ -50,19 +51,19 @@ public class ReporterTest {
 		File tmpPath = new File("/tmp/");
 		System.out.println("Writing test summary page to: " + tmpPath.toString() + File.separator);
 		ImmutableList<Result> r = ImmutableList.of(
-				Result.pass(null, "OK", "http://nonexistant", "test rule 1"),
-				Result.pass(null, "OK", "http://intransigent", "test rule 1"),
-				Result.pass(null, "OK", "http://intransigent", "test rule 3"),
-				Result.pass(null, "OK", "http://intransigent", "test rule 4"),
-				Result.pass(null, "OK", "http://intransigent", "test rule 5"),
-				Result.pass(null, "OK", "http://foo.com", "test rule 1"),
-				Result.error(null, "ERROR", "http://foo.com", "test rule 5"),
-				Result.error(null, "ERROR", "http://foo.com", "test rule 2"),
-				Result.error(null, "ERROR", "http://bar.com", "test rule 3"),
-				Result.error(null, "ERROR", "http://bar.com", "test rule 3"), // multiple fails for same url+rule combo
-				Result.error(null, "ERROR", "http://bar.com", "test rule 3"),
-				Result.error(null, "ERROR", "http://bar.com", "test rule 3"),
-				Result.error(null, "ERROR", "http://nonexistant", "test rule 2"));
+				new Result(ResType.Pass, (WebDriver) null, "OK", "http://nonexistant", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 3", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 4", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 5", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", "http://foo.com", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://foo.com", "test rule 5", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://foo.com", "test rule 2", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"), // multiple fails for same url+rule combo
+				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://nonexistant", "test rule 2", "a desc or test rule 1", "problem!"));
 		Reporter kermit = new Reporter(r);
 		kermit.writeReportsToDir(tmpPath.toString());
 		assertTrue("made it!", true);
