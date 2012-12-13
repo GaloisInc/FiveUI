@@ -61,13 +61,13 @@ public class BatchRunner {
             + "lib/jshash/md5.js";
     private static final String JQUERY_PLUGIN_JS = DATA_DIR
             + "fiveui/injected/jquery-plugins.js";
-    private static final String SEL_INJECTED_COMPUTE_JS = DATA_DIR + 
+    private static final String SEL_INJECTED_COMPUTE_JS = DATA_DIR +
             "/fiveui/selenium/selenium-injected-compute.js";
-    private static final String INJECTED_COMPUTE_JS = DATA_DIR + 
+    private static final String INJECTED_COMPUTE_JS = DATA_DIR +
             "/fiveui/injected/fiveui-injected-compute.js";
-    
+
     private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchRunner");
-    
+
     private void registerDriver(WebDriver driver) {
     	logger.debug("registering new webdriver...");
     	this._driver = driver;
@@ -75,11 +75,11 @@ public class BatchRunner {
         this._root = Drivers.getRootPath();
         logger.debug("root path for webdriver is " + _root);
     }
-    
+
     public BatchRunner() {
     	logger.debug("initializing BatchRunner ...");
     }
-    
+
     /**
      * Run a headless run description, returning the raw results: 'PASS' if
      * no inconsistencies were found, 'ERROR' for each inconsistency found,
@@ -87,7 +87,7 @@ public class BatchRunner {
      * <p>
      * The run.getURL() is loaded using the WebDriver and the rule set returned
      * by {@code run.getRule()} is run.
-     * 
+     *
      * @param run a headless run description object
      */
     public ImmutableList<Result> runHeadless(HeadlessRunDescription run) {
@@ -100,31 +100,31 @@ public class BatchRunner {
         Map<String, Map<String, List<String>>> urlCache;
         //-    URL,     params, urls
         urlCache = new HashMap<String, Map<String, List<String>>>();
-        
+
         for (HeadlessAtom a: run.getAtoms()) {
 	        RuleSet rs = a.getRuleSet();
 	        seedUrl = a.getURL();
 	        logger.debug("setting seed URL for crawl: " + seedUrl);
 	        urls = null;
-	        
+
 	        /**************
 	         * Gather URLs
 	         **************/
-	        
+
 	        if (params.isNone()) {
 	        	urls = ImmutableList.of(seedUrl);
 	        	logger.debug("skipping webcrawl");
-	        } else if (urlCache.containsKey(seedUrl) && 
+	        } else if (urlCache.containsKey(seedUrl) &&
 	        	       urlCache.get(seedUrl).containsKey(params.toString())) {
 	        	logger.debug("retreiving urls list from cache");
 	        	urls = urlCache.get(seedUrl).get(params.toString());
 	        } else {
 	        	File tmpPath = Files.createTempDir();
-		        logger.debug("tmp directory for crawl data: " + tmpPath.toString());	        
+		        logger.debug("tmp directory for crawl data: " + tmpPath.toString());
 		        logger.debug("starting webcrawl controller ...");
-				BasicCrawlerController con = 
+				BasicCrawlerController con =
 						new BasicCrawlerController(seedUrl,
-								                   params.matchFcn, 
+								                   params.matchFcn,
 								                   params.depth, params.maxFetch,
 								                   params.politeness,
 								                   1, // TODO only one thread is currently supported
@@ -147,11 +147,11 @@ public class BatchRunner {
 					IO.deleteFolder(tmpPath); // does its own logging
 				}
 	        }
-	        
+
 	        /***********************
 	         * Drive the browser(s)
 	         ***********************/
-	        
+
 	        for (WebDriver driver: getDrivers()) {
 	        	registerDriver(driver);
 				for (String url: urls) {
@@ -180,17 +180,17 @@ public class BatchRunner {
         }
         return builder.build();
     }
-    
+
     /**
      * Run a rule set on the currently loaded page.
      * <p>
      * This method uses the web driver instance to run a rule set on the currently
      * loaded page. The webdriver injects javascript that
      * includes all the dependencies (JQuery, etc..) as well as the function which
-     * executes the rule check. The method sleeps the thread for 1 second and 
+     * executes the rule check. The method sleeps the thread for 1 second and
      * queries the results, which are then parsed and returned as a list of
      * Result objects.
-     *  
+     *
      * @param ruleSet the rule set to be run
      * @return results of running the rule set
      * @throws IOException
@@ -198,20 +198,20 @@ public class BatchRunner {
     private ImmutableList<Result> runRule(final RuleSet ruleSet) throws IOException {
         String contentScript = wrapRule(ruleSet);
         Builder<Result> builder = ImmutableList.builder();
-        String state = "url=" +  _driver.getCurrentUrl() + 
+        String state = "url=" +  _driver.getCurrentUrl() +
                 ", ruleSet=\"" + ruleSet.getName() + "\"";
         logger.debug("runRule: " + state);
-        
+
         _exe.executeScript(contentScript);
-        
+
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e1) {
             logger.error(e1.toString());
         }
-        
+
         Object res = _exe.executeScript("return fiveui.selPort.query(type='ReportProblem')");
-        
+
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
             logger.error("exception running rule: " + res);
@@ -222,9 +222,9 @@ public class BatchRunner {
             try {
                 @SuppressWarnings({ "unchecked", "rawtypes" })
                 List<Map<String, Map<String, String>>> results = (List) res;
-                
+
                 if (0 == results.size()) {
-                    builder.add(new Result(ResType.Pass, _driver, 
+                    builder.add(new Result(ResType.Pass, _driver,
                     		"passed " + ruleSet.getRules().size() + " tests",
                     		_driver.getCurrentUrl(), ruleSet.getName(), ruleSet.getDescription(), ""));
                 }
@@ -236,11 +236,14 @@ public class BatchRunner {
                     //
                     //      Probably we should just pass along the Map<String, String>
                     //      and let the reporter deal with it.
+                    String problemAsHTML = "Rule Name: " + problem.get("name") + " / "
+                                         + "Rule Desc: " + problem.get("descr") + " / "
+                                         + "XPath:     " + problem.get("xpath");
                     builder.add(new Result(ResType.Error, _driver, "",
                                            _driver.getCurrentUrl(),
                                            ruleSet.getName(),
                                            ruleSet.getDescription(),
-                                           problem.toString()));
+                                           problemAsHTML));
                 }
 
             } catch (ClassCastException e) {
@@ -256,16 +259,16 @@ public class BatchRunner {
         }
         return builder.build();
     }
-   
+
     /**
      * Build up the complete content script needed to run the rule.
      * <p>
      * The string returned contains all the javascript dependencies required
      * to run a rule set and the function that is injected into the page which
-     * executes the rule set. 
-     * 
+     * executes the rule set.
+     *
      * TODO DRY
-     * 
+     *
      * @param ruleSet a RuleSet object
      * @throws IOException
      */
@@ -277,15 +280,15 @@ public class BatchRunner {
         injected += Utils.readFile(_root + MD5_JS);
         injected += Utils.readFile(_root + JQUERY_PLUGIN_JS);
         injected += Utils.readFile(_root + INJECTED_COMPUTE_JS);
-        
+
         injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
-        
+
         return injected;
     }
-    
+
     /**
      * Build a list of webdrivers with which to run each ruleset.
-     * 
+     *
      * @return list of initialized WebDriver objects
      */
     private static ImmutableList<WebDriver> getDrivers() {
@@ -297,10 +300,10 @@ public class BatchRunner {
         logger.debug("built: " + r.toString());
         return r;
     }
-    
+
     /**
      * Sets the state of the WebDriver by loading a given URL.
-     * 
+     *
      * @param url URL to load
      */
     private void loadURL(String url) {
