@@ -24,7 +24,7 @@
           report('non-standard font: ' +
                  font.family + ", " +
                  font.size + ", " +
-                 font.weight, $(elt));
+                 font.weight, elt);
         }
       });
   }
