@@ -259,6 +259,7 @@ $(BIN_DIR)/firefox-main.js: $(call dir-dep,$(BIN_DIR)) $(js_sources)
 	$(call rm-on-failure,$(compile-js) --namespace=fiveui.firefox.main > $@)
 
 
+# TODO: remove 2 lines below, duplicate of above?
 # compile with the closure compiler instead of the script output mode
 #	$(call rm-on-failure,$(closure-js) --namespace=fiveui.firefox.main > $@)
 
@@ -283,7 +284,7 @@ test-firefox: $(FIREFOX_TARGETS) $(BIN_DIR)/fiveui.js
 .PHONY: clean-firefox
 clean-firefox:
 	@echo Cleaning Firefox extension...
-	rm -rf rofile
+	rm -rf profile
 
 clean: clean-firefox
 
