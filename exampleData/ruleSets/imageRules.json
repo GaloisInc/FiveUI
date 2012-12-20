@@ -17,12 +17,12 @@
   , 'rule':
   function() {
       var elt = $5("div[id=header]");          // get the div with id=header
-      var b = elt.css("background");           // get its background CSS property
+      var b = $5(elt).css("background");       // get its background CSS property
       var l = $5("a[href]", elt).prop("href"); // get the <a href=...> string inside the div
       if (/banner\.gif/.test(b)) {
         report("banner.gif missing", elt);
       }
-      if (l.length == 0) {                     // this list will be empty if there is no link
+      if (l === null || l.length == 0) {
         report("banner.gif link is missing", elt);
       }
   }
@@ -57,7 +57,13 @@
   , 'severity': 1
   , 'rule':
   function() {
-    var norm = function (s) { return /^\w+\s+\w+/.exec(s)[0]; } // select out first two words of the input
+    // select out first two words of the input
+    var norm = function (s) {
+      if (/^\w+\s+\w+/.exec(s))
+        return /^\w+\s+\w+/.exec(s)[0];
+      else
+        return "null null";
+    };
     var imgs = $5("img").not("div.filmstrip *");         // select images not in the filmstrip
     imgs.cssIsNot("border", "1px solid", norm)
         .each(function (i, elt) {
