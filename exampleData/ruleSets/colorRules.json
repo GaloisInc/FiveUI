@@ -33,7 +33,7 @@
       .cssIsNot("background-color", allow, fiveui.color.colorToHex)
       .each(function (i, elt) {
         var color = fiveui.color.colorToHex($(elt).css("background-color"));
-        report("non-standard background color: " + color, elt);
+        report("non-standard background color: " + color, $(elt));
       });
   }
   },
