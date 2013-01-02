@@ -611,8 +611,8 @@ def build_manifest(target_cfg, pkg_cfg, deps, scan_tests,
 
 COMMENT_PREFIXES = ["//", "/*", "*", "dump("]
 
-REQUIRE_RE = r"(?<![\'\"])require\s*\(\s*[\'\"]([^\'\"]+?)[\'\"]\s*\)"
-#REQUIRE_RE = r"(?<!goog[.])(?<![\'\"])\brequire\s*\(\s*[\'\"]([^\'\"]+?)[\'\"]\s*\)"
+#REQUIRE_RE = r"(?<![\'\"])require\s*\(\s*[\'\"]([^\'\"]+?)[\'\"]\s*\)"
+REQUIRE_RE = r"(?<!goog[.])(?<![\'\"])\brequire\s*\(\s*[\'\"]([^\'\"]+?)[\'\"]\s*\)"
 
 # detect the define idiom of the form:
 #   define("module name", ["dep1", "dep2", "dep3"], function() {})
