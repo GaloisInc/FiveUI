@@ -256,6 +256,9 @@ fiveui.color.colorCheck = function (selector, colorSet) {
  * Covert rgb colors to hex and abreviated hex colors to their full 3 byte
  * form.
  *
+ * In case there are parse errors during the conversion, i.e. color values
+ * that are not understood, the input is returned unchanged.
+ *
  * @param {!String} color The color string to convert. This should be either of the form rgb(...) or #...
  * @returns {!String} The color string in #XXXXXX form
  * @throws {ParseError} if the rgb color string cannot be parsed
@@ -279,10 +282,8 @@ fiveui.color.colorToHex = function(color) {
 
     var digits = /rgba?\((\d+), (\d+), (\d+)/.exec(color);
     if (!digits) {
-      throw {
-        'name': 'ParseError',
-        'message': 'Could not parse rgb color: ' + color
-      };
+      return color; // in case there is a parse error, we just
+                    // return the input unchanged
     }
 
     var red = parseInt(digits[1]);
