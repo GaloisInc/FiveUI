@@ -1,0 +1,1170 @@
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/people/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/about-us/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/solutions/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/research/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/were-open/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/technologies/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/downloads/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ Rule Name: Main content is too narrow: null / Rule Desc: Main content div should be between 520px and 1200px wide / XPath:     null
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/services/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/blog/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/careers/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Misc
+ |\_ Miscellaneous rules
+  \_ 
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Empowering the Experts: High-Assurance, High-Performance, High-Level Design with Cryptol." is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Latest News" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div[2]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Featured Events" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Learn to Develop High-Assurance, High-Performance Cryptographic Modules" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div[4]/div/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Innovation with Integrity" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h1
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage10363962"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Get to Know Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "People (aka Galwegians)" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "John Launchbury, Chief Scientist (Interim CEO)" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul/li/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Research Leads" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2[2]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "David Archer" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[2]/li/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "David Burke" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[2]/li[2]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Dylan McNamee" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[2]/li[3]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Lee Pike" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[2]/li[4]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Isaac Potoczny-Jones" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[2]/li[5]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Matt Sottile" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[2]/li[6]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Adam Wick" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[2]/li[7]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Researchers and Engineers" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2[3]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Jef Bell" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Sally Browning" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[2]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Ledah Casburn" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[3]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "E. Rogan Creswick" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[4]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Jason Dagit" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[5]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Jonathan Daugherty" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[6]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Iavor Diatchki" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[7]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Tom DuBuisson" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[8]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Trevor Elliott" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[9]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Lindsay Errington" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[10]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Adam Foltzer" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[11]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Joe Hendrix" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[12]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Pat Hickey" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[13]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Benjamin Jones" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[14]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Eric Mertens" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[15]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Getty Ritter" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[16]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Aaron Tomb" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[17]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Mark Tullsen" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[18]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Simon Winwood" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[3]/li[19]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Melissa Angeli" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[4]/li/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Leah Daniels" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[4]/li[2]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Paul Heinlein" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[4]/li[3]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Jean Herbst" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[4]/li[4]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Jodee LeRoux" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[4]/li[5]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Anne Marie McClaran" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[4]/li[6]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Christine Uri" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/ul[4]/li[7]/a/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/people/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage11302603"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Cryptol Course: High-Assurance Cryptographic Development Using the Cryptol Workbench" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage12082986"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvasWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvas"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBodyWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBody"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="contentWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="content"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[4]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/cryptol-course
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[4]/a
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/about-us/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Get to Know Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/about-us/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "About Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/about-us/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Leaders in high assurance research and development. We create trustworthiness in critical systems." is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/about-us/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Mission Statement" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/about-us/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Galois' Core Principles" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3[2]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/about-us/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Our Name" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3[3]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/about-us/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/about-us/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage10307310"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/solutions/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Solution Areas" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/solutions/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Galois Solutions" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/solutions/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Collaborate with Us" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/solutions/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/solutions/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage10307301"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Get to Know Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "John Launchbury" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "At Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h3[2]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "My Background" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h3[3]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage11066918"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvasWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvas"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBodyWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBody"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="contentWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="content"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/john-launchbury
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/p
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/research/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Research Areas" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/research/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Research at Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/research/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Collaborate with Us" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/research/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/research/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage10307305"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/were-open/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Get to Know Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/were-open/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "WE'RE OPEN!" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/were-open/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Open Innovation" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/were-open/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Open Culture" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3[2]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/were-open/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Open Source at Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3[3]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/were-open/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/were-open/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage10357613"]
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/technologies/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ 
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Tech Talk: Computers and privacy, ACLU of Oregon discusses their 2013 agenda" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[2]/div/div/div[3]/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Reader Comments" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Post a New Comment" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[4]/form/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/11/29/tech-talk-computers-and-privacy-aclu-of-oregon-discusses-the.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage11316143"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Get to Know Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Assured Information Sharing" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[2]/ul/li/div[2]/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Cyber-Physical Systems" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[2]/ul/li[3]/div[2]/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Formal Methods" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[2]/ul/li[4]/div[2]/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Programming Languages" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[2]/ul/li[6]/div[2]/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Scientific Computing" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[2]/ul/li[7]/div[2]/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Open Source Library" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/downloads/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage10357632"]
+Pass - FirefoxDriver: passed 2 tests
+ |\- http://corp.galois.com/universal/styles/squarespace-gallery-slideshow.css?CE=74
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ 
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Website Terms and Conditions" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage17702204"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvasWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvas"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBodyWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBody"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="contentWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="content"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[12]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[12]/a
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[18]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[18]/span
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[18]/span/span
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[18]/span/span/a
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[29]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[29]/span
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/terms-and-conditions
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[29]/span/span
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "2012 Bike Commute Challenge" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[2]/div/div/div[3]/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Reader Comments  (1)" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Post a New Comment" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[4]/form/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/12/2012-bike-commute-challenge.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage11316143"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/services/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Let's Work Together" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/services/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Services at Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/services/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Collaborate with Us" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/services/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/services/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage10307308"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Tech Talk: Computers and privacy, ACLU of Oregon discusses their 2013 agenda" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div/div/div[3]/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "2012 Bike Commute Challenge" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[2]/div/div[3]/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Tech Talk: Towards a Formally Verified Component Platform" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[3]/div/div[3]/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Skills & Requirements" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[4]/div/div[3]/div[2]/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Galois at ICFP 2012" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[5]/div/div[3]/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Efficient Lookup-Table Protocol in Secure Multiparty Computation" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[5]/div/div[3]/div[2]/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Video Presentation" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[5]/div/div[3]/div[2]/h6
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Experience Report: A Do-It-Yourself High Assurance Compiler" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[5]/div/div[3]/div[2]/h4[2]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Video Presentation" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[5]/div/div[3]/div[2]/h6[3]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "A Meta-Scheduler for the Par-Monad" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[5]/div/div[3]/div[2]/h4[3]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Video Presentation" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[5]/div/div[3]/div[2]/h6[5]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage11316143"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvasWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvas"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBodyWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBody"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="contentWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="content"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[4]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="item29376529"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[4]/div/div[3]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[4]/div/div[3]/div[2]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[4]/div/div[3]/div[2]/p[8]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/div[4]/div/div[3]/div[2]/p[8]/a
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Tech Talk: Towards a Formally Verified Component Platform" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[2]/div/div/div[3]/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Reader Comments" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Post a New Comment" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div[4]/form/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/blog/2012/10/9/tech-talk-towards-a-formally-verified-component-platform.html
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage11316143"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Get to Know Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Fun Facts About Portland" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[3]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Careers at Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Current Openings" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/h3
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage10357616"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvasWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvas"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBodyWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBody"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="contentWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="content"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[5]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[5]/a
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/careers/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/p[5]/a/span
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Get to Know Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Melissa Angeli" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage11066997"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvasWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvas"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBodyWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBody"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="contentWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="content"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/melissa-angeli/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/p
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Get to Know Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div/div/div/div/div/div/div[2]/div/div/div/div/div/div[2]/div/div/h4
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "Matt Sottile" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h2
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "At Galois" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h3[2]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: The heading: "My Background" is not in sentence case. / Rule Desc: Titles should be written in sentence case / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/h3[3]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="modulePage11066996"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvasWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="canvas"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBodyWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="pageBody"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="contentWrapper"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     //*[@id="content"]
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div
+Error - FirefoxDriver: 
+ |\- http://corp.galois.com/matt-sottile/
+ |\_ Text capitalization guidelines
+ |\_ Guidelines regarding capitalization of text withing the page
+  \_ Rule Name: "Galois" should be capitalized / Rule Desc: Capitalize "Galois" and "Galwegian" when referring to the company / XPath:     /html/body/div/div/div[3]/div/div[3]/div/div/p
