@@ -1,0 +1,57 @@
+/*
+ * navigation.json
+ * Author: Benjamin Jones <bjones@galois.com>
+ *
+ * Ruleset for checking the consistency of Trac navigation elements
+ */
+
+{ 'name': "Trac Navigation Guidelines"
+, 'description': "Guidelines for checking the consistency of Trac navigation elements"
+, 'rules': [
+//--------------------------------------------
+             { 'name': "Homepage link"
+             , 'description': "all pages should link back to the homepage"
+             , 'rule':
+             function() {
+               if ($5("a").linksTo("http://wiki.galois.com").length === 0) {
+                 var elt = $("body");
+                 report("did not find a link back to homepage", elt);
+               }
+             }
+             },
+//--------------------------------------------
+             { 'name': "Global navigation"
+             , 'description': "Global navigation links should appear on every page"
+             , 'rule':
+             function() {
+               if (! $5("div").idExists("topbar")) {
+                 var elt = $("body");
+                 report("could not find global navigation links", elt);
+               }
+             }
+             },
+//--------------------------------------------
+             { 'name': "Module level navigation"
+             , 'description': "Module level navigation links should appear on every page"
+             , 'rule':
+             function() {
+               if (! $5("div").idExists("mainnav")) {
+                 var elt = $("body");
+                 report("could not find module navigation links", elt);
+               }
+             }
+             },
+//--------------------------------------------
+             { 'name': "Local navigation"
+             , 'description': "Local (context dependent) navigation links should appear on every page"
+             , 'rule':
+             function() {
+               if (! $5("div").idExists("ctxtnav")) {
+                 var elt = $("body");
+                 report("could not find local (context dependent) navigation links", elt);
+               }
+             }
+             }//,
+//--------------------------------------------
+           ]
+}

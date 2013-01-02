@@ -1,0 +1,29 @@
+/*
+ * structure.json
+ * Author: Benjamin Jones <bjones@galois.com>
+ *
+ * Guidelines relating to structure (headings, layout, ...) of pages
+ */
+
+{ 'name': "Structure Guidelines"
+, 'description': "Guidelines relating to structure (headings, layout, ...) of pages"
+, 'rules': [
+//--------------------------------------------
+             { 'name': "Headings exist"
+             , 'description': "every page should include at least one heading"
+             , 'rule':
+             function() {
+               if (! $5(":heading").nonEmpty().exists()) {
+                 var elt = $5("body");
+                 report("could not find any (non-empty) headings on the page", elt);
+               }
+             },
+//--------------------------------------------
+             { 'name': "Fluid Layouts"
+             , 'description': "pages should not use a fluid layout"
+             , 'rule':
+             function() {
+             }//,
+//--------------------------------------------
+           ]
+}
