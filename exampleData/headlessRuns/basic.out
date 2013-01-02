@@ -1,0 +1,95 @@
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #C3C2C5 / Rule Desc: null / XPath:     //*[@id="nav-left"]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #C3C2C5 / Rule Desc: null / XPath:     /html/body/div/ul
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #C3C2C5 / Rule Desc: null / XPath:     /html/body/div/ul/li
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #EE / Rule Desc: null / XPath:     /html/body/div/ul/li/a
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #C3C2C5 / Rule Desc: null / XPath:     /html/body/div/ul/li[2]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #EE / Rule Desc: null / XPath:     /html/body/div/ul/li[2]/a
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #C3C2C5 / Rule Desc: null / XPath:     /html/body/div/ul/li[3]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #EE / Rule Desc: null / XPath:     /html/body/div/ul/li[3]/a
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #FFFFF1 / Rule Desc: null / XPath:     /html/body/div[2]/p
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #CCCCCC / Rule Desc: null / XPath:     /html/body/div[2]/p[2]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #808080 / Rule Desc: null / XPath:     /html/body/div[2]/hr
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #808080 / Rule Desc: null / XPath:     /html/body/div[2]/hr[2]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: foreground color: #C7C7C7 / Rule Desc: null / XPath:     //*[@id="content"]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testColorRules.html
+ |\_ Color Guidelines
+ |\_ Foreground/background color guidelines
+  \_ Rule Name: non-standard header color: #000000 / Rule Desc: null / XPath:     /html/body/div[2]/h1
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testFontRules.html
+ |\_ Fonts
+ |\_ Guidelines regarding site fonts
+  \_ Rule Name: non-standard font: serif, 32, bold / Rule Desc: null / XPath:     /html/body/h1
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testFontRules.html
+ |\_ Fonts
+ |\_ Guidelines regarding site fonts
+  \_ Rule Name: non-standard font: Verdana, 24, normal / Rule Desc: null / XPath:     /html/body/p[2]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testFontRules.html
+ |\_ Fonts
+ |\_ Guidelines regarding site fonts
+  \_ Rule Name: non-standard font: Times, 16, normal / Rule Desc: null / XPath:     /html/body/p[3]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testFontRules.html
+ |\_ Fonts
+ |\_ Guidelines regarding site fonts
+  \_ Rule Name: non-standard font: Times, 24, normal / Rule Desc: null / XPath:     /html/body/p[4]
+Error - FirefoxDriver: 
+ |\- http://localhost:8000/testFontRules.html
+ |\_ Fonts
+ |\_ Guidelines regarding site fonts
+  \_ Rule Name: non-standard font: Times, 36, normal / Rule Desc: null / XPath:     /html/body/p[5]
