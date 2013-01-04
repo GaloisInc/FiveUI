@@ -185,8 +185,7 @@ fiveui.firefox.main = function() {
     { include: data.url('fiveui/options.html'),
       contentScriptWhen: 'end',
       contentScriptFile: [
-        data.url("lib/ace/ace.js"),
-        data.url("lib/ace/mode-javascript.js"),
+        data.url("lib/codemirror/codemirror-compressed.js"),
         data.url("target/firefox-options.js")
       ],
       contentScript: "fiveui.firefox.options.init()",

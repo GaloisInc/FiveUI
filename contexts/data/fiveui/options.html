@@ -29,8 +29,8 @@
     <link rel="stylesheet" href="entry.css" />
     <link rel="stylesheet"
         href="../lib/closure-library/closure/goog/css/dialog.css" />
-    <script src="../lib/ace/ace.js"></script>
-    <script src="../lib/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="../lib/codemirror/codemirror.css"/>
+    <script src="../lib/codemirror/codemirror-compressed.js"></script>
     <script src="../target/chrome-options.js"></script>
     <script type="text/javascript">
       if (! /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
@@ -86,7 +86,7 @@
           <button id="saveEditButton">Save</button>
           <button id="cancelEditButton">Cancel</button>
       </div>
-      <div id="aceEditor" style="height: 500px; width: 500px"></div>
+      <div id="editor" style="height: 500px; width: 500px"></div>
     </div>
 
     <div id="urlPatEditorPane" class="editorPane">
