@@ -369,7 +369,8 @@ fiveui.options.init = function(port) {
 
   /** RuleSet Editor Overlay *************************************************/
 
-  var editor = ace.edit('aceEditor');
+  var editorDiv = gdom.getElement('editor');
+  var editor = CodeMirror(editorDiv);
 
   /**
    * Display an error dialog with a list of url pattern that rely on a
@@ -425,28 +426,20 @@ fiveui.options.init = function(port) {
     var newHeight = editPane.clientHeight - 10;
     for (var i = 0; i < editPane.children.length; ++i) {
       var child = editPane.children[i];
-      if (child.id == 'aceEditor') {
+      if (child.id == 'editor') {
         break;
       } else {
         newHeight = newHeight - child.clientHeight;
       }
     }
 
-    var editorDiv = gdom.getElement('aceEditor');
     editorDiv.style.width = newWidth + 'px';
     editorDiv.style.height = newHeight + 'px';
-    editor = ace.edit('aceEditor');
-
-    var JavaScriptMode = require('ace/mode/javascript').Mode;
-    editor.getSession().setMode(new JavaScriptMode());
-
-    // disable javascript validation
-    editor.getSession().setUseWorker(false);
   };
 
   // set the content of the editor widget
   var setEditorText = function(string) {
-    editor.getSession().setValue(string);
+    editor.setValue(string);
   };
 
   // listen to click events from the cancel button in the rule set editor
@@ -459,7 +452,7 @@ fiveui.options.init = function(port) {
   setClickHandler('saveEditButton',
     function() {
       var editPane = gdom.getElement('ruleSetEditorPane');
-      var rsText = editor.getSession().getValue();
+      var rsText = editor.getValue();
       if (null != editPane.curRuleSetId) {
         updateRuleSet(editPane.curRuleSetId, rsText);
       } else {
