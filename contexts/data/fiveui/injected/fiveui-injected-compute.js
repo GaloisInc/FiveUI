@@ -217,7 +217,7 @@
          var fn = eval('('+rs[i].ruleStr+')');
        } catch (e) {
          console.log('could not load ruleStr for rule: '+theRule.name);
-         console.log(e);
+         console.log(e.toString());
        }
 
        var scope = {
@@ -232,7 +232,7 @@
            fn.apply(scope);
          } catch (e) {
            console.log('exception running rule: '+theRule.name);
-           console.log(e);
+           console.log(e.toString());
          }
          stats.numRules += 1;
        }
