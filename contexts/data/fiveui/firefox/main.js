@@ -46,7 +46,7 @@ fiveui.firefox.main = function() {
     label: "FiveUI",
     contentURL: data.url('fiveui/firefox/icon-content.html'),
     contentScriptFile: [
-      data.url('lib/jquery/jquery-1.7.1.min.js'),
+      data.url('lib/jquery/jquery.js'),
       data.url('fiveui/firefox/icon-script.js')
       ],
     onClick: function() {
@@ -59,7 +59,7 @@ fiveui.firefox.main = function() {
       label: "FiveUI",
       contentURL: data.url('fiveui/firefox/options-icon.html'),
       contentScriptFile: [
-        data.url('lib/jquery/jquery-1.7.1.min.js'),
+        data.url('lib/jquery/jquery.js'),
         data.url('fiveui/firefox/options-script.js')
       ]
     }
