@@ -137,7 +137,7 @@ css_bundle := $(BUILD_DIR)/css-bundle.py
 # base-64 encoded data.
 $(BIN_DIR)/bundled.css: $(call dir-dep,$(BIN_DIR))
 	cd $(LIB_DIR)/jquery/css/ui-lightness/ && \
-		$(css_bundle) jquery-ui-1.8.17.custom.css $@
+		$(css_bundle) jquery-ui.css $@
 
 # The injected css, with its images compiled in.
 $(BIN_DIR)/injected.css: $(call dir-dep,$(BIN_DIR)) \
