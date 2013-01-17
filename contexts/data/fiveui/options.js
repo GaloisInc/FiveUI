@@ -111,6 +111,7 @@ fiveui.options.init = function(port) {
     try {
       obj = goog.json.unsafeParse(ruleSetText);
     } catch (x) {
+      // TODO: this error message is not as helpful as it could be
       alert('Eval error: ' + x.toString());
     }
     goog.structs.forEach(obj.rules, serializeRule);
