@@ -370,8 +370,10 @@ fiveui.options.init = function(port) {
 
   /** RuleSet Editor Overlay *************************************************/
 
-  var editorDiv = gdom.getElement('editor');
-  var editor = CodeMirror(editorDiv);
+  var editorDiv = document.getElementById("editorDiv");
+  var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+        lineNumbers: true
+      });
 
   /**
    * Display an error dialog with a list of url pattern that rely on a
@@ -434,13 +436,14 @@ fiveui.options.init = function(port) {
       }
     }
 
-    editorDiv.style.width = newWidth + 'px';
-    editorDiv.style.height = newHeight + 'px';
+    //editorDiv.style.width = newWidth + 'px';
+    //editorDiv.style.height = newHeight + 'px';
   };
 
   // set the content of the editor widget
   var setEditorText = function(string) {
     editor.setValue(string);
+    editor.setSize('auto', 'auto');
   };
 
   // listen to click events from the cancel button in the rule set editor

@@ -79,7 +79,6 @@ nav div {
     color: #426DC9;
     font-size: 14px;
     height: 16px;
-    
     padding-bottom: 7px;
     padding-left: 0px;
     padding-right: 24px;
@@ -171,4 +170,13 @@ div.editorPane div.row>label {
 
 .buttons {
     display: inline;
+}
+
+.CodeMirror {
+  border: 2px solid #eee;
+  height: auto;
+}
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
 }
