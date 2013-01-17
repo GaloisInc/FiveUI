@@ -86,7 +86,19 @@
           <button id="saveEditButton">Save</button>
           <button id="cancelEditButton">Cancel</button>
       </div>
-      <div id="editor" style="height: 500px; width: 500px"></div>
+      <div id="editorDiv">
+      <form><textarea id="editor" name="editor">{ 'name': 'rule set name'
+, 'description': 'rule set description'
+, 'id': 0 /* each rule set needs a unique id */
+, 'rules': [
+  { 'name': 'rule 1 name'
+  , 'description': 'rule 1 description'
+  , 'rule': function () { /* do something here */ }
+  , 'id': 1 /* each rule needs a unique id */
+  }]
+} </textarea></form>
+    </div>
+
     </div>
 
     <div id="urlPatEditorPane" class="editorPane">
