@@ -38,7 +38,7 @@ fiveui.UpdateManager = function(msg) {
         false, newRuleSet);
 
     // update the associated url patterns
-    msg.send('getRuleSetPatIds', function(patIds) {
+    msg.send('getRuleSetPatIds', null, function(patIds) {
       goog.structs.forEach(patIds, function(patId) {
         goog.events.dispatchEvent(manager, 'updateUrlPat.' + patId);
       });
