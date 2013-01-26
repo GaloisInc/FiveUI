@@ -204,6 +204,7 @@
        // Add a button that causes a debuger break.
        //
        // handy for playing with Jquery on the dom.
+       // Note: This only works in Google Chrome.
        $('#controls').append($('<div id="breakButton"></div>')
                              .button({ label: 'break' }));
        $('#breakButton').click(function() {
