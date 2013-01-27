@@ -75,8 +75,17 @@ fiveui.query = function (sel, context) {
 
   jQuery('iframe, frame', ctx).each(
     function(idx, elt) {
+      var $tempResults;
       if (elt.contentDocument) {
-        $results = $results.add(fiveui.query(sel, elt.contentDocument));
+        try {
+          $tempResults = fiveui.query(sel, elt.contentDocument);
+        } catch (e) {
+          console.log("encoutered a non-cooperative iframe/frame at " + $(elt).attr("src"));
+          console.log(e.toString());
+          $tempResults = [];
+        }
+
+        $results = $results.add($tempResults);
       }
     }
   );
