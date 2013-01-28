@@ -1,20 +1,30 @@
 {
-    "name": "Five UI",
-    "version": "0.2",
-    "description": "UI Constraint Checker",
+  "manifest_version": 2,
 
-    "icons": { "16": "data/fiveui/images/fiveui-icon-16.png",
-               "48": "data/fiveui/images/fiveui-icon-48.png",
-               "128": "data/fiveui/images/fiveui-icon-128.png"
-             },
+  "name": "Five UI",
+  "version": "0.2",
+  "description": "UI Constraint Checker",
 
-    "background_page": "data/fiveui/chrome/background.html",
-    "options_page": "data/fiveui/options.html",
-    "browser_action": {
-        "default_icon": "data/fiveui/images/fiveui-icon-disabled.png",
-        "name": "Five UI"
-    },
-    "permissions": [
-        "tabs", "http://*/*", "https://*/*", "history"
-    ]
+  "icons": { "16": "data/fiveui/images/fiveui-icon-16.png",
+             "48": "data/fiveui/images/fiveui-icon-48.png",
+             "128": "data/fiveui/images/fiveui-icon-128.png"
+           },
+
+  "background": {
+    "persistent": true,
+    "page": "data/fiveui/chrome/background.html"
+  },
+
+  "options_page": "data/fiveui/options.html",
+
+  "browser_action": {
+    "default_icon": "data/fiveui/images/fiveui-icon-disabled.png",
+    "default_title": "Five UI"
+  },
+  "permissions": [
+    "tabs", "http://*/*", "https://*/*", "history"
+  ],
+
+  // We have to relax the content security policy to allow rules to be evaluated:
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
