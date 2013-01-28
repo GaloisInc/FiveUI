@@ -1,3 +1,4 @@
+
 <!--
  * Module     : options.html
  * Copyright  : (c) 2011-2012, Galois, Inc.
@@ -32,11 +33,7 @@
     <link rel="stylesheet" href="../lib/codemirror/codemirror.css"/>
     <script src="../lib/codemirror/codemirror-compressed.js"></script>
     <script src="../target/chrome-options.js"></script>
-    <script type="text/javascript">
-      if (! /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
-         window.onload=fiveui.chrome.options.init;
-      }
-    </script>
+    <script src="ffcheck.js"></script>
   </head>
 
   <body>
