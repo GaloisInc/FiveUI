@@ -90,6 +90,12 @@ fiveui.jquery.cssIsNot = function (prop, set, fn) {
   });
 }
 
+fiveui.jquery.linksTo = function (href) {
+  return this.filter(function (index) {
+    var addr = $(this).attr("href");
+    return (addr == href);
+  });
+}
 
 /**
  * Visually highlight elements in the jQuery object.
