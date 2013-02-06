@@ -53,7 +53,7 @@
   border: 1px solid #DDDDDD;
   border-style: groove;
   padding: 3px;
-  height: 40px;
+  height: auto;
   width: 97%;
   margin-top: 0.5em;
   margin-bottom: 0.75em;
