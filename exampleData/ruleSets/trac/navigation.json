@@ -3,6 +3,9 @@
  * Author: Benjamin Jones <bjones@galois.com>
  *
  * Ruleset for checking the consistency of Trac navigation elements
+ *
+ * Note: the jQuery plugins .linksTo() and .idExists() haven't been
+ * written yet (1-31-2013).
  */
 
 { 'name': "Trac Navigation Guidelines"
@@ -14,8 +17,7 @@
              , 'rule':
              function() {
                if ($5("a").linksTo("http://wiki.galois.com").length === 0) {
-                 var elt = $("body");
-                 report("did not find a link back to homepage", elt);
+                 report("did not find a link back to homepage", $("body"));
                }
              }
              },
@@ -24,9 +26,8 @@
              , 'description': "Global navigation links should appear on every page"
              , 'rule':
              function() {
-               if (! $5("div").idExists("topbar")) {
-                 var elt = $("body");
-                 report("could not find global navigation links", elt);
+               if (! $5("div#topbar")) {
+                 report("could not find global navigation links", $("body"));
                }
              }
              },
@@ -35,9 +36,8 @@
              , 'description': "Module level navigation links should appear on every page"
              , 'rule':
              function() {
-               if (! $5("div").idExists("mainnav")) {
-                 var elt = $("body");
-                 report("could not find module navigation links", elt);
+               if ( $5("div#mainnav").length === 0 ) {
+                 report("could not find module navigation links", $("body"));
                }
              }
              },
@@ -46,12 +46,11 @@
              , 'description': "Local (context dependent) navigation links should appear on every page"
              , 'rule':
              function() {
-               if (! $5("div").idExists("ctxtnav")) {
-                 var elt = $("body");
-                 report("could not find local (context dependent) navigation links", elt);
+               if (! $5("div#ctxtnav")) {
+                 report("could not find local (context dependent) navigation links", $("body"));
                }
              }
-             }//,
+             }
 //--------------------------------------------
            ]
 }

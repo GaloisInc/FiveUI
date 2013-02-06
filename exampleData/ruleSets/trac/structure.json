@@ -3,6 +3,9 @@
  * Author: Benjamin Jones <bjones@galois.com>
  *
  * Guidelines relating to structure (headings, layout, ...) of pages
+ *
+ * Note: the jQuery plugins .nonEmpty() .exists() and .cssIs() haven't
+ * been written yet (1-31-2013).
  */
 
 { 'name': "Structure Guidelines"
@@ -19,10 +22,22 @@
                }
              },
 //--------------------------------------------
-             { 'name': "Fluid Layouts"
-             , 'description': "pages should not use a fluid layout"
+             { 'name': "Fluid DIV Layouts"
+             , 'description': "DIVs should not use a fluid layout"
              , 'rule':
              function() {
+               $5("body div").cssIs("layout", "fluid").each(function (i, elt) {
+                 report("DIV layout should not be fluid", elt);
+               });
+             }//,
+//--------------------------------------------
+             { 'name': "Fluid Body Layouts"
+             , 'description': "Body should not use a fluid layout"
+             , 'rule':
+             function() {
+               $5("body").cssIs("layout", "fluid").each(function (i, elt) {
+                 report("BODY layout should not be fluid", elt);
+               });
              }//,
 //--------------------------------------------
            ]
