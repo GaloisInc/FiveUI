@@ -238,5 +238,5 @@ caused the violation.
 ## Where to go from here
 
 For more detail on the API available when writing new rules, see the
-[Javascript documentation](jsdoc/index.html).
+[Javascript documentation](../jsdoc/index.html).
 
