@@ -55,6 +55,14 @@ from the top-level repository root as well:
 If that fails to work on your system, then please let us know so we
 can make the testing process more robust.
 
+### Testing a Mac OS X Installation ###
+
+Getting a virtual framebuffer (xvfb) working on OS X is tough. You can still
+run the tests manually by going to any of the maven project directories
+(e.g. testrunner, rsTester, headless) and running:
+
+    $ mvn test
+
 # Repository layout
 
 This is the repository for the FiveUI project.
@@ -62,11 +70,12 @@ This is the repository for the FiveUI project.
 ```
 binaries    : A directory holding the latest extension binaries
 build       : Helper scripts for building and packaging FiveUI
-tools       : Third-party build tools
 contexts    : Implementation details for supported contexts (Firefox, Chrome, etc.)
-testrunner  : Browser-automation tests and testing infrastructure
-profiles    : Sample user profiles for web browsers.  Used for testing.
-exampleData : Sample web pages and rule sets for testing.
 doc         : FiveUI Documentation
+exampleData : Sample web pages and rule sets for testing.
+headless    : A headless run system for large scale automated ruleset testing.
+profiles    : Sample user profiles for web browsers.  Used for testing.
 ruleSets    : A growing collection of codified Guidelines
+testrunner  : Browser-automation tests and testing infrastructure
+tools       : Third-party build tools
 ```
