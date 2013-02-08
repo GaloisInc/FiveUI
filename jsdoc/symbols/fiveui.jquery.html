@@ -1,0 +1,1165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - fiveui.jquery</title>
+
+		<style type="text/css">
+    /* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+		/* default.css */
+body
+{
+	font: 16px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+/* h1.classTitle */
+/* { */
+/* 	font-size:170%; */
+/* 	line-height:130%; */
+/* } */
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	/* background-color: #7F8FB1; */
+    background-color: #366689;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	/* line-height: 15px; */
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	/* font-size: 13px; */
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	/* font-size: 13px; */
+	/* line-height: 15px; */
+}
+
+.summaryTable td.nameDescription, .description
+{
+	/* line-height: 15px; */
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px;
+	/* line-height: 15px; */
+}
+.detailList dt { margin-left: 20px; }
+.detailList dd { margin-left: 50px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+
+    
+
+/* /\* Layout *\/ */
+/* .wrap { */
+/*   width: 90%; */
+/*   margin: 0 auto; */
+/* } */
+
+/* Global */
+/* body { */
+/*    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;  */
+/*    font-weight: 300; */
+/*    color: #2C2C2C; */
+/* } */
+/* #content { */
+/*   line-height: 1.125em; */
+/* } */
+
+/* #content p { */
+/*   font-size: 1em; */
+/*   line-height: 1.125em; */
+/* } */
+  /* Header */
+  header {
+    background: #366689;
+    height: 45px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  #logo {
+    display: inline-block;
+    margin-top: 8px;
+    float: left;
+    margin-right: 10px;
+  }
+  header h2,
+  .interior header h2 {
+    font-weight: 300;
+    color: white;
+    padding-top: 10px;
+    font-size: 1.4375em;
+    float: left;
+  }
+    /* Navigation */
+    nav#primary {
+      float: right;
+      margin-top: 8px;
+    }
+      nav#primary ul {
+        margin-right: 70px;
+      }
+        nav#primary ul li {
+          display: inline-block;
+          margin-left: 10px;
+          padding-left: 10px;
+          border-left: 1px solid #fff;
+        }
+          nav#primary ul li:first-child {
+            margin-left: 0;
+            padding-left: 0;
+            border-left: none;
+          }
+          nav#primary ul li a {
+            font-size: 0.875em;
+            text-decoration: none;
+            color: white;
+          }
+
+  /* Footer */
+  footer {
+    clear: both;
+    margin-top: 120px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    background: #366689;
+    min-height: 150px;
+    color: white;
+  }
+  footer p {
+    float: right;
+  }
+  footer nav {
+    float: left;
+  }
+  footer nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.875em;
+  }
+
+a.button {
+  border: 2px solid #618200;
+  background:#8ea548;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: inset 0px 0px 12px 1px rgba(150, 150, 155, .75);
+  box-shadow: inset 0px 0px 12px 1px rgba(150, 150, 155, .75);
+  text-shadow: 1px 1px 1px #628200;
+  filter: dropshadow(color=#628200, offx=1, offy=1);
+  color: white;
+  font-size: 1.5em;
+  text-decoration: none;
+  padding:20px;
+  width: 300px;
+  display: inline-block;
+  text-align: center;
+  margin: 25px 12px;
+}
+p + p,
+p + ul,
+p + a,
+p + h2,
+p + h3,
+p + h4,
+p + img,
+ul + img,
+ol + img,
+ul + div,
+ol + div,
+ul + p,
+ul + h2,
+ul + h3,
+ul + h4,
+ol + p {
+  margin-top: 1em;
+}
+li + li {
+  margin-top: 0.5em;
+}
+a, a:visited {
+  color: #d73f27;
+}
+a:hover {
+  color: #aa2f1b;
+}
+h2{}
+h3{}
+h4{}
+em {font-style: italic;}
+strong {font-weight: 600;}
+
+
+.clearfix {clear:both;}
+
+
+.title {
+
+}
+
+/* Landing Page Styles */
+#content .download {
+  background: #e1e1e1;
+  border: 1px solid #cacaca;
+  -webkit-box-shadow: inset 0px 0px 10px 1px rgba(150, 150, 155, .5);
+  box-shadow: inset 0px 0px 10px 1px rgba(150, 150, 155, .5);
+  text-align: center;
+  padding: 45px 0;
+}
+#content .download h1 {
+  font-weight: 600;
+  font-size: 5.9375em;
+}
+#content .download h1 a {
+  color: #2c2c2c;
+  text-decoration: none;
+}
+#content .download h1 small {
+  font-size: 0.252631578947368em;
+  font-weight: 300;
+  display: block;
+  font-style: italic;
+  line-height: .75em;
+}
+#content .download h2 {
+  font-size: 2.1875em;
+  margin-top: 20px;
+}
+#content .download p {
+  font-size: 1.5em;
+  line-height: 1.25em;
+}
+#content .download pre {
+  background: #2c2c2c;
+  padding: 5px;
+  color: white;
+  font: normal 1em/1em "Lucida Console", "Courier New", Courier, monospace;
+  display: block;
+  max-width: 60%;
+  text-align: left;
+  margin: 0 auto;
+  -webkit-border-radius: 2px;
+  margin-top: 25px;
+  border-radius: 2px;
+}
+.column {
+  width: 31%;
+  float: left;
+  margin-top: 40px;
+  border-left: 1px solid #d7d7d9;
+  padding-left: 2%;
+  margin-right: .3%;
+}
+.column:last-of-type {
+  margin-right: 0;
+}
+.column h2 {
+  font-size: 1.5em;
+  margin-bottom: .75em;
+}
+
+
+
+
+
+/* Interior Page Styles */
+
+/* Subnav */
+.subnav {
+  width: 100%;
+  background: #e1e1e1;
+}
+  .interior .subnav ul {
+    width: 90%;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 15px 0;
+  }
+    .subnav ul li {
+      display: inline;
+      padding: 0 7px;
+      border-right: 2px solid #2c2c2c;
+    }
+      .subnav ul li:last-of-type {
+        border-right: none;
+      }
+      .subnav ul li a {
+        color: #2c2c2c;
+        font-weight: 600;
+        font-size: 0.875em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+        .subnav ul li a:hover {
+          text-decoration: underline;
+        }
+
+.interior .title {
+  font-size: 5.9375em;
+  font-weight: 600;
+  text-align: center;
+  margin: 45px 0;
+}
+
+.interior h1 {
+  font-size: 2.625em;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+}
+
+.interior h2 {
+  font-size: 2.125em;
+  margin-bottom: 0.5em;
+}
+.interior h3 {
+  font-size: 1.5em;
+  margin-bottom: 0.75em;
+  font-weight: 600;
+}
+.interior h4 {
+  font-size: 1em;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+}
+
+.interior #content .wrap > p {
+  line-height: 1.25em;
+  max-width: 80%;
+}
+.interior ul,
+.interior ol {
+  max-width: 80%;
+}
+.interior .figure,
+.interior figure {
+  background: #e1e1e1;
+  padding: 10px;
+  display: inline-block;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.interior code {
+  font-family: Consolas, monospace;
+}
+.interior pre {
+  border-top: 1px solid #E1E1E1;
+  padding: 25px;
+  display: inline-block;
+  border-bottom: 1px solid #E1E1E1;
+  margin: 25px 0;
+  /*background: url(images/code-tag.png) right 5px no-repeat; */
+}
+figure,
+.figure + .figure,
+.figure + p,
+.figure + ul,
+.figure + ol,
+.figure + h2,
+.figure + h3,
+.figure + h4,
+p + .figure,
+ul + .figure,
+ol + .figure,
+.figure + h2,
+.figure + h3,
+.figure + h4,
+pre + p,
+pre + h2,
+pre + h3,
+pre + h4,
+p + pre,
+h2 + pre,
+h3 + pre,
+h4 + pre {
+  margin-top: 1em;
+}
+figure img, .figure img {
+  max-width: 100%;
+  height: auto;
+}
+figcaption, .caption {
+  font-size: 0.875em;
+  font-weight: 600;
+  padding-top: 10px;
+}
+
+ul.steps li {
+  color: #366689;
+  font-weight: 600;
+  padding-left: 1em;
+  list-style: square inside;
+}
+
+
+
+
+
+
+    table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #dddddd; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { font-weight: bold; }
+code > span.dt { color: #800000; }
+code > span.dv { color: #0000ff; }
+code > span.bn { color: #0000ff; }
+code > span.fl { color: #800080; }
+code > span.ch { color: #ff00ff; }
+code > span.st { color: #dd0000; }
+code > span.co { color: #808080; font-style: italic; }
+code > span.al { color: #00ff00; font-weight: bold; }
+code > span.fu { color: #000080; }
+code > span.er { color: #ff0000; font-weight: bold; }
+
+		</style>
+	</head>
+
+	<body class="interior">
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		    <header>
+      <div class="wrap">
+        <a href="http://galoisinc.github.com/FiveUI" id="logo" title="Galois Open Source"><img src="../images/logo.png" alt="Galois" /></a>
+        <h2>Open Source</h2>
+        <nav id="primary">
+          <ul>
+            <li><a href="http://galois.com">Company website</a></li>
+            <li><a href="https://github.com/GaloisInc/">Github home</a></li>
+          </ul>
+        </nav><!-- /#primary -->
+      </div><!-- /.wrap -->
+    </header>
+
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/fiveui.html">fiveui</a></li>
+	
+	<li><a href="../symbols/fiveui.color.html">fiveui.color</a></li>
+	
+	<li><a href="../symbols/fiveui.font.html">fiveui.font</a></li>
+	
+	<li><a href="../symbols/fiveui.jquery.html">fiveui.jquery</a></li>
+	
+	<li><a href="../symbols/fiveui.stats.html">fiveui.stats</a></li>
+	
+	<li><a href="../symbols/fiveui.string.html">fiveui.string</a></li>
+	
+	<li><a href="../symbols/fiveui.word.html">fiveui.word</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+    <section id="content">
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Namespace fiveui.jquery
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/contexts_data_fiveui_injected_jquery-plugins.js.html">jquery-plugins.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class fiveui.jquery.">
+				<caption>Namespace Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/fiveui.jquery.html#constructor">fiveui.jquery</a></b>
+							</div>
+							<div class="description">This module provides several useful jQuery plugins related to checking and reporting
+UI consistency issues.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class fiveui.jquery.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.cssIsNot">cssIsNot</a></b>(prop, set, fn)
+								</div>
+								<div class="description">General CSS propetry checker plugin
+This plugin filters for elements whose CSS property `prop` is not a member
+of the given array `cset`.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.hasText">hasText</a></b>(text)
+								</div>
+								<div class="description">Wrapper for the :contains('text') selector</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.highlight">highlight</a></b>(hint)
+								</div>
+								<div class="description">Visually highlight elements in the jQuery object.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.init">init</a></b>()
+								</div>
+								<div class="description">Register the plugins.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.linksTo">linksTo</a></b>(href)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.notColorSet">notColorSet</a></b>(cset)
+								</div>
+								<div class="description">Color checker plugin: filters for elements whose CSS color property is
+not in the given set.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.propDist">propDist</a></b>(prop, log)
+								</div>
+								<div class="description">Returns a list of css properties that element in the jQuery
+object have.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Namespace Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>fiveui.jquery</b>
+				</div>
+				
+				<div class="description">
+					This module provides several useful jQuery plugins related to checking and reporting
+UI consistency issues.
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".cssIsNot"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">fiveui.jquery.</span><b>cssIsNot</b>(prop, set, fn)
+					
+					</div>
+					<div class="description">
+						General CSS propetry checker plugin
+This plugin filters for elements whose CSS property `prop` is not a member
+of the given array `cset`. The values checked are transformed using the
+optional given function `fn`. This may be used to normalize values that the
+browser returns so they can be compared to values in `cset`.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>prop</b>
+									
+								</dt>
+								<dd>CSS property selector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String|String[]}</span> <b>set</b>
+									
+								</dt>
+								<dd>allowable values (either a string or an array of strings)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function(String):String}</span> <b>fn</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Function to apply to return values of $(this).css(prop), fn defaults to the identity function.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> jQuery object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".hasText"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{!Object}</span>
+					<span class="light">fiveui.jquery.</span><b>hasText</b>(text)
+					
+					</div>
+					<div class="description">
+						Wrapper for the :contains('text') selector
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{!String}</span> <b>text</b>
+									
+								</dt>
+								<dd>Text to select for</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{!Object}</span> A modified jQuery object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".highlight"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{!Object}</span>
+					<span class="light">fiveui.jquery.</span><b>highlight</b>(hint)
+					
+					</div>
+					<div class="description">
+						Visually highlight elements in the jQuery object.
+This plugin is useful mostly in the process of writing
+guidelines, for example the guideline developer can load a page,
+click the "Break" button on the FiveUI window, enter the browser's
+Javascript console, and run:
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">> $5("p").hasText("foo").highlight();</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>hint</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Highlighted border color, defaults to "red"</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{!Object}</span> A modified jQuery object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".init"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">fiveui.jquery.</span><b>init</b>()
+					
+					</div>
+					<div class="description">
+						Register the plugins. This adds methods to the jQuery.fn namespace.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".linksTo"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">fiveui.jquery.</span><b>linksTo</b>(href)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>href</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".notColorSet"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{!Object}</span>
+					<span class="light">fiveui.jquery.</span><b>notColorSet</b>(cset)
+					
+					</div>
+					<div class="description">
+						Color checker plugin: filters for elements whose CSS color property is
+not in the given set.
+Note: This is a special case of fiveui.jquery.cssIsNot, i.e.
+$(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String[]}</span> <b>cset</b>
+									
+								</dt>
+								<dd>A set of allowable color strings</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{!Object}</span> A modified jQuery object</dd>
+							
+							</dl>
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd></dd>
+							
+							</dl>
+						
+
+					<hr />
+				
+					<a name=".propDist"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">fiveui.jquery.</span><b>propDist</b>(prop, log)
+					
+					</div>
+					<div class="description">
+						Returns a list of css properties that element in the jQuery
+object have.
+This plugin is useful for analysis of a given page when
+writing guielines. For example if the guideline developer wants to
+know what font sizes are used on a loaded page, they can run from the
+Javascript console:
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">> $5("*").propDist("font-size", true);</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>prop</b>
+									
+								</dt>
+								<dd>CSS property to be inspected</dd>
+							
+								<dt>
+									<span class="light fixedFont">{boolean}</span> <b>log</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Boolean which enables console logging of the result; default is `false`.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> A frequence map { "property": frequency }</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+  </section>
+		
+<!-- ============================== footer ================================= -->
+
+    <footer>
+      <div class="wrap">
+        <nav id="footer-nav">
+          <ul>
+            <li><a href="http://corp.galois.com/contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <p>Copyright &copy; 2012 Galois, Inc. All rights reserved.</p>
+      </div><!-- /.wrap -->
+    </footer>
+	</body>
+</html>

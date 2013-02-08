@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -23,8 +23,37 @@ code > span.al { color: #00ff00; font-weight: bold; }
 code > span.fu { color: #000080; }
 code > span.er { color: #ff0000; font-weight: bold; }
   </style>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css" media="all">
+  <link rel="stylesheet" type="text/css" href="../css/style.css" media="all">
 </head>
-<body>
+<body class="interior">
+
+  <header>
+    <div class="wrap">
+    <a href="http://galoisinc.github.com/FiveUI" id="logo"
+       title="Galois Open Source"><img src="../images/logo.png" alt="Galois" /></a>
+    <h2>Open Source</h2>
+      <nav id="primary">
+        <ul>
+          <li><a href="http://galois.com">Company website</a></li>
+          <li><a href="https://github.com/GaloisInc/">Github home</a></li>
+        </ul>
+      </nav><!-- /#primary -->
+    </div><!-- /.wrap -->
+  </header>
+
+<!-- ///////////////////////////////////////////
+
+  Template Stops Here, Enter Page Content Below 
+
+  //////////////////////////////////////////// -->
+
+  <section id="content">
+    <div class="wrap">
+<!-- PAGE BODY -->
+<div id="pageBodyWrapper"> <div id="pageBody">
+
+<div id="contentWrapper"> <div id="content">
 <div id="header">
 <h1 class="title">Getting Started with FiveUI</h1>
 </div>
@@ -43,13 +72,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <p>The options page allows the user to configure <code>URL Patterns</code> that will apply when the browser is navigating to new URLs, and <code>Rule Sets</code> which categorize user interface guidelines into named groups. As it's required that one or more <code>Rule Sets</code> already exist to create a <code>URL Pattern</code>, let's start with the <code>Rule Sets</code> tab.</p>
 <h2 id="rule-sets">Rule Sets</h2>
 <p><code>Rule Sets</code> can be managed by clicking on the <code>Rule Sets</code> tab on the left-hand side of the options page.</p>
-<p><code>Rule Sets</code> in FiveUi are specified as a json-like object that contains javascript functions for the rule implementations. Each <code>Rule Set</code> contains a <strong>name</strong>, <strong>description</strong> and list of zero or more <strong>rules</strong>. The following snippet exhibits the minimal definition for a <code>Rule Set</code>, providing only the <strong>name</strong> and <strong>description</strong> fields, along with an empty set of <strong>rules</strong>.</p>
+<p><code>Rule Sets</code> in FiveUi are specified as a JSON-like object that contains javascript functions for the rule implementations. Each <code>Rule Set</code> contains a <strong>name</strong>, <strong>description</strong> and list of zero or more <strong>rules</strong>. The following snippet exhibits the minimal definition for a <code>Rule Set</code>, providing only the <strong>name</strong> and <strong>description</strong> fields, along with an empty set of <strong>rules</strong>.</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{ <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Empty Rules&quot;</span>
 , <span class="st">&quot;description&quot;</span>: <span class="st">&quot;An example of an empty rule set&quot;</span>
 , <span class="st">&quot;rules&quot;</span>: []
 }</code></pre>
 <h3 id="rules">Rules</h3>
-<p>The elements of the <strong>rules</strong> array in the <code>Rule Set</code> are also represented as json objects. A minimal rule consists of three fields: <strong>name</strong>, <strong>description</strong> and <strong>rule</strong>. While <strong>name</strong> and <strong>description</strong> are just strings, like the definition of a <code>Rule Set</code>, the <strong>rule</strong> field is a javascript function.</p>
+<p>The elements of the <strong>rules</strong> array in the <code>Rule Set</code> are also represented as JSON Objects. A minimal rule consists of three fields: <strong>name</strong>, <strong>description</strong> and <strong>rule</strong>. While <strong>name</strong> and <strong>description</strong> are just strings, like the definition of a <code>Rule Set</code>, the <strong>rule</strong> field is a javascript function.</p>
 <p>The definition of the <strong>rule</strong> function consists of a single javascript function that expects no arguments and returns no value. The rule will be invoked with no special context, and it is expected to perform its validation based on uses of the <code>FiveUI prelude</code>. Rules are able to report problems to the in-page FivUI interface by invoking the <em>report</em> function.</p>
 <p>As a simple example, the following rule will log an error for each header tag that contains no text:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{ <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Disallow Empty Headers&quot;</span>
@@ -142,5 +171,23 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div class="figure">
 <img src="figures/ff-heading-highlight.png" alt="Expanding a Problem entry in the FiveUI Problem List highlights the element of the DOM that caused the violation." /><p class="caption">Expanding a Problem entry in the FiveUI Problem List highlights the element of the DOM that caused the violation.</p>
 </div>
+<h2 id="where-to-go-from-here">Where to go from here</h2>
+<p>For more detail on the API available when writing new rules, see the <a href="../jsdoc/index.html">Javascript documentation</a>.</p>
+
+
+    </div><!-- /.wrap -->
+  </section><!-- /#content -->
+
+  <footer>
+    <div class="wrap">
+      <nav id="footer-nav">
+        <ul>
+          <li><a href="http://corp.galois.com/contact/">Contact</a></li>
+        </ul>
+      </nav>
+
+      <p>Copyright &copy; 2012 Galois, Inc. All rights reserved.</p>
+    </div><!-- /.wrap -->
+  </footer>
 </body>
 </html>

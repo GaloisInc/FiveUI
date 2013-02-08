@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Install Guide</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css" media="all">
+  <link rel="stylesheet" type="text/css" href="../css/style.css" media="all">
+</head>
+<body class="interior">
+
+  <header>
+    <div class="wrap">
+    <a href="http://galoisinc.github.com/FiveUI" id="logo"
+       title="Galois Open Source"><img src="../images/logo.png" alt="Galois" /></a>
+    <h2>Open Source</h2>
+      <nav id="primary">
+        <ul>
+          <li><a href="http://galois.com">Company website</a></li>
+          <li><a href="https://github.com/GaloisInc/">Github home</a></li>
+        </ul>
+      </nav><!-- /#primary -->
+    </div><!-- /.wrap -->
+  </header>
+
+<!-- ///////////////////////////////////////////
+
+  Template Stops Here, Enter Page Content Below 
+
+  //////////////////////////////////////////// -->
+
+  <section id="content">
+    <div class="wrap">
+<!-- PAGE BODY -->
+<div id="pageBodyWrapper"> <div id="pageBody">
+
+<div id="contentWrapper"> <div id="content">
+<div id="header">
+<h1 class="title">Install Guide</h1>
+</div>
+<h1 id="installing-the-fiveui-extension">Installing the FiveUI Extension</h1>
+<p>FiveUI is distributed as source code and as a browser extension for both Google Chrome and Mozilla Firefox. This document describes the install process for these browsers, assuming that you have the FiveUI extension on your local computer.</p>
+<h2 id="installing-fiveui-in-firefox">Installing FiveUI in Firefox</h2>
+<p>FiveUI is currently supported on Firefox 10 (Mozilla's extended support release version), although it should also work on Firefox 3.6. Due to changes in the long-term support and Mozilla version numbering scheme, versions 4-9 are not supported. FiveUI v0.2 is known not to work in very recent versions of Firefox, e.g. v16. These versions will be supported in the future as the next extended support release nears.</p>
+<p>The FiveUI Firefox extension is packaged in a file called <code>fiveui.xpi</code>. Locate this file in your distribution (or download) and take note of the location for the following steps. We will assume that it is located at <code>d:\binaries\fiveui.xpi</code></p>
+<ul>
+<li>Open Firefox, and load the <code>Add-ons Manager</code> from the main Firefox menu.</li>
+</ul>
+<div class="figure">
+<img src="figures/ff-menu.png" alt="Access the Firefox Add-ons Manager from the main Firefox menu" /><p class="caption">Access the Firefox Add-ons Manager from the main Firefox menu</p>
+</div>
+<ul>
+<li>Within the <code>Add-ons Manager</code>, open the Gear menu and select <code>Install Add-on From File</code>.</li>
+</ul>
+<div class="figure">
+<img src="figures/ff-add-on-installer.png" alt="The Add-ons Manager Gear menu has an install from file entry." /><p class="caption">The Add-ons Manager Gear menu has an install from file entry.</p>
+</div>
+<ul>
+<li><p>A file dialog should open, use this to browse to the <code>fiveui.xpi</code> file (in our case, <code>d:\binaries\fiveui.xpi</code>).</p></li>
+<li><p>Click OK, and a warning dialog should appear. This dialog warns that the FiveUI author is not verified. Because this is a development release of FiveUI, the xpi file is not cryptographically signed, and therefore, Firefox is unable to verify the author identification.</p></li>
+<li><p>Click on the <code>Install Now</code> button once it becomes active.</p></li>
+</ul>
+<p>FiveUI is now installed. The <a href="gettingStarted.html">Getting Started guide</a> explains how to configure and use the extension.</p>
+<h2 id="installing-fiveui-in-chrome">Installing FiveUI in Chrome</h2>
+<p>All recent versions of Google Chrome should support FiveUI.</p>
+<p>Chrome is primarily designed to install extensions from the on-line extension marketplace. However, local extensions can be installed by unpacking the extension file, in this case <code>fiveui_chrome.zip</code>, and enabling Chrome's extension developer mode.</p>
+<p>The following steps describe how to install FiveUI in Chrome, using an extension file from the local file system.</p>
+<p>The FiveUI Chrome extension is packaged in a file called <code>fiveui_chrome.zip</code>. Locate this file in your distribution (or download) and take note of the location for the following steps. We will assume that it is located at <code>d:\binaries\fiveui_chrome.zip</code></p>
+<ul>
+<li>Use your system's archive utility to unpack the zip file <code>fiveui_chrome.zip</code>.</li>
+<li>Open Chrome and navigate to the extensions manager. The extensions manager can be reached through Chrome's menu system or by entering <code>chrome://extensions</code> in the URL bar.</li>
+<li><p>Check the box labeled &quot;Developer Mode&quot; at the top of the extensions manager page (if it is not already checked):</p>
+<img src="figures/chrome_developer_mode.png" alt="Enable Chrome developer mode" /></li>
+<li><p>Click &quot;Load Unpacked Extension&quot; and choose the directory where you unpacked the Chrome extension file. The directory should contain the file <code>manifest.json</code>.</p>
+<img src="figures/load_unpacked_extension.png" alt="Load Unpacked Extension" /></li>
+<li><p>The FiveUI extension should now appear in the extension manager and the FiveUI button should appear in the Chrome toolbar as shown:</p>
+<img src="figures/fiveui_installed.png" alt="FiveUI Installed" /></li>
+<li><p><strong>Note:</strong> The warning message reading &quot;Support for manifest version 1 is being phased out.&quot; is a known issue and does not currently affect the FiveUI extension.</p></li>
+</ul>
+<p>FiveUI is now installed. The <a href="gettingStarted.html">Getting Started guide</a> explains how to configure and use the extension.</p>
+
+
+    </div><!-- /.wrap -->
+  </section><!-- /#content -->
+
+  <footer>
+    <div class="wrap">
+      <nav id="footer-nav">
+        <ul>
+          <li><a href="http://corp.galois.com/contact/">Contact</a></li>
+        </ul>
+      </nav>
+
+      <p>Copyright &copy; 2012 Galois, Inc. All rights reserved.</p>
+    </div><!-- /.wrap -->
+  </footer>
+</body>
+</html>
