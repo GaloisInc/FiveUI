@@ -126,6 +126,7 @@ public class BatchExecutorTest {
 			logger.info(results.toString());
 		} catch (Exception e) {
 			logger.error("testHeadlessRun: exception caught while running a headless run description");
+			logger.error(e.toString());
 			flag = false;
 		} 
 		Assert.assertTrue(flag);
