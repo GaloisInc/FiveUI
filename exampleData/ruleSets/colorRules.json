@@ -4,81 +4,86 @@
  * Test using exampleData/basic/testColorRules.html
  */
 
-{ 'name': "Color Guidelines"
-, 'description': "Foreground/background color guidelines"
+{ 'name': 'Color Guidelines'
+, 'description': 'Foreground/background color guidelines'
 , 'rules': [
   //----------------------------------------------------------------
-  { 'name': "Foreground check"
-  , 'description': "Foreground colors should be in the set:"+
-                   "#00 #FF #3D #F7 #C2 #B4 #4E #FFCB05 #7B8738"
+  { 'id': 2141101
+  , 'name': 'Foreground check'
+  , 'description': 'Foreground colors should be in the set:'+
+                   '#00 #FF #3D #F7 #C2 #B4 #4E #FFCB05 #7B8738'
   , 'rule':
-  function () {
-    var allow = "#00 #FF #3D #F7 #C2 #B4 #4E #FFCB05 #7B8738".split(" ");
-    $5(":visible")
-      .cssIsNot("color", allow, fiveui.color.colorToHex)
-      .each(function (i, elt) {
-        var color = fiveui.color.colorToHex($(elt).css("color"));
-        report("foreground color: " + color, elt);
+  function() {
+    var allow = '#00 #FF #3D #F7 #C2 #B4 #4E #FFCB05 #7B8738'.split(' ');
+    $5(':visible')
+      .cssIsNot('color', allow, fiveui.color.colorToHex)
+      .each(function(i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css('color'));
+        report('foreground color: ' + color, elt);
       });
   }
   },
   //----------------------------------------------------------------
-  { 'name': "Background check"
-  , 'description': "Backgrounds colors should be in the set:" +
-                   "#00 #FF #3D #F7 #C2 #B4 #4E"
+  { 'id': 2141102
+  , 'name': 'Background check'
+  , 'description': 'Backgrounds colors should be in the set:' +
+                   '#00 #FF #3D #F7 #C2 #B4 #4E'
   , 'rule':
-  function () {
-    var allow = "#00 #FF #3D #F7 #C2 #B4 #4E".split(" ");
-    $5(":visible")
-      .cssIsNot("background-color", allow, fiveui.color.colorToHex)
-      .each(function (i, elt) {
-        var color = fiveui.color.colorToHex($(elt).css("background-color"));
-        report("non-standard background color: " + color, $(elt));
+  function() {
+    var allow = '#00 #FF #3D #F7 #C2 #B4 #4E'.split(' ');
+    $5(':visible')
+      .cssIsNot('background-color', allow, fiveui.color.colorToHex)
+      .each(function(i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css('background-color'));
+        report('non-standard background color: ' + color, $(elt));
       });
   }
   },
   //----------------------------------------------------------------
-  { 'name': "Content area color"
-  , 'description': "Background color should be: " +
-                   "#F7"
+  { 'id': 2141103
+  , 'name': 'Content area color'
+  , 'description': 'Background color should be: ' +
+                   '#F7'
   , 'rule':
-  function () {
-    var allow = "#F7";
-    $5("#content")
-      .cssIsNot("background-color", allow, fiveui.color.colorToHex)
-      .each(function (i, elt) {
-        var color = fiveui.color.colorToHex($(elt).css("background-color"));
-        report("non-standard content background color: " + color, elt);
+  function() {
+    var allow = '#F7';
+    $5('#content')
+      .cssIsNot('background-color', allow, fiveui.color.colorToHex)
+      .each(function(i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css('background-color'));
+        report('non-standard content background color: ' + color, elt);
       });
   }
   },
   //----------------------------------------------------------------
-  { 'name': "Left navigation color"
-  , 'description': "Left navigation color should be: " +
-                   "#C2"
+  { 'id': 2141104
+  , 'name': 'Left navigation color'
+  , 'description': 'Left navigation color should be: ' +
+                   '#C2'
   , 'rule':
-  function () {
-    var allow = "#C2";
-    $5("#leftNav")
-      .cssIsNot("color", allow, fiveui.color.colorToHex)
-      .each(function (i, elt) {
-        var color = fiveui.color.colorToHex($(elt).css("color"));
-        report("non-standard left navigation color: " + color, elt);
+  function() {
+    var allow = '#C2';
+    $5('#leftNav')
+      .cssIsNot('color', allow, fiveui.color.colorToHex)
+      .each(function(i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css('color'));
+        report('non-standard left navigation color: ' + color, elt);
       });
   }
   },
   //----------------------------------------------------------------
-  { 'name': "Header color check"
-  , 'description': "Header color should be: " +
-                   "#3D"
+  { 'id': 2141105
+  , 'name': 'Header color check'
+  , 'description': 'Header color should be: ' +
+                   '#3D'
   , 'rule':
-  function () {
-    var allow = "#3D";
-    $5(":header")
-      .cssIsNot("color", allow, fiveui.color.colorToHex)
-      .each(function (i, elt) {
-        var color = fiveui.color.colorToHex($(elt).css("color"));
-        report("non-standard header color: " + color, elt);
+  function() {
+    var allow = '#3D';
+    $5(':header')
+      .cssIsNot('color', allow, fiveui.color.colorToHex)
+      .each(function(i, elt) {
+        var color = fiveui.color.colorToHex($(elt).css('color'));
+        report('non-standard header color: ' + color, elt);
       });
   }
   }//,

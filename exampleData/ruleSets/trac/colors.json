@@ -12,16 +12,16 @@
   , 'description': "Foreground colors should be in a certain fixed set."
   , 'rule':
   function () {
-    var allow = "rgb(0, 0, 0) " +
-                "rgb(255, 255, 255) " +
-                "rgb(85, 85, 85) " +
-                "rgb(34, 34, 34) " +
-                "rgb(187, 0, 0) " +
-                "rgb(238, 238, 238) " +
-                "rgb(153, 153, 136) " +
-                "rgb(136, 136, 136) " +
-                "rgb(102, 102, 102) " +
-                "rgb(187, 187, 187)".split(" ");
+    var allow = "rgb(0, 0, 0);" +
+                "rgb(255, 255, 255);" +
+                "rgb(85, 85, 85);" +
+                "rgb(34, 34, 34);" +
+                "rgb(187, 0, 0);" +
+                "rgb(238, 238, 238);" +
+                "rgb(153, 153, 136);" +
+                "rgb(136, 136, 136);" +
+                "rgb(102, 102, 102);" +
+                "rgb(187, 187, 187)".split(";");
     $5(":visible")
       .cssIsNot("color", allow, fiveui.color.colorToHex)
       .each(function (i, elt) {

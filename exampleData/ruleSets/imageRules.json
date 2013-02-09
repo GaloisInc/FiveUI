@@ -7,71 +7,74 @@
  * Test using exampleData/basic/testImageRules.html
  */
 
-{ 'name': "Image Rules"
-, 'description': "General guidelines regarding site images"
+{ 'name': 'Image Rules'
+, 'description': 'General guidelines regarding site images'
 , 'rules': [
   //----------------------------------------------------------------
-  { 'name': "Banner check"
-  , 'description': "Banner image banner.gif must appear and link to somewhere"
+  { 'id': 8120001
+  , 'name': 'Banner check'
+  , 'description': 'Banner image banner.gif must appear and link to somewhere'
   , 'severity': 1
   , 'rule':
   function() {
-      var elt = $5("div[id=header]");          // get the div with id=header
-      var b = $5(elt).css("background");       // get its background CSS property
-      var l = $5("a[href]", elt).prop("href"); // get the <a href=...> string inside the div
+      var elt = $5('div[id=header]');          // get the div with id=header
+      var b = $5(elt).css('background');       // get its background CSS property
+      var l = $5('a[href]', elt).prop('href'); // get the <a href=...> string inside the div
       if (/banner\.gif/.test(b)) {
-        report("banner.gif missing", elt);
+        report('banner.gif missing', elt);
       }
       if (l === null || l.length == 0) {
-        report("banner.gif link is missing", elt);
+        report('banner.gif link is missing', elt);
       }
   }
   },
   //----------------------------------------------------------------
-  { 'name': "Image Size check"
-  , 'description': "All site images should have height and width in a given set of choices"
+  { 'id': 8120002
+  , 'name': 'Image Size check'
+  , 'description': 'All site images should have height and width in a given set of choices'
   , 'severity': 2
   , 'rule':
   function() {
     var allowedDimensions = { 446: { 300: {}}               // allow any image with these height:width pairs
                             , 342: { 228: {}}
                             , 150: { 100: {}} };
-    var specialWidths     = { 640: {}                       // allow any image with these special widths
+    var specialWidths = { 640: {}                       // allow any image with these special widths
                             , 100: {} };
-    $5("img").not("div.filmstrip *")                        // skip filmstrip images
-             .each(function (i, elt) {
-      var borderStr = /^[0-9]+/.exec($(elt).css("border")); // compensate for image border
+    $5('img').not('div.filmstrip *')                        // skip filmstrip images
+             .each(function(i, elt) {
+      var borderStr = /^[0-9]+/.exec($(elt).css('border')); // compensate for image border
       var border = borderStr ? parseInt(borderStr[0]) : 0;
-      var w = $(elt).width() + 2*border;
-      var h = $(elt).height() + 2*border;
+      var w = $(elt).width() + 2 * border;
+      var h = $(elt).height() + 2 * border;
       if (!((w in specialWidths) ||
             (h in allowedDimensions && w in allowedDimensions[h]))) {
-        report("non-standard dimensions "+h+"x"+w, elt);
+        report('non-standard dimensions ' + h + 'x' + w, elt);
       }
     });
   }
   },
   //----------------------------------------------------------------
-  { 'name': "Image Border check"
-  , 'description': "All site images should have 1px solid #3D border"
+  { 'id': 8120003
+  , 'name': 'Image Border check'
+  , 'description': 'All site images should have 1px solid #3D border'
   , 'severity': 1
   , 'rule':
   function() {
     // select out first two words of the input
-    var norm = function (s) {
+    var norm = function(s) {
       if (/^\w+\s+\w+/.exec(s))
         return /^\w+\s+\w+/.exec(s)[0];
       else
-        return "null null";
+        return 'null null';
     };
-    var imgs = $5("img").not("div.filmstrip *");         // select images not in the filmstrip
-    imgs.cssIsNot("border", "1px solid", norm)
-        .each(function (i, elt) {
-          report("non-standard border style", elt);
+    var imgs = $5('img').not('div.filmstrip *');         // select images not in the filmstrip
+    imgs.cssIsNot('border', '1px solid', norm)
+        .each(function(i, elt) {
+          report('non-standard border style', elt);
         });
-    imgs.cssIsNot("border-color", "#3D3D3D", fiveui.color.colorToHex)
-        .each(function (i, elt) {
-          report("non-standard border color", elt);
+    imgs.cssIsNot('border-color', '#3D3D3D', fiveui.color.colorToHex)
+        .each(function(i, elt) {
+          report('non-standard border color', elt);
         });
   }
   }//,

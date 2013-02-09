@@ -1,0 +1,58 @@
+{ 'name': 'Basic HTML guidelines.'
+, 'description': 'A selection of simple HTML guidelines for improved usability and consistency.'
+, 'rules': [
+    //---
+    { 'id': 1001801
+    , 'name': 'All input fields have exactly one label.'
+    , 'description': '<p>Screen readers rely on HTML attributes to identify the purpose '
+                     + "of form widgets on-screen.  These tools use label tags with 'for' "
+                     + 'attributes that specify the id of the form element they pertain to. '
+                     + 'Some of the components of this web page do not have those labels.</p>'
+    , 'rule':
+      function() {
+        fiveui.query(':input').each(
+          function(i, elt) {
+            if (elt.id) {
+              var $label = fiveui.query("label[for='" + elt.id + "']");
+
+              if (1 < $label.size()) {
+                report('Form element has too many labels', elt);
+              }
+
+              if (0 == $label.size()) {
+                report('Form element has no label', elt);
+              }
+            }
+          });
+      }
+    },
+    //---
+    { 'id': 1001802
+    , 'name': "Don't use empty headings."
+    , 'description': 'Empty headings confuse layout.'
+    , 'rule':
+      function() {
+        fiveui.query(':header').each(
+           function(i, elt) {
+             if ($(elt).text() == '') {
+               report('Heading is empty', elt);
+             }
+           });
+      }
+    },
+    //---
+    { 'id': 1001803
+    , 'name': "Don't use empty hrefs."
+    , 'description': "Links with no text can't generally be used."
+    , 'rule':
+      function() {
+        fiveui.query('a').each(
+           function(i, elt) {
+             if ($(elt).text() == '' && elt.title == '') {
+               report('Link has no text', elt);
+             }
+           });
+      }
+    }//,
+  ]
+}

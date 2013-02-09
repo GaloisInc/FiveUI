@@ -1,11 +1,11 @@
-{ "name": "Text capitalization guidelines"
-, "description": "Guidelines regarding capitalization of text withing the page"
-, "rules": [
+{ 'name': 'Text capitalization guidelines'
+, 'description': 'Guidelines regarding capitalization of text withing the page'
+, 'rules': [
   //---------------------------------------------------------------
-  { "id": 13
-   , "name": "Sentence case"
-   , "description": "Titles should be written in sentence case"
-   , "rule":
+  { 'id': 19042301
+   , 'name': 'Sentence case'
+   , 'description': 'Titles should be written in sentence case'
+   , 'rule':
      function() {
        var posLength = function(ar) {
          return 1 <= ar.length;
@@ -17,39 +17,39 @@
        var assertSentenceCase = function(inStr, elt) {
          var str = fiveui.string.trim(inStr);
 
-         if ( !fiveui.word.capitalized(str[0]) ) {
-           report('The heading: "'+str+'" is not in sentence case.', elt);
+         if (!fiveui.word.capitalized(str[0])) {
+           report('The heading: [' + str + '] is not in sentence case.', elt);
            return;
          }
 
          var tokens = str.split(' ').filter(posLength);
 
-         for (var i=1; i < tokens.length; ++i) {
+         for (var i = 1; i < tokens.length; ++i) {
            if (fiveui.word.capitalized(tokens[i])) {
-             report('The heading: "'+str+'" is not in sentence case.', elt);
+             report('The heading: [' + str + '] is not in sentence case.', elt);
              return;
            }
          }
        };
 
        fiveui.query(':header').each(function(idx, elt) {
-                                      assertSentenceCase($(elt).text(), elt);
-                                    });
+         assertSentenceCase($(elt).text(), elt);
+       });
      }
    },
    //---------------------------------------------------------------
-   { "id":14
-   , "name": "Capitalization check"
-   , "description": "Capitalize \"Galois\" and \"Galwegian\" when referring to the company"
-   , "rule":
+   { 'id': 19042302
+   , 'name': 'Capitalization check'
+   , 'description': 'Capitalize \"Galois\" and \"Galwegian\" when referring to the company'
+   , 'rule':
      function() {
-       fiveui.query('*').hasText('galois').each(function (i, elt) {
-         report('"Galois" should be capitalized', elt);
-       })
+       fiveui.query('*').hasText('galois').each(function(i, elt) {
+         report('\"Galois\" should be capitalized', elt);
+       });
 
-       fiveui.query('*').hasText('galwegian').each(function (i, elt) {
-         report('"Galwegian" should be capitalized', elt);
-       })
+       fiveui.query('*').hasText('galwegian').each(function(i, elt) {
+         report('\"Galwegian\" should be capitalized', elt);
+       });
      }
     }//,
    //---------------------------------------------------------------

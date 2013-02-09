@@ -4,8 +4,6 @@
  *
  * Ruleset for checking the consistency of Trac navigation elements
  *
- * Note: the jQuery plugins .linksTo() and .idExists() haven't been
- * written yet (1-31-2013).
  */
 
 { 'name': "Trac Navigation Guidelines"
