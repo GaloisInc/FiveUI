@@ -90,6 +90,13 @@ fiveui.jquery.cssIsNot = function (prop, set, fn) {
   });
 }
 
+/**
+ * Filter out elements that do not contain the attribute
+ * href=`href`.
+ *
+ * @param {String} href the href to look for
+ * @returns {Object} jQuery object
+ */
 fiveui.jquery.linksTo = function (href) {
   return this.filter(function (index) {
     var addr = $(this).attr("href");
