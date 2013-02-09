@@ -5,15 +5,16 @@
  * Template ruleset containing one empty rule.
  */
 
-{ 'name': "NAME"
-, 'description': "DESCRIPTION"
-, 'rules': [
-//--------------------------------------------
-             { 'name': "RULE NAME"
-             , 'description': "RULE DESC"
-             , 'rule':
-             function() {} // Function that checks the rule
-             }//,
-//--------------------------------------------
-           ]
+{ 'name': 'NAME'
+  , 'description': 'DESCRIPTION'
+    , 'rules': [
+    //--------------------------------------------
+    { 'id': 123456789
+    , 'name': 'RULE NAME'
+    , 'description': 'RULE DESC'
+    , 'rule':
+        function() {} // Function that checks the rule
+    }//,
+  //--------------------------------------------
+  ]
 }

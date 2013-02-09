@@ -5,26 +5,28 @@
  *
  */
 
-{ 'name': "Misc"
-, 'description': "Miscellaneous rules"
+{ 'name': 'Misc'
+, 'description': 'Miscellaneous rules'
 , 'rules': [
   //---------------------------------------------------------
-  { 'name': "Footer check"
-  , 'description': "Footer should appear on the page"
+  { 'id': 12081801
+  , 'name': 'Footer check'
+  , 'description': 'Footer should appear on the page'
   , 'rule':
   function() {
-    if ($5("div.footer").length === 0) {
+    if ($5('div.footer').length === 0) {
       report('Footer does not appear', elt);
     }
   }
   },
   //---------------------------------------------------------
-  { 'name': "Main content width check"
-  , 'description': "Main content div should be between 520px and 1200px wide"
+  { 'id': 12081802
+  , 'name': 'Main content width check'
+  , 'description': 'Main content div should be between 520px and 1200px wide'
   , 'rule':
   function() {
     var width;
-    var elt = $5("#content");
+    var elt = $5('#content');
     if (elt) {
       width = elt.width();
       if (width > 1200) {
