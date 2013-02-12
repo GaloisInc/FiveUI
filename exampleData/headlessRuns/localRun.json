@@ -1,0 +1,12 @@
+/*
+ * Headless run configuration designed to be run with a local webserver
+ * serving files from <FiveUI>/exampleData/sites/ on port 8000.
+ */
+{
+  'rulePath'  : '../ruleSets/',
+  'crawlType' :    'none',
+  'runs': [
+    { 'url': 'http://localhost:8000/testColorRules.html', 'ruleSet': 'colorRules.json' },
+    { 'url': 'http://localhost:8000/testFontRules.html', 'ruleSet': 'fontRules.json' }
+  ]
+}
