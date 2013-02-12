@@ -128,6 +128,7 @@ public class HeadlessRunDescription {
                 	atoms.add(HeadlessAtom.fromJsonObject(obj, ruleSetDir));
                 } catch (IOException e) {
                 	logger.error("HeadlessAtom.parse: error parsing ruleSet file: " + e.getMessage());
+                	System.exit(1);
                 } catch (IllegalStateException e) {
                 	reportError(jsonElement);
                 }

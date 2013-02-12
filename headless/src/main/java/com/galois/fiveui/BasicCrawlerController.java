@@ -120,6 +120,7 @@ public class BasicCrawlerController {
 		 */
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+		//robotstxtConfig.setEnabled(false); // uncomment if you want to ignore robots.txt
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
