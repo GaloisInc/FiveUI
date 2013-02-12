@@ -1,0 +1,14 @@
+/*
+ * This run crawls Wikipedia, starting at the main page, going to a depth
+ * of 2, with a total of 20 pages maximum crawled, and with a 1000 ms delay
+ * between queries (for politeness).
+ */
+{
+  'rulePath'  : '../ruleSets/',
+  'crawlType' :    '2 20 1000 *wikipedia.org*',
+  'runs': [
+  { 'url': 'http://en.wikipedia.org/wiki/Main_Page', 'ruleSet': 'headingRules.json' },
+  { 'url': 'http://en.wikipedia.org/wiki/Main_Page', 'ruleSet': 'miscRules.json' },
+  { 'url': 'http://en.wikipedia.org/wiki/Main_Page', 'ruleSet': 'textRules.json' }
+  ]
+}
