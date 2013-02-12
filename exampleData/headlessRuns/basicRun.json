@@ -1,8 +1,12 @@
+/*
+ * A very basic headless run example. This configuration runs two rule sets on
+ * the Whitehouse main webpage.
+ */
 {
   'rulePath'  : '../ruleSets/',
   'crawlType' :    'none',
   'runs': [
-    { 'url': 'http://localhost:8000/testColorRules.html', 'ruleSet': 'colorRules.json' },
-    { 'url': 'http://localhost:8000/testFontRules.html', 'ruleSet': 'fontRules.json' }
+    { 'url': 'http://www.whitehouse.gov', 'ruleSet': 'colorRules.json' },
+    { 'url': 'http://www.whitehouse.gov', 'ruleSet': 'fontRules.json' }
   ]
 }
