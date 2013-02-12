@@ -3,7 +3,7 @@
 # Introducing "headless"
 
 The FiveUI distribution comes with a Java application called `headless` that is
-desiged to make automated testing with FiveUI easy.
+designed to make automated testing with FiveUI easy.
 
 The headless tool can take a collection of FiveUI rule sets and a target (a
 single web page, an entire website, or a filtered part of one) and automate the
@@ -42,6 +42,10 @@ make sure you have Firefox 17 (the E.S.R. release, see step 3 below) installed.
      -vv                     VERY verbose output
 
 3. Run `runHeadless.sh` one of the included run description files
+
+    $ cd <FiveUI>/exampleData/headlessRuns
+    $ runHeadless.sh -o run.txt -r report
+    ...
 
 ## Installation
 
