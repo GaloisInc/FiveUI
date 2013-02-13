@@ -2,74 +2,151 @@
 
 # Introducing "headless"
 
+-------------
+
 The FiveUI distribution comes with a Java application called `headless` that is
-designed to make automated testing with FiveUI easy.
+desiged to make automated testing with FiveUI easy.
 
 The headless tool can take a collection of FiveUI rule sets and a target (a
 single web page, an entire website, or a filtered part of one) and automate the
 running of FiveUI rules. Headless can output a text or HTML based report
 summarizing the run.
 
+"Headless runs" are specified using text based run description files that are
+written in JSON format. The exact form of these descriptions is given below.
+Headless supports two modes for automating FiveUI. In the first mode,
+headless executes one FiveUI rule set per URL line in the run description and
+outputs a report indicating which rule sets passed or failed (and how) on each
+URL. In the second mode, headless uses each URL line to specify a seed from
+which a web crawl is started.  Parameters can be given to control the extent of
+the crawl
+
 In what follows, `<FiveUI>` refers to the directory where you have installed the
 FiveUI distribution.
 
 ## Quickstart
 
-A "batteries included" jar file and helper script for using `headless` are
-included in the `<FiveUI>/bin` directory. To start using headless, first
-make sure you have Firefox 17 (the E.S.R. release, see step 3 below) installed.
+-------------
 
-0. Go to the `<FiveUI>/bin` directory
+A "batteries included" jar file and helper script for using `headless`
+are included in the `<FiveUI>/bin` directory. To start using headless,
+first make sure you have a [Java runtime environment](http://www.java.com)
+and [Firefox](http://www.mozilla.org/en-US/firefox/new/) 17 (the
+E.S.R. release, see step 3 below) installed.
 
-    $ cd <FiveUI>
+### Go to the `<FiveUI>/bin` directory
 
-1. Edit variables at the start of `runHeadless.sh` to reflect your Firefox
-   installation and FiveUI installation directory.
+```
+$ cd <FiveUI>/bin
+```
 
-    $ cat runHeadless.sh
-    export FIVEUI_ROOT_PATH=$HOME/galois/FiveUI
-    export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
-    ...
+### Edit the run script
 
-2. Invoke `runHeadless.sh` from the command line:
+Edit variables at the start of `runHeadless.sh` to reflect your Firefox
+installation and FiveUI installation directory.
 
-    $ runExample.sh -h
-    usage: headless <input file 1> [<input file 2> ...]
-     -h                      print this help message
-     -o <outfile>            write output to file
-     -r <report directory>   write HTML reports to given directory
-     -v                      verbose output
-     -vv                     VERY verbose output
+```
+$ cat runHeadless.sh
+export FIVEUI_ROOT_PATH=$HOME/galois/FiveUI
+export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
+...
+```
 
-3. Run `runHeadless.sh` one of the included run description files
+### Invoke the script
 
-    $ cd <FiveUI>/exampleData/headlessRuns
-    $ runHeadless.sh -o run.txt -r report
-    ...
+The `runHeadless.sh` script can be invoked from the command line with options.
 
-## Installation
+```
+$ runExample.sh -h
+usage: headless <input file 1> [<input file 2> ...]
+ -h                      print this help message
+ -o <outfile>            write output to file
+ -r <report directory>   write HTML reports to given directory
+ -v                      verbose output
+ -vv                     VERY verbose output
+```
 
-1. Install maven
+### Try running `runHeadless.sh` on one of the included run description files
+
+```
+$ cd <FiveUI>/exampleData/headlessRuns
+$ runHeadless.sh basicRun.json -v -o reports/basic.out -r reports/basic
+com.galois.fiveui.HeadlessRunner  - report directory already exists!
+com.galois.fiveui.HeadlessRunner  - invoking headless run...
+com.galois.fiveui.BatchRunner  - initializing BatchRunner ...
+com.galois.fiveui.CrawlParameters  - setting doNotCrawl = True
+com.galois.fiveui.BatchRunner  - setting seed URL for crawl: http://www.whitehouse.gov
+com.galois.fiveui.BatchRunner  - skipping webcrawl
+com.galois.fiveui.BatchRunner  - building webdrivers ...
+com.galois.fiveui.BatchRunner  - built: [FirefoxDriver: firefox on MAC (acbc5ed2-2f3e-fc42-8d4d-08a3e31e30d6)]
+com.galois.fiveui.BatchRunner  - registering new webdriver...
+com.galois.fiveui.BatchRunner  - root path for webdriver is /Users/bjones/FiveUI/
+com.galois.fiveui.BatchRunner  - loading http://www.whitehouse.gov for ruleset run ...
+com.galois.fiveui.BatchRunner  - running ruleset "Color Guidelines"
+com.galois.fiveui.BatchRunner  - runRule: url=http://www.whitehouse.gov/, ruleSet="Color Guidelines"
+com.galois.fiveui.BatchRunner  - being polite for 1000 millis...
+```
+
+After the run completes you should see a text log of the run in `reports/basic.out` and an HTML summary report
+in `reports/basic/summary.html`. Note that there are many errors reported on this particular run because the
+rule sets used (particularly the color guidelines) were not designed for whitehouse.gov in particular.
+
+### Write your own run configuration.
+
+The run configuration is a text file in JSON format that determines the behavior
+of a headless run:
+
+ - Location of ruleset files
+ - Web crawl parameters
+ - URLs to test (seeds for the crawl)
+
+The format of a run configuration is as follows:
+
+```javascript
+/*
+ * Comments
+ */
+{
+  'rulePath'  : '<path>',                         // path where rule set files referenced below live
+  'crawlType' : '<d> <n> <p> <pat>',              // d = crawl depth, n = max number of pages to retrieve
+                                                  // p = politeness delay (ms), pat = URL glob pattern
+                                                  // crawlType can also be 'none'
+  'runs': [
+  { 'url': '<url>', 'ruleSet': '<rule_file>' },   // each line here corresponds to a separate webcrawl
+  { 'url': '<url>', 'ruleSet': '<rule_file>' },   // and rule execution pass
+  ...
+  ]
+}
+```
+
+## Building Headless From Source
+
+----------------
+
+### Install Maven
 
 Headless is a [maven](http://maven.apache.org/) managed Java project. The
-projects top-level directory is `<FiveUI>/headless`, where `<FiveUI>` refers to
-where you've installed FiveUI. You'll need maven installed on your system to
-continue.
+project's top-level directory is `<FiveUI>/headless`.  You'll need maven
+installed on your system to continue.
 
- * On debian based linux systems: `sudo apt-get install maven`
- * On Mac OS X: Maven 3.x comes pre-installed on OS X 10.7+
+ - On debian based linux systems: `sudo apt-get install maven`
+ - On Mac OS X: Maven 3.x comes pre-installed (OS X 10.7 or later)
 
-2. Compile the headless project
+### Compile Headless
 
-Once you have maven install you can try compiling the project which will trigger
+Once you have maven installed, you can compile the project. This will trigger
 the dependencies to be downloaded and installed in your local maven repository
 (for a quick intro to using maven, see [Maven in Five
 Minutes](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
 
-    $ mvn compile
+```
+$ mvn compile
+```
+
+### Get Firefox E.S.R.
 
 In order to use headless you also need a copy of Firefox 17 (the current
-extended support release). More recent versions of Firefox may also work, but
+extended support release or E.S.R.). More recent versions of Firefox may also work, but
 they are not supported for use with FiveUI. Download and install Firefox 17
 [here](http://www.mozilla.org/en-US/firefox/organizations/all.html). Note that
 Firefox 17 can be installed along side existing alternate versions of firefox on
@@ -80,15 +157,38 @@ Now that you've installed Firefox 17, it's time to tell headless where the
 binary lives. For example, when I install Firefox 17 to `~/myapps/Firefox17` on a
 Mac OS X system, the firefox binary lives at
 
-    ~/myapps/Firefox17/Contents/MacOS/firefox
+```
+~/myapps/Firefox17/Contents/MacOS/firefox
+```
 
 Locate your firefox binary and remember it for the next step.
+
+### Configuration
 
 In the top-level `headless` directory, copy the configuration file
 `programs.properties.example` to `programs.properties`
 
-    $ cp programs.properties.example programs.properties
+```
+$ cp programs.properties.example programs.properties
+```
 
 Now, modify the first entry in `programs.properties`
-to point to the location of your Firefox binary.
+to point to the location of your Firefox binary from step 3.
 
+At this point, `headless` is ready to run, see the Quickstart section above for
+usage examples. The "batteries-included" JAR file has been built and lives at
+`<FiveUI>/headless/target/HeadlessRunner-0.0.1-SNAPSHOT.one-jar.jar`. Use `java`
+to execute the JAR file manually:
+
+```
+$ java -jar HeadlessRunner-0.0.1-SNAPSHOT.one-jar.jar ...
+```
+
+### Testing
+
+To run the project's unit tests and verify that things are working as they should on
+your installation and system, use the maven test target:
+
+```
+$ mvn test
+```
