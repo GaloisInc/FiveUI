@@ -1,14 +1,14 @@
 /**
  * Module : HeadlessRunner.java Copyright : (c) 2012, Galois, Inc.
- * 
+ *
  * Maintainer : Stability : Provisional Portability: Portable
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -45,19 +45,19 @@ import org.apache.log4j.BasicConfigurator;
  * a headless run description from disk, and executes the run which includes
  * loading seed URL's, performing a webcrawl, and running rule sets on each of
  * the crawled pages.
- * 
+ *
  * @author bjones
- * 
+ *
  */
 public class HeadlessRunner {
 
 	private static Logger logger = Logger.getLogger("com.galois.fiveui.HeadlessRunner");
-	
+
     /**
      * @param args list of headless run description filenames
      * @throws IOException
      * @throws URISyntaxException
-     * @throws ParseException 
+     * @throws ParseException
      */
     @SuppressWarnings("static-access")
 	public static void main(final String[] args)
@@ -79,7 +79,7 @@ public class HeadlessRunner {
         options.addOption("v", false, "verbose output");
         options.addOption("vv", false, "VERY verbose output");
         options.addOption(help);
- 
+
         // Parse command line options
         CommandLineParser parser = new GnuParser();
         CommandLine cmd = null;
@@ -89,14 +89,14 @@ public class HeadlessRunner {
 			System.err.println( "Command line option parsing failed.  Reason: " + e.getMessage() );
 			System.exit(1);
 		}
-        
+
         // Display help if requested
         if (cmd.hasOption("h")) {
         	HelpFormatter formatter = new HelpFormatter();
         	formatter.printHelp("headless <input file 1> [<input file 2> ...]", options);
         	System.exit(1);
-        }	
-        
+        }
+
         // Set logging levels
         BasicConfigurator.configure();
         Logger fiveuiLogger = Logger.getLogger("com.galois.fiveui");
@@ -111,7 +111,7 @@ public class HeadlessRunner {
         	fiveuiLogger.setLevel(Level.ERROR);
         	rootLogger.setLevel(Level.ERROR);
         }
-        
+
         // Setup output file if requested
         PrintWriter outStream = null;
         if (cmd.hasOption("o")) {
@@ -125,8 +125,8 @@ public class HeadlessRunner {
         } else {
         	outStream = new PrintWriter(new BufferedWriter(new PrintWriter(System.out)));
         }
-    	 
-        // Setup HTML reports directory before the major work happens in case we 
+
+        // Setup HTML reports directory before the major work happens in case we
         // have to throw an exception.
         PrintWriter summaryFile = null;
         PrintWriter byURLFile = null;
@@ -148,8 +148,8 @@ public class HeadlessRunner {
         		System.err.println("could not open report directory / files for writing");
         		System.exit(1);
         	}
-        } 
-        
+        }
+
         // Major work: process input files
         ImmutableList<Result> results = null;
         for (String in: cmd.getArgs()) {
@@ -165,7 +165,7 @@ public class HeadlessRunner {
             outStream.flush();
         }
         outStream.close();
-        
+
         // Write report files if requested
         if (cmd.hasOption("r") && results != null) {
         	Reporter kermit = new Reporter(results);
@@ -175,7 +175,7 @@ public class HeadlessRunner {
         	byURLFile.close();
         	byRuleFile.write(kermit.getByRule());
         	byRuleFile.close();
-        }   
-    }    
+        }
+    }
 }
 

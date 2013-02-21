@@ -14,7 +14,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * @author Benjamin Jones <bjones@galois.com>
  */
 package com.galois.fiveui;
@@ -40,13 +40,13 @@ import com.googlecode.jatl.Html;
  * generated in HTML and returned as human readable strings by getSummaryPage(),
  * getURLPage(), and getRulePage(). The client is responsible for writing them
  * to .html files (or whatever).
- * 
+ *
  * @author bjones
  *
  */
 public class Reporter {
-	
-	/** see sortBy* and computeSummaryStats methods for map semantics */ 
+
+	/** see sortBy* and computeSummaryStats methods for map semantics */
 	private final Map<String, List<Result>> _byURLMap;
 	private final Map<String, List<Result>> _byRuleMap;
 	private final Map<String, int[]> _passFailMap;
@@ -63,11 +63,11 @@ public class Reporter {
 			"td, th { border: 1px solid grey; }\n" +
 			".hlRow { background: #EEEEEE; }\n" +
 			".regRow { background: #FFFFFF; }\n";
-	
+
 	/**
 	 * Construct a Reporter object. The constructor takes a list of results
 	 * and uses them to populate various maps used in reporting.
-	 * 
+	 *
 	 * @param results a list of Result objects
 	 */
 	public Reporter(List<Result> results) {
@@ -76,11 +76,11 @@ public class Reporter {
 		this._passFailMap = computeSummaryStats(results);
 		this._ruleNameToDesc = extractRuleDesc(results);
 	}
-			
+
 	/**
 	 * Build the HTML markup for a summary page based on the precomputed map
 	 * this._passFailMap.
-	 * 
+	 *
 	 * @return String containing human-readable HTML representing a summary page
 	 */
 	public String getSummary() {
@@ -92,8 +92,8 @@ public class Reporter {
 			h1().text("Headless Run Summary").end();
 			p();
 				ul();
-				li().a().href("byurl.html").text("Results organized by URL").end().end();
-				li().a().href("byrule.html").text("Results organized by Rule").end().end();
+				li().a().href("byUrl.html").text("Results organized by URL").end().end();
+				li().a().href("byRule.html").text("Results organized by Rule").end().end();
 				end();
 			end();
 			p();
@@ -107,17 +107,17 @@ public class Reporter {
 			/**
 		    * Report statistics on the headless run. Note, "pass"
 		    * means the URL passed all tests in the ruleset, but "fail" can be
-		    * reported for the same test on multiple offenders in the page. 
+		    * reported for the same test on multiple offenders in the page.
 		    */
 			Html makeSummaryStats(Map<String, int[]> passFailMap) {
 		        int uniqueURLs = passFailMap.size();
 		        int[] passFailList;
-		        
+
 		        p();
 			        h3().text("Unique URLs: ");
 			        span().classAttr("number").text(String.valueOf(uniqueURLs)).end();
 		        end().end();
-		        
+
 		        p();
 		        table().id("stats-table");
 			        tr();
@@ -144,10 +144,10 @@ public class Reporter {
 		};
 		return summaryPage.getBuffer().toString();
 	}
-	
+
 	/**
 	 * Build the HTML markup for a report page sorted by URL.
-	 * 
+	 *
 	 * @return String containing human-readable HTML representing a report page
 	 */
 	public String getByURL() {
@@ -180,10 +180,10 @@ public class Reporter {
 		}};
 		return byURLPage.getBuffer().toString();
 	}
-	
+
 	/**
 	 * Build the HTML markup for a report page sorted by rule name.
-	 * 
+	 *
 	 * @return String containing human-readable HTML representing a report page
 	 */
 	public String getByRule() {
@@ -217,11 +217,11 @@ public class Reporter {
 		}};
 		return byRulePage.getBuffer().toString();
 	}
-	
+
 	/**
 	 * Utility method to take all the reports and write them to standard file
 	 * names under a given directory.
-	 * 
+	 *
 	 * @param dirName name of the directory where the reports should be written
 	 * @throws IOException
 	 */
@@ -236,9 +236,9 @@ public class Reporter {
     	byRuleFile.write(this.getByRule());
     	byRuleFile.close();
 	}
-	
+
 	/** Private fields **/
-	
+
 	private Html makeHead(Html page, final String title) {
 		return new Html(page) {{
 			html();
@@ -249,11 +249,11 @@ public class Reporter {
 				body();
 		}};
 	}
-	
+
 	/**
 	 * Populate a Map<String, List<Result>> representing the results sorted by
 	 * URL.
-	 * 
+	 *
 	 * @param results a list of results
 	 * @return a map representing the results sorted by URL.
 	 */
@@ -275,11 +275,11 @@ public class Reporter {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * Populate a Map<String, List<Result>> representing the results sorted by
 	 * rule name.
-	 * 
+	 *
 	 * @param results a list of results
 	 * @return a map representing the results sorted by rule name.
 	 */
@@ -301,11 +301,11 @@ public class Reporter {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * Build a map of ruleName -> ruleDesc entries occurring in the given list of
 	 * results.
-	 * 
+	 *
 	 * @param results a list of results
 	 * @return a map associating rule names to rule descriptions
 	 */
@@ -316,15 +316,15 @@ public class Reporter {
 				assoc.put(r.getRuleName(), r.getRuleDesc());
 		return assoc;
 	}
-	
+
 	 /**
      * Compute summary statistics from the results list. This includes number of
      * passes and fails for each URL checked.
-     * 
+     *
      * @param results a list of results
      * @return a map representing the results sorted by rule name.
      */
-    private Map<String, int[]> computeSummaryStats(List<Result> results) {  
+    private Map<String, int[]> computeSummaryStats(List<Result> results) {
     	/** passFailMap semantics: Map<url, {#pass, #fail}> */
         Map<String, int[]> passFailMap = new HashMap<String, int[]>();
         String url;
@@ -332,7 +332,7 @@ public class Reporter {
         int[] passFailList;
         Pattern numberPassedPattern = Pattern.compile("passed ([0-9]+) tests");
         Matcher matcher;
-      
+
         for (Result result : results) {
         	pass = fail = 0;
         	url = result.getURL();
@@ -345,7 +345,7 @@ public class Reporter {
         		// each error result corresponds to one test
         		fail = 1;
         	}
-        	
+
         	if (passFailMap.containsKey(url)) {
         		passFailList = passFailMap.get(url);
         	} else {
