@@ -21,27 +21,47 @@ URL. In the second mode, Headless uses each URL line to specify a seed from
 which a web crawl is started.  Parameters can be given to control the extent of
 the crawl.
 
-In what follows, `<FiveUI>` refers to the directory where you have installed the
-FiveUI distribution.
 
 ## Quickstart
 
 -------------
 
-### Install the dependencies
+### Get the FiveUI Source Distribution
+
+Headless is contained in the FiveUI source distribution. You can download the
+distribution from [github](http://github.com/galoisinc/FiveUI) at:
+
+    https://github.com/GaloisInc/FiveUI/archive/master.zip
+
+Alternatively, if you have `git` installed you can clone the repository:
+
+    git clone https://github.com/GaloisInc/FiveUI.git
+
+In what follows, `<FiveUI>` refers to the directory where you have installed the
+FiveUI distribution.
+
+### Install External dependencies
 
 You will need the following dependenies installed on your system in order
 to use Headless. All of the dependencies can be found and easily installed
 on most major platforms (Linux, Mac OS X, Windows). The dependencies are:
 
- - [Java runtime environment](http://www.java.com)
+ - [Java Development Kit](http://www.java.com)
  - [Firefox](http://www.mozilla.org/en-US/firefox/organizations/all.html) 17 (the
    E.S.R. release)
  - [Maven](http://maven.apache.org/download.cgi)
- - an included Java library called `webdrivers` (see next step)
+ - UNIX archive utility `tar` (and optionally `make`)
 
-Note that on some platforms (e.g. Mac OS X) the Java runtime and Maven are already
-pre-installed.
+### Download the FiveUI Firefox extension
+
+The packaged Firefox extension is not included in the source distribution and
+is needed so that Headless can driver your browser with FiveUI installed.
+
+Download the extension from
+
+    http://galoisinc.github.com/FiveUI/binaries/fiveui.xpi
+
+and save it to `<FiveUI>/contexts`.
 
 ### Install the included webdrivers dependency
 
@@ -53,13 +73,31 @@ $ cd <FiveUI>/webdriver
 $ mvn install
 ```
 
+### Unpack the included Firefox profile
+
+```
+$ cd <FiveUI>/profiles
+$ tar xf firefox.tar
+```
+
+Alternatively, if you have `make` installed you can run from `<FiveUI>/profiles`:
+
+```
+$ make
+```
+
+Alternatively, you can copy (or link) an [existing firefox profile
+directory](http://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data)
+that you have to `<FiveUI>/profiles/firefox`.
+
 ### Edit the run script
 
 Edit variables at the start of `<FiveUI>/bin/runHeadless.sh` to
 reflect your Firefox installation and FiveUI installation directory.
 
 ```
-$ cat runHeadless.sh
+$ cd <FiveUI>
+$ cat bin/runHeadless.sh
 export FIVEUI_ROOT_PATH=$HOME/galois/FiveUI
 export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
 ...
@@ -70,7 +108,8 @@ export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
 The `runHeadless.sh` script can be invoked from the command line with options.
 
 ```
-$ runHeadless.sh -h
+$ cd <FiveUI>
+$ bin/runHeadless.sh -h
 usage: headless <input file 1> [<input file 2> ...]
  -h                      print this help message
  -o <outfile>            write output to file
@@ -84,24 +123,27 @@ usage: headless <input file 1> [<input file 2> ...]
 Here we execute the example headless run located in
 `<FiveUI>/exampleData/headlessRuns/basicRun.json`.
 
+First, create some directories for the reports to live in.
+
 ```
 $ cd <FiveUI>/exampleData/headlessRuns
-$ runHeadless.sh basicRun.json -v -o reports/basic.out -r reports/basic
-com.galois.fiveui.HeadlessRunner  - report directory already exists!
-com.galois.fiveui.HeadlessRunner  - invoking headless run...
-com.galois.fiveui.BatchRunner  - initializing BatchRunner ...
-com.galois.fiveui.CrawlParameters  - setting doNotCrawl = True
-com.galois.fiveui.BatchRunner  - setting seed URL for crawl: http://www.whitehouse.gov
-com.galois.fiveui.BatchRunner  - skipping webcrawl
-com.galois.fiveui.BatchRunner  - building webdrivers ...
-com.galois.fiveui.BatchRunner  - built: [FirefoxDriver: firefox on MAC (acbc5ed2-2f3e-fc42-8d4d-08a3e31e30d6)]
-com.galois.fiveui.BatchRunner  - registering new webdriver...
-com.galois.fiveui.BatchRunner  - root path for webdriver is /Users/galois/FiveUI/
-com.galois.fiveui.BatchRunner  - loading http://www.whitehouse.gov for ruleset run ...
-com.galois.fiveui.BatchRunner  - running ruleset "Color Guidelines"
-com.galois.fiveui.BatchRunner  - runRule: url=http://www.whitehouse.gov/, ruleSet="Color Guidelines"
-com.galois.fiveui.BatchRunner  - being polite for 1000 millis...
+$ mkdir -p reports/basic
 ```
+
+Now invoke the `runHeadless` script.
+
+```
+$ <FiveUI>/bin/runHeadless.sh basicRun.json -v -o reports/basic.out -r reports/basic
+```
+
+You should see the Firefox browser open and load `http://whitehouse.gov`. The FiveUI
+extension is now running rule sets on the page and collecting information for its
+report.
+
+Linux users can hide the browser window from appearing at this point
+by running the script inside an X virtual frame buffer. See the
+following [description of Xvfb](http://en.wikipedia.org/wiki/Xvfb)
+for more.
 
 After the run is complete you should see a text log of the run in
 `reports/basic.out` and an HTML summary report in
