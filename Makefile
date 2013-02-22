@@ -25,14 +25,7 @@ HEADLESS_DIR=headless
 RSTESTER_DIR=rsTester
 DOC_DIR=doc
 
-UNAME := $(shell uname)
-ifeq ($(UNAME), Linux)
 MVN_EXE=`which mvn`
-# MVN_EXE=/usr/local/apache-maven-3.0.4/bin/mvn
-else
-# Non-Linux platfoms not yet supported
-MVN_EXE=`which mvn`
-endif
 
 define profile
 .PHONY: profile-$1
