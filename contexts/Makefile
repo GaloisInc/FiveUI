@@ -21,13 +21,14 @@
 # Entry Point ##################################################################
 
 .PHONY: all
-all: compile package ;
+all: compile package install ;
 
 
 # Environment ##################################################################
 
 BUILD_ROOT      := $(CURDIR)
 REPO_ROOT       := $(CURDIR)/..
+INSTALL_DIR     := $(REPO_ROOT)/binaries
 
 ADDON_SDK       := $(REPO_ROOT)/tools/addon-sdk
 BUILD_DIR       := $(REPO_ROOT)/build
@@ -39,6 +40,7 @@ BIN_DIR         := $(DATA_DIR)/target
 FIVEUI_DATA_DIR := $(DATA_DIR)/fiveui
 LIB_DIR         := $(DATA_DIR)/lib
 
+MV              := mv
 
 # FiveUI project Javascript sources
 js_sources := $(wildcard $(FIVEUI_DATA_DIR)/*.js)
@@ -110,6 +112,9 @@ compile:
 
 .PHONY: package
 package:
+
+.PHONY: install
+install:
 
 .PHONY: clean
 clean:
@@ -352,3 +357,8 @@ clean: clean-xpi
 .PHONY: package-firefox
 package-firefox: $(BUILD_ROOT)/fiveui.xpi ;
 package: package-firefox
+
+# Installation #################################################################
+
+install:
+	$(MV) $(BUILD_ROOT)/fiveui.{crx,xpi} $(INSTALL_DIR)
