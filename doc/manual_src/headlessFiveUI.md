@@ -52,17 +52,6 @@ on most major platforms (Linux, Mac OS X, Windows). The dependencies are:
  - [Maven](http://maven.apache.org/download.cgi)
  - UNIX archive utility `tar` (and optionally `make`)
 
-### Download the FiveUI Firefox extension
-
-The packaged Firefox extension is not included in the source distribution and
-is needed so that Headless can driver your browser with FiveUI installed.
-
-Download the extension from
-
-    http://galoisinc.github.com/FiveUI/binaries/fiveui.xpi
-
-and save it to `<FiveUI>/contexts`.
-
 ### Install the included webdrivers dependency
 
 The following command will instruct Maven to install
