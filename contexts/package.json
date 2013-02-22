@@ -1,15 +1,16 @@
 {
-    "name": "fiveui", 
-    "fullName": "Five UI", 
-    "license": "BSD 3", 
-    "author": "Galois (http://galois.com)", 
+    "name": "fiveui",
+    "fullName": "Five UI",
+    "license": "BSD 3",
+    "author": "Galois (http://galois.com)",
     "contributors": [ "Rogan Creswick <creswick@galois.com>",
-                      "Trevor Elliot <trevor@galois.com>"
+                      "Trevor Elliot <trevor@galois.com>",
+                      "Benjamin Jones <bjones@galois.com>"
                     ],
-    "version": "0.2", 
-    "id": "jid1-oquzbbbog1fmxq", 
+    "version": "0.2",
+    "id": "jid1-oquzbbbog1fmxq",
     "description": "UI Constraint Checker",
     "lib": "data/",
     "main": "target/firefox-main",
-    "tests": "data/fiveui/firefox/test"    
+    "tests": "data/fiveui/firefox/test"
 }
