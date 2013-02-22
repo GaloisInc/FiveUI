@@ -92,12 +92,12 @@ that you have to `<FiveUI>/profiles/firefox`.
 
 ### Edit the run script
 
-Edit variables at the start of `<FiveUI>/bin/runHeadless.sh` to
+Edit variables at the start of `<FiveUI>/headless/bin/runHeadless.sh` to
 reflect your Firefox installation and FiveUI installation directory.
 
 ```
-$ cd <FiveUI>
-$ cat bin/runHeadless.sh
+$ cd <FiveUI>/headless/bin
+$ cat runHeadless.sh
 export FIVEUI_ROOT_PATH=$HOME/galois/FiveUI
 export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
 ...
@@ -108,8 +108,8 @@ export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
 The `runHeadless.sh` script can be invoked from the command line with options.
 
 ```
-$ cd <FiveUI>
-$ bin/runHeadless.sh -h
+$ cd <FiveUI>/headless/bin
+$ ./runHeadless.sh -h
 usage: headless <input file 1> [<input file 2> ...]
  -h                      print this help message
  -o <outfile>            write output to file
@@ -133,7 +133,7 @@ $ mkdir -p reports/basic
 Now invoke the `runHeadless` script.
 
 ```
-$ <FiveUI>/bin/runHeadless.sh basicRun.json -v -o reports/basic.out -r reports/basic
+$ <FiveUI>/headless/bin/runHeadless.sh basicRun.json -v -o reports/basic.out -r reports/basic
 ```
 
 You should see the Firefox browser open and load `http://whitehouse.gov`. The FiveUI
