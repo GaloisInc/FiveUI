@@ -741,7 +741,8 @@ of the given array `cset`.</div>
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.linksTo">linksTo</a></b>(href)
 								</div>
-								<div class="description"></div>
+								<div class="description">Filter out elements that do not contain the attribute
+href=`href`.</div>
 							</td>
 						</tr>
 					
@@ -995,12 +996,13 @@ Javascript console, and run:
 					<a name=".linksTo"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
+					<span class="light">{Object}</span>
 					<span class="light">fiveui.jquery.</span><b>linksTo</b>(href)
 					
 					</div>
 					<div class="description">
-						
+						Filter out elements that do not contain the attribute
+href=`href`.
 						
 						
 					</div>
@@ -1012,16 +1014,23 @@ Javascript console, and run:
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>href</b>
+									<span class="light fixedFont">{String}</span> <b>href</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>the href to look for</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> jQuery object</dd>
+							
+							</dl>
 						
 						
 						

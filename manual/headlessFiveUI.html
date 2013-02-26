@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Automated testing with FiveUI</title>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #dddddd; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { font-weight: bold; }
+code > span.dt { color: #800000; }
+code > span.dv { color: #0000ff; }
+code > span.bn { color: #0000ff; }
+code > span.fl { color: #800080; }
+code > span.ch { color: #ff00ff; }
+code > span.st { color: #dd0000; }
+code > span.co { color: #808080; font-style: italic; }
+code > span.al { color: #00ff00; font-weight: bold; }
+code > span.fu { color: #000080; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css" media="all">
+  <link rel="stylesheet" type="text/css" href="../css/style.css" media="all">
+</head>
+<body class="interior">
+
+  <header>
+    <div class="wrap">
+    <a href="http://galoisinc.github.com/FiveUI" id="logo"
+       title="Galois Open Source"><img src="../images/logo.png" alt="Galois" /></a>
+    <h2>Open Source</h2>
+      <nav id="primary">
+        <ul>
+          <li><a href="http://galois.com">Company website</a></li>
+          <li><a href="https://github.com/GaloisInc/">Github home</a></li>
+        </ul>
+      </nav><!-- /#primary -->
+    </div><!-- /.wrap -->
+  </header>
+
+<!-- ///////////////////////////////////////////
+
+  Template Stops Here, Enter Page Content Below 
+
+  //////////////////////////////////////////// -->
+
+  <section id="content">
+    <div class="wrap">
+<!-- PAGE BODY -->
+<div id="pageBodyWrapper"> <div id="pageBody">
+
+<div id="contentWrapper"> <div id="content">
+<div id="header">
+<h1 class="title">Automated testing with FiveUI</h1>
+</div>
+<h1 id="introducing-headless">Introducing &quot;Headless&quot;</h1>
+<hr />
+<p>The FiveUI distribution comes with a Java application called <code>Headless</code> that is desiged to make automated testing with FiveUI easy.</p>
+<p>Headless can take a collection of FiveUI rule sets and a target (a single web page, an entire website, or a filtered part of one) and automate running the rule sets on the target(s). Headless will then output a text or HTML based report summarizing the run.</p>
+<p>&quot;Headless runs&quot; are specified using text based run description files that are written in JSON format. The exact form of these descriptions is given below. Headless supports two modes for automating FiveUI. In the first mode, Headless executes one FiveUI rule set per URL line in the run description and outputs a report indicating which rule sets passed or failed (and how) for each URL. In the second mode, Headless uses each URL line to specify a seed from which a web crawl is started. Parameters can be given to control the extent of the crawl.</p>
+<h2 id="quickstart">Quickstart</h2>
+<hr />
+<h3 id="get-the-fiveui-source-distribution">Get the FiveUI Source Distribution</h3>
+<p>Headless is contained in the FiveUI source distribution. You can download the distribution from <a href="http://github.com/galoisinc/FiveUI">github</a> at:</p>
+<pre><code>https://github.com/GaloisInc/FiveUI/archive/master.zip</code></pre>
+<p>Alternatively, if you have <code>git</code> installed you can clone the repository:</p>
+<pre><code>git clone https://github.com/GaloisInc/FiveUI.git</code></pre>
+<p>In what follows, <code>&lt;FiveUI&gt;</code> refers to the directory where you have installed the FiveUI distribution.</p>
+<h3 id="install-external-dependencies">Install External dependencies</h3>
+<p>You will need the following dependenies installed on your system in order to use Headless. All of the dependencies can be found and easily installed on most major platforms (Linux, Mac OS X, Windows). The dependencies are:</p>
+<ul>
+<li><a href="http://www.java.com">Java Development Kit</a></li>
+<li><a href="http://www.mozilla.org/en-US/firefox/organizations/all.html">Firefox</a> 17 (the E.S.R. release)</li>
+<li><a href="http://maven.apache.org/download.cgi">Maven</a></li>
+<li>UNIX archive utility <code>tar</code> (and optionally <code>make</code>)</li>
+</ul>
+<h3 id="install-the-included-webdrivers-dependency">Install the included webdrivers dependency</h3>
+<p>The following command will instruct Maven to install the webdrivers Java library to your local Maven repository.</p>
+<pre><code>$ cd &lt;FiveUI&gt;/webdriver
+$ mvn install</code></pre>
+<h3 id="unpack-the-included-firefox-profile">Unpack the included Firefox profile</h3>
+<pre><code>$ cd &lt;FiveUI&gt;/profiles
+$ tar xf firefox.tar</code></pre>
+<p>Alternatively, if you have <code>make</code> installed you can run from <code>&lt;FiveUI&gt;/profiles</code>:</p>
+<pre><code>$ make</code></pre>
+<p>Alternatively, you can copy (or link) an <a href="http://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data">existing firefox profile directory</a> that you have to <code>&lt;FiveUI&gt;/profiles/firefox</code>.</p>
+<h3 id="edit-the-run-script">Edit the run script</h3>
+<p>Edit variables at the start of <code>&lt;FiveUI&gt;/headless/bin/runHeadless.sh</code> to reflect your Firefox installation and FiveUI installation directory.</p>
+<pre><code>$ cd &lt;FiveUI&gt;/headless/bin
+$ cat runHeadless.sh
+export FIVEUI_ROOT_PATH=$HOME/galois/FiveUI
+export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
+...</code></pre>
+<h3 id="invoke-the-script">Invoke the script</h3>
+<p>The <code>runHeadless.sh</code> script can be invoked from the command line with options.</p>
+<pre><code>$ cd &lt;FiveUI&gt;/headless/bin
+$ ./runHeadless.sh -h
+usage: headless &lt;input file 1&gt; [&lt;input file 2&gt; ...]
+ -h                      print this help message
+ -o &lt;outfile&gt;            write output to file
+ -r &lt;report directory&gt;   write HTML reports to given directory
+ -v                      verbose output
+ -vv                     VERY verbose output</code></pre>
+<h3 id="try-one-of-the-included-example-runs">Try one of the included example runs</h3>
+<p>Here we execute the example headless run located in <code>&lt;FiveUI&gt;/exampleData/headlessRuns/basicRun.json</code>.</p>
+<p>First, create some directories for the reports to live in.</p>
+<pre><code>$ cd &lt;FiveUI&gt;/exampleData/headlessRuns
+$ mkdir -p reports/basic</code></pre>
+<p>Now invoke the <code>runHeadless</code> script.</p>
+<pre><code>$ &lt;FiveUI&gt;/headless/bin/runHeadless.sh basicRun.json -v -o reports/basic.out -r reports/basic</code></pre>
+<p>You should see the Firefox browser open and load <code>http://whitehouse.gov</code>. The FiveUI extension is now running rule sets on the page and collecting information for its report.</p>
+<p>Linux users can hide the browser window from appearing at this point by running the script inside an X virtual frame buffer. See the following <a href="http://en.wikipedia.org/wiki/Xvfb">description of Xvfb</a> for more.</p>
+<p>After the run is complete you should see a text log of the run in <code>reports/basic.out</code> and an HTML summary report in <code>reports/basic/summary.html</code>. Note that there are many errors reported on this particular run because the rule sets used (particularly the color guidelines) were not designed with <code>whitehouse.gov</code> in mind.</p>
+<h3 id="write-your-own-run-configuration.">Write your own run configuration.</h3>
+<p>A run configuration is a text file in JSON format that determines the behavior of a Headless run, in particular:</p>
+<ul>
+<li>the location of rule set files</li>
+<li>web crawl parameters</li>
+<li>URLs to test (seeds for the crawl)</li>
+</ul>
+<p>The format of a run configuration is as follows:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">/*</span>
+<span class="co"> * Comments</span>
+<span class="co"> */</span>
+{
+  <span class="ch">&#39;rulePath&#39;</span>  : <span class="ch">&#39;&lt;path&gt;&#39;</span>,                         <span class="co">// path = the path where rule set files referenced below live.</span>
+  <span class="ch">&#39;crawlType&#39;</span> : <span class="ch">&#39;&lt;d&gt; &lt;n&gt; &lt;p&gt; &lt;pat&gt;&#39;</span>,              <span class="co">// d = crawl depth, n = max number of pages to retrieve.</span>
+                                                  <span class="co">// p = politeness delay (ms), pat = URL glob pattern</span>
+                                                  <span class="co">// (crawlType can also be &#39;none&#39;).</span>
+  <span class="ch">&#39;runs&#39;</span>: [
+  { <span class="ch">&#39;url&#39;</span>: <span class="ch">&#39;&lt;url&gt;&#39;</span>, <span class="ch">&#39;ruleSet&#39;</span>: <span class="ch">&#39;&lt;rule_file&gt;&#39;</span> },   <span class="co">// Each line here corresponds to a separate webcrawl</span>
+  { <span class="ch">&#39;url&#39;</span>: <span class="ch">&#39;&lt;url&gt;&#39;</span>, <span class="ch">&#39;ruleSet&#39;</span>: <span class="ch">&#39;&lt;rule_file&gt;&#39;</span> },   <span class="co">// and rule execution pass.</span>
+  ...                                             <span class="co">// Many URL lines may follow.</span>
+  ]
+}</code></pre>
+<h2 id="building-headless-from-source">Building Headless From Source</h2>
+<hr />
+<h3 id="install-maven">Install Maven</h3>
+<p>Headless is a <a href="http://maven.apache.org/">maven</a> managed Java project. The project's top-level directory is <code>&lt;FiveUI&gt;/headless</code>. You'll need maven installed on your system to continue.</p>
+<ul>
+<li>On debian based linux systems: <code>sudo apt-get install maven</code></li>
+<li>On Mac OS X: Maven 3.x comes pre-installed (OS X 10.7 or later)</li>
+</ul>
+<h3 id="compile-headless">Compile Headless</h3>
+<p>Once you have maven installed, you can compile the project. This will trigger the dependencies to be downloaded and installed in your local maven repository (for a quick intro to using maven, see <a href="http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html">Maven in Five Minutes</a>.</p>
+<pre><code>$ mvn compile</code></pre>
+<h3 id="get-firefox-e.s.r.">Get Firefox E.S.R.</h3>
+<p>In order to use Headless you also need a copy of Firefox 17 (the current extended support release or E.S.R.). More recent versions of Firefox may also work, but they are not supported for use with FiveUI. Download and install Firefox 17 <a href="http://www.mozilla.org/en-US/firefox/organizations/all.html">here</a>. Note that Firefox 17 can be installed along side existing alternate versions of firefox on your system or isolated to your user directory by simply moving it's installation directory.</p>
+<p>Now that you've installed Firefox 17, it's time to tell Headless where the binary lives. For example, when I install Firefox 17 to <code>~/myapps/Firefox17</code> on a Mac OS X system, the firefox binary lives at</p>
+<pre><code>~/myapps/Firefox17/Contents/MacOS/firefox</code></pre>
+<p>Locate your firefox binary and remember it for the next step.</p>
+<h3 id="configuration">Configuration</h3>
+<p>In the top-level <code>headless</code> directory, copy the configuration file <code>programs.properties.example</code> to <code>programs.properties</code></p>
+<pre><code>$ cp programs.properties.example programs.properties</code></pre>
+<p>Now, modify the first entry in <code>programs.properties</code> to point to the location of your Firefox binary from step 3.</p>
+<p>At this point, Headless is ready to run, see the Quickstart section above for usage examples. The &quot;batteries-included&quot; JAR file has been built and lives at <code>&lt;FiveUI&gt;/headless/target/HeadlessRunner-0.0.1-SNAPSHOT.one-jar.jar</code>. Use <code>java</code> to execute the JAR file manually:</p>
+<pre><code>$ java -jar HeadlessRunner-0.0.1-SNAPSHOT.one-jar.jar ...</code></pre>
+<h3 id="testing">Testing</h3>
+<p>To run the project's unit tests and verify that things are working as they should on your installation and system, use the maven test target:</p>
+<pre><code>$ mvn test</code></pre>
+
+
+    </div><!-- /.wrap -->
+  </section><!-- /#content -->
+
+  <footer>
+    <div class="wrap">
+      <nav id="footer-nav">
+        <ul>
+          <li><a href="http://corp.galois.com/contact/">Contact</a></li>
+        </ul>
+      </nav>
+
+      <p>Copyright &copy; 2012 Galois, Inc. All rights reserved.</p>
+    </div><!-- /.wrap -->
+  </footer>
+</body>
+</html>
