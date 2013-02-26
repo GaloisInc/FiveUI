@@ -240,3 +240,6 @@ caused the violation.
 For more detail on the API available when writing new rules, see the
 [Javascript documentation](../jsdoc/index.html).
 
+`Headless` is a tool for automated rule set checking using FiveUI.
+To get started with Headless, see [Headless
+documentation](headlessFiveUI.html).
