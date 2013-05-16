@@ -2,9 +2,11 @@
 ifneq "$(V)" "1"
 Q     := @
 quiet := quiet_
+redir := >/dev/null
 else
 Q     :=
 quiet :=
+redir :=
 endif
 
 echo-cmd = $(if $($(quiet)cmd_$1),echo '  $($(quiet)cmd_$1)';)

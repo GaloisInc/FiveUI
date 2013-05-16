@@ -89,7 +89,7 @@ $(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                 \
 	&& $(topdir)/tools/bin/makecrx stage            \
 	       $(topdir)/contexts/chrome/fiveui.pem     \
 	       fiveui                                   \
-	$(if $(Q),1>/dev/null) )
+	   $(redir) )
 
 
 # install the extension manifest in the stage directory
