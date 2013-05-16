@@ -7,3 +7,4 @@ chromedriver.log
 **/.settings
 /build/
 fiveui.crx
+fiveui.xpi
