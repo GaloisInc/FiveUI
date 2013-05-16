@@ -70,6 +70,22 @@ options-deps := \
     options.js)
 
 
+# CSS Staging ##################################################################
+
+css-bundle := $(topdir)/tools/bin/css-bundle.py
+
+quiet_cmd_cssbundle = CSSC       $@
+      cmd_cssbundle = ( cd $(dir $(TARGET)) && \
+                        $(css-bundle) $(notdir $(TARGET)) $@ $(redir) )
+
+$(stage-dir)/data/bundled.css: TARGET := $(lib-dir)/jquery/css/ui-lightness/jquery-ui.css
+$(stage-dir)/data/bundled.css:                                      \
+    $(wildcard $(lib-dir)/jquery/css/ui-lightness/*.css)        \
+    $(wildcard $(lib-dir)/jquery/css/ui-lightness/images/*.png) \
+  | $(stage-dir)/data
+	$(call cmd,cssbundle)
+
+
 # Chrome Extension #############################################################
 #
 # Use the staged artifacts to build the chrome extension in contexts/fiveui.crx
@@ -84,6 +100,7 @@ $(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                 \
                          $(target-dir)/chrome-options.js                    \
                          $(stage-dir)/manifest.json                         \
                          $(stage-dir)/data/fiveui/images/fiveui-icon-16.png \
+                         $(stage-dir)/data/bundled.css                      \
                        | $(stage-dir)/data/fiveui/images
 	$(call label,MAKECRX    $@) (cd $(build-dir)    \
 	&& $(topdir)/tools/bin/makecrx stage            \
