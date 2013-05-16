@@ -9,7 +9,7 @@ pandoc     := $(shell which pandoc 2>/dev/null)
 # HTML Generation ##############################################################
 
 # Use pandoc to generate HTML
-quiet_cmd_pandoc = PANDOC     $@
+quiet_cmd_pandoc = PANDOC     $(call drop-prefix,$@)
       cmd_pandoc = $(pandoc) $< -o $@ -s --highlight-style=kate \
                    --template=$(manual-src)/template.html
 
