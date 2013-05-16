@@ -52,7 +52,7 @@ $(stage-dir)/data/fiveui/images/%: $(fiveui-dir)/images/% \
 # we just concatenate them all together.  This should be fine, as all of the
 # modules we define just provide functions, or register callbacks.
 
-quiet_cmd_compilejs = JSC        $@
+quiet_cmd_compilejs = JSC        $(call drop-prefix,$@)
       cmd_compilejs = cat $^ > $@
 
 # generic background script dependencies
@@ -75,7 +75,7 @@ options-deps := \
 
 css-bundle := $(topdir)/tools/bin/css-bundle.py
 
-quiet_cmd_cssbundle = CSSC       $@
+quiet_cmd_cssbundle = CSSC       $(call drop-prefix,$@)
       cmd_cssbundle = ( cd $(dir $(TARGET)) && \
                         $(css-bundle) $(notdir $(TARGET)) $@ $(redir) )
 
@@ -93,8 +93,10 @@ $(stage-dir)/data/bundled.css:                                      \
 
 chrome-dir := $(path)/chrome
 
-all: $(build-dir)/fiveui.crx
+all: $(topdir)/fiveui.crx
 
+$(topdir)/fiveui.crx: $(build-dir)/fiveui.crx
+	$(call cmd,cp)
 
 # Create the chrome extension
 $(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                 \
@@ -103,10 +105,10 @@ $(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                 \
                          $(stage-dir)/data/fiveui/images/fiveui-icon-16.png \
                          $(stage-dir)/data/bundled.css                      \
                        | $(stage-dir)/data/fiveui/images
-	$(call label,MAKECRX    $@) (cd $(build-dir)    \
-	&& $(topdir)/tools/bin/makecrx stage            \
-	       $(topdir)/contexts/chrome/fiveui.pem     \
-	       fiveui                                   \
+	$(call label,MAKECRX    $(call drop-prefix,$@)) ( cd $(build-dir)   \
+	&& $(topdir)/tools/bin/makecrx stage                                \
+	       $(topdir)/contexts/chrome/fiveui.pem                         \
+	       fiveui                                                       \
 	   $(redir) )
 
 
