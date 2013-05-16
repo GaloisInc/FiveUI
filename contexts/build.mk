@@ -24,9 +24,6 @@ stage-dir := $(build-dir)/stage
 $(stage-dir): | $(build-dir)
 	$(call cmd,mkdir)
 
-$(target-dir): | $(stage-dir)
-	$(call cmd,mkdir)
-
 $(stage-dir)/data: | $(stage-dir)
 	$(call cmd,mkdir)
 
