@@ -50,6 +50,10 @@ $(stage-dir)/data/fiveui/images/%: $(fiveui-dir)/images/% \
 
 
 # Javascript "Compilation" #####################################################
+#
+# In order to turn a number of different javascript modules into a single one,
+# we just concatenate them all together.  This should be fine, as all of the
+# modules we define just provide functions, or register callbacks.
 
 quiet_cmd_compilejs = JSC        $@
       cmd_compilejs = cat $^ > $@
