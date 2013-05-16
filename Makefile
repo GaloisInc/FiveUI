@@ -17,74 +17,73 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REPO_ROOT=.
-CHROME_EXTDIR=contexts
-FF_EXTDIR=contexts
-TEST_RUNNER_DIR=testrunner
-HEADLESS_DIR=headless
-RSTESTER_DIR=rsTester
-DOC_DIR=doc
 
-MVN_EXE=`which mvn`
 
-define profile
-.PHONY: profile-$1
-profile-$1: $(REPO_ROOT)/profiles/$1/.token
+# Entry Point ##################################################################
 
-$(REPO_ROOT)/profiles/$1/.token: $(REPO_ROOT)/profiles/$1.tar
-	$(MAKE) -C $(REPO_ROOT)/profiles $1
+.PHONY: all
+all:
 
-.PHONY: clean-profile-$1
-clean-profile-$1:
-	$(MAKE) -C $(REPO_ROOT)/profiles clean-$1
+.PHONY: unpack
+unpack:
 
-clean: clean-profile-$1
-endef
+.PHONY: clean
+clean::
+
+# Utilities ####################################################################
+
+topdir := $(CURDIR)
+path   := .
+
+include mk/util.mk
+include mk/subdir.mk
+
+
+# Build Directory Staging ######################################################
+
+build-dir := $(topdir)/build
+
+$(build-dir):
+	$(call cmd,mkdir)
+
+clean::
+	$(RM) -r $(build-dir)
+
+
+# Subdirs ######################################################################
+
+$(eval $(call subdir,contexts))
+$(eval $(call subdir,profiles))
+$(eval $(call subdir,doc))
+
+
+# Maven Packages ###############################################################
+
+# Don't try to run any of this if maven isn't installed
+MVN_EXE := $(shell which --skip-alias $i mvn 2>/dev/null)
+ifneq "$(MVN_EXE)" ""
 
 # package/install various maven sub-projects
+MVN_TEST_CMD := xvfb-run -a $(MVN_EXE) test
+
 define pkg
 .PHONY: pkg-$1
 pkg-$1:
-	cd $1; xvfb-run -a $(MVN_EXE) install
-
+	cd $1 && xvfb-run -a $(MVN_EXE) install
 endef
 
-MVN_TEST_CMD=xvfb-run -a $(MVN_EXE) test
-
-all: chromeExtension
-
-ffExtension:
-	@make -C $(FF_EXTDIR)
-chromeExtension:
-	@make -C $(CHROME_EXTDIR)
-
-
-cleanOSS:
-	@make -C $(FF_EXTDIR) clean
-	@make -C $(CHROME_EXTDIR) clean
-	@make -C $(DOC_DIR) clean
-
-
-$(eval $(call profile,firefox))
-
-$(eval $(call profile,chrome))
-
 $(eval $(call pkg,rsTester))
-
 $(eval $(call pkg,headless))
 
+TEST_RUNNER_DIR := testrunner
+HEADLESS_DIR    := headless
+RSTESTER_DIR    := rsTester
 
 test: chromeExtension profile-chrome profile-firefox ffExtension pkg-rsTester
 	cd $(TEST_RUNNER_DIR) && $(MVN_TEST_CMD)
-	cd $(RSTESTER_DIR) && $(MVN_TEST_CMD)
-	cd $(HEADLESS_DIR) && $(MVN_TEST_CMD)
+	cd $(RSTESTER_DIR)    && $(MVN_TEST_CMD)
+	cd $(HEADLESS_DIR)    && $(MVN_TEST_CMD)
 
-.PHONY: doc
-doc: doc/jsdoc doc/manual
-doc/jsdoc:
-	@make -C $(DOC_DIR)
+endif
 
-doc/manual:
-	@make -C $(DOC_DIR) man
-
-clean: cleanOSS
+# Documentation ################################################################

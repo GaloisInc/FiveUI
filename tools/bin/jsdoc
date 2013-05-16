@@ -1,0 +1,22 @@
+#!/bin/bash
+
+script_path=`dirname $0`
+repo_root="${script_path}/../.."
+jsdoc_home="${script_path}/../jsdoc-toolkit"
+jsrun_jar="${jsdoc_home}/jsrun.jar"
+runjs="${jsdoc_home}/app/run.js"
+
+template="${jsdoc_home}/templates/fiveui"
+
+target="${repo_root}/build/jsdoc"
+
+pandoc ${template}/static/preludeIntro.md -o ${template}/static/preludeIntro.html
+pandoc ${template}/static/preludeIntro.md \
+	-o ${template}/static/preludeIntro.css \
+	--highlight-style=kate \
+	--template=${script_path}/jsdoc.css
+
+java -jar ${jsrun_jar} ${runjs} -a --template="${template}" -d="${target}" $@
+
+# copy the some of the content of the 'static' template directory into the destination:
+cp -rv ${template}/static/images/ "${target}/images"
