@@ -59,4 +59,4 @@ all: | $(jsdoc-dir)
 $(jsdoc-dir): $(topdir)/contexts/data/fiveui/injected/prelude.js        \
               $(topdir)/contexts/data/fiveui/injected/jquery-plugins.js \
             | $(build-dir)
-	$(call label,JSDOC)$(topdir)/tools/bin/jsdoc $^ $(if $(Q),>/dev/null)
+	$(call label,JSDOC)$(topdir)/tools/bin/jsdoc $^ $(redir)
