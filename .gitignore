@@ -6,3 +6,4 @@ chromedriver.log
 **/.classpath
 **/.settings
 /build/
+fiveui.crx
