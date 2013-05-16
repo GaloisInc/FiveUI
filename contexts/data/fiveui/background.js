@@ -19,12 +19,9 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.Background');
+fiveui = fiveui || {};
 
-goog.require('fiveui.Settings');
-goog.require('fiveui.State');
-
-
+(function() {
 /**
  * @constructor
  *
@@ -88,12 +85,12 @@ fiveui.Background.prototype._registerUiListeners = function(port, tabState){
       bg.updateWidget(tabState);
     });
     port.on('MaskRules', function(request) {
-      goog.structs.forEach(tabState.computePorts, function(cp) {
+      _.each(tabState.computePorts, function(cp) {
         cp.emit('MaskRules', null);
       });
     });
     port.on('UnmaskRules', function(request) {
-      goog.structs.forEach(tabState.computePorts, function(cp) {
+      _.each(tabState.computePorts, function(cp) {
         cp.emit('UnmaskRules', null);
       });
     });
@@ -208,3 +205,5 @@ fiveui.Background.prototype.showUI = function(tabId) {
     tabState.uiPort.emit('ShowUI', null);
   }
 };
+
+})();
