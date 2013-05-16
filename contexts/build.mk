@@ -95,6 +95,9 @@ chrome-dir := $(path)/chrome
 
 all: $(topdir)/fiveui.crx
 
+clean::
+	$(RM) $(topdir)/fiveui.crx
+
 $(topdir)/fiveui.crx: $(build-dir)/fiveui.crx
 	$(call cmd,cp)
 
@@ -107,8 +110,7 @@ $(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                 \
                        | $(stage-dir)/data/fiveui/images
 	$(call label,MAKECRX    $(call drop-prefix,$@)) ( cd $(build-dir)   \
 	&& $(topdir)/tools/bin/makecrx stage                                \
-	       $(topdir)/contexts/chrome/fiveui.pem                         \
-	       fiveui                                                       \
+	       $(topdir)/contexts/chrome/fiveui.pem fiveui                  \
 	   $(redir) )
 
 
@@ -129,4 +131,47 @@ $(target-dir)/chrome-background.js: $(background-deps)          \
 $(target-dir)/chrome-options.js: $(options-deps)          \
                                  $(chrome-src)/chrome-options.js \
                                | $(target-dir)
+	$(call cmd,compilejs)
+
+
+# Firefox Compilation ##########################################################
+
+addon-sdk := $(topdir)/tools/addon-sdk
+
+all: $(topdir)/fiveui.xpi
+
+clean::
+	$(RM) $(topdir)/fiveui.xpi
+
+$(topdir)/fiveui.xpi: $(build-dir)/fiveui.xpi
+	$(call cmd,cp)
+
+
+# wrapper for setting up the environment for the running the cfx command
+cfx = ( cd $(addon-sdk) $(redir) && \
+        . bin/activate  $(redir) && \
+        cd $(build-dir) $(redir) && \
+        cfx $1 $(redir) )
+
+# build the actual extension
+$(build-dir)/fiveui.xpi:          \
+    $(stage-dir)/package.json     \
+    $(target-dir)/firefox-main.js \
+  | $(topdir)/profiles/firefox
+	$(call label,XPI        $(call drop-prefix,$@))\
+	  $(call cfx,xpi -p $(topdir)/profiles/firefox \
+	                 --pkgdir=$(stage-dir) )
+
+# stage the package description
+$(stage-dir)/package.json: $(path)/package.json | $(stage-dir)
+	$(call cmd,cp)
+
+# build the main script
+$(target-dir)/firefox-main.js: \
+    $(fiveui-dir)/settings.js        \
+    $(fiveui-dir)/messenger.js       \
+    $(fiveui-dir)/rules.js           \
+    $(fiveui-dir)/background.js      \
+    $(fiveui-dir)/utils.js           \
+  | $(target-dir)
 	$(call cmd,compilejs)

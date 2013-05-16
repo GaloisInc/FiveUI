@@ -1,14 +1,14 @@
 
+
 # Macros #######################################################################
 
 define profile
-unpack: profile-$1
+$(topdir)/profiles/$1: $(topdir)/profiles/$1/.token ;
 
-.PHONY: profile-$1
-profile-$1: | $(path)/$1
-
-$(path)/$1: $(path)/$1.tar
-	tar -C $(path) -xvf $$<
+$(topdir)/profiles/$1/.token: $(path)/$1.tar
+	$$(call label,PROFILE    $1)\
+	  tar -C $(path) $(if $(Q),,-v) -xf $$< \
+	  && touch $$@
 
 clean::
 	$(RM) -r $(path)/$1

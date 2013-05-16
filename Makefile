@@ -85,5 +85,3 @@ test: chromeExtension profile-chrome profile-firefox ffExtension pkg-rsTester
 	cd $(HEADLESS_DIR)    && $(MVN_TEST_CMD)
 
 endif
-
-# Documentation ################################################################
