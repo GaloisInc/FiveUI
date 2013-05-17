@@ -27,13 +27,7 @@ $(stage-dir): | $(build-dir)
 $(stage-dir)/data: | $(stage-dir)
 	$(call cmd,mkdir)
 
-$(stage-dir)/data/lib: | $(stage-dir)/data
-	$(call cmd,mkdir)
-
-$(stage-dir)/data/fiveui: | $(stage-dir)/data
-	$(call cmd,mkdir)
-
-$(stage-dir)/data/fiveui/images: | $(stage-dir)/data/fiveui
+$(stage-dir)/data/lib/: | $(stage-dir)/data
 	$(call cmd,mkdir)
 
 target-dir := $(stage-dir)/data/target
@@ -41,9 +35,21 @@ target-dir := $(stage-dir)/data/target
 $(target-dir): | $(stage-dir)/data
 	$(call cmd,mkdir)
 
-$(stage-dir)/data/fiveui/images/%: $(fiveui-dir)/images/% \
-	                         | $(stage-dir)/data/fiveui/images
-	$(call cmd,cp)
+
+define stage-files-from
+$(stage-dir)/$1/$2: | $(stage-dir)/$1
+	$$(call cmd,mkdir)
+
+$(stage-dir)/$1/$2/%: $(path)/$1/$2/% | $(stage-dir)/$1/$2
+	$$(call cmd,cp)
+endef
+
+$(eval $(call stage-files-from,data,fiveui))
+$(eval $(call stage-files-from,data/fiveui,images))
+$(eval $(call stage-files-from,data/fiveui,chrome))
+
+
+stage-path = $(patsubst $(path)/%,$(stage-dir)/%,$1)
 
 
 # Javascript "Compilation" #####################################################
@@ -87,6 +93,12 @@ $(stage-dir)/data/bundled.css:                                      \
 	$(call cmd,cssbundle)
 
 
+# Images #######################################################################
+
+images := $(wildcard $(fiveui-dir)/images/*)
+images2 := $(call stage-path,$(images))
+
+
 # Chrome Extension #############################################################
 #
 # Use the staged artifacts to build the chrome extension in contexts/fiveui.crx
@@ -102,11 +114,13 @@ $(topdir)/fiveui.crx: $(build-dir)/fiveui.crx
 	$(call cmd,cp)
 
 # Create the chrome extension
-$(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                 \
-                         $(target-dir)/chrome-options.js                    \
-                         $(stage-dir)/manifest.json                         \
-                         $(stage-dir)/data/fiveui/images/fiveui-icon-16.png \
-                         $(stage-dir)/data/bundled.css                      \
+$(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                  \
+                         $(target-dir)/chrome-options.js                     \
+                         $(stage-dir)/manifest.json                          \
+                         $(call stage-path,$(images))                        \
+                         $(stage-dir)/data/fiveui/chrome/background.html     \
+                         $(stage-dir)/data/fiveui/options.html               \
+                         $(stage-dir)/data/bundled.css                       \
                        | $(stage-dir)/data/fiveui/images
 	$(call label,MAKECRX    $(call drop-prefix,$@)) ( cd $(build-dir)   \
 	&& $(topdir)/tools/bin/makecrx stage                                \
