@@ -19,8 +19,9 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.utils.pick');
-goog.provide('fiveui.utils.getNewId');
+(function() {
+
+fiveui.utils = fiveui.utils || {};
 
 /**
  * Chooses a function based on the current browser.
@@ -70,3 +71,5 @@ fiveui.utils.getNewId = function(list) {
     return 1 + Math.max.apply(Math, list);
   }
 };
+
+})();

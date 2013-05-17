@@ -27,7 +27,7 @@ $(stage-dir): | $(build-dir)
 $(stage-dir)/data: | $(stage-dir)
 	$(call cmd,mkdir)
 
-$(stage-dir)/data/lib/: | $(stage-dir)/data
+$(stage-dir)/data/lib: | $(stage-dir)/data
 	$(call cmd,mkdir)
 
 target-dir := $(stage-dir)/data/target
@@ -47,9 +47,14 @@ endef
 $(eval $(call stage-files-from,data,fiveui))
 $(eval $(call stage-files-from,data/fiveui,images))
 $(eval $(call stage-files-from,data/fiveui,chrome))
+$(eval $(call stage-files-from,data/lib,codemirror))
+$(eval $(call stage-files-from,data/lib,jquery))
+$(eval $(call stage-files-from,data/lib,underscore))
+$(eval $(call stage-files-from,data/lib,backbone))
 
 
 stage-path = $(patsubst $(path)/%,$(stage-dir)/%,$1)
+stage-all  = $(call stage-path,$(wildcard $(path)/$1/*))
 
 
 # Javascript "Compilation" #####################################################
@@ -71,10 +76,13 @@ background-deps :=                \
     rules.js)
 
 # generic options page dependencies
-options-deps := \
-  $(underscore) \
-  $(addprefix $(fiveui-dir)/, \
-    options.js)
+options-deps := $(addprefix $(fiveui-dir)/,\
+  settings.js \
+  chan.js \
+  messenger.js \
+  options.js \
+  update-manager.js \
+  utils.js )
 
 
 # CSS Staging ##################################################################
@@ -93,9 +101,22 @@ $(stage-dir)/data/bundled.css:                                      \
 	$(call cmd,cssbundle)
 
 
-# Images #######################################################################
+# Both Extensions ##############################################################
 
-images := $(wildcard $(fiveui-dir)/images/*)
+jquery := $(addprefix $(path)/data/lib/jquery/,\
+	jquery-1.8.3.js \
+	jquery.json-2.4.js )
+
+all: $(stage-dir)/data/fiveui/options.html               \
+     $(stage-dir)/data/bundled.css                       \
+     $(stage-dir)/data/fiveui/options.css                \
+     $(stage-dir)/data/fiveui/entry.css                  \
+     $(stage-dir)/data/fiveui/ffcheck.js                 \
+     $(call stage-all,data/fiveui/images)                \
+     $(call stage-all,data/lib/codemirror)               \
+     $(call stage-path,$(jquery))                        \
+     $(call stage-all,data/lib/underscore)               \
+     $(call stage-all,data/lib/backbone)
 
 
 # Chrome Extension #############################################################
@@ -116,11 +137,7 @@ $(topdir)/fiveui.crx: $(build-dir)/fiveui.crx
 $(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                  \
                          $(target-dir)/chrome-options.js                     \
                          $(stage-dir)/manifest.json                          \
-                         $(call stage-path,$(images))                        \
-                         $(stage-dir)/data/fiveui/chrome/background.html     \
-                         $(stage-dir)/data/fiveui/options.html               \
-                         $(stage-dir)/data/bundled.css                       \
-                       | $(stage-dir)/data/fiveui/images
+                         $(stage-dir)/data/fiveui/chrome/background.html
 	$(call label,MAKECRX    $(call drop-prefix,$@)) ( cd $(build-dir)   \
 	&& $(topdir)/tools/bin/makecrx stage                                \
 	       $(topdir)/contexts/chrome/fiveui.pem fiveui                  \

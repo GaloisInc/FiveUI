@@ -19,21 +19,27 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.chrome.options.init');
+var fiveui = fiveui || {};
 
-goog.require('fiveui.Chan');
-goog.require('fiveui.Settings');
-goog.require('fiveui.options.init');
+(function() {
 
-fiveui.chrome.options.init = function() {
-  var optionsChan = new fiveui.Chan();
-  var storageChan = new fiveui.Chan();
+fiveui.chrome         = fiveui.chrome         || {};
+fiveui.chrome.options = fiveui.chrome.options || {};
 
-  optionsChan.chan = storageChan;
-  storageChan.chan = optionsChan;
 
-  var settings = new fiveui.Settings(localStorage);
+_.extend(fiveui.chrome.options, {
+  init: function() {
+    var optionsChan = new fiveui.Chan();
+    var storageChan = new fiveui.Chan();
 
-  fiveui.Settings.manager(storageChan, settings);
-  fiveui.options.init(optionsChan);
-};
+    optionsChan.chan = storageChan;
+    storageChan.chan = optionsChan;
+
+    var settings = new fiveui.Settings(localStorage);
+
+    fiveui.Settings.manager(storageChan, settings);
+    fiveui.options.init(optionsChan);
+  }
+});
+
+})();
