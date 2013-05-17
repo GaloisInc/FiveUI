@@ -96,7 +96,7 @@ _.extend(fiveui.Settings.prototype, {
     if (value == null) {
       return null;
     } else {
-      return goog.json.parse(value);
+      return jQuery.parseJSON(value);
     }
   },
 
@@ -108,7 +108,7 @@ _.extend(fiveui.Settings.prototype, {
    * @return {void}
    */
   set: function(key, value) {
-    this.store.setItem(key, goog.json.serialize(value));
+    this.store.setItem(key, jQuery.toJSON(value));
   },
 
   /**
@@ -138,10 +138,8 @@ _.extend(fiveui.Settings.prototype, {
   getDisplayDefault: function() {
     var def = this.get('displayDefault');
 
-    if ( def == null ) {
-      return false;
-    }
-    return def;
+    // double negation to normalize funny things like null
+    return !!def;
   },
 
   /**
@@ -269,7 +267,7 @@ _.extend(fiveui.Settings.prototype, {
    *                                  rule set, if any.
    */
   remRuleSet: function(id) {
-    var matches = goog.structs.map(this.getRuleSetUrlPats(id), function(id) {
+    var matches = _.map(this.getRuleSetUrlPats(id), function(id) {
       return this.getUrlPat(id);
     }, this);
 
@@ -288,7 +286,7 @@ _.extend(fiveui.Settings.prototype, {
     var urls = this.getUrls();
     var patIds = [];
 
-    goog.structs.forEach(urls, function(patId) {
+    _.each(urls, function(patId) {
       var pat = this.getUrlPat(patId);
       if(pat.rule_id == ruleSetId) {
         patIds.push(patId);
