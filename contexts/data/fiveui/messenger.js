@@ -36,8 +36,9 @@ fiveui.Messenger = function(channel) {
   this.channel.on(fiveui.Messenger.type, _.bind(this._handler, this));
 };
 
+fiveui.Messenger.type = "fiveui_messaging_type";
+
 _.extend(fiveui.Messenger.prototype, {
-  type: "fiveui_messaging_type",
 
   /**
    * @param {!string} type The message type to send.
@@ -113,6 +114,7 @@ _.extend(fiveui.Messenger.prototype, {
     var list = Object.keys(this.callbacks);
     return fiveui.utils.getNewId(list);
   }
+
 });
 
 /**
