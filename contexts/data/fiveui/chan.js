@@ -19,7 +19,9 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.Chan');
+var fiveui = fiveui || {};
+
+(function() {
 
 /**
  * @constructor
@@ -28,18 +30,24 @@ fiveui.Chan = function() {
   this.fns = {};
 };
 
-/**
- * @param {!string} type
- * @param {!function(*)} fn
- */
-fiveui.Chan.prototype.on = function(type, fn) {
-  this.fns[type] = fn;
-};
+_.extend(fiveui.Chan.prototype, {
 
-/**
- * @param {!string} type
- * @param {*} data
- */
-fiveui.Chan.prototype.emit = function(type, data) {
-  this.chan.fns[type](data);
-};
+  /**
+   * @param {!string} type
+   * @param {!function(*)} fn
+   */
+  on: function(type, fn) {
+    this.fns[type] = fn;
+  },
+
+  /**
+   * @param {!string} type
+   * @param {*} data
+   */
+  emit: function(type, data) {
+    this.chan.fns[type](data);
+  }
+
+});
+
+})();

@@ -19,29 +19,9 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.options.init');
+var fiveui = fiveui || {};
 
-goog.require('fiveui.Entry');
-goog.require('fiveui.Messenger');
-goog.require('fiveui.RuleSet');
-goog.require('fiveui.RuleSetEntry');
-goog.require('fiveui.UpdateManager');
-goog.require('fiveui.UrlPat');
-goog.require('fiveui.UrlPatEntry');
-
-goog.require('fiveui.prelude.color');
-
-goog.require('goog.dom');
-goog.require('goog.dom.forms');
-goog.require('goog.dom.query');
-goog.require('goog.events');
-goog.require('goog.json');
-goog.require('goog.structs');
-goog.require('goog.ui.Dialog');
-
-
-var gdom = goog.dom;
-
+(function() {
 
 /*****************************************************************
  *
@@ -49,12 +29,13 @@ var gdom = goog.dom;
  *
  ****************************************************************/
 
-var setClickHandler = function(id, fn, scope) {
+var setClickHandler = function(sel, fn, scope) {
   var boundFn = fn;
   if (scope) {
-    boundFn = goog.bind(fn, scope);
+    boundFn = _.bind(fn, scope);
   }
-  goog.events.listen(gdom.getElement(id), 'click', boundFn);
+
+  sel.on('click', boundFn)
 };
 
 /**
@@ -63,25 +44,20 @@ var setClickHandler = function(id, fn, scope) {
  * @return {!Array.<!number>} An array of 'value' entries from the
  * selected elements.  This may be empty, but it will not be null.
  */
-var findSelectedIds = function(selectEltId) {
-  var opts = query('option:checked',
-                   gdom.getElement(selectEltId));
-  return (/** @type {!Array.<!number>} */
-    goog.structs.map(opts,
-                     function(o) { return o.value; }));
+var findSelectedIds = function(elt) {
+  var opts = elt.find('option:checked');
+  return _.map(opts, function(o) { return o.value; });
 };
 
-var query = function(query, opt_scope) {
-  return (/** @{Array.<!Node>} */ gdom.query(query, opt_scope));
-};
 
+fiveui.options = fiveui.options || {};
 
 /**
  * @param {{on: function(!string, function(*)), emit: function(!string, *)}} port
  */
 fiveui.options.init = function(port) {
 
-  var msg = new fiveui.Messenger(port);
+  var msg    = new fiveui.Messenger(port);
   var update = new fiveui.UpdateManager(msg);
 
   /** Update/Delete Manager ***************************************************/
@@ -109,12 +85,12 @@ fiveui.options.init = function(port) {
   var parseRuleSet = function(ruleSetText) {
     var obj = {};
     try {
-      obj = goog.json.unsafeParse(ruleSetText);
+      obj = jQuery.parseJSON(ruleSetText);
     } catch (x) {
       // TODO: this error message is not as helpful as it could be
       alert('Eval error: ' + x.toString());
     }
-    goog.structs.forEach(obj.rules, serializeRule);
+    _.each(obj.rules, serializeRule);
     obj.original = ruleSetText;
     return obj;
   };
@@ -159,7 +135,7 @@ fiveui.options.init = function(port) {
     msg.send('remRuleSet', ruleSetId,
       function(resp) {
         if (resp.removed) {
-          goog.events.dispatchEvent(update, 'remRuleSet.' + ruleSetId);
+          update.trigger('remRuleSet.' + ruleSetId);
         } else {
           showRemRuleSetErr(ruleSetId, resp.pats);
         }
@@ -177,7 +153,7 @@ fiveui.options.init = function(port) {
   /**
    * @param {!function(*)} cb Callback to process the ruleset array.
    */
-  var getRuleSets = goog.bind(msg.send, msg, 'getRuleSets', null);
+  var getRuleSets = _.bind(msg.send, msg, 'getRuleSets', null);
 
 
   /** Backend UrlPat update functions ****************************************/
@@ -234,15 +210,16 @@ fiveui.options.init = function(port) {
 
       var entry = new fiveui.UrlPatEntry(pat, rs);
       entry.append(gdom.getElement('urlPatEntries'));
-      goog.events.listen(entry, 'remove', function() {
+
+      entry.on('remove', function() {
         remUrlPat(pat.id);
       });
 
-      goog.events.listen(update, 'remUrlPat.' + pat.id,
-          goog.bind(entry.remove, entry));
+      update.on('remUrlPat.' + pat.id,
+          _.bind(entry.remove, entry));
 
-      goog.events.listen(update, 'updateRuleSet.' + pat.rule_id,
-          goog.bind(entry.setRuleSet, entry));
+      update.on('updateRuleSet.' + pat.rule_id,
+          _.bind(entry.setRuleSet, entry));
     });
   };
 
@@ -284,13 +261,13 @@ fiveui.options.init = function(port) {
     gdom.forms.setValue(gdom.getElement('urlPatRegex'), '');
   };
 
-  setClickHandler('addUrlPat', openUrlPatEditor);
+  setClickHandler(jQuery('#addUrlPat'), openUrlPatEditor);
 
-  setClickHandler('cancelAddUrlPat', closeUrlPatEditor);
+  setClickHandler(jQuery('#cancelAddUrlPat'), closeUrlPatEditor);
 
-  setClickHandler('confirmAddUrlPat', function() {
-    var pat = gdom.forms.getValue(gdom.getElement('urlPatRegex'));
-    var rs = gdom.forms.getValue(gdom.getElement('urlPatRuleSetId'));
+  setClickHandler(jQuery('#confirmAddUrlPat'), function() {
+    var pat = jQuery('#urlPatRegex').val();
+    var rs = jQuery('#urlPatRuleSetId').val();
 
     if (pat && rs) {
       addUrlPat(pat, rs);
@@ -365,7 +342,7 @@ fiveui.options.init = function(port) {
   msg.register('addRuleSet', onAddRuleSet);
 
   // listen to clicks to the add rule set button
-  setClickHandler('addRsButton', goog.bind(editButtonHandler, this, null));
+  setClickHandler(jQuery('#addRsButton'), _.bind(editButtonHandler, this, null));
 
 
   /** RuleSet Editor Overlay *************************************************/
@@ -381,10 +358,11 @@ fiveui.options.init = function(port) {
    */
   var showRemRuleSetErr = function(ruleSetId, urlPats) {
     var info = '';
-    goog.structs.forEach(urlPats, function(m) {
+    _.each(urlPats, function(m) {
       info += '<li>' + m.regex + '</li>';
     });
 
+    // XXX not sure what to do about this
     var errDialog = new goog.ui.Dialog();
     errDialog.setTitle('Rule Set could not be removed.');
     errDialog.setContent('<p>The following Url Patterns use this rule set:</p>'
@@ -399,7 +377,7 @@ fiveui.options.init = function(port) {
     goog.events.listen(errDialog, goog.ui.Dialog.EventType.SELECT, function(e) {
       if (e.key == 'ok') {
         // Remove the url patterns:
-        goog.structs.forEach(urlPats, function(urlPat) {
+        _.each(urlPats, function(urlPat) {
           remUrlPat(urlPat.id);
         });
         // re-issue the RuleSet remove:
@@ -447,13 +425,13 @@ fiveui.options.init = function(port) {
   };
 
   // listen to click events from the cancel button in the rule set editor
-  setClickHandler('cancelEditButton',
+  setClickHandler(jQuery('#cancelEditButton'),
     function() {
       showEditorPane(false);
-  });
+    });
 
   // listen to click events from the save button in the rule set editor
-  setClickHandler('saveEditButton',
+  setClickHandler(jQuery('#saveEditButton'),
     function() {
       var editPane = gdom.getElement('ruleSetEditorPane');
       var rsText = editor.getValue();
@@ -466,7 +444,7 @@ fiveui.options.init = function(port) {
     });
 
   // change default display state
-  setClickHandler('windowDisplayDefault',
+  setClickHandler(jQuery('#windowDisplayDefault'),
     function(event) {
       var displayDef = event.currentTarget.checked;
       setDisplayDefault(displayDef);
@@ -481,14 +459,13 @@ fiveui.options.init = function(port) {
    * @return {void}
    */
   var selectNav = function(clicked) {
-    var nav = gdom.getParentElement(clicked);
-    goog.structs.forEach(query('div.selected', nav), function(sel) {
-      gdom.classes.remove(sel, 'selected');
-    });
-    goog.structs.forEach(query('div.editorPane'), function(pane) {
-      pane.style.display = 'none';
-    });
-    gdom.classes.add(clicked, 'selected');
+    var nav = clicked.parent();
+
+    nav.find('div.selected', nav).removeClass('selected');
+
+    jQuery('div.editorPane').hide();
+
+    clicked.addClass('selected');
   };
 
   /**
@@ -498,18 +475,16 @@ fiveui.options.init = function(port) {
    * @return {void}
    */
   var selectSection = function(el) {
-    var cont = gdom.getParentElement(el);
-    var sel = gdom.query('section', cont);
-    for (var i = 0; i < sel.length; ++i) {
-      gdom.classes.remove(sel[i], 'selected');
-      sel[i].style.display = 'none';
-    }
-    sel = gdom.query('section', el);
-    for (i = 0; i < sel.length; ++i) {
-      sel[i].style.display = 'block';
-    }
-    gdom.classes.add(el, 'selected');
-    el.style.display = 'block';
+    var cont = el.parent();
+
+    // hide parent sections
+    cont.find('section').removeClass('selected').hide();
+
+    // hide child sections
+    el.find('section').hide();
+
+    // display this section
+    el.addClass('selected').show();
   };
 
   /**
@@ -521,39 +496,38 @@ fiveui.options.init = function(port) {
    * @return {function()}
    */
   var select = function(id) {
-    var sel = gdom.getElement(id);
+    var sel = jQuery(id);
     return function() {
-      selectNav(this);
+      selectNav(jQuery(this));
       selectSection(sel);
     };
   };
 
   // listen to click events on navigation elements
-  setClickHandler('url-defaults', select('tab-url-defaults'));
-  setClickHandler('rule-sets', select('tab-rule-sets'));
-  setClickHandler('basics', select('tab-basics'));
+  setClickHandler(jQuery('#url-defaults'), select('#tab-url-defaults'));
+  setClickHandler(jQuery('#rule-sets'), select('#tab-rule-sets'));
+  setClickHandler(jQuery('#basics'), select('#tab-basics'));
 
   // select the url patterns tab by default
-  selectNav(gdom.getElement('url-defaults'));
-  selectSection(gdom.getElement('tab-url-defaults'));
+  selectNav(jQuery('#url-defaults'));
+  selectSection(jQuery('#tab-url-defaults'));
 
 
   /** Pre-populate UI elements ***********************************************/
 
   // pre-populate the list of url patterns
   msg.send('getUrls', null, function(pats) {
-    goog.structs.forEach(pats, onAddUrlPat);
+    _.each(pats, onAddUrlPat);
   });
 
   msg.send('getDisplayDefault', null, function(def) {
-             var boxes = gdom.query('#windowDisplayDefault');
-             if (boxes[0]) {
-               boxes[0].checked = def;
-             }
-           });
+    jQuery('#windowDisplayDefault').prop('checked', def);
+  });
 
   // pre-populate the list of rule sets
   getRuleSets(function(ruleSets) {
-    goog.structs.forEach(ruleSets, onAddRuleSet);
+    _.each(ruleSets, onAddRuleSet);
   });
 };
+
+})();

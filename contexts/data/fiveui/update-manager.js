@@ -19,28 +19,20 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.UpdateManager');
+(function() {
 
-goog.require('fiveui.Messenger');
-
-goog.require('goog.events');
-goog.require('goog.events.EventTarget');
-goog.require('goog.structs');
 
 fiveui.UpdateManager = function(msg) {
   var manager = this;
 
-  goog.events.EventTarget.call(this);
-
   // fired when the rule set gets updated
   msg.register('updateRuleSet', function(newRuleSet) {
-    goog.events.fireListeners(manager, 'updateRuleSet.' + newRuleSet.id,
-        false, newRuleSet);
+    manager.trigger('updateRuleSet.' + newRuleSet.id, false, newRuleSet);
 
     // update the associated url patterns
     msg.send('getRuleSetPatIds', null, function(patIds) {
-      goog.structs.forEach(patIds, function(patId) {
-        goog.events.dispatchEvent(manager, 'updateUrlPat.' + patId);
+      _.each(patIds, function(patId) {
+        manager.trigger('updateUrlPat.' + patId);
       });
     });
   });
@@ -48,8 +40,12 @@ fiveui.UpdateManager = function(msg) {
   // fired when the url pat gets removed
   msg.register('remUrlPat', function(id) {
     var evt = 'remUrlPat.' + id;
-    goog.events.dispatchEvent(manager, evt);
-    goog.events.removeAll(manager, evt);
+    manager.trigger(evt);
+    manager.off(evt);
   });
+
 };
-goog.inherits(fiveui.UpdateManager, goog.events.EventTarget);
+
+_.extend(fiveui.UpdateManager.prototype, Backbone.Events);
+
+})();
