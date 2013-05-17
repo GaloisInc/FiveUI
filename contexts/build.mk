@@ -96,7 +96,6 @@ $(stage-dir)/data/bundled.css:                                      \
 # Images #######################################################################
 
 images := $(wildcard $(fiveui-dir)/images/*)
-images2 := $(call stage-path,$(images))
 
 
 # Chrome Extension #############################################################
