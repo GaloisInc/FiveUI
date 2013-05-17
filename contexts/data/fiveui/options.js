@@ -477,11 +477,8 @@ fiveui.options.init = function(port) {
   var selectSection = function(el) {
     var cont = el.parent();
 
-    // hide parent sections
-    cont.find('section').removeClass('selected').hide();
-
-    // hide child sections
-    el.find('section').hide();
+    // hide all sections
+    cont.find('>section').removeClass('selected').hide();
 
     // display this section
     el.addClass('selected').show();
@@ -505,8 +502,8 @@ fiveui.options.init = function(port) {
 
   // listen to click events on navigation elements
   setClickHandler(jQuery('#url-defaults'), select('#tab-url-defaults'));
-  setClickHandler(jQuery('#rule-sets'), select('#tab-rule-sets'));
-  setClickHandler(jQuery('#basics'), select('#tab-basics'));
+  setClickHandler(jQuery('#rule-sets'),    select('#tab-rule-sets'));
+  setClickHandler(jQuery('#basics'),       select('#tab-basics'));
 
   // select the url patterns tab by default
   selectNav(jQuery('#url-defaults'));
