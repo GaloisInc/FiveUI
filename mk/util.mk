@@ -26,3 +26,7 @@ quiet_cmd_copydir = CPDIR      $(call drop-prefix,$@)
 
 quiet_cmd_cp = CP         $(call drop-prefix,$@)
       cmd_cp = cp $< $@
+
+
+print-%:
+	@echo "$* = $($*)"
