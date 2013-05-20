@@ -39,8 +39,7 @@ describe('fiveui.Messenger', function() {
     m2.send('count', 1);
     m2.send('count', 2);
 
-    expect(got[0]).toBe(1);
-    expect(got[1]).toBe(2);
+    expect(got).toEqual([1,2]);
   });
 
 
