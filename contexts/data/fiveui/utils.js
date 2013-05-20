@@ -19,6 +19,8 @@
  * limitations under the License.
  */
 
+var fiveui = fiveui || {};
+
 (function() {
 
 fiveui.utils = fiveui.utils || {};
