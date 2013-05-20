@@ -19,11 +19,9 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.Rule');
-goog.provide('fiveui.RuleSet');
+var fiveui = fiveui || {};
 
-goog.require('goog.structs');
-goog.require('goog.json');
+(function() {
 
 /**
  * @constructor
@@ -77,8 +75,10 @@ fiveui.RuleSet = function(id, name, desc, rules, original, deps) {
  */
 fiveui.RuleSet.fromJSON = function(id, obj) {
   var rules = (/** @type {!Array.<!fiveui.Rule>} */
-    goog.structs.map(obj.rules, fiveui.Rule.fromJSON));
+    _.map(obj.rules, fiveui.Rule.fromJSON));
 
   return new fiveui.RuleSet(id, obj.name, obj.description, rules,
                             obj.original, obj.dependencies);
 };
+
+})();

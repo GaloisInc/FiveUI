@@ -7,6 +7,7 @@ describe('fiveui.Messenger', function() {
   var m1 = null;
   var m2 = null;
 
+
   beforeEach(function() {
     chan1 = new fiveui.Chan();
     chan2 = new fiveui.Chan();
@@ -18,6 +19,7 @@ describe('fiveui.Messenger', function() {
     m2 = new fiveui.Messenger(chan2);
   });
 
+
   afterEach(function() {
     delete m1;
     delete chan1;
@@ -25,6 +27,7 @@ describe('fiveui.Messenger', function() {
     delete m2;
     delete chan2;
   });
+
 
   it('registers a simple callback', function() {
     var got = [];
@@ -55,6 +58,40 @@ describe('fiveui.Messenger', function() {
     });
 
     expect(m1got.length).toBe(m2got.length);
+  });
+
+
+  it('doesn\'t invoke callbacks for null data', function() {
+    var m1got = [];
+
+    m1.register('count', function(n) {
+      m1got.push(n);
+    });
+
+    m2.send('count', null);
+
+    expect(m1got[0]).toBe(null);
+  });
+
+
+  it('is able to send rules', function() {
+    var ruleIn = new fiveui.Rule(42, 'testRule',
+        'see: http://test.description/',
+        'function() { console.log("fail"); }');
+
+    var got = [];
+    m1.register('rule', function(r){
+      got.push(r);
+    });
+
+    m2.send('rule', ruleIn);
+    expect(got.length).toBe(1);
+
+    var ruleOut = got[0];
+    expect(ruleIn.id).toBe(ruleOut.id);
+    expect(ruleIn.name).toBe(ruleOut.name);
+    expect(ruleIn.description).toBe(ruleOut.description);
+    expect(ruleIn.ruleStr).toBe(ruleOut.ruleStr);
   });
 
 });
