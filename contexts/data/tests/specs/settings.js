@@ -4,24 +4,7 @@ describe('fiveui.Settings', function() {
   var settings;
 
   beforeEach(function() {
-
-    var store   = {};
-    var storage = {
-
-      getItem: function(key) {
-        return store[key];
-      },
-
-      setItem: function(key,value) {
-        store[key] = value;
-      },
-
-      removeItem: function(key) {
-        delete store[key];
-      },
-    };
-
-    settings = new fiveui.Settings(storage);
+    settings = new fiveui.Settings(new MockStorage());
   });
 
 
