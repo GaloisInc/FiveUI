@@ -19,17 +19,10 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.Entry');
-goog.provide('fiveui.UrlPatEntry');
-goog.provide('fiveui.RuleSetEntry');
 
-goog.require('fiveui.UrlPat');
+var fiveui = fiveui || {};
 
-goog.require('goog.dom');
-goog.require('goog.dom.classes');
-goog.require('goog.events');
-goog.require('goog.events.EventTarget');
-
+(function() {
 
 /** Generic Entry Elements ***************************************************/
 
@@ -39,79 +32,77 @@ goog.require('goog.events.EventTarget');
  * @constructor
  */
 fiveui.Entry = function() {
-  // call the parent constructor
-  goog.events.EventTarget.call(this);
 
   // containing element
-  this._e = goog.dom.createElement('div');
-  goog.dom.classes.add(this._e, 'entry');
+  this._e = jQuery('div');
 
   // content container
-  this.content = goog.dom.createElement('div');
-  goog.dom.classes.add(this.content, 'content');
-  goog.dom.appendChild(this._e, this.content);
+  this.content = jQuery('div');
+  this._e.append(this.content);
 
   // title element
-  this._title = goog.dom.createElement('div');
-  goog.dom.classes.add(this._title, 'title');
-  goog.dom.appendChild(this.content, this._title);
+  this._title = jQuery('div');
+  this.content.append(this._title);
 
   // description element
-  this._description = goog.dom.createElement('div');
-  goog.dom.classes.add(this._description, 'description');
-  goog.dom.appendChild(this.content, this._description);
+  this._description = jQuery('div');
+  this.content.append(this._description);
 
   // control container
-  this._controls = goog.dom.createElement('div');
-  goog.dom.classes.add(this._controls, 'controls');
-  goog.dom.appendChild(this._e, this._controls);
+  this._controls = jQuery('div');
+  this._e.append(this._controls);
 
   // the remove button
-  this._remove = goog.dom.createElement('button');
-  goog.dom.setTextContent(this._remove, 'Remove');
-  goog.dom.appendChild(this._controls, this._remove);
-  goog.events.listen(this._remove, 'click',
-      goog.bind(this.dispatchEvent, this, 'remove'));
-};
-goog.inherits(fiveui.Entry, goog.events.EventTarget);
+  this._remove = jQuery('button');
+  this._remove.text('Remove');
+  this._controls.append(this._remove);
 
-/**
- * Append the entry to a containing element
- *
- * @param {!Element} e The element to append to.
- * @return {void}
- */
-fiveui.Entry.prototype.append = function(e) {
-  goog.dom.appendChild(e, this._e);
+  // connect the remove event to the remove button being clicked
+  this._remove.on('click', _.bind(this.trigger, this, 'remove'));
 };
 
-/**
- * Remove the entry from its containing element.
- *
- * @return {void}
- */
-fiveui.Entry.prototype.remove = function() {
-  goog.dom.removeNode(this._e);
-};
+_.extend(fiveui.Entry.prototype, Backbone.Events);
 
-/**
- * Set the text of the title element.
- *
- * @param {!string} title The content of the title element.
- */
-fiveui.Entry.prototype.setTitle = function(title) {
-  goog.dom.setTextContent(this._title, title);
-};
+_.extend(fiveui.Entry.prototype, {
 
-/**
- * Set the text of the description element.
- *
- * @param {!string} description The content of the description element.
- */
-fiveui.Entry.prototype.setDescription = function(description) {
-//  goog.dom.setTextContent(this._description, description);
-  this._description.innerHTML = description;
-};
+  /**
+   * Append the entry to a containing element
+   *
+   * @param {!Element} e The element to append to.
+   * @return {void}
+   */
+  append: function(e) {
+    this._e.append(e);
+  },
+
+  /**
+   * Remove the entry from its containing element.
+   *
+   * @return {void}
+   */
+  remove: function() {
+    this._e.remove();
+  },
+
+  /**
+   * Set the text of the title element.
+   *
+   * @param {!string} title The content of the title element.
+   */
+  setTitle: function(title) {
+    this._title.text(title);
+  },
+
+  /**
+   * Set the text of the description element.
+   *
+   * @param {!string} description The content of the description element.
+   */
+  setDescription: function(description) {
+    this._description.text(description);
+  },
+
+});
 
 
 /** UrlPat Entry Elements ****************************************************/
@@ -131,25 +122,29 @@ fiveui.UrlPatEntry = function(urlPat, ruleSet) {
   this.setUrlPat(urlPat);
   this.setRuleSet(ruleSet);
 };
-goog.inherits(fiveui.UrlPatEntry, fiveui.Entry);
+_.extend(fiveui.UrlPatEntry.prototype, fiveui.Entry.prototype);
 
-/**
- * @param {!fiveui.UrlPat} urlPat UrlPat instance to use.
- * @return {void}
- */
-fiveui.UrlPatEntry.prototype.setUrlPat = function(urlPat) {
-  this._urlPat = urlPat;
-  this.setTitle(this._urlPat.regex);
-};
+_.extend(fiveui.UrlPatEntry.prototype, {
 
-/**
- * @param {!fiveui.RuleSet} ruleSet RuleSet instance to associate with.
- * @return {void}
- */
-fiveui.UrlPatEntry.prototype.setRuleSet = function(ruleSet) {
-  this._ruleSet = ruleSet
-  this.setDescription(this._ruleSet.name);
-};
+  /**
+   * @param {!fiveui.UrlPat} urlPat UrlPat instance to use.
+   * @return {void}
+   */
+  setUrlPat: function(urlPat) {
+    this._urlPat = urlPat;
+    this.setTitle(this._urlPat.regex);
+  },
+
+  /**
+   * @param {!fiveui.RuleSet} ruleSet RuleSet instance to associate with.
+   * @return {void}
+   */
+  setRuleSet: function(ruleSet) {
+    this._ruleSet = ruleSet
+    this.setDescription(this._ruleSet.name);
+  },
+
+});
 
 
 /** Rule Entry Elements ******************************************************/
@@ -166,24 +161,30 @@ fiveui.RuleSetEntry = function(rule) {
   fiveui.Entry.call(this);
 
   // edit button
-  this._edit = goog.dom.createElement('button');
-  goog.dom.setTextContent(this._edit, 'Edit');
-  goog.dom.appendChild(this._controls, this._edit);
-  goog.events.listen(this._edit, 'click',
-      goog.bind(this.dispatchEvent, this, 'edit'));
+  this._edit = jQuery('button');
+  this._edit.text('Edit');
+  this._controls.append(this._edit);
+  this._edit.on('click', _.bind(this.trigger, this, 'edit'));
 
   this.setRuleSet(rule);
 };
-goog.inherits(fiveui.RuleSetEntry, fiveui.Entry);
 
-/**
- * Use the given rule set for the current display values for the entry.
- *
- * @param {!fiveui.RuleSet} ruleSet RuleSet to use for display.
- * @return {void}
- */
-fiveui.RuleSetEntry.prototype.setRuleSet = function(ruleSet) {
-  this._rule = ruleSet;
-  this.setTitle(this._rule.name);
-  this.setDescription(this._rule.description);
-};
+_.extend(fiveui.RuleSetEntry.prototype, fiveui.Entry.prototype);
+
+_.extend(fiveui.RuleSetEntry.prototype, {
+
+  /**
+   * Use the given rule set for the current display values for the entry.
+   *
+   * @param {!fiveui.RuleSet} ruleSet RuleSet to use for display.
+   * @return {void}
+   */
+  setRuleSet: function(ruleSet) {
+    this._rule = ruleSet;
+    this.setTitle(this._rule.name);
+    this.setDescription(this._rule.description);
+  },
+
+});
+
+})();
