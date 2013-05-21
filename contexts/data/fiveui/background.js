@@ -147,18 +147,17 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
       dependencies = ruleSet.dependencies;
     }
 
-    var computeScripts = goog.array.concat(
-        [ this.dataLoader('lib/jquery/jquery.js')
+    var computeScripts = _.flatten(
+      [ this.dataLoader('lib/jquery/jquery.js')
         , this.dataLoader('fiveui/injected/prelude.js')
         , this.dataLoader('lib/jshash/md5.js')
         , this.dataLoader('fiveui/injected/jquery-plugins.js') ],
-        dependencies,
-        [
-          this.dataLoader('fiveui/injected/fiveui-injected-compute.js')
-        ]);
+      dependencies,
+      [ this.dataLoader('fiveui/injected/fiveui-injected-compute.js') ]
+    ]);
     this.loadScripts(tabId, computeScripts, true, data);
 
-    var uiScripts = goog.array.concat(
+    var uiScripts = _.flatten(
         [ this.dataLoader('target/injected.css'),
           this.dataLoader('target/bundled.css'),
           this.dataLoader('lib/jquery/jquery.js'),
