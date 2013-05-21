@@ -290,13 +290,13 @@ fiveui.options.init = function(port) {
     // register the rule set with the drop down
     var rsDropDown = jQuery(_.template(
       '<option value="<%= id %>"><%= name %></option>',
-      ruleSet);
+      ruleSet));
 
-    gdom.appendChild(gdom.getElement('urlPatRuleSetId'), rsDropDown);
+    jQuery('#urlPatRuleSetId').append(rsDropDown);
 
     // create the rule set list entry
     var entry = new fiveui.RuleSetEntry(ruleSet);
-    entry.append(gdom.getElement('ruleSetEntries'));
+    entry.append(jQuery('#ruleSetEntries'));
 
     entry.on('remove', function() {
       remRuleSet(ruleSet.id);

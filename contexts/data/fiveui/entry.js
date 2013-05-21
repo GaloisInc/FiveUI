@@ -72,7 +72,7 @@ _.extend(fiveui.Entry.prototype, {
    * @return {void}
    */
   append: function(e) {
-    this._e.append(e);
+    e.append(this._e);
   },
 
   /**
