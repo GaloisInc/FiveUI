@@ -19,12 +19,9 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.Problem');
-goog.provide('fiveui.State');
-goog.provide('fiveui.TabState');
-goog.provide('fiveui.WinState');
+var fiveui = fiveui || {};
 
-goog.require('goog.structs.Set');
+(function() {
 
 /**
  * @constructor
@@ -79,42 +76,46 @@ fiveui.TabState = function(tabId, winState, uiPort) {
   this.uiPort = uiPort;
   this.computePorts = [];
   this.problems = [];
-  this.seenProblems = new goog.structs.Set();
+  this.seenProblems = new Set();
   this.stats = {};
 };
 
-fiveui.TabState.prototype.addProblem = function(prob) {
-  if(!this.seenProblems.contains(prob.hash)) {
-    this.problems.push(prob);
-    this.seenProblems.add(prob.hash);
+_.extend(fiveui.TabState.prototype, {
+
+  addProblem: function(prob) {
+    if(!this.seenProblems.contains(prob.hash)) {
+      this.problems.push(prob);
+      this.seenProblems.add(prob.hash);
+      return true;
+    }
+    else {
+      return false;
+    }
+  },
+
+  addStats: function (stats) {
+    this.stats = stats;
     return true;
+  },
+
+  clearProblems: function() {
+    this.problems = [];
+    this.seenProblems = new Set();
+  },
+
+  clearStats: function() {
+    for (var p in fiveui.stats.zero) { this.stats[p] = fiveui.stats.zero[p]; }
+  },
+
+  /*
+   * Returns a copy of only the attributes in a TabState that are needed for
+   * interpage communication.
+   */
+  toEmit: function() {
+    return { winState: this.winState, problems: this.problems, stats: this.stats };
   }
-  else {
-    return false;
-  }
-};
 
-fiveui.TabState.prototype.addStats = function (stats) {
-  this.stats = stats;
-  return true;
-};
-
-fiveui.TabState.prototype.clearProblems = function() {
-  this.problems = [];
-  this.seenProblems = new goog.structs.Set();
-};
-
-fiveui.TabState.prototype.clearStats = function() {
-  for (var p in fiveui.stats.zero) { this.stats[p] = fiveui.stats.zero[p]; }
-};
-
-/*
- * Returns a copy of only the attributes in a TabState that are needed for
- * interpage communication.
- */
-fiveui.TabState.prototype.toEmit = function() {
-  return { winState: this.winState, problems: this.problems, stats: this.stats };
-};
+});
 
 /**
  * @constructor
@@ -126,70 +127,76 @@ fiveui.State = function(settings) {
   this.settings = settings;
 };
 
-/**
- * @param {!number} tabId The id of the tab to retrieve state for.
- *
- * @return {?fiveui.TabState} The stored state of the tab, or null, if
- *                            no state exists for the requested tab.
- */
-fiveui.State.prototype.getTabState = function(tabId) {
-  return this.tabs[tabId] || null;
-};
+_.extend(fiveui.State.prototype, {
 
-/**
- * Like getTabState, but creates an initial tab state if none exists.
- *
- * @param {!number} tabId The id of the tab to retrieve state for.
- * @param {!fiveui.ChromePort} port The port to use for communication
- *                             with the corresponding tab.
- * @return {!fiveui.TabState} Either an initial state if none existed, or the
- *                            state that exists already.
- */
-fiveui.State.prototype.acquireTabState = function(tabId, port) {
-  var ts = this.getTabState(tabId);
+  /**
+   * @param {!number} tabId The id of the tab to retrieve state for.
+   *
+   * @return {?fiveui.TabState} The stored state of the tab, or null, if
+   *                            no state exists for the requested tab.
+   */
+  getTabState: function(tabId) {
+    return this.tabs[tabId] || null;
+  },
 
-  if(null == ts) {
-    var closed = ! this.settings.getDisplayDefault();
+  /**
+   * Like getTabState, but creates an initial tab state if none exists.
+   *
+   * @param {!number} tabId The id of the tab to retrieve state for.
+   * @param {!fiveui.ChromePort} port The port to use for communication
+   *                             with the corresponding tab.
+   * @return {!fiveui.TabState} Either an initial state if none existed, or the
+   *                            state that exists already.
+   */
+  acquireTabState: function(tabId, port) {
+    var ts = this.getTabState(tabId);
 
-    // in the future, get these defaults from the settings instance.
-    var ws = new fiveui.WinState(10, 10, 300, 300, closed);
-    ts = new fiveui.TabState(tabId, ws, port);
-    this.setTabState(ts);
+    if(null == ts) {
+      var closed = ! this.settings.getDisplayDefault();
+
+      // in the future, get these defaults from the settings instance.
+      var ws = new fiveui.WinState(10, 10, 300, 300, closed);
+      ts = new fiveui.TabState(tabId, ws, port);
+      this.setTabState(ts);
+    }
+
+    return ts;
+  },
+
+  /**
+   * @param {!fiveui.TabState} ts The state to store.
+   * @return {void}
+   */
+  setTabState: function(ts) {
+    this.tabs[ts.tabId] = ts;
+  },
+
+  /**
+   * Update the state of a tab, if and only if the tabId exists in the state.
+   *
+   * @param {!number} tabId The id of the tab to store state for.
+   * @param {function(fiveui.TabState): fiveui.TabState} fn A function
+   *                                       that modifies the tab state.
+   *
+   * @return {void}
+   */
+  adjust: function(tabId, fn) {
+    var tState = this.getTabState(tabId);
+    if (tState) {
+      this.tabs[tabId] = fn(tState);
+    }
+  },
+
+  /**
+   * Remove the state of a tab.
+   *
+   * @param {!number} tabId The id of the tab to remove the state of.
+   * @return {void}
+   */
+  removeTabState: function(tabId) {
+    delete this.tabs[tabId];
   }
 
-  return ts;
-};
+});
 
-/**
- * @param {!fiveui.TabState} ts The state to store.
- * @return {void}
- */
-fiveui.State.prototype.setTabState = function(ts) {
-  this.tabs[ts.tabId] = ts;
-};
-
-/**
- * Update the state of a tab, if and only if the tabId exists in the state.
- *
- * @param {!number} tabId The id of the tab to store state for.
- * @param {function(fiveui.TabState): fiveui.TabState} fn A function
- *                                       that modifies the tab state.
- *
- * @return {void}
- */
-fiveui.State.prototype.adjust = function(tabId, fn) {
-  var tState = this.getTabState(tabId);
-  if (tState) {
-    this.tabs[tabId] = fn(tState);
-  }
-};
-
-/**
- * Remove the state of a tab.
- *
- * @param {!number} tabId The id of the tab to remove the state of.
- * @return {void}
- */
-fiveui.State.prototype.removeTabState = function(tabId) {
-  delete this.tabs[tabId];
-};
+})();
