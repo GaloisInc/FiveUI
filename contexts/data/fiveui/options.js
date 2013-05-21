@@ -236,6 +236,7 @@ fiveui.options.init = function(port) {
   var openUrlPatEditor = function() {
     getRuleSets(function(ruleSets) {
       if (ruleSets.length <= 0) {
+        // XXX not sure what to do about goog.dialog
         var errDialog = new goog.ui.Dialog();
         errDialog.setTitle('No Rule Sets Defined');
         errDialog.setContent('No rule sets are defined.  Please define some '
@@ -287,35 +288,34 @@ fiveui.options.init = function(port) {
    */
   var onAddRuleSet = function(ruleSet) {
     // register the rule set with the drop down
-    var rsDropDown = gdom.createDom('option', { value: ruleSet.id },
-        ruleSet.name);
+    var rsDropDown = jQuery(_.template(
+      '<option value="<%= id %>"><%= name %></option>',
+      ruleSet);
+
     gdom.appendChild(gdom.getElement('urlPatRuleSetId'), rsDropDown);
 
     // create the rule set list entry
     var entry = new fiveui.RuleSetEntry(ruleSet);
     entry.append(gdom.getElement('ruleSetEntries'));
 
-    goog.events.listen(entry, 'remove', function() {
+    entry.on('remove', function() {
       remRuleSet(ruleSet.id);
     });
 
-    goog.events.listen(entry, 'edit', function() {
+    entry.on('edit', function() {
       editButtonHandler(ruleSet.id);
     });
 
-    goog.events.listen(update, 'updateRuleSet.' + ruleSet.id,
+    update.on('updateRuleSet.' + ruleSet.id,
       function(newRuleSet) {
         entry.setRuleSet(newRuleSet);
         gdom.setTextContent(rsDropDown, newRuleSet.name);
       });
 
-    var cleanup = function() {
+    update.once(rmEvtName, function() {
       entry.remove();
-      gdom.removeNode(rsDropDown);
-      goog.events.unlisten(update, 'remRuleSet.' + ruleSet.id, cleanup);
-    };
-
-    goog.events.listen(update, 'remRuleSet.' + ruleSet.id, cleanup);
+      rsDropDown.remove();
+    });
   };
 
   /**
