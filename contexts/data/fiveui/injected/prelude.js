@@ -257,7 +257,7 @@ fiveui.color.colorCheck = function (selector, colorSet) {
                   + '  var allowable = ' + JSON.stringify(allowable) + ';\n'
                   + '  var color = fiveui.color.colorToHex($(elt).css("color"));\n'
                   + '  if (!(color in allowable)) {\n'
-                  + '    report("Disallowed color " + color + " in element matching " + ' + goog.json.serialize(selector) + ', $(elt));\n'
+                  + '    report("Disallowed color " + color + " in element matching " + ' + jQuery.toJSON(selector) + ', $(elt));\n'
                   + '  }\n'
                   + '}\n';
   fnStr = 'function () { fiveui.query("' + selector + '").each(' + forEachFuncStr + '); }';
@@ -329,19 +329,24 @@ fiveui.font = {};
  * @throws {ParseError} if the font size cannot be parsed
  */
 fiveui.font.getFont = function (jElt) {
-  var res = {};
-  var sizeTxt = /(\d+)/.exec(jElt.css('font-size'));
-  if (!sizeTxt) {
-    throw {
-      name: 'ParseError',
-      message: 'Could not parse font size: ' + jElt.css('font-size')
-    };
-  }
-  else {
-    res.size = sizeTxt[1];
+  var res   = {};
+  var size  = jElt.css('font-size');
+  if(size.length > 0) {
+    var psize = /(\d+)/.exec(size);
+    if(!psize) {
+      throw {
+        name: 'ParseError',
+        message: 'Could not parse font size: ' + jElt.css('font-size')
+      };
+    }
+    else {
+      res.size = psize
+    }
+  } else {
+    res.size = '';
   }
   res.family =  jElt.css('font-family');
-  res.weight =  jElt.css('font-weight');
+  res.weight =  jElt.css('font-weight').toString();
   // normalize reporting of the following two synonyms
   if (res.weight === '400') { res.weight = 'normal'; }
   if (res.weight === '700') { res.weight = 'bold'; }
