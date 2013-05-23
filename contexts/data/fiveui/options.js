@@ -202,253 +202,28 @@ fiveui.options.init = function(port) {
    * @param {!fiveui.UrlPat} pat The new url pattern.
    */
   var onAddUrlPat = function(pat) {
-    getRuleSet(pat.rule_id, function(rs) {
-      if (null == rs) {
-        console.error('could not find ruleset with id: ' + pat.rule_id);
-        return;
-      }
-
-      var entry = new fiveui.UrlPatEntry(pat, rs);
-      entry.append(gdom.getElement('urlPatEntries'));
-
-      entry.on('remove', function() {
-        remUrlPat(pat.id);
-      });
-
-      update.on('remUrlPat.' + pat.id,
-          _.bind(entry.remove, entry));
-
-      update.on('updateRuleSet.' + pat.rule_id,
-          _.bind(entry.setRuleSet, entry));
-    });
   };
 
   // register to handle new url patterns from the backend
-  msg.register('addUrlPat', onAddUrlPat);
+  msg.register('addUrlPat', _.bind(console.error, console));
 
-
-  /** UrlPat editor overlay **************************************************/
-
-  var getUrlPatEditor = function() {
-    return gdom.getElement('urlPatEditorPane');
-  };
-
-  var openUrlPatEditor = function() {
-    getRuleSets(function(ruleSets) {
-      if (ruleSets.length <= 0) {
-        // XXX not sure what to do about goog.dialog
-        var errDialog = new goog.ui.Dialog();
-        errDialog.setTitle('No Rule Sets Defined');
-        errDialog.setContent('No rule sets are defined.  Please define some '
-                           + 'before creating a URL Pattern.');
-
-        errDialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
-        errDialog.setVisible(true);
-
-        goog.events.listen(errDialog, goog.ui.Dialog.EventType.SELECT,
-            closeUrlPatEditor);
-      } else {
-        var pane = getUrlPatEditor();
-        pane.style.display = 'block';
-      }
-    });
-  };
-
-  var closeUrlPatEditor = function() {
-    var pane = getUrlPatEditor();
-    pane.style.display = 'none';
-
-    // clear out the text field
-    gdom.forms.setValue(gdom.getElement('urlPatRegex'), '');
-  };
-
-  setClickHandler(jQuery('#addUrlPat'), openUrlPatEditor);
-
-  setClickHandler(jQuery('#cancelAddUrlPat'), closeUrlPatEditor);
-
-  setClickHandler(jQuery('#confirmAddUrlPat'), function() {
-    var pat = jQuery('#urlPatRegex').val();
-    var rs = jQuery('#urlPatRuleSetId').val();
-
-    if (pat && rs) {
-      addUrlPat(pat, rs);
-      closeUrlPatEditor();
-    }
-
-    // TODO we need to notify them that the creation failed
-  });
+  // handle the `add` button being clicked
+  jQuery('#addUrlPat').on('click', onAddUrlPat);
 
 
   /** RuleSet list entries ***************************************************/
 
-  /**
-   * Respond to addRuleSet events from the backend.
-   *
-   * @param {!fiveui.RuleSet} ruleSet The RuleSet that was added.
-   */
-  var onAddRuleSet = function(ruleSet) {
-    // register the rule set with the drop down
-    var rsDropDown = jQuery(_.template(
-      '<option value="<%= id %>"><%= name %></option>',
-      ruleSet));
+  var ruleSetEntries = jQuery('#ruleSetEntries');
 
-    jQuery('#urlPatRuleSetId').append(rsDropDown);
-
-    // create the rule set list entry
-    var entry = new fiveui.RuleSetEntry(ruleSet);
-    entry.append(jQuery('#ruleSetEntries'));
-
-    entry.on('remove', function() {
-      remRuleSet(ruleSet.id);
+  // handle clicks to the 'add' button on the rule sets page
+  jQuery('#addRsButton').on('click', function() {
+    var entry = new fiveui.RuleSetEntry({
+      model: new fiveui.RuleSetModel({ msg: msg })
     });
+    ruleSetEntries.append(entry.$el);
+    entry.edit();
+  });
 
-    entry.on('edit', function() {
-      editButtonHandler(ruleSet.id);
-    });
-
-    update.on('updateRuleSet.' + ruleSet.id,
-      function(newRuleSet) {
-        entry.setRuleSet(newRuleSet);
-        gdom.setTextContent(rsDropDown, newRuleSet.name);
-      });
-
-    update.once(rmEvtName, function() {
-      entry.remove();
-      rsDropDown.remove();
-    });
-  };
-
-  /**
-   * @param {?number} ruleSetId Optional: The id of the rule to open in the editor.
-   */
-  var editButtonHandler = function(ruleSetId) {
-    var editPane = gdom.getElement('ruleSetEditorPane');
-    editPane.curRuleSetId = ruleSetId;
-    showEditorPane(true);
-
-    if (ruleSetId != null) {
-      getRuleSet(ruleSetId,
-        function(ruleSet) {
-          if (ruleSet) {
-            setEditorText(ruleSet.original);
-          }
-        });
-    } else {
-      setEditorText('');
-    }
-  };
-
-  // Register for events from the messenger:
-  msg.register('addRuleSet', onAddRuleSet);
-
-  // listen to clicks to the add rule set button
-  setClickHandler(jQuery('#addRsButton'), _.bind(editButtonHandler, this, null));
-
-
-  /** RuleSet Editor Overlay *************************************************/
-
-  var editorDiv = document.getElementById("editorDiv");
-  var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-        lineNumbers: true
-      });
-
-  /**
-   * Display an error dialog with a list of url pattern that rely on a
-   * given rule id.
-   */
-  var showRemRuleSetErr = function(ruleSetId, urlPats) {
-    var info = '';
-    _.each(urlPats, function(m) {
-      info += '<li>' + m.regex + '</li>';
-    });
-
-    // XXX not sure what to do about this
-    var errDialog = new goog.ui.Dialog();
-    errDialog.setTitle('Rule Set could not be removed.');
-    errDialog.setContent('<p>The following Url Patterns use this rule set:</p>'
-                         + '<ul>'
-                         + info
-                         + '</ul>'
-                         + 'Remove these Url Patterns as well?');
-
-    errDialog.setButtonSet(goog.ui.Dialog.ButtonSet.createOkCancel());
-    errDialog.setVisible(true);
-
-    goog.events.listen(errDialog, goog.ui.Dialog.EventType.SELECT, function(e) {
-      if (e.key == 'ok') {
-        // Remove the url patterns:
-        _.each(urlPats, function(urlPat) {
-          remUrlPat(urlPat.id);
-        });
-        // re-issue the RuleSet remove:
-        remRuleSet(ruleSetId);
-      }
-    });
-  };
-
-  /**
-   * Show or hide the editor pane that contains the Ace text editor.
-   *
-   * @param {!boolean} showP True to show the edit pane, false to hide
-   * it.
-   */
-  var showEditorPane = function(showP) {
-    var editPane = gdom.getElement('ruleSetEditorPane');
-    if (! showP) {
-      editPane.style.display = 'none';
-      return;
-    }
-
-    editPane.style.display = 'block';
-
-
-    var buttonPane = gdom.getElement('editorButtons');
-    var newWidth = editPane.clientWidth - 10;
-    var newHeight = editPane.clientHeight - 10;
-    for (var i = 0; i < editPane.children.length; ++i) {
-      var child = editPane.children[i];
-      if (child.id == 'editor') {
-        break;
-      } else {
-        newHeight = newHeight - child.clientHeight;
-      }
-    }
-
-    //editorDiv.style.width = newWidth + 'px';
-    //editorDiv.style.height = newHeight + 'px';
-  };
-
-  // set the content of the editor widget
-  var setEditorText = function(string) {
-    editor.setValue(string);
-    editor.setSize('auto', 'auto');
-  };
-
-  // listen to click events from the cancel button in the rule set editor
-  setClickHandler(jQuery('#cancelEditButton'),
-    function() {
-      showEditorPane(false);
-    });
-
-  // listen to click events from the save button in the rule set editor
-  setClickHandler(jQuery('#saveEditButton'),
-    function() {
-      var editPane = gdom.getElement('ruleSetEditorPane');
-      var rsText = editor.getValue();
-      if (null != editPane.curRuleSetId) {
-        updateRuleSet(editPane.curRuleSetId, rsText);
-      } else {
-        addRuleSet(rsText);
-      }
-      showEditorPane(false);
-    });
-
-  // change default display state
-  setClickHandler(jQuery('#windowDisplayDefault'),
-    function(event) {
-      var displayDef = event.currentTarget.checked;
-      setDisplayDefault(displayDef);
-    });
 
   /** Tab Management *********************************************************/
 
@@ -523,7 +298,22 @@ fiveui.options.init = function(port) {
 
   // pre-populate the list of rule sets
   getRuleSets(function(ruleSets) {
-    _.each(ruleSets, onAddRuleSet);
+    _.each(ruleSets, function(ruleSet) {
+
+      var entry = new fiveui.RuleSetEntry({
+        model: new fiveui.RuleSetModel({
+          msg:         msg,
+          id:          ruleSet.id,
+          name:        ruleSet.name,
+          description: ruleSet.description,
+          source:      ruleSet.source,
+        })
+      });
+
+      ruleSetEntries.append(entry.$el);
+      entry.render();
+
+    });
   });
 };
 

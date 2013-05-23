@@ -342,13 +342,13 @@ fiveui.Settings.manager = function(chan, settings) {
 
   var msg = new fiveui.Messenger(chan);
 
-  msg.register('addRuleSet', function(ruleSet){
+  msg.register('addRuleSet', function(ruleSet,respond){
             var newRS = settings.addRuleSet(ruleSet);
-            msg.send('addRuleSet', newRS);
+            respond(newRS);
           });
-  msg.register('updateRuleSet', function(updatedRS){
-            var newRS = settings.updateRuleSet(updatedRS.id, updatedRS.obj);
-            msg.send('updateRuleSet', newRS);
+  msg.register('updateRuleSet', function(updatedRS,respond){
+            var newRS = settings.updateRuleSet(updatedRS.id, updatedRS);
+            respond(newRS);
           });
   msg.register('remRuleSet', function(ruleSetId, respond) {
             var pats = settings.remRuleSet(ruleSetId);

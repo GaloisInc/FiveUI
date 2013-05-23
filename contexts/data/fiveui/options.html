@@ -28,10 +28,8 @@
     <link id="favicon" rel="icon" href="images/fiveui-icon-16.png" />
     <link rel="stylesheet" href="options.css" />
     <link rel="stylesheet" href="entry.css" />
-    <link rel="stylesheet" href="../lib/codemirror/codemirror.css"/>
     <script src="../lib/jquery/jquery-1.8.3.js"></script>
     <script src="../lib/jquery/jquery.json-2.4.js"></script>
-    <script src="../lib/codemirror/codemirror-compressed.js"></script>
     <script src="../lib/underscore/underscore.js"></script>
     <script src="../lib/backbone/backbone.js"></script>
     <script src="../target/chrome-options.js"></script>
@@ -53,14 +51,22 @@
     <div id="content">
       <section id="tab-url-defaults">
         <div class="title">URL Patterns</div>
-        <div id="urlPatEntries" class="entries"></div>
-        <div><button id="addUrlPat">Add</button></div>
+        <section>
+          <div id="urlPatEntries" class="entries"></div>
+          <div>
+            <button id="addUrlPat">Add</button>
+          </div>
+        </section>
       </section>
 
       <section id="tab-rule-sets">
         <div class="title">Rule Sets</div>
-        <div id="ruleSetEntries" class="entries"></div>
-        <div><button id="addRsButton">Add</button></div>
+        <section>
+          <div id="ruleSetEntries" class="entries"></div>
+          <div>
+            <button id="addRsButton">Add</button>
+          </div>
+        </section>
       </section>
 
       <section id="tab-basics">
@@ -79,41 +85,5 @@
       </section>
     </div>
 
-    <div id="ruleSetEditorPane" class="editorPane">
-      <div class="title">Rule Set</div>
-      <div id="editorButtons">
-          <button id="saveEditButton">Save</button>
-          <button id="cancelEditButton">Cancel</button>
-      </div>
-      <div id="editorDiv">
-      <form><textarea id="editor" name="editor">{ 'name': 'rule set name'
-, 'description': 'rule set description'
-, 'id': 0 /* each rule set needs a unique id */
-, 'rules': [
-  { 'name': 'rule 1 name'
-  , 'description': 'rule 1 description'
-  , 'rule': function () { /* do something here */ }
-  , 'id': 1 /* each rule needs a unique id */
-  }]
-} </textarea></form>
-    </div>
-
-    </div>
-
-    <div id="urlPatEditorPane" class="editorPane">
-      <div class="title">URL Pattern</div>
-      <div class="row">
-        <label>Pattern</label>
-        <input id="urlPatRegex" type="text" placeholder="URL Pattern"></input>
-      </div>
-      <div class="row">
-        <label>Rule Set</label>
-        <select id="urlPatRuleSetId"></select>
-      </div>
-      <div class="row">
-        <button id="confirmAddUrlPat">Add</button>
-        <button id="cancelAddUrlPat">Cancel</button>
-      </div>
-    </div>
   </body>
 </html>

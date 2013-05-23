@@ -37,6 +37,15 @@ fiveui.Rule = function(id, name, desc, ruleStr) {
   this.ruleStr = ruleStr;
 };
 
+fiveui.Rule.defaults = function(obj) {
+  return _.defaults(obj, {
+    id:          null,
+    name:        '',
+    description: '',
+    ruleStr:     ''
+  });
+};
+
 /**
  * Create a Rule from a JSON object.
  *
@@ -53,17 +62,17 @@ fiveui.Rule.fromJSON = function(obj) {
  * @param {!number} id The unique RuleSet identifier.
  * @param {!string} name A human-readable name for this RuleSet.
  * @param {!string} desc A human-readable description of the Rule Set.
+ * @param {!string} source The url where the manifest can be retrieved
  * @param {!Array.<fiveui.Rule>} rules An Array of Rules.
- * @param {!string} original The original string representation.
  * @param {?Array.<string>} deps Dependencies that this RuleSet requires.
  */
-fiveui.RuleSet = function(id, name, desc, rules, original, deps) {
-  this.id = id;
-  this.name = name;
-  this.description = desc;
-  this.rules = rules;
-  this.original = original;
-  this.dependencies = deps || [];
+fiveui.RuleSet = function(id, name, desc, source, rules, deps) {
+  this.id           = id;
+  this.name         = name;
+  this.description  = desc;
+  this.source       = source;
+  this.rules        = rules || [];
+  this.dependencies = deps  || [];
 };
 
 /**
@@ -77,8 +86,89 @@ fiveui.RuleSet.fromJSON = function(id, obj) {
   var rules = (/** @type {!Array.<!fiveui.Rule>} */
     _.map(obj.rules, fiveui.Rule.fromJSON));
 
-  return new fiveui.RuleSet(id, obj.name, obj.description, rules,
-                            obj.original, obj.dependencies);
+  return new fiveui.RuleSet(id, obj.name, obj.description, obj.source,
+                            rules, obj.dependencies);
 };
+
+
+fiveui.RuleSet.defaults = function(obj) {
+  return _.defaults(obj, {
+    name:          '',
+    description:   '',
+    source:        '',
+    rules:         [],
+    dependencies:  []
+  });
+};
+
+
+/**
+ * Options is an object that can contain a success and error continuation.
+ */
+fiveui.RuleSet.load = function(manifest_url, options) {
+
+  _.defaults(options, {
+    success: function() {},
+    error:   function() { throw "failed when loading url"; }
+  });
+
+  var match = manifest_url.match(/\/[^\/]*$/);
+
+  if(match) {
+    var base_url = manifest_url.substring(0,match.index);
+
+    // iterate over rules, retrieving the 
+    var loadRules = function(manifest, rules) {
+
+      if(rules.length == 0) {
+        options.success(manifest);
+      } else {
+
+        // XXX there's likely problems here, how should we make sure that the
+        // url is what we expect?
+        var rule = fiveui.Rule.defaults(rules.pop());
+        var rule_url = base_url + '/' + rule.file;
+        jQuery.ajax(rule_url, {
+
+          dataType: 'text',
+
+          success: function(ruleStr) {
+            rule.ruleStr = ruleStr;
+            manifest.rules.push(rule);
+
+            loadRules(manifest, rules);
+          },
+
+          error: options.error
+        });
+
+      }
+    };
+
+    // fetch the manifest, and load its rules
+    jQuery.ajax(manifest_url, {
+
+      dataType: 'json',
+
+      dataFilter: fiveui.utils.filterJSON,
+
+      success: function(manifest) {
+        fiveui.RuleSet.defaults(manifest);
+
+        var rules      = manifest.rules;
+        manifest.rules = [];
+        loadRules(manifest, rules);
+      },
+
+      error: options.error
+    });
+
+
+  } else {
+    throw "unable to parse manifest url";
+  }
+
+};
+
 
 })();
