@@ -22,8 +22,6 @@
 
 /* Generic list entries */
 div.entries>div.entry {
-  width: 49em;
-  display: block;
   border-top: 1px solid #CDCDCD;
   margin-top: 5px;
   padding: 10px;
@@ -33,22 +31,13 @@ div.entries>div.entry:first-child {
   border-top: 0px;
 }
 
+div.entry span.button {
+  cursor: pointer;
+  cursor: hand;
+}
+
 div.entry>div.content {
-  float: left;
   display: block;
-  width: 80%;
-}
-
-div.entry>div.controls {
-  text-align: right;
-  float: left;
-  display: block;
-  width: 20%;
-}
-
-div.entry>div.controls>button {
-  width: 5em;
-  margin-right: 5px;
 }
 
 div.entry>div.content>div.title {

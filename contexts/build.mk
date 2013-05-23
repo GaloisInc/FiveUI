@@ -82,7 +82,9 @@ options-deps := $(addprefix $(fiveui-dir)/,\
   messenger.js \
   options.js \
   update-manager.js \
-  utils.js )
+  utils.js \
+  entry.js \
+  rules.js )
 
 
 # CSS Staging ##################################################################

@@ -74,4 +74,71 @@ fiveui.utils.getNewId = function(list) {
   }
 };
 
+
+/**
+ * Remove c-style comments
+ *
+ * There's probably a faster way to do this.
+ */
+var removeComments = function(data) {
+
+  var state     = 0;
+  var toEOL     = 1;
+  var toEOC     = 2;
+
+  var sanitized = '';
+  var len       = data.length;
+  var s = 0, e = 0;
+
+  for(; e < len; ++e) {
+    switch(state) {
+      case toEOL:
+        if(data[e] == '\n') {
+          state = 0;
+        }
+        break;
+
+      case toEOC:
+        if(data[e] == '*' && data[e+1] == '/') {
+          state = 0;
+          s     = e + 2;
+          e     = e + 1;
+        }
+        break;
+
+      default:
+        if(data[e] == '/') {
+          if(data[e+1] == '/') {
+            sanitized = sanitized + data.substring(s,e);
+            state     = toEOL;
+            e         = e + 1;
+          } else if(data[e+1] == '*') {
+            sanitized = sanitized + data.substring(s,e);
+            state     = toEOC;
+            e         = e + 1;
+          }
+        }
+        break;
+    }
+  }
+
+  if(state == 0 && s < e) {
+    sanitized = sanitized + data.substring(s,e);
+  }
+
+  return sanitized;
+};
+
+
+/**
+ * Filter out comments, and other things that aren't appropriate in JSON.
+ */
+fiveui.utils.filterJSON = function(data, type) {
+  if(type == 'json') {
+    return removeComments(data);
+  } else {
+    return data;
+  }
+};
+
 })();

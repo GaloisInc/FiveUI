@@ -129,10 +129,6 @@ div.title {
     width: 50%;
 }
 
-.entry {
-    float: left;
-}
-
 #upDownGroup button {
     display: block
 }
@@ -143,40 +139,6 @@ div.title {
     float: left;
 }
 
-div.editorPane {
-    position: absolute;
-    top: 0px;
-    left: 25%;
-    right: 0px;
-    bottom: 0px;
-    background: white;
-    display: none;
-    margin: 0;
-    padding: 0.5em;
-    padding-bottom: 0;
-    padding-right: 0;
-    box-shadow: -5px 0px 10px #ddd;
-}
-
-div.editorPane div.row {
-  padding-left: 5px;
-}
-
-div.editorPane div.row>label {
-  clear: left;
-  float: left;
-  width: 5em;
-}
-
 .buttons {
     display: inline;
-}
-
-.CodeMirror {
-  border: 2px solid #eee;
-  height: auto;
-}
-.CodeMirror-scroll {
-  overflow-y: hidden;
-  overflow-x: auto;
 }

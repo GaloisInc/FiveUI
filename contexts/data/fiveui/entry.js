@@ -27,164 +27,175 @@ var fiveui = fiveui || {};
 /** Generic Entry Elements ***************************************************/
 
 /**
- * Create an Entry element, which provides a content area, and remove button.
- *
- * @constructor
+ * Generic mixin for adding entry-list functionality to a View.
  */
-fiveui.Entry = function() {
+fiveui.Entry = {
 
-  // containing element
-  this._e = jQuery('div');
+  tagName: 'div',
 
-  // content container
-  this.content = jQuery('div');
-  this._e.append(this.content);
+  className: 'entry',
 
-  // title element
-  this._title = jQuery('div');
-  this.content.append(this._title);
+  remove: function(evt) {
+    this.$el.remove();
+    this.model.destroy();
+  },
 
-  // description element
-  this._description = jQuery('div');
-  this.content.append(this._description);
+  edit: function() {
+    var attrs = this.model.attributes;
+    this.$el.html(this.editTemplate(attrs));
+    return this;
+  },
 
-  // control container
-  this._controls = jQuery('div');
-  this._e.append(this._controls);
+  /**
+   * Render the item according to its template
+   */
+  render: function() {
+    var attrs = this.model.attributes;
+    this.$el.html(this.viewTemplate(attrs));
+    return this;
+  }
 
-  // the remove button
-  this._remove = jQuery('button');
-  this._remove.text('Remove');
-  this._controls.append(this._remove);
-
-  // connect the remove event to the remove button being clicked
-  this._remove.on('click', _.bind(this.trigger, this, 'remove'));
 };
-
-_.extend(fiveui.Entry.prototype, Backbone.Events);
-
-_.extend(fiveui.Entry.prototype, {
-
-  /**
-   * Append the entry to a containing element
-   *
-   * @param {!Element} e The element to append to.
-   * @return {void}
-   */
-  append: function(e) {
-    e.append(this._e);
-  },
-
-  /**
-   * Remove the entry from its containing element.
-   *
-   * @return {void}
-   */
-  remove: function() {
-    this._e.remove();
-  },
-
-  /**
-   * Set the text of the title element.
-   *
-   * @param {!string} title The content of the title element.
-   */
-  setTitle: function(title) {
-    this._title.text(title);
-  },
-
-  /**
-   * Set the text of the description element.
-   *
-   * @param {!string} description The content of the description element.
-   */
-  setDescription: function(description) {
-    this._description.text(description);
-  },
-
-});
 
 
 /** UrlPat Entry Elements ****************************************************/
 
-/**
- * Construct a list entry for a url pattern.
- *
- * @constructor
- *
- * @param {!fiveui.UrlPat} urlPat UrlPat instance to use.
- * @param {!fiveui.RuleSet} ruleSet RuleSet instance to associate with.
- */
-fiveui.UrlPatEntry = function(urlPat, ruleSet) {
-  // call the parent constructor
-  fiveui.Entry.call(this);
+fiveui.UrlPatEntryModel = Backbone.Model.extend({
 
-  this.setUrlPat(urlPat);
-  this.setRuleSet(ruleSet);
-};
-_.extend(fiveui.UrlPatEntry.prototype, fiveui.Entry.prototype);
-
-_.extend(fiveui.UrlPatEntry.prototype, {
-
-  /**
-   * @param {!fiveui.UrlPat} urlPat UrlPat instance to use.
-   * @return {void}
-   */
-  setUrlPat: function(urlPat) {
-    this._urlPat = urlPat;
-    this.setTitle(this._urlPat.regex);
-  },
-
-  /**
-   * @param {!fiveui.RuleSet} ruleSet RuleSet instance to associate with.
-   * @return {void}
-   */
-  setRuleSet: function(ruleSet) {
-    this._ruleSet = ruleSet
-    this.setDescription(this._ruleSet.name);
-  },
+  defaults: {
+    title: '',
+    descr: '',
+    ruleSet: ''
+  }
 
 });
+
+fiveui.UrlPatEntry = Backbone.View.extend(_.extend({
+
+  events: function() {
+    return _.extend(this.entryEvents, {});
+  },
+
+}, fiveui.Entry));
 
 
 /** Rule Entry Elements ******************************************************/
 
-/**
- * Construct a list entry for a rule set.
- *
- * @constructor
- *
- * @param {!fiveui.RuleSet} rule The RuleSet instance to use.
- */
-fiveui.RuleSetEntry = function(rule) {
-  // call the parent constructor
-  fiveui.Entry.call(this);
+fiveui.RuleSetModel = Backbone.Model.extend({
 
-  // edit button
-  this._edit = jQuery('button');
-  this._edit.text('Edit');
-  this._controls.append(this._edit);
-  this._edit.on('click', _.bind(this.trigger, this, 'edit'));
-
-  this.setRuleSet(rule);
-};
-
-_.extend(fiveui.RuleSetEntry.prototype, fiveui.Entry.prototype);
-
-_.extend(fiveui.RuleSetEntry.prototype, {
-
-  /**
-   * Use the given rule set for the current display values for the entry.
-   *
-   * @param {!fiveui.RuleSet} ruleSet RuleSet to use for display.
-   * @return {void}
-   */
-  setRuleSet: function(ruleSet) {
-    this._rule = ruleSet;
-    this.setTitle(this._rule.name);
-    this.setDescription(this._rule.description);
+  defaults: {
+    msg:          null,
+    id:           null,
+    name:         '',
+    description:  '',
+    source:       '',
+    rules:        [],
+    dependencies: [],
   },
 
+  sync: function(method, model, options) {
+
+    _.defaults(options, {
+      success:function() {},
+      error:  function() {}
+    });
+
+    var msg = model.get('msg');
+    var id  = model.get('id');
+
+    switch(method) {
+
+      case 'update':
+      case 'create':
+        var rsMethod = method == 'update' ? 'updateRuleSet' : 'addRuleSet';
+
+        fiveui.RuleSet.load(model.get('source'), {
+          success: function(obj) {
+            // null when a new rule set
+            obj.id = id;
+
+            msg.send(rsMethod, obj, function(ruleSet) {
+              // XXX this should probably be just the relevant fields, rules is
+              // probably unnecessarily big to duplicate
+              model.set(ruleSet);
+              options.success();
+            });
+          },
+
+          error: options.error
+        });
+        break;
+
+      case 'delete':
+        msg.send('remRuleSet', id);
+        break;
+
+      case 'read':
+        msg.send('getRuleSet', id, function(rs) {
+          model.set({
+            title:  rs.name,
+            descr:  rs.description,
+            source: rs.source,
+          });
+        });
+        break;
+
+      default:
+        break;
+    }
+  }
+
+
 });
+
+fiveui.RuleSetEntry = Backbone.View.extend(_.extend({
+
+  viewTemplate: _.template(
+    [ '<div class="content">'
+    , '  <div class="header">'
+    , '    <span class="button remove">x</span>'
+    , '    <span class="button edit">edit</span>'
+    , '    <span class="title"><%= name %></span>'
+    , '  </div>'
+    , '</div>'
+    ].join('')),
+
+  editTemplate: _.template(
+    [ '<div class="content">'
+    , '  <div class="header">'
+    , '    <span class="button remove">x</span>'
+    , '    <span class="button save">save</span>'
+    , '    <input class="source" placeholder="rule set url" '
+    , '       type="textbox" value="<%= source %>" />'
+    , '  </div>'
+    , '</div>'
+    ].join('')),
+
+  events: {
+    'click span.save' : function(evt) {
+      evt.stopPropagation();
+      this.save();
+    },
+
+    'click span.remove' : function(evt) {
+      evt.stopPropagation();
+      this.remove();
+    },
+
+    'click span.edit' : function(evt) {
+      evt.stopPropagation();
+      this.edit();
+    },
+  },
+
+  save: function() {
+    var source = this.$el.find('.source').val();
+    this.model.save({ source: source }, {
+      success: _.bind(this.render, this),
+      error:   _.bind(this.edit, this)
+    });
+  },
+
+}, fiveui.Entry));
 
 })();
