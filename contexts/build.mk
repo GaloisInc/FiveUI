@@ -19,22 +19,8 @@ bin-dir  := $(data-dir)/target
 # both plugins in a common tree.  From this state, we can pick and choose what
 # goes into each extension.
 
-stage-dir := $(build-dir)/stage
-
-$(stage-dir): | $(build-dir)
-	$(call cmd,mkdir)
-
-$(stage-dir)/data: | $(stage-dir)
-	$(call cmd,mkdir)
-
-$(stage-dir)/data/lib: | $(stage-dir)/data
-	$(call cmd,mkdir)
-
+stage-dir  := $(build-dir)/stage
 target-dir := $(stage-dir)/data/target
-
-$(target-dir): | $(stage-dir)/data
-	$(call cmd,mkdir)
-
 
 define stage-files-from
 $(stage-dir)/$1/$2: | $(stage-dir)/$1
@@ -44,13 +30,25 @@ $(stage-dir)/$1/$2/%: $(path)/$1/$2/% | $(stage-dir)/$1/$2
 	$$(call cmd,cp)
 endef
 
-$(eval $(call stage-files-from,data,fiveui))
 $(eval $(call stage-files-from,data/fiveui,images))
 $(eval $(call stage-files-from,data/fiveui,chrome))
 $(eval $(call stage-files-from,data/lib,codemirror))
 $(eval $(call stage-files-from,data/lib,jquery))
 $(eval $(call stage-files-from,data/lib,underscore))
 $(eval $(call stage-files-from,data/lib,backbone))
+
+$(eval $(call stage-files-from,data,fiveui))
+$(eval $(call stage-files-from,data,lib))
+
+
+$(target-dir): | $(stage-dir)/data
+	$(call cmd,mkdir)
+
+$(stage-dir)/data: | $(stage-dir)
+	$(call cmd,mkdir)
+
+$(stage-dir): | $(build-dir)
+	$(call cmd,mkdir)
 
 
 stage-path = $(patsubst $(path)/%,$(stage-dir)/%,$1)
