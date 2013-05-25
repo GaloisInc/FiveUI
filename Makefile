@@ -85,3 +85,14 @@ test: chromeExtension profile-chrome profile-firefox ffExtension pkg-rsTester
 	cd $(HEADLESS_DIR)    && $(MVN_TEST_CMD)
 
 endif
+
+
+# JS Unit Tests ###############################################################
+
+PHANTOM_EXE := $(shell which phantomjs 2>/dev/null)
+ifneq "$PHANTOM_EXE" ""
+
+test-js:
+	cd $(topdir)/contexts/data && $(PHANTOM_EXE) lib/phantomjs_jasmine/phantomjs_jasminexml_runner.js tests/PhantomJSJasmineRunner.html tests/reports/
+
+endif
