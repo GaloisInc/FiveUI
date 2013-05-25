@@ -8,3 +8,4 @@ chromedriver.log
 /build/
 fiveui.crx
 fiveui.xpi
+contexts/data/tests/reports
