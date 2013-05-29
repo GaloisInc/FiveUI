@@ -72,6 +72,7 @@ background-deps :=                \
     url-pat.js                    \
     settings.js                   \
     messenger.js                  \
+    state.js                      \
     rules.js)
 
 # generic options page dependencies

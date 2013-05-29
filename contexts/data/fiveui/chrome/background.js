@@ -19,13 +19,11 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.chrome.background');
+var fiveui = fiveui || {};
 
-goog.require('fiveui.Background');
-goog.require('fiveui.Settings');
-goog.require('fiveui.ChromePort');
+(function() {
 
-goog.require('goog.array');
+fiveui.chrome = fiveui.chrome || {};
 
 /**
  * The primary entry point for the FiveUI Chrome background page.
@@ -48,7 +46,7 @@ fiveui.chrome.background = function() {
     } else {
       chromeScripts.push(dataLoader('fiveui/chrome/chrome-injected-ui.js'));
     }
-    var scripts = goog.array.concat(chromeScripts, inScripts);
+    var scripts = _.flatten([chromeScripts, inScripts]);
 
     var end = function() {};
 
@@ -165,3 +163,5 @@ fiveui.chrome.background = function() {
 document.addEventListener('DOMContentLoaded', function () {
   fiveui.chrome.background();
 });
+
+})();
