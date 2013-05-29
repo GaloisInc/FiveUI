@@ -95,7 +95,6 @@ fiveui.RuleSet.defaults = function(obj) {
   return _.defaults(obj, {
     name:          '',
     description:   '',
-    source:        '',
     rules:         [],
     dependencies:  []
   });
@@ -169,6 +168,130 @@ fiveui.RuleSet.load = function(manifest_url, options) {
   }
 
 };
+
+
+/*******************************************************************************
+ * Models for RuleSet
+ ******************************************************************************/
+
+/**
+ * The model for an single set of rules.
+ */
+fiveui.RuleSetModel = Backbone.Model.extend({
+
+  defaults: {
+    id:           null,
+    name:         '',
+    description:  '',
+    source:       '',
+    rules:        [],
+    dependencies: [],
+  },
+
+  sync: function(method, model, options) {
+
+    _.defaults(options, {
+      success:function() {},
+      error:  function() {}
+    });
+
+    var msg    = this.url;
+    var id     = model.get('id');
+    var source = model.get('source');
+
+    switch(method) {
+
+      case 'update':
+      case 'create':
+        var rsMethod = method == 'update' ? 'updateRuleSet' : 'addRuleSet';
+
+        fiveui.RuleSet.load(source, {
+          success: function(obj) {
+            // null when a new rule set
+            obj.id     = id;
+            obj.source = source;
+
+            msg.send(rsMethod, obj, options.success);
+          },
+
+          error: options.error
+        });
+        break;
+
+      case 'delete':
+        msg.send('remRuleSet', id, function(obj) {
+          if(obj.removed) {
+            options.success();
+          } else {
+            options.error();
+          }
+        });
+        break;
+
+      case 'read':
+        msg.send('getRuleSet', id, function(rs) {
+          model.set({
+            title:  rs.name,
+            descr:  rs.description,
+            source: rs.source,
+          });
+        });
+        break;
+
+      default:
+        break;
+    }
+  }
+
+}, {
+
+  /**
+   * Generate a RuleSetModel from a RuleSet
+   */
+  fromRuleSet: function(ruleSet,msg) {
+    return new fiveui.RuleSetModel({
+      id:          ruleSet.id,
+      name:        ruleSet.name,
+      description: ruleSet.description,
+      rules:       ruleSet.rules,
+      dependencies:ruleSet.dependencies,
+      source:      ruleSet.source,
+    }, { url : msg });
+  },
+
+});
+
+
+/**
+ * The model for a collection of rule sets
+ */
+fiveui.RuleSets = Backbone.Collection.extend({
+
+  model: fiveui.RuleSetModel,
+
+  sync: function(method, collection, options) {
+    _.defaults(options, {
+      success:function() {},
+      error:function() {}
+    });
+
+    var self = this;
+    var msg  = this.url;
+
+    switch(method) {
+
+      case 'read':
+        msg.send('getRuleSets', null, function(ruleSets) {
+          options.success(_.map(ruleSets, function(rs) {
+            return fiveui.RuleSetModel.fromRuleSet(rs, msg);
+          }));
+        });
+        break;
+
+    }
+  }
+
+});
 
 
 })();
