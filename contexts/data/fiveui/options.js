@@ -23,6 +23,7 @@ var fiveui = fiveui || {};
 
 (function() {
 
+
 /*****************************************************************
  *
  * Misc. utility functions
@@ -60,155 +61,49 @@ fiveui.options.init = function(port) {
   var msg    = new fiveui.Messenger(port);
   var update = new fiveui.UpdateManager(msg);
 
-  /** Update/Delete Manager ***************************************************/
+  ruleSets = new fiveui.RuleSets([], { url: msg });
+  urlPats  = new fiveui.UrlPats([], { url: msg });
 
-  /** Unprocessed Rule Manipulation *******************************************/
-
-  /**
-   * Given an object containing a rule function, serialize the function to a
-   * string, and place it in the ruleStr field of that object.
-   *
-   * @param {!Object} obj The object to modify.
-   * @return {void}
-   */
-  var serializeRule = function(obj) {
-    obj.ruleStr = obj.rule.toString();
-    delete obj.rule;
-  };
-
-  /**
-   * Parse a ruleSet string into a json object.
-   *
-   * @param {!string} ruleSetText The text to parse.
-   * @return {?Object}
-   */
-  var parseRuleSet = function(ruleSetText) {
-    var obj = {};
-    try {
-      obj = jQuery.parseJSON(ruleSetText);
-    } catch (x) {
-      // TODO: this error message is not as helpful as it could be
-      alert('Eval error: ' + x.toString());
-    }
-    _.each(obj.rules, serializeRule);
-    obj.original = ruleSetText;
-    return obj;
-  };
-
-
-  /** Backend RuleSet update functions ****************************************/
-
-  /**
-   * Add a rule set from a textual representation.
-   *
-   * @param {!string} ruleSetText
-   * @return {void}
-   */
-  var addRuleSet = function(ruleSetText) {
-    var obj = parseRuleSet(ruleSetText);
-    if (obj) {
-      msg.send('addRuleSet', obj);
-    }
-  };
-
-  /**
-   * Update an existing rule set, given an id and a new rule set object.
-   *
-   * @param {!number} ruleSetId The id of the rule set to modify.
-   * @param {!string} ruleSetText The text of the rule set.
-   * @return {void}
-   */
-  var updateRuleSet = function(ruleSetId, ruleSetText) {
-    var obj = parseRuleSet(ruleSetText);
-    if (obj) {
-      msg.send('updateRuleSet', {'id': ruleSetId, 'obj': obj });
-    }
-  };
-
-  /**
-   * Remove a rule set.
-   *
-   * @param {!number} ruleSetId
-   * @return {void}
-   */
-  var remRuleSet = function(ruleSetId) {
-    msg.send('remRuleSet', ruleSetId,
-      function(resp) {
-        if (resp.removed) {
-          update.trigger('remRuleSet.' + ruleSetId);
-        } else {
-          showRemRuleSetErr(ruleSetId, resp.pats);
-        }
-      });
-  };
-
-  /**
-   * @param {!number} ruleSetId
-   * @param {!function(?fiveui.RuleSet)} cb
-   */
-  var getRuleSet = function(ruleSetId, cb) {
-    msg.send('getRuleSet', ruleSetId, cb);
-  };
-
-  /**
-   * @param {!function(*)} cb Callback to process the ruleset array.
-   */
-  var getRuleSets = _.bind(msg.send, msg, 'getRuleSets', null);
-
-
-  /** Backend UrlPat update functions ****************************************/
-
-  /**
-   * @param {!function(Array.<fiveui.UrlPat>)} cb
-   */
-  var getUrls = function(cb) {
-  };
-
-  /**
-   * @param {!string} pattern
-   * @param {!number} ruleSetId
-   */
-  var addUrlPat = function(pattern, ruleSetId) {
-    msg.send('addUrlPat', {'pattern': pattern, 'ruleSetId': ruleSetId});
-  };
-
-  /**
-   * @param {!number} urlPatId
-   * @param {!function(?fiveui.UrlPat)} cb
-   */
-  var getUrlPat = function(urlPatId, cb) {
-    msg.send('getUrlPat', urlPatId, cb);
-  };
-
-  /**
-   * @param {!number} urlId
-   */
-  var remUrlPat = function(urlId) {
-    msg.send('remUrlPat', urlId);
-  };
-
-  /**
-   * Set the default display state for the FiveUI Window.
-   *
-   * @param {!boolean} def The default state for the FiveUI Window.
-   */
-  var setDisplayDefault = function(def) {
-    msg.send('setDisplayDefault', def);
-  };
 
   /** UrlPat list entries ****************************************************/
 
-  /**
-   * @param {!fiveui.UrlPat} pat The new url pattern.
-   */
-  var onAddUrlPat = function(pat) {
-  };
+  var urlPatEntries = jQuery('#urlPatEntries');
+  var addUrlPat     = jQuery('#addUrlPat');
 
-  // register to handle new url patterns from the backend
-  msg.register('addUrlPat', _.bind(console.error, console));
+  addUrlPat.prop('disabled', true);
 
-  // handle the `add` button being clicked
-  jQuery('#addUrlPat').on('click', onAddUrlPat);
+  addUrlPat.on('click', function() {
+    urlPats.add(new fiveui.UrlPatModel({}, { url : msg }));
+  });
+
+  // when a new rule set is sync'd, make sure that the add url pattern button is
+  // enabled.
+  ruleSets.on('sync', function(model,col) {
+    addUrlPat.prop('disabled', false);
+  });
+
+  // when a rule set is destroyed, and the collection is now empty, disable the
+  // add url pattern button.
+  ruleSets.on('destroy', function(model,col) {
+    if(col.length <= 0) {
+      addUrlPat.prop('disabled', true);
+    }
+  });
+
+  // handle new url patterns being added to the collection.
+  urlPats.on('add', function(model) {
+    var view = new fiveui.UrlPatEntry({
+      model: model,
+      rules: new fiveui.RulesView({ model: ruleSets })
+    });
+    urlPatEntries.append(view.$el);
+
+    if(model.isNew()) {
+      view.edit();
+    } else {
+      view.render();
+    }
+  });
 
 
   /** RuleSet list entries ***************************************************/
@@ -217,11 +112,20 @@ fiveui.options.init = function(port) {
 
   // handle clicks to the 'add' button on the rule sets page
   jQuery('#addRsButton').on('click', function() {
-    var entry = new fiveui.RuleSetEntry({
-      model: new fiveui.RuleSetModel({ msg: msg })
-    });
+    ruleSets.add(new fiveui.RuleSetModel({}, { url : msg }));
+  });
+
+  // render a ruleset added to the collection
+  ruleSets.on('add', function(model) {
+    var entry = new fiveui.RuleSetEntry({ model: model })
     ruleSetEntries.append(entry.$el);
-    entry.edit();
+
+    if(model.isNew()) {
+      entry.edit();
+    } else {
+      addUrlPat.prop('disabled', false);
+      entry.render();
+    }
   });
 
 
@@ -287,33 +191,15 @@ fiveui.options.init = function(port) {
 
   /** Pre-populate UI elements ***********************************************/
 
-  // pre-populate the list of url patterns
-  msg.send('getUrls', null, function(pats) {
-    _.each(pats, onAddUrlPat);
-  });
-
   msg.send('getDisplayDefault', null, function(def) {
     jQuery('#windowDisplayDefault').prop('checked', def);
   });
 
-  // pre-populate the list of rule sets
-  getRuleSets(function(ruleSets) {
-    _.each(ruleSets, function(ruleSet) {
-
-      var entry = new fiveui.RuleSetEntry({
-        model: new fiveui.RuleSetModel({
-          msg:         msg,
-          id:          ruleSet.id,
-          name:        ruleSet.name,
-          description: ruleSet.description,
-          source:      ruleSet.source,
-        })
-      });
-
-      ruleSetEntries.append(entry.$el);
-      entry.render();
-
-    });
+  // pre-populate the rule set and url pattern lists
+  ruleSets.fetch({
+    success:function() {
+      urlPats.fetch();
+    }
   });
 };
 

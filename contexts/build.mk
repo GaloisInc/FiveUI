@@ -69,6 +69,7 @@ background-deps :=                \
   $(underscore)                   \
   $(addprefix $(fiveui-dir)/,     \
     background.js                 \
+    url-pat.js                    \
     settings.js                   \
     messenger.js                  \
     rules.js)
@@ -82,7 +83,8 @@ options-deps := $(addprefix $(fiveui-dir)/,\
   update-manager.js \
   utils.js \
   entry.js \
-  rules.js )
+  rules.js \
+  url-pat.js )
 
 
 # CSS Staging ##################################################################

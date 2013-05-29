@@ -24,54 +24,6 @@ var fiveui = fiveui || {};
 (function() {
 
 /**
- * Create a new Url Pattern to map urls to Rule Sets.
- *
- * @constructor
- * @param {!number} id New id for this UrlPat.
- * @param {!string} regex The pattern that is used to match Urls.
- * @param {!number} rule_id Unique id of the RuleSet to use for matching URLs.
- */
-fiveui.UrlPat = function(id, regex, rule_id) {
-  this.id = id;
-  this.regex = regex;
-  this.rule_id = rule_id;
-};
-
-/**
- * Create a Url Pattern from a JSON object.
- *
- * @param {!number} id The id to use for the restored object.
- * @param {!Object} obj The object to take settings from.
- * @return {!fiveui.UrlPat} A populated UrlPat object.
- */
-fiveui.UrlPat.fromJSON = function(id, obj) {
-  return new fiveui.UrlPat(id, obj.regex, obj.rule_id);
-};
-
-/**
- * Create a regular expression from a globbed pattern.
- *
- * @param {!string} str The globbed url.
- * @return {!RegExp} A compiled regular expression.
- */
-fiveui.UrlPat.compile = function(str) {
-  var regex = str.replace(/\./g, '\.')
-                 .replace(/\*/g, '.*');
-  return new RegExp(regex);
-};
-
-/**
- * Test a string Url against the regular expression held in a Url Pattern.
- *
- * @param {!string} url The Url the string to test.
- * @return {!boolean} If the Url matched the regular expression.
- */
-fiveui.UrlPat.prototype.match = function(url) {
-  var pat = fiveui.UrlPat.compile(this.regex);
-  return pat.test(url);
-};
-
-/**
  * Create a new instance of the Settings object
  *
  * @constructor
@@ -153,14 +105,19 @@ _.extend(fiveui.Settings.prototype, {
     var pats = this.getUrls();
 
     var new_id = fiveui.utils.getNewId(pats);
-    this.set('urls.' + new_id,
-        new fiveui.UrlPat(new_id, url_pat, rule_id));
+
+    this.updateUrl(new_id, url_pat, rule_id);
 
     // add it to the patterns list
     pats.push(new_id);
     this.set('urls', pats);
 
     return new_id;
+  },
+
+  updateUrl: function(id, url_pat, rule_id) {
+    this.set('urls.' + id, new fiveui.UrlPat(id, url_pat, rule_id));
+    return id;
   },
 
   /**
@@ -343,21 +300,24 @@ fiveui.Settings.manager = function(chan, settings) {
   var msg = new fiveui.Messenger(chan);
 
   msg.register('addRuleSet', function(ruleSet,respond){
-            var newRS = settings.addRuleSet(ruleSet);
-            respond(newRS);
-          });
+    var newRS = settings.addRuleSet(ruleSet);
+    respond(newRS);
+  });
+
   msg.register('updateRuleSet', function(updatedRS,respond){
-            var newRS = settings.updateRuleSet(updatedRS.id, updatedRS);
-            respond(newRS);
-          });
+    var newRS = settings.updateRuleSet(updatedRS.id, updatedRS);
+    respond(newRS);
+  });
+
   msg.register('remRuleSet', function(ruleSetId, respond) {
-            var pats = settings.remRuleSet(ruleSetId);
-            respond({
-              id: ruleSetId,
-              pats: pats,
-              removed: pats.length == 0
-            });
-          });
+    var pats = settings.remRuleSet(ruleSetId);
+    respond({
+      id: ruleSetId,
+      pats: pats,
+      removed: pats.length == 0
+    });
+  });
+
   msg.register('getRuleSetUrlPats', function(ruleSetId, respond) {
     var pats = settings.getUrls();
     var patIds = [];
@@ -379,28 +339,38 @@ fiveui.Settings.manager = function(chan, settings) {
                              _.bind(settings.getRuleSet, settings));
             respond(ruleSets);
           });
-  msg.register('getUrls', function(unused, respond){
-            var urlPats = _.map(settings.getUrls(),
-                             _.bind(settings.getUrlPat, settings));
-            respond(urlPats);
-          });
-  msg.register('addUrlPat', function(url){
-            var urlId = settings.addUrl(url.pattern, url.ruleSetId);
-            msg.send('addUrlPat', settings.getUrlPat(urlId));
-          });
+
+  msg.register('getUrlPats', function(unused, respond){
+    respond(_.map(settings.getUrls(), _.bind(settings.getUrlPat, settings)));
+  });
+
+  msg.register('addUrlPat', function(url, respond){
+    var urlId = settings.addUrl(url.regex, url.rule_id);
+    respond(settings.getUrlPat(urlId));
+  });
+
+  msg.register('updateUrlPat', function(pat, respond) {
+    var obj = settings.getUrlPat(pat.id);
+    settings.updateUrl(pat.id, pat.regex, pat.rule_id);
+    respond(pat);
+  });
+
   msg.register('getUrlPat', function(urlPatId, respond){
-            respond(settings.getUrlPat(urlPatId));
-          });
-  msg.register('remUrlPat', function(urlPatId){
-            settings.remUrlPat(urlPatId);
-            msg.send('remUrlPat', urlPatId);
-          });
+    respond(settings.getUrlPat(urlPatId));
+  });
+
+  msg.register('remUrlPat', function(urlPatId, respond){
+    settings.remUrlPat(urlPatId);
+    respond(true);
+  });
+
   msg.register('setDisplayDefault', function(def) {
-                 settings.setDisplayDefault(def);
-               });
+    settings.setDisplayDefault(def);
+  });
+
   msg.register('getDisplayDefault', function(ignored, respond) {
-                 respond(settings.getDisplayDefault());
-               });
+    respond(settings.getDisplayDefault());
+  });
 
 };
 
