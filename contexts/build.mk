@@ -35,8 +35,6 @@ $(eval $(call stage-files-from,data/fiveui,chrome))
 $(eval $(call stage-files-from,data/fiveui,injected))
 $(eval $(call stage-files-from,data/lib,codemirror))
 $(eval $(call stage-files-from,data/lib,jquery))
-$(eval $(call stage-files-from,data/lib,underscore))
-$(eval $(call stage-files-from,data/lib,backbone))
 $(eval $(call stage-files-from,data/lib,jshash))
 
 $(eval $(call stage-files-from,data,fiveui))
@@ -124,6 +122,12 @@ jquery := $(addprefix $(path)/data/lib/jquery/,\
 	jquery-ui-1.9.2.custom.js \
 	jquery.json-2.4.js )
 
+$(stage-dir)/data/underscore.js: $(lib-dir)/underscore.js
+	$(call cmd,cp)
+
+$(stage-dir)/data/backbone.js: $(lib-dir)/backbone.js
+	$(call cmd,cp)
+
 all: $(stage-dir)/data/fiveui/options.html                         \
      $(stage-dir)/data/fiveui/options.css                          \
      $(stage-dir)/data/fiveui/entry.css                            \
@@ -133,14 +137,13 @@ all: $(stage-dir)/data/fiveui/options.html                         \
      $(call stage-all,data/fiveui/images)                          \
      $(call stage-all,data/lib/codemirror)                         \
      $(call stage-path,$(jquery))                                  \
-     $(call stage-all,data/lib/underscore)                         \
-     $(call stage-all,data/lib/backbone)                           \
      $(call stage-all,data/lib/jshash)                             \
      $(stage-dir)/data/fiveui/injected/prelude.js                  \
      $(stage-dir)/data/fiveui/injected/jquery-plugins.js           \
      $(stage-dir)/data/fiveui/injected/fiveui-injected-compute.js  \
-     $(stage-dir)/data/fiveui/injected/fiveui-injected-ui.js
-
+     $(stage-dir)/data/fiveui/injected/fiveui-injected-ui.js       \
+     $(stage-dir)/data/underscore.js                               \
+     $(stage-dir)/data/backbone.js
 
 # Chrome Extension #############################################################
 #
@@ -208,8 +211,11 @@ $(topdir)/fiveui.xpi: $(build-dir)/fiveui.xpi
 # wrapper for setting up the environment for the running the cfx command
 cfx = ( cd $(addon-sdk) $(redir) && \
         . bin/activate  $(redir) && \
-        cd $(build-dir) $(redir) && \
-        cfx $1 $(redir) )
+        cd $1           $(redir) && \
+        cfx $2          $(redir) )
+
+run-firefox: $(build-dir)/fiveui.xpi
+	$(call cfx,$(stage-dir),run)
 
 # build the actual extension
 $(build-dir)/fiveui.xpi:          \
@@ -217,7 +223,7 @@ $(build-dir)/fiveui.xpi:          \
     $(target-dir)/firefox-main.js \
   | $(topdir)/profiles/firefox
 	$(call label,XPI        $(call drop-prefix,$@))\
-	  $(call cfx,xpi -p $(topdir)/profiles/firefox \
+	  $(call cfx,$(build-dir),xpi -p $(topdir)/profiles/firefox \
 	                 --pkgdir=$(stage-dir) )
 
 # stage the package description
@@ -226,10 +232,14 @@ $(stage-dir)/package.json: $(path)/package.json | $(stage-dir)
 
 # build the main script
 $(target-dir)/firefox-main.js: \
+    $(fiveui-dir)/firefox/main.js    \
+    $(fiveui-dir)/firefox/storage.js \
+    $(fiveui-dir)/firefox/tabIds.js  \
     $(fiveui-dir)/settings.js        \
     $(fiveui-dir)/messenger.js       \
     $(fiveui-dir)/rules.js           \
     $(fiveui-dir)/background.js      \
     $(fiveui-dir)/utils.js           \
+    $(fiveui-dir)/state.js           \
   | $(target-dir)
 	$(call cmd,compilejs)

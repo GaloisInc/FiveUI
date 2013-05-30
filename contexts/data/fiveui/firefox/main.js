@@ -19,15 +19,14 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.firefox.main');
+_        = require('underscore');
+Backbone = require('backbone');
 
-goog.require('fiveui.firefox.TabIds');
-goog.require('fiveui.firefox.StorageWrapper');
-goog.require('fiveui.Settings');
-goog.require('fiveui.TabState');
-goog.require('fiveui.Background');
+var fiveui = fiveui || {};
 
-goog.require('goog.structs');
+(function() {
+
+fiveui.firefox = fiveui.firefox || {};
 
 const widgets = require("widget");
 const tabs = require("tabs");
@@ -108,7 +107,7 @@ fiveui.firefox.main = function() {
     }
 
     // just scripts, css gets filtered out.
-    var scripts = goog.array.concat(firefoxScripts, inScripts).filter(
+    var scripts = _.filter(_.flatten([firefoxScripts, inScripts]),
       function(script) {
         return script.search(/\.css$/i) == -1;
       });
@@ -151,7 +150,7 @@ fiveui.firefox.main = function() {
   };
 
   // handle existing tabs
-  goog.structs.forEach(tabs, handleNewTab);
+  _.each(tabs, handleNewTab);
 
   // manage new tab creation
   tabs.on('open', handleNewTab);
@@ -198,3 +197,5 @@ fiveui.firefox.main = function() {
 };
 
 exports.main = fiveui.firefox.main;
+
+})();
