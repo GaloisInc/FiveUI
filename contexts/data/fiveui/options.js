@@ -129,6 +129,15 @@ fiveui.options.init = function(port) {
   });
 
 
+  /** Basics *****************************************************************/
+
+  var windowDisplayDefault = jQuery('#windowDisplayDefault');
+
+  windowDisplayDefault.on('change', function() {
+    msg.send('setDisplayDefault', windowDisplayDefault.prop('checked'))
+  });
+
+
   /** Tab Management *********************************************************/
 
   /**
