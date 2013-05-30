@@ -32,10 +32,12 @@ endef
 
 $(eval $(call stage-files-from,data/fiveui,images))
 $(eval $(call stage-files-from,data/fiveui,chrome))
+$(eval $(call stage-files-from,data/fiveui,injected))
 $(eval $(call stage-files-from,data/lib,codemirror))
 $(eval $(call stage-files-from,data/lib,jquery))
 $(eval $(call stage-files-from,data/lib,underscore))
 $(eval $(call stage-files-from,data/lib,backbone))
+$(eval $(call stage-files-from,data/lib,jshash))
 
 $(eval $(call stage-files-from,data,fiveui))
 $(eval $(call stage-files-from,data,lib))
@@ -66,8 +68,8 @@ quiet_cmd_compilejs = JSC        $(call drop-prefix,$@)
 
 # generic background script dependencies
 background-deps :=                \
-  $(underscore)                   \
   $(addprefix $(fiveui-dir)/,     \
+    set.js                        \
     background.js                 \
     url-pat.js                    \
     settings.js                   \
@@ -96,30 +98,48 @@ quiet_cmd_cssbundle = CSSC       $(call drop-prefix,$@)
       cmd_cssbundle = ( cd $(dir $(TARGET)) && \
                         $(css-bundle) $(notdir $(TARGET)) $@ $(redir) )
 
-$(stage-dir)/data/bundled.css: TARGET := $(lib-dir)/jquery/css/ui-lightness/jquery-ui.css
-$(stage-dir)/data/bundled.css:                                      \
+$(stage-dir)/data/target/bundled.css: TARGET := $(lib-dir)/jquery/css/ui-lightness/jquery-ui.css
+$(stage-dir)/data/target/bundled.css:                                      \
     $(wildcard $(lib-dir)/jquery/css/ui-lightness/*.css)        \
     $(wildcard $(lib-dir)/jquery/css/ui-lightness/images/*.png) \
   | $(stage-dir)/data
 	$(call cmd,cssbundle)
 
+$(stage-dir)/data/target/injected.css: TARGET := $(fiveui-dir)/injected/injected.css
+$(stage-dir)/data/target/injected.css:       \
+    $(fiveui-dir)/injected/injected.css      \
+    $(fiveui-dir)/images/errorCircle.png     \
+    $(fiveui-dir)/images/warningTriangle.png \
+    $(fiveui-dir)/images/right-arrow.png     \
+    $(fiveui-dir)/images/down-arrow.png      \
+  | $(stage-dir)/data/target
+	$(call cmd,cssbundle)
+
+
 
 # Both Extensions ##############################################################
 
 jquery := $(addprefix $(path)/data/lib/jquery/,\
-	jquery-1.8.3.js \
+	jquery-1.8.3.js           \
+	jquery-ui-1.9.2.custom.js \
 	jquery.json-2.4.js )
 
-all: $(stage-dir)/data/fiveui/options.html               \
-     $(stage-dir)/data/bundled.css                       \
-     $(stage-dir)/data/fiveui/options.css                \
-     $(stage-dir)/data/fiveui/entry.css                  \
-     $(stage-dir)/data/fiveui/ffcheck.js                 \
-     $(call stage-all,data/fiveui/images)                \
-     $(call stage-all,data/lib/codemirror)               \
-     $(call stage-path,$(jquery))                        \
-     $(call stage-all,data/lib/underscore)               \
-     $(call stage-all,data/lib/backbone)
+all: $(stage-dir)/data/fiveui/options.html                         \
+     $(stage-dir)/data/fiveui/options.css                          \
+     $(stage-dir)/data/fiveui/entry.css                            \
+     $(stage-dir)/data/fiveui/ffcheck.js                           \
+     $(stage-dir)/data/target/injected.css                         \
+     $(stage-dir)/data/target/bundled.css                          \
+     $(call stage-all,data/fiveui/images)                          \
+     $(call stage-all,data/lib/codemirror)                         \
+     $(call stage-path,$(jquery))                                  \
+     $(call stage-all,data/lib/underscore)                         \
+     $(call stage-all,data/lib/backbone)                           \
+     $(call stage-all,data/lib/jshash)                             \
+     $(stage-dir)/data/fiveui/injected/prelude.js                  \
+     $(stage-dir)/data/fiveui/injected/jquery-plugins.js           \
+     $(stage-dir)/data/fiveui/injected/fiveui-injected-compute.js  \
+     $(stage-dir)/data/fiveui/injected/fiveui-injected-ui.js
 
 
 # Chrome Extension #############################################################
@@ -137,10 +157,14 @@ $(topdir)/fiveui.crx: $(build-dir)/fiveui.crx
 	$(call cmd,cp)
 
 # Create the chrome extension
-$(build-dir)/fiveui.crx: $(target-dir)/chrome-background.js                  \
-                         $(target-dir)/chrome-options.js                     \
-                         $(stage-dir)/manifest.json                          \
-                         $(stage-dir)/data/fiveui/chrome/background.html
+$(build-dir)/fiveui.crx:                                        \
+  $(target-dir)/chrome-background.js                            \
+  $(target-dir)/chrome-options.js                               \
+  $(stage-dir)/manifest.json                                    \
+  $(stage-dir)/data/fiveui/chrome/background.html               \
+  $(stage-dir)/data/fiveui/chrome/chrome-port.js                \
+  $(stage-dir)/data/fiveui/chrome/chrome-injected-compute.js    \
+  $(stage-dir)/data/fiveui/chrome/chrome-injected-ui.js
 	$(call label,MAKECRX    $(call drop-prefix,$@)) ( cd $(build-dir)   \
 	&& $(topdir)/tools/bin/makecrx stage                                \
 	       $(topdir)/contexts/chrome/fiveui.pem fiveui                  \
@@ -154,8 +178,9 @@ $(stage-dir)/manifest.json: $(path)/manifest.json | $(stage-dir)
 chrome-src := $(fiveui-dir)/chrome
 
 # the chrome-specific background javascript
-$(target-dir)/chrome-background.js: $(background-deps)          \
-                                    $(chrome-src)/background.js \
+$(target-dir)/chrome-background.js: $(background-deps)           \
+                                    $(chrome-src)/background.js  \
+                                    $(chrome-src)/chrome-port.js \
                                   | $(target-dir)
 	$(call cmd,compilejs)
 
