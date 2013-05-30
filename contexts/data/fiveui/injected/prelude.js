@@ -19,14 +19,7 @@
  * limitations under the License.
  */
 
-if (typeof goog != 'undefined') {
-  goog.provide('fiveui.prelude.string');
-  goog.provide('fiveui.prelude.word');
-  goog.provide('fiveui.prelude.color');
-  goog.provide('fiveui.prelude.font');
-
-  goog.require('goog.json');
-}
+(function() {
 
 /**
  * The FiveUI Prelude.
@@ -435,3 +428,5 @@ JSON.stringify = JSON.stringify || function (obj) {
         return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
     }
 };
+
+})();
