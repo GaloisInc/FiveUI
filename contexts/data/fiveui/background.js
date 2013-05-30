@@ -148,7 +148,7 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
     }
 
     var computeScripts = _.flatten(
-      [ [ this.dataLoader('lib/jquery/jquery.js')
+      [ [ this.dataLoader('lib/jquery/jquery-1.8.3.js')
         , this.dataLoader('fiveui/injected/prelude.js')
         , this.dataLoader('lib/jshash/md5.js')
         , this.dataLoader('fiveui/injected/jquery-plugins.js')
@@ -160,13 +160,13 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
     this.loadScripts(tabId, computeScripts, true, data);
 
     var uiScripts = _.flatten(
-        [ this.dataLoader('target/injected.css'),
-          this.dataLoader('target/bundled.css'),
-          this.dataLoader('lib/jquery/jquery.js'),
-          this.dataLoader('lib/jquery/jquery-ui.js'),
-          this.dataLoader('fiveui/injected/prelude.js'),
-          this.dataLoader('fiveui/injected/fiveui-injected-ui.js'),
-          this.dataLoader('fiveui/injected/jquery-plugins.js')
+        [ this.dataLoader('target/injected.css')
+        , this.dataLoader('target/bundled.css')
+        , this.dataLoader('lib/jquery/jquery-1.8.3.js')
+        , this.dataLoader('lib/jquery/jquery-ui-1.9.2.custom.js')
+        , this.dataLoader('fiveui/injected/prelude.js')
+        , this.dataLoader('fiveui/injected/fiveui-injected-ui.js')
+        , this.dataLoader('fiveui/injected/jquery-plugins.js')
         ]);
     this.loadScripts(tabId, uiScripts, false, data);
   }
