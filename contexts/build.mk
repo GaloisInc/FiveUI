@@ -229,10 +229,13 @@ test-firefox: $(build-dir)/fiveui.xpi                    \
 	$(call cfx,$(stage-dir),test -v -p $(topdir)/profiles/firefox)
 
 # build the actual extension
-$(build-dir)/fiveui.xpi:          \
-    $(stage-dir)/package.json     \
-    $(target-dir)/firefox-main.js \
+$(build-dir)/fiveui.xpi:                                             \
+    $(stage-dir)/package.json                                        \
+    $(target-dir)/firefox-main.js                                    \
     $(call stage-path,$(path)/data/fiveui/firefox/icon-content.html) \
+    $(call stage-path,$(path)/data/fiveui/firefox/icon-script.js)    \
+    $(call stage-path,$(path)/data/fiveui/firefox/options-icon.html) \
+    $(call stage-path,$(path)/data/fiveui/firefox/options-script.js) \
   | $(topdir)/profiles/firefox
 	$(call label,XPI        $(call drop-prefix,$@))\
 	  $(call cfx,$(build-dir),xpi -p $(topdir)/profiles/firefox \

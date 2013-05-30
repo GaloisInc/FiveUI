@@ -58,7 +58,7 @@ fiveui.firefox.main = function() {
       label: "FiveUI",
       contentURL: data.url('fiveui/firefox/options-icon.html'),
       contentScriptFile: [
-        data.url('lib/jquery/jquery.js'),
+        data.url('lib/jquery/jquery-1.8.3.js'),
         data.url('fiveui/firefox/options-script.js')
       ]
     }
