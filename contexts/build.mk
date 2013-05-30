@@ -37,6 +37,11 @@ $(eval $(call stage-files-from,data/lib,codemirror))
 $(eval $(call stage-files-from,data/lib,jquery))
 $(eval $(call stage-files-from,data/lib,jshash))
 
+
+
+$(eval $(call stage-files-from,data/fiveui/firefox,test))
+$(eval $(call stage-files-from,data/fiveui,firefox))
+
 $(eval $(call stage-files-from,data,fiveui))
 $(eval $(call stage-files-from,data,lib))
 
@@ -216,6 +221,12 @@ cfx = ( cd $(addon-sdk) $(redir) && \
 
 run-firefox: $(build-dir)/fiveui.xpi
 	$(call cfx,$(stage-dir),run)
+
+test-firefox: $(build-dir)/fiveui.xpi                    \
+              $(stage-dir)/data/fiveui/firefox/test      \
+              $(call stage-all,data/fiveui/firefox/test) \
+            | $(topdir)/profiles/firefox
+	$(call cfx,$(stage-dir),test -v -p $(topdir)/profiles/firefox)
 
 # build the actual extension
 $(build-dir)/fiveui.xpi:          \
