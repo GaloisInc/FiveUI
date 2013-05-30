@@ -232,6 +232,7 @@ test-firefox: $(build-dir)/fiveui.xpi                    \
 $(build-dir)/fiveui.xpi:          \
     $(stage-dir)/package.json     \
     $(target-dir)/firefox-main.js \
+    $(call stage-path,$(path)/data/fiveui/firefox/icon-content.html) \
   | $(topdir)/profiles/firefox
 	$(call label,XPI        $(call drop-prefix,$@))\
 	  $(call cfx,$(build-dir),xpi -p $(topdir)/profiles/firefox \
