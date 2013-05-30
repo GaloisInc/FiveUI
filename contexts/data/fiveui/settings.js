@@ -34,7 +34,6 @@ fiveui.Settings = function(store) {
 };
 
 _.extend(fiveui.Settings.prototype, Backbone.Events);
-
 _.extend(fiveui.Settings.prototype, {
 
   /**

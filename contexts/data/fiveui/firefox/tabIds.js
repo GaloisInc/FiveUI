@@ -19,9 +19,7 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.firefox.TabIds');
-
-goog.require('goog.structs');
+(function() {
 
 fiveui.firefox.TabIds = function() {
   this.next = 0;
@@ -34,3 +32,5 @@ fiveui.firefox.TabIds.prototype.allocate = function() {
 };
 
 fiveui.firefox.TabIds.prototype.free = function(tabId) {};
+
+})();
