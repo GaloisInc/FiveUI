@@ -192,7 +192,8 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
   save: function() {
     var source = this.$el.find('.source').val();
-    this.model.save({ source: source }, {
+    this.model.set('source', source);
+    this.model.save({}, {
       success: _.bind(this.render, this),
       error:   _.bind(this.edit, this)
     });
