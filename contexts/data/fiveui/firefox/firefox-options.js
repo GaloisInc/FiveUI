@@ -19,10 +19,15 @@
  * limitations under the License.
  */
 
-goog.provide('fiveui.firefox.options.init');
+var fiveui = fiveui || {};
 
-goog.require('fiveui.options.init');
+(function() {
+
+fiveui.firefox         = fiveui.firefox         || {};
+fiveui.firefox.options = fiveui.firefox.options || {};
 
 fiveui.firefox.options.init = function() {
   fiveui.options.init(self.port);
 };
+
+})();
