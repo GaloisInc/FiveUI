@@ -78,8 +78,10 @@ fiveui.options.init = function(port) {
 
   // when a new rule set is sync'd, make sure that the add url pattern button is
   // enabled.
-  ruleSets.on('sync', function(model,col) {
-    addUrlPat.prop('disabled', false);
+  ruleSets.on('sync', function() {
+    if(ruleSets.length > 0) {
+      addUrlPat.prop('disabled', false);
+    }
   });
 
   // when a rule set is destroyed, and the collection is now empty, disable the

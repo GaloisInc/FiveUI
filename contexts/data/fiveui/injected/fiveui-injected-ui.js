@@ -26,8 +26,7 @@
    var core = {};
    core.port = obtainPort();
 
-   core.ui = $('<div></div>')
-     .attr('id', 'uic-dialog');
+   core.ui = $('<div></div>').attr('id', 'uic-dialog');
 
    core.lockDepth = 0;
 
