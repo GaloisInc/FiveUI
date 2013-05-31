@@ -262,7 +262,9 @@ $(target-dir)/firefox-main.js:       \
     $(fiveui-dir)/rules.js           \
     $(fiveui-dir)/background.js      \
     $(fiveui-dir)/utils.js           \
+    $(fiveui-dir)/set.js             \
     $(fiveui-dir)/state.js           \
+    $(fiveui-dir)/url-pat.js         \
   | $(target-dir)
 	$(call cmd,compilejs)
 

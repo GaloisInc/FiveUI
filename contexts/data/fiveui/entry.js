@@ -110,7 +110,7 @@ fiveui.RulesView = Backbone.View.extend({
   },
 
   optionTemplate:_.template(
-    '<option label="<%= name %>" value="<%= id %>" />'
+    '<option value="<%= id %>"><%= name %></option>'
   ),
 
   update:function() {
@@ -132,12 +132,15 @@ fiveui.RulesView = Backbone.View.extend({
 
   render:function() {
 
-    var self = this;
+    var scope = this;
 
     this.$el.children().remove();
-    this.model.each(function(ruleSet) {
-      self.$el.append(self.optionTemplate(ruleSet.attributes));
-    });
+
+    var text = this.model.foldl(function(body,ruleSet) {
+      return body + scope.optionTemplate(ruleSet.attributes);
+    }, '');
+
+    this.$el.html(text);
 
     return this;
   },

@@ -98,17 +98,17 @@ fiveui.firefox.main = function() {
    * @return {void}
    */
   var loadScripts = function(tabId, inScripts, inFrames, tab) {
-    var firefoxScripts = [dataLoader('fiveui/firefox/bootstrap.js')];
 
     if(inFrames) {
-      firefoxScripts.push(dataLoader('fiveui/firefox/firefox-injected-compute.js'));
+      var firefoxScripts = [dataLoader('fiveui/firefox/firefox-injected-compute.js')];
     } else {
-      firefoxScripts.push(dataLoader('fiveui/firefox/firefox-injected-ui.js'));
+      var firefoxScripts = [dataLoader('fiveui/firefox/firefox-injected-ui.js')];
     }
 
     // just scripts, css gets filtered out.
     var scripts = _.filter(_.flatten([firefoxScripts, inScripts]),
       function(script) {
+        console.log(script);
         return script.search(/\.css$/i) == -1;
       });
 

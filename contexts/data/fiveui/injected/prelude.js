@@ -19,8 +19,6 @@
  * limitations under the License.
  */
 
-(function() {
-
 /**
  * The FiveUI Prelude.
  *
@@ -32,7 +30,9 @@
  *
  * @namespace
  */
-fiveui = fiveui || {};
+var fiveui = fiveui || {};
+
+(function() {
 
 /**
  * A global namespace for statistics collection.
