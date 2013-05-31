@@ -47,7 +47,7 @@ _.extend(fiveui.Settings.prototype, {
     if (value == null) {
       return null;
     } else {
-      return jQuery.parseJSON(value);
+      return JSON.parse(value);
     }
   },
 
@@ -59,7 +59,7 @@ _.extend(fiveui.Settings.prototype, {
    * @return {void}
    */
   set: function(key, value) {
-    this.store.setItem(key, jQuery.toJSON(value));
+    this.store.setItem(key, JSON.stringify(value));
   },
 
   /**
@@ -330,14 +330,28 @@ fiveui.Settings.manager = function(chan, settings) {
 
     respond(patIds);
   });
+
+  // Retrieve the manifest, and return the object to the caller.  Invokes the
+  // caller with `null` when the manifest fails to load.
+  msg.register('loadRuleSet', function(url, respond) {
+    fiveui.RuleSet.load(url, {
+      success:respond,
+
+      error:function() {
+        respond({});
+      },
+    });
+  });
+
   msg.register('getRuleSet', function(ruleSetId, respond){
-            respond(settings.getRuleSet(ruleSetId));
-          });
+    respond(settings.getRuleSet(ruleSetId));
+  });
+
   msg.register('getRuleSets', function(unused, respond) {
-            var ruleSets = _.map(settings.getRuleSets(),
-                             _.bind(settings.getRuleSet, settings));
-            respond(ruleSets);
-          });
+    var ruleSets = _.map(settings.getRuleSets(),
+                     _.bind(settings.getRuleSet, settings));
+    respond(ruleSets);
+  });
 
   msg.register('getUrlPats', function(unused, respond){
     respond(_.map(settings.getUrls(), _.bind(settings.getUrlPat, settings)));

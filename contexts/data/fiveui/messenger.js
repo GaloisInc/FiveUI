@@ -130,10 +130,10 @@ fiveui.Messenger.Payload = function(isCallback, type, data, id) {
   this.type = type;
   this.id = id;
   this.__defineGetter__('data', function() {
-                          return jQuery.parseJSON(this.rawData);
+                          return JSON.parse(this.rawData);
                         });
   this.__defineSetter__('data', function(obj){
-                          this.rawData = jQuery.toJSON(obj);
+                          this.rawData = JSON.stringify(obj);
                         });
   this.data = data;
 };

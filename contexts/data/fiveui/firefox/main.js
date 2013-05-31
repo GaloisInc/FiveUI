@@ -29,8 +29,8 @@ var fiveui = fiveui || {};
 fiveui.firefox = fiveui.firefox || {};
 
 const widgets = require("widget");
-const tabs = require("tabs");
-const data = require("self").data;
+const tabs    = require("tabs");
+const data    = require("self").data;
 const pageMod = require("page-mod");
 
 fiveui.firefox.main = function() {
@@ -184,7 +184,6 @@ fiveui.firefox.main = function() {
     { include: data.url('fiveui/options.html'),
       contentScriptWhen: 'end',
       contentScriptFile: [
-        data.url("lib/codemirror/codemirror-compressed.js"),
         data.url("target/firefox-options.js")
       ],
       contentScript: "fiveui.firefox.options.init()",

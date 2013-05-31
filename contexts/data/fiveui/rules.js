@@ -127,12 +127,11 @@ fiveui.RuleSet.load = function(manifest_url, options) {
         // url is what we expect?
         var rule = fiveui.Rule.defaults(rules.pop());
         var rule_url = base_url + '/' + rule.file;
-        jQuery.ajax(rule_url, {
 
-          dataType: 'text',
+        fiveui.ajax.get(rule_url, {
 
-          success: function(ruleStr) {
-            rule.ruleStr = ruleStr;
+          success: function(text) {
+            rule.ruleStr = text;
             manifest.rules.push(rule);
 
             loadRules(manifest, rules);
@@ -145,13 +144,18 @@ fiveui.RuleSet.load = function(manifest_url, options) {
     };
 
     // fetch the manifest, and load its rules
-    jQuery.ajax(manifest_url, {
+    fiveui.ajax.get(manifest_url, {
 
-      dataType: 'json',
+      success: function(text) {
 
-      dataFilter: fiveui.utils.filterJSON,
+        try {
+          var manifest = JSON.parse(fiveui.utils.filterJSON(text,'json'));
 
-      success: function(manifest) {
+        } catch(e) {
+          options.error();
+          return;
+        }
+
         fiveui.RuleSet.defaults(manifest);
 
         var rules      = manifest.rules;
@@ -159,7 +163,7 @@ fiveui.RuleSet.load = function(manifest_url, options) {
         loadRules(manifest, rules);
       },
 
-      error: options.error
+      error: options.error,
     });
 
 
@@ -205,16 +209,17 @@ fiveui.RuleSetModel = Backbone.Model.extend({
       case 'create':
         var rsMethod = method == 'update' ? 'updateRuleSet' : 'addRuleSet';
 
-        fiveui.RuleSet.load(source, {
-          success: function(obj) {
-            // null when a new rule set
+        msg.send('loadRuleSet', source, function(obj) {
+
+          if(obj) {
             obj.id     = id;
             obj.source = source;
 
             msg.send(rsMethod, obj, options.success);
-          },
+          } else {
+            options.error();
+          }
 
-          error: options.error
         });
         break;
 

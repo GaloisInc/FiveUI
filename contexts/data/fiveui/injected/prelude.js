@@ -250,7 +250,7 @@ fiveui.color.colorCheck = function (selector, colorSet) {
                   + '  var allowable = ' + JSON.stringify(allowable) + ';\n'
                   + '  var color = fiveui.color.colorToHex($(elt).css("color"));\n'
                   + '  if (!(color in allowable)) {\n'
-                  + '    report("Disallowed color " + color + " in element matching " + ' + jQuery.toJSON(selector) + ', $(elt));\n'
+                  + '    report("Disallowed color " + color + " in element matching " + ' + JSON.stringify(selector) + ', $(elt));\n'
                   + '  }\n'
                   + '}\n';
   fnStr = 'function () { fiveui.query("' + selector + '").each(' + forEachFuncStr + '); }';

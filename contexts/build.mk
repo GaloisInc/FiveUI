@@ -124,8 +124,7 @@ $(stage-dir)/data/target/injected.css:       \
 
 jquery := $(addprefix $(path)/data/lib/jquery/,\
 	jquery-1.8.3.js           \
-	jquery-ui-1.9.2.custom.js \
-	jquery.json-2.4.js )
+	jquery-ui-1.9.2.custom.js)
 
 $(stage-dir)/data/underscore.js: $(lib-dir)/underscore.js
 	$(call cmd,cp)
@@ -194,13 +193,16 @@ $(target-dir)/chrome-background.js: $(background-deps)           \
 
 
 # the chrome-specific options javascript
-$(target-dir)/chrome-options.js: $(options-deps)          \
+$(target-dir)/chrome-options.js: $(options-deps)                 \
+                                 $(chrome-src)/ajax.js           \
                                  $(chrome-src)/chrome-options.js \
                                | $(target-dir)
 	$(call cmd,compilejs)
 
 
 # Firefox Compilation ##########################################################
+
+firefox-dir := $(fiveui-dir)/firefox
 
 addon-sdk := $(topdir)/tools/addon-sdk
 
@@ -229,13 +231,17 @@ test-firefox: $(build-dir)/fiveui.xpi                    \
 	$(call cfx,$(stage-dir),test -v -p $(topdir)/profiles/firefox)
 
 # build the actual extension
-$(build-dir)/fiveui.xpi:                                             \
-    $(stage-dir)/package.json                                        \
-    $(target-dir)/firefox-main.js                                    \
-    $(call stage-path,$(path)/data/fiveui/firefox/icon-content.html) \
-    $(call stage-path,$(path)/data/fiveui/firefox/icon-script.js)    \
-    $(call stage-path,$(path)/data/fiveui/firefox/options-icon.html) \
-    $(call stage-path,$(path)/data/fiveui/firefox/options-script.js) \
+$(build-dir)/fiveui.xpi:                                                       \
+    $(stage-dir)/package.json                                                  \
+    $(target-dir)/firefox-main.js                                              \
+    $(target-dir)/firefox-options.js                                           \
+    $(call stage-path,$(path)/data/fiveui/firefox/firefox-injected-compute.js) \
+    $(call stage-path,$(path)/data/fiveui/firefox/firefox-injected-ui.js)      \
+    $(call stage-path,$(path)/data/fiveui/firefox/icon-content.html)           \
+    $(call stage-path,$(path)/data/fiveui/firefox/icon-script.js)              \
+    $(call stage-path,$(path)/data/fiveui/firefox/options-icon.html)           \
+    $(call stage-path,$(path)/data/fiveui/firefox/options-script.js)           \
+    $(call stage-path,$(path)/data/fiveui/firefox/firefox-options.js)          \
   | $(topdir)/profiles/firefox
 	$(call label,XPI        $(call drop-prefix,$@))\
 	  $(call cfx,$(build-dir),xpi -p $(topdir)/profiles/firefox \
@@ -246,15 +252,27 @@ $(stage-dir)/package.json: $(path)/package.json | $(stage-dir)
 	$(call cmd,cp)
 
 # build the main script
-$(target-dir)/firefox-main.js: \
-    $(fiveui-dir)/firefox/main.js    \
-    $(fiveui-dir)/firefox/storage.js \
-    $(fiveui-dir)/firefox/tabIds.js  \
+$(target-dir)/firefox-main.js:       \
+    $(firefox-dir)/main.js           \
+    $(firefox-dir)/storage.js        \
+    $(firefox-dir)/tabIds.js         \
+    $(firefox-dir)/ajax.js           \
     $(fiveui-dir)/settings.js        \
     $(fiveui-dir)/messenger.js       \
     $(fiveui-dir)/rules.js           \
     $(fiveui-dir)/background.js      \
     $(fiveui-dir)/utils.js           \
     $(fiveui-dir)/state.js           \
+  | $(target-dir)
+	$(call cmd,compilejs)
+
+
+# the chrome-specific options javascript
+$(target-dir)/firefox-options.js:        \
+    $(lib-dir)/jquery/jquery-1.8.3.js    \
+    $(lib-dir)/underscore.js             \
+    $(lib-dir)/backbone.js               \
+    $(options-deps)                      \
+    $(firefox-dir)/firefox-options.js    \
   | $(target-dir)
 	$(call cmd,compilejs)
