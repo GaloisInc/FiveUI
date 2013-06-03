@@ -34,11 +34,10 @@ div#icon {
     opacity: 0.25;
     background-image: url(images/fiveui-icon-128.png);
     background-repeat: no-repeat;
-    background-position-x: 32px;
-    background-position-y: -16px;
-    background-position: -16px 32px;
-    width: 113px;
-    height: 128px;
+    background-position-x: 16px;
+    background-position: 0px 16px;
+    width: 128px;
+    height: 160px;
     margin: 0;
     padding: 0;
 }
