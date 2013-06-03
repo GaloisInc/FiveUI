@@ -95,6 +95,7 @@ var removeComments = function(data) {
       case toEOL:
         if(data[e] == '\n') {
           state = 0;
+          s = e + 1;
         }
         break;
 

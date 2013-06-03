@@ -120,7 +120,7 @@ fiveui.UrlPatEntry = Backbone.View.extend({
   },
 
   save:function() {
-    var regex   = this.$el.find('input.regex').val();
+    var regex   = this.$el.find('.regex').text();
     var rule_id = parseInt(this.options.rules.$el.val());
     this.model.save({ regex : regex, rule_id : rule_id }, {
       success: _.bind(this.render, this),
