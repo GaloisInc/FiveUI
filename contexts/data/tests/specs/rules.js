@@ -7,7 +7,7 @@ describe('fiveui.Rules', function() {
         'see: http://test.description/',
         'function() { console.log("fail"); }');
 
-    var jsonRule = jQuery.toJSON(ruleIn);
+    var jsonRule = JSON.stringify(ruleIn);
 
     var ruleOut = fiveui.Rule.fromJSON(JSON.parse(jsonRule));
 
@@ -30,7 +30,7 @@ describe('fiveui.RuleSet', function() {
 
     var ruleSet = new fiveui.RuleSet(42, 'rule set', 'desc', '', [rule1, rule2]);
 
-    var jsonSet     = jQuery.toJSON(ruleSet);
+    var jsonSet     = JSON.stringify(ruleSet);
     var restoredSet = fiveui.RuleSet.fromJSON(42, JSON.parse(jsonSet));
 
     expect(restoredSet.id).toBe(ruleSet.id);
@@ -51,7 +51,7 @@ describe('fiveui.RuleSet', function() {
     var ruleSet = new fiveui.RuleSet(42, 'rule set', 'desc', [rule1, rule2],
         '', ['dep1.js', 'dep2.js']);
 
-    var jsonSet     = jQuery.toJSON(ruleSet);
+    var jsonSet     = JSON.stringify(ruleSet);
     var restoredSet = fiveui.RuleSet.fromJSON(42, JSON.parse(jsonSet));
 
     expect(restoredSet.id).toBe(ruleSet.id);
