@@ -54,9 +54,10 @@ $(eval $(call stage-doc-dir,$(path)/images))
 
 # JsDoc Documentation ##########################################################
 
-all: | $(jsdoc-dir)
+all: $(jsdoc-dir)/index.html
 
-$(jsdoc-dir): $(topdir)/contexts/data/fiveui/injected/prelude.js        \
-              $(topdir)/contexts/data/fiveui/injected/jquery-plugins.js \
-            | $(build-dir)
+$(jsdoc-dir)/index.html:                                      \
+    $(topdir)/contexts/data/fiveui/injected/prelude.js        \
+    $(topdir)/contexts/data/fiveui/injected/jquery-plugins.js \
+  | $(build-dir)
 	$(call label,JSDOC)$(topdir)/tools/bin/jsdoc $^ $(redir)
