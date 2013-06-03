@@ -24,9 +24,46 @@ var fiveui = fiveui || {};
 
 (function() {
 
+var editable = function(el, model, placeholder) {
+
+  el.prop('contenteditable', true).addClass('editable');
+
+  // prevent newlines
+  el.on('keypress', function(e) {
+    return e.which != 13;
+  });
+
+  var addPlaceholder = function() {
+    el.addClass('placeholder').text(placeholder);
+  };
+
+  var remPlaceholder = function() {
+    el.removeClass('placeholder').text('');
+  };
+
+  // if the model is new, set the placeholder, and a listener to clear it
+  if(model.isNew()) {
+    addPlaceholder();
+    el.one('click', remPlaceholder).one('keypress', remPlaceholder);
+  }
+
+  el.on('blur', function() {
+    if(_.isEmpty(el.text())) {
+      addPlaceholder();
+      el.one('click', remPlaceholder).one('keypress', remPlaceholder);
+    }
+  });
+
+  el.focus();
+
+};
+
+
 /** UrlPat Entry Elements ****************************************************/
 
 fiveui.UrlPatEntry = Backbone.View.extend({
+
+  tagName: 'li',
 
   className: 'entry',
 
@@ -45,12 +82,10 @@ fiveui.UrlPatEntry = Backbone.View.extend({
 
   viewTemplate: _.template(
     [ '<div>'
-    , '  <div class="header">'
-    , '    <span class="button remove">x</span>'
-    , '    <span class="button edit">edit</span>'
-    , '    <span><%= regex %></span>'
-    , '    <span><%= rule_name %></span>'
-    , '  </div>'
+    , '  <span class="button remove">x</span>'
+    , '  <span class="button edit">edit</span>'
+    , '  <span><%= regex %></span>'
+    , '  <span><%= rule_name %></span>'
     , '</div>'
     ].join('')),
 
@@ -64,21 +99,19 @@ fiveui.UrlPatEntry = Backbone.View.extend({
 
   editTemplate: _.template(
     [ '<div>'
-    , '  <div class="header">'
-    , '    <span class="button remove">x</span>'
-    , '    <span class="button save">save</span>'
-    , '    <input class="regex" placeholder="url pattern" '
-    , '       type="textbox" value="<%= regex %>" />'
-    , '    <span class="rules"></span>'
-    , '  </div>'
+    , '  <span class="button remove">x</span>'
+    , '  <span class="button save">save</span>'
+    , '  <span class="regex"></span>'
+    , '  <span class="rules"></span>'
     , '</div>'
     ].join('')),
 
   edit:function() {
     var attrs = this.model.attributes;
     this.$el.html(this.editTemplate(attrs));
-    this.$el.find('.rules').append(this.options.rules.render().$el);
 
+    this.$el.find('.rules').append(this.options.rules.render().$el);
+    editable(this.$el.find('.regex'), this.model, 'url pattern');
     return this;
   },
 
@@ -152,6 +185,8 @@ fiveui.RulesView = Backbone.View.extend({
 
 fiveui.RuleSetEntry = Backbone.View.extend({
 
+  tagName: 'li',
+
   className: 'entry',
 
   events: {
@@ -162,11 +197,9 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
   viewTemplate: _.template(
     [ '<div class="content">'
-    , '  <div class="header">'
-    , '    <span class="button remove">x</span>'
-    , '    <span class="button edit">edit</span>'
-    , '    <span class="title"><%= name %></span>'
-    , '  </div>'
+    , '  <span class="button remove">x</span>'
+    , '  <span class="button edit">edit</span>'
+    , '  <span class="title"><%= name %></span>'
     , '</div>'
     ].join('')),
 
@@ -178,23 +211,23 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
   editTemplate: _.template(
     [ '<div class="content">'
-    , '  <div class="header">'
-    , '    <span class="button remove">x</span>'
-    , '    <span class="button save">save</span>'
-    , '    <input class="source" placeholder="rule set url" '
-    , '       type="textbox" value="<%= source %>" />'
-    , '  </div>'
+    , '  <span class="button remove">x</span>'
+    , '  <span class="button save">save</span>'
+    , '  <span class="source"><%= source %></span>'
     , '</div>'
     ].join('')),
 
   edit:function() {
     var attrs = this.model.attributes;
     this.$el.html(this.editTemplate(attrs));
+
+    editable(this.$el.find('.source'), this.model,
+        'http://example.com/manifest.json')
     return this;
   },
 
   save: function() {
-    var source = this.$el.find('.source').val();
+    var source = this.$el.find('.source').text();
     this.model.set('source', source);
     this.model.save({}, {
       success: _.bind(this.render, this),
