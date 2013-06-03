@@ -35,7 +35,7 @@ describe('fiveui.Settings', function() {
     var result = settings.getUrlPat(urlId);
 
     expect(result.regex).toBe(urlPat);
-    expect(result.id).toBe(urlId);
+    expect(result.rule_id).toBe(ruleId);
   });
 
   it('matches urls when there\s a valid pattern registered', function() {
