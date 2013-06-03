@@ -40,6 +40,7 @@ div#icon {
     height: 160px;
     margin: 0;
     padding: 0;
+    z-index: -1;
 }
 
 #navbar-container {
