@@ -147,11 +147,12 @@ fiveui.RuleSet.load = function(manifest_url, options) {
     fiveui.ajax.get(manifest_url, {
 
       success: function(text) {
-
         try {
           var manifest = JSON.parse(fiveui.utils.filterJSON(text,'json'));
 
         } catch(e) {
+          // XXX incoming error continuation is empty 
+          // (and we may have syntax error details in e)
           options.error();
           return;
         }
