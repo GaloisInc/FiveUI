@@ -34,7 +34,9 @@ var editable = function(el, model, placeholder) {
   });
 
   var addPlaceholder = function() {
-    el.addClass('placeholder').text(placeholder);
+    el.addClass('placeholder')
+      .text(placeholder)
+      .one('click keypress paste', remPlaceholder);
   };
 
   var remPlaceholder = function() {
@@ -44,13 +46,11 @@ var editable = function(el, model, placeholder) {
   // if the model is new, set the placeholder, and a listener to clear it
   if(model.isNew()) {
     addPlaceholder();
-    el.one('click', remPlaceholder).one('keypress', remPlaceholder);
   }
 
   el.on('blur', function() {
     if(_.isEmpty(el.text())) {
       addPlaceholder();
-      el.one('click', remPlaceholder).one('keypress', remPlaceholder);
     }
   });
 
