@@ -38,6 +38,13 @@ path   := .
 include mk/util.mk
 include mk/subdir.mk
 
+ifeq "$(shell ls ./Config.mk 2>/dev/null)" ""
+$(warning No Config.mk found, installing a default)
+Config.mk: Config.mk.sample
+	$(call cmd,cp)
+
+endif
+-include Config.mk
 
 # Build Directory Staging ######################################################
 
@@ -89,10 +96,11 @@ endif
 
 # JS Unit Tests ###############################################################
 
-PHANTOM_EXE := $(shell which phantomjs 2>/dev/null)
-ifneq "$PHANTOM_EXE" ""
+ifneq "$(PHANTOM_EXE)" ""
 
 test-js:
-	cd $(topdir)/contexts/data && $(PHANTOM_EXE) lib/phantomjs_jasmine/phantomjs_jasminexml_runner.js tests/PhantomJSJasmineRunner.html tests/reports/
+	cd $(topdir)/contexts/data && $(PHANTOM_EXE)           \
+	  lib/phantomjs_jasmine/phantomjs_jasminexml_runner.js \
+	  tests/PhantomJSJasmineRunner.html tests/reports/
 
 endif
