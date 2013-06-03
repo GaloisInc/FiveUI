@@ -1,0 +1,2 @@
+
+PHANTOM_EXE ?= $(shell which phantomjs 2>/dev/null)
