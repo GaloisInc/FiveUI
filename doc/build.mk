@@ -1,4 +1,7 @@
 
+.PHONY: doc
+doc:
+
 jsdoc-dir  := $(build-dir)/jsdoc
 manual-dir := $(build-dir)/manual
 manual-src := $(path)/manual_src
@@ -23,7 +26,7 @@ $(manual-deps): $(manual-dir)/%.html: $(manual-src)/%.md | $(manual-dir)
 # HTML Manual ##################################################################
 
 ifneq "$(pandoc)" ""
-all: web-manual
+doc: web-manual
 else
 $(warning pandoc not found, not building the manual)
 endif
@@ -54,7 +57,7 @@ $(eval $(call stage-doc-dir,$(path)/images))
 
 # JsDoc Documentation ##########################################################
 
-all: $(jsdoc-dir)/index.html
+doc: $(jsdoc-dir)/index.html
 
 $(jsdoc-dir)/index.html:                                      \
     $(topdir)/contexts/data/fiveui/injected/prelude.js        \
