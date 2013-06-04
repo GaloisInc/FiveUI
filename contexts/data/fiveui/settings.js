@@ -337,7 +337,7 @@ fiveui.Settings.manager = function(chan, settings) {
       success:respond,
 
       error:function() {
-        respond({});
+        respond(null);
       },
     });
   });

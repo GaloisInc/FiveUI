@@ -223,6 +223,7 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
     editable(this.$el.find('.source'), this.model,
         'http://example.com/manifest.json')
+
     return this;
   },
 
@@ -231,7 +232,7 @@ fiveui.RuleSetEntry = Backbone.View.extend({
     this.model.set('source', source);
     this.model.save({}, {
       success: _.bind(this.render, this),
-      error:   _.bind(this.edit, this)
+      error:   _.bind(this.edit,   this)
     });
   },
 
