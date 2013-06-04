@@ -190,15 +190,17 @@ fiveui.RuleSetEntry = Backbone.View.extend({
   className: 'entry',
 
   events: {
-    'click span.save'   : 'save',
-    'click span.remove' : 'remove',
-    'click span.edit'   : 'edit',
+    'click .save'   : 'save',
+    'click .remove' : 'remove',
+    'click .edit'   : 'edit',
+    'click .reload' : 'reload',
   },
 
   viewTemplate: _.template(
     [ '<div class="content">'
     , '  <span class="button remove">x</span>'
     , '  <span class="button edit">edit</span>'
+    , '  <span class="button reload">reload</span>'
     , '  <span class="title"><%= name %></span>'
     , '</div>'
     ].join('')),
@@ -227,9 +229,26 @@ fiveui.RuleSetEntry = Backbone.View.extend({
     return this;
   },
 
+  errorTemplate: _.template('<div class="error"><%= message %></div>'),
+
+  editError:function(target, message) {
+    this.edit();
+
+    this.$el.append(this.errorTemplate({ message: message }));
+
+    return this;
+  },
+
   save: function() {
     var source = this.$el.find('.source').text();
     this.model.set('source', source);
+    this.model.save({}, {
+      success: _.bind(this.render,    this),
+      error:   _.bind(this.editError, this)
+    });
+  },
+
+  reload:function() {
     this.model.save({}, {
       success: _.bind(this.render, this),
       error:   _.bind(this.edit,   this)
