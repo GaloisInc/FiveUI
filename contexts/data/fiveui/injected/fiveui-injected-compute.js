@@ -196,10 +196,14 @@
    /* END of BSD licensed code */
 
    core.evaluate = function(rs) {
-     var i;
      var theRule = null;
-     var date = new Date();
-     var stats = { start: date.getTime(), end: null, numRules: 0, numElts: 0 };
+     var date    = new Date();
+     var stats   =
+       { start:    date.getTime()
+       , end:      null
+       , numRules: 0
+       , numElts:  0
+       };
      fiveui.stats.numElts = 0; // reset stats element counter
 
      var report = function(name, node) {
@@ -211,34 +215,28 @@
        }
      };
 
-     for (i = 0; i < rs.length; i += 1) {
-       theRule = rs[i];
-       try {
-         var fn = eval('('+rs[i].ruleStr+')');
-       } catch (e) {
-         console.log('could not load ruleStr for rule: '+theRule.name);
-         console.log(e.toString());
-       }
-
+     for(var i=0; i<rs.length; ++i) {
+       var theRule = rs[i];
        var scope = {
-         name : theRule.name,
-         description : theRule.description,
-         ruleSet : core.rules
+         name:        theRule.name,
+         description: theRule.description,
+         ruleSet:     core.rules
        };
 
-       if (fn) {
+       if (theRule.rule) {
          try {
            // note: fiveui.stats.numElts is updated as a side effect here
-           fn.apply(scope);
+           theRule.rule.apply(scope);
          } catch (e) {
-           console.log('exception running rule: '+theRule.name);
+           console.log('exception running rule: ' + theRule.name);
            console.log(e.toString());
          }
          stats.numRules += 1;
        }
      }
-     date = new Date();
-     stats.end = date.getTime();
+
+     date          = new Date();
+     stats.end     = date.getTime();
      stats.numElts = fiveui.stats.numElts;
      core.reportStats(stats);
    };
@@ -289,8 +287,25 @@
    };
 
    var registerBackendListeners = function(port) {
-     port.on('SetRules', function(payload){
-       core.rules = payload;
+     port.on('SetRules', function(payload) {
+
+       var rules  = payload.rules;
+
+       core.rules       = payload;
+       core.rules.rules = [];
+
+       for(var i=0; i<rules.length; ++i) {
+         var moduleStr =
+           [ '(function(){'
+           , 'var exports = {};'
+           , rules[i].module
+           , 'return exports;'
+           , '})()'
+           ].join('\n');
+
+         core.rules.rules.push(eval(moduleStr));
+       }
+
        if (null == core.rules) {
          debugger;
        }
