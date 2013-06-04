@@ -25,36 +25,26 @@ var fiveui = fiveui || {};
 
 /**
  * @constructor
- * @param {!number} id The unique Rule identifier.
- * @param {!string} name A human-readable name for this Rule.
- * @param {!string} desc A description of the Rule.
- * @param {!string} ruleStr A Javascript expression implementing the rule.
+ * @param {!string} module A Javascript module that defines the rule.
  */
-fiveui.Rule = function(id, name, desc, ruleStr) {
-  this.id = id;
-  this.name = name;
-  this.description = desc;
-  this.ruleStr = ruleStr;
+fiveui.Rule = function(module) {
+  this.module = module;
 };
 
 fiveui.Rule.defaults = function(obj) {
   return _.defaults(obj, {
-    id:          null,
-    name:        '',
-    description: '',
-    ruleStr:     ''
+    module: '',
   });
 };
 
 /**
  * Create a Rule from a JSON object.
  *
- *  // param {!number} id A unique id for the rehydrated Rule.
  * @param {!Object} obj The object to take settings from.
  * @return {!fiveui.Rule} A populated Rule object.
  */
 fiveui.Rule.fromJSON = function(obj) {
-  return new fiveui.Rule(obj.id, obj.name, obj.description, obj.ruleStr);
+  return new fiveui.Rule(obj.module);
 };
 
 /**
@@ -125,15 +115,13 @@ fiveui.RuleSet.load = function(manifest_url, options) {
 
         // XXX there's likely problems here, how should we make sure that the
         // url is what we expect?
-        var rule = fiveui.Rule.defaults(rules.pop());
-        var rule_url = base_url + '/' + rule.file;
+        var rule_file = fiveui.Rule.defaults(rules.pop());
+        var rule_url  = base_url + '/' + rule_file;
 
         fiveui.ajax.get(rule_url, {
 
           success: function(text) {
-            rule.ruleStr = text;
-            manifest.rules.push(rule);
-
+            manifest.rules.push(new fiveui.Rule(text));
             loadRules(manifest, rules);
           },
 
