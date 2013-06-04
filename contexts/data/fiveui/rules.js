@@ -157,7 +157,7 @@ fiveui.RuleSet.load = function(manifest_url, options) {
 
 
   } else {
-    throw "unable to parse manifest url";
+    options.error("unable to parse manifest url");
   }
 
 };
@@ -199,16 +199,14 @@ fiveui.RuleSetModel = Backbone.Model.extend({
         var rsMethod = method == 'update' ? 'updateRuleSet' : 'addRuleSet';
 
         msg.send('loadRuleSet', source, function(obj) {
-
           if(obj) {
             obj.id     = id;
             obj.source = source;
 
             msg.send(rsMethod, obj, options.success);
           } else {
-            options.error();
+            options.error('failed to load manifest');
           }
-
         });
         break;
 
