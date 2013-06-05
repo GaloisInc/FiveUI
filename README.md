@@ -27,7 +27,7 @@ repository, so building FiveUI should be as simple as running:
     $ make
 
 In the top-level FiveUI repository root.  On success, this will put
-the generated extensions in the `contexts` directory.
+the generated extensions in the top-level directory.
 
 ### Chrome signing key
 
@@ -69,7 +69,6 @@ This is the repository for the FiveUI project.
 
 ```
 binaries    : A directory holding the latest extension binaries
-build       : Helper scripts for building and packaging FiveUI
 contexts    : Implementation details for supported contexts (Firefox, Chrome, etc.)
 doc         : FiveUI Documentation
 exampleData : Sample web pages and rule sets for testing.
