@@ -17,129 +17,101 @@
  */
 package com.galois.fiveui;
 
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-
-import com.google.common.base.Function;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 public class RuleSet {
 
-    /**
-     * Function wrapper around `RuleSet.parse` for use in `transform` and other
-     * functional combinators.
-     */
-    public static final Function<String, RuleSet> PARSE =
-            new Function<String, RuleSet>() {
-                public RuleSet apply(String input) {
-                    return RuleSet.parse(input);
-                }
-            };
-
-    /**
-     * Parse a string representation of a Rule Set into a Java POJO.
-     * 
-     * TODO Extract out a js evaluation env.
-     * 
-     * @param str string representing a rule set
-     * @return a RuleSet object
-     */
-    @SuppressWarnings("unchecked")
-    public static final RuleSet parse(String str) {
-        HtmlUnitDriver driver = new HtmlUnitDriver(true);
-        String name = "";
-        String desc = "";
-        List<Rule> rules = Lists.newArrayList();
-        HashMap<String, Object> res = null;
-        String stmt = "var x = " + str + "; return x;";
-        try {
-            driver.get("http://localhost:8000/test.html");
-            res = (HashMap<String, Object>) driver.executeScript(stmt);
-            name = (String) res.get("name");
-            desc = (String) res.get("description");
-            List<HashMap<String, Object>> rawRules =
-                    (List<HashMap<String, Object>>) res.get("rules");
-
-            rules = Lists.transform(rawRules, Rule.PARSE);
-        } catch (Exception e) {
-        	System.err.println("RuleSet.parse: Exception parsing rule set\n" +
-                               e.getMessage());
-        	return RuleSet.empty();
-        } finally {
-            driver.quit();
-        }
+	public static RuleSet parse(String rsFileName) throws JsonSyntaxException, IOException {
+		String descDir = new File(rsFileName).getParent();
+		
+        Gson gson = new Gson();
+        RuleSet rs = gson.fromJson(Utils.readFile(rsFileName), RuleSet.class);
         
-        RuleSet ruleSet;
-        try {
-        	ruleSet = new RuleSet(name, desc, ImmutableList.copyOf(rules));
-        } catch (Exception e) {
-        	System.err.println("RuleSet.parse: Exception occured while constructing rule set \"" + name + "\"\n"
-        			+ e.getMessage());
-        	ruleSet = RuleSet.empty();
-        }
-        return ruleSet;
-    }
+        rs.setDirectory(descDir);
+        return rs;
+	}
 
-    private final String _name;
-    private final String _description;
-    private final ImmutableList<Rule> _rules;
+    public void setDirectory(String descDir) {
+    	this.descDir = descDir;
+	}
 
-    public RuleSet(String name, String description,
-            ImmutableList<Rule> immutableList) {
-        _name = name;
-        _description = description;
-        _rules = immutableList;
+	private final String name;
+    private final String description;
+    private final List<String> rules;
+    
+    private transient ImmutableMap<String, Rule> _evaledRules = null;
+
+	private transient String descDir = ".";
+	
+    public RuleSet(String name, String description, List<String> ruleFiles) {
+        this.name = name;
+        this.description = description;
+        this.rules = ruleFiles;
     }
     
+    private void parseRules() {
+        ImmutableMap.Builder<String, Rule> builder = ImmutableMap.builder();
+        
+        // Parse all the rules from files:
+        for (String r : rules) {
+        	String adjustedPath = descDir + File.separator + r;
+        	try {
+				Rule evRule = Rule.parse(
+						Utils.readFile(adjustedPath));
+			    
+				builder.put(evRule.getName(), evRule);
+			} catch (IOException e) {
+				System.err.println("Could not load rule from file: "+adjustedPath);
+				System.err.println("  error: "+e);
+			}
+        }
+        
+        _evaledRules = builder.build();
+    }
+	
     /**
      * Construct a new empty rule set.
      * 
      * @return a new empty RuleSet object
      */
     public static RuleSet empty() {
-    	List<Rule> rules = Lists.newArrayList();
+    	List<String> rules = Lists.newArrayList();
     	return new RuleSet("", "", ImmutableList.copyOf(rules));
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
 
     public String getDescription() {
-        return _description;
+        return description;
     }
 
-    public ImmutableList<Rule> getRules() {
-        return _rules;
+    public ImmutableCollection<Rule> getRules() {
+    	if (null == _evaledRules) {
+    		parseRules();
+    	}
+    	
+        return _evaledRules.values();
     }
 
+	public Rule getRule(String ruleName) {
+		return _evaledRules.get(ruleName);
+	}
+    
     @Override
     public String toString() {
-        StringBuilder rules = new StringBuilder();
-        for (Rule r : getRules()) {
-            if (0 != rules.length()) {
-                rules.append(",\n");
-            }
-            rules.append(r.toString());
-        }
-        Gson gson = new Gson();
-        return "{ 'name': " + gson.toJson(getName()) + ", " +
-                " 'description': " + gson.toJson(getDescription()) + ", " + 
-                " 'rules': [" + rules.toString() + "]" +
-                "}";
-    }
-
-    public Rule getRule(int ruleId) {
-        for (Rule rule : getRules()) {
-            if ( ruleId == rule.getId()) {
-                return rule;
-            }
-        }
-        return null;
+    	Gson gson = new Gson();
+    	return gson.toJson(this);
     }
 
     @Override
@@ -147,9 +119,9 @@ public class RuleSet {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                  + ((_description == null) ? 0 : _description.hashCode());
-        result = prime * result + ((_name == null) ? 0 : _name.hashCode());
-        result = prime * result + ((_rules == null) ? 0 : _rules.hashCode());
+                  + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((rules == null) ? 0 : rules.hashCode());
         return result;
     }
 
@@ -162,23 +134,22 @@ public class RuleSet {
         if (getClass() != obj.getClass())
             return false;
         RuleSet other = (RuleSet) obj;
-        if (_description == null) {
-            if (other._description != null)
+        if (description == null) {
+            if (other.description != null)
                 return false;
-        } else if (!_description.equals(other._description))
+        } else if (!description.equals(other.description))
             return false;
-        if (_name == null) {
-            if (other._name != null)
+        if (name == null) {
+            if (other.name != null)
                 return false;
-        } else if (!_name.equals(other._name))
+        } else if (!name.equals(other.name))
             return false;
-        if (_rules == null) {
-            if (other._rules != null)
+        if (rules == null) {
+            if (other.rules != null)
                 return false;
-        } else if (!_rules.equals(other._rules))
+        } else if (!rules.equals(other.rules))
             return false;
         return true;
     }
-    
-    
+
 }

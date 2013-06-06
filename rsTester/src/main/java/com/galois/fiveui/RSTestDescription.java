@@ -33,10 +33,10 @@ import com.google.gson.JsonParseException;
  * {@code
  * { 'ruleSet': '../../exampleData/ruleSets/headingGuidelines.json',
  *   'tests': [ { 'url': 'http://localhost:8000/exampleData/basic/headings.html',
- *                'oracle': [ { 'ruleId': 1
+ *                'oracle': [ { 'ruleName': "Headings are capitalized"
  *                            , 'results': ['Error', 'Error']
  *                            },
- *                            { 'ruleId': 2
+ *                            { 'ruleId': "Disallow Empty Headers"
  *                            , 'results': ['Error']
  *                            }
  *                          ]
@@ -114,7 +114,8 @@ public class RSTestDescription {
             } catch (IOException e) {
                 throw new JsonParseException("Could not read " + rsPath);
             }
-            RuleSet parsed = RuleSet.parse(ruleSetStr);
+            Gson gson = new Gson();
+            RuleSet parsed = gson.fromJson(ruleSetStr, RuleSet.class);
             
             return new RSTestDescription(rsPath, tests, parsed);
         }
@@ -162,7 +163,7 @@ public class RSTestDescription {
         for (URIMap uriMap : _tests) {
             for (RuleMap rMap : uriMap.getOracle()) {
                 builder.add(
-                 new RuleTest(uriMap.getUrl(), getRuleSet(), rMap.getRuleId(), rMap.getResults()));
+                 new RuleTest(uriMap.getUrl(), getRuleSet(), rMap.getRuleName(), rMap.getResults()));
             }
         }
         return builder.build();
@@ -262,7 +263,7 @@ public class RSTestDescription {
     }
     
     public static class RuleMap {
-        private int ruleId;
+        private String ruleName;
         private List<ResType> results;
         
         @Override
@@ -271,7 +272,7 @@ public class RSTestDescription {
             int result = 1;
             result = prime * result
                      + ((getResults() == null) ? 0 : getResults().hashCode());
-            result = prime * result + getRuleId();
+            result = prime * result + getRuleName().hashCode();
             return result;
         }
         
@@ -289,13 +290,13 @@ public class RSTestDescription {
                     return false;
             } else if (!getResults().equals(other.getResults()))
                 return false;
-            if (getRuleId() != other.getRuleId())
+            if (getRuleName() != other.getRuleName())
                 return false;
             return true;
         }
         
-        public int getRuleId() {
-            return ruleId;
+        public String getRuleName() {
+            return ruleName;
         }
         
         public List<ResType> getResults() {

@@ -103,7 +103,7 @@ public class BatchRunner {
      * @param test a RuleTest to run
      */
     public ImmutableList<Result> runTest(final RuleTest test) {
-        RuleSet rule = test.getRule();
+        Rule rule = test.getRule();
         
         ImmutableList<Result> rawResults;
         Builder<Result> builder = ImmutableList.builder();
@@ -116,16 +116,16 @@ public class BatchRunner {
                 Result res;
                 if ( oracle.remove(result.getType()) ) {
                     res = Result.pass(_driver,
-                            test.getRuleId() + ": Got expected result: "+result.getType());
+                            test.getRuleName() + ": Got expected result: "+result.getType());
                 } else {
                     res = Result.error(_driver,
-                            test.getRuleId() + ": Unexpected result: "+result);
+                            test.getRuleName() + ": Unexpected result: "+result);
                 }
                 builder.add(res);
             }
             for (ResType o : oracle) {
                 Result res = Result.error(_driver, 
-                        test.getRuleId() + ": missing expected result: "+o);
+                        test.getRuleName() + ": missing expected result: "+o);
                 builder.add(res);
             }
         } catch (Exception e) {
@@ -150,12 +150,12 @@ public class BatchRunner {
      * queries the results, which are then parsed and returned as a list of
      * Result objects.
      *  
-     * @param ruleSet the rule set to be run
+     * @param rule the rule to be run
      * @return results of running the rule set
      * @throws IOException
      */
-    private ImmutableList<Result> runRule(final RuleSet ruleSet) throws IOException {
-        String contentScript = wrapRule(ruleSet);
+    private ImmutableList<Result> runRule(final Rule rule) throws IOException {
+        String contentScript = wrapRule(rule);
         Builder<Result> builder = ImmutableList.builder();
 
         _exe.executeScript(contentScript);
@@ -206,10 +206,10 @@ public class BatchRunner {
      * to run a rule set and the function that is injected into the page which
      * executes the rule set.
      * 
-     * @param ruleSet a RuleSet object
+     * @param rule a Rule object
      * @throws IOException
      */
-    private String wrapRule(RuleSet ruleSet) throws IOException {
+    private String wrapRule(Rule rule) throws IOException {
         String injected = "";
         injected += Utils.readFile(SEL_INJECTED_COMPUTE_JS);
         injected += Utils.readFile(J_QUERY_JS);
@@ -218,7 +218,7 @@ public class BatchRunner {
         injected += Utils.readFile(JQUERY_PLUGIN_JS);
         injected += Utils.readFile(INJECTED_COMPUTE_JS);
         
-        injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
+        injected += "return fiveui.selPort.send('SetRules', " + rule + ");";
         
         return injected;
     }
