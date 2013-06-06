@@ -23,7 +23,6 @@ package com.galois.fiveui;
 import java.net.URI;
 import java.util.Collection;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultiset;
 
 /**
@@ -33,7 +32,7 @@ import com.google.common.collect.ImmutableMultiset;
  *   <li> a RuleSet object encapsulating the rule to run on the URI</li>
  *   <li> a rule ID, signifying we expect results for the corresponding rule
  *        (defined in the rule set) of the type(s) given in the oracle</li>
- *   <li> an oracle, the expected results of the test}</li>
+ *   <li> an oracle, the expected results of the test</li>
  * </ol>
  *
  * @author creswick
@@ -43,20 +42,18 @@ public class RuleTest {
     
     private final URI _uri;
     private final RuleSet _ruleSet;
-    private final int _ruleId;
+    private final String _ruleName;
     private final ImmutableMultiset<ResType> _oracle;
 
-    public RuleTest(URI uri, RuleSet ruleSet, int ruleId, Collection<ResType> oracle) {
+    public RuleTest(URI uri, RuleSet ruleSet, String ruleName, Collection<ResType> oracle) {
         _uri = uri;
         _ruleSet = ruleSet;
-        _ruleId = ruleId;
+        _ruleName = ruleName;
         _oracle = ImmutableMultiset.copyOf(oracle);
     }
     
-    public RuleSet getRule() {
-      RuleSet newRS = new RuleSet(_ruleSet.getName(), 
-              _ruleSet.getDescription(), ImmutableList.of(_ruleSet.getRule(_ruleId)));
-      return newRS;
+    public Rule getRule() {
+      return _ruleSet.getRule(_ruleName);
     }
 
     public URI getUri() {
@@ -67,8 +64,8 @@ public class RuleTest {
         return _ruleSet;
     }
 
-    public int getRuleId() {
-        return _ruleId;
+    public String getRuleName() {
+        return _ruleName;
     }
 
     public ImmutableMultiset<ResType> getOracle() {

@@ -33,9 +33,8 @@ public class RunDescriptionTest {
         String ruleSetLoc = 
                 RUN_DESCRIPTION_DIR + "../ruleSets/emptyRuleSet.json";
         
-        ImmutableList<Rule> emptyRuleList = ImmutableList.of();
-        RuleSet rsOracle = 
-                new RuleSet("emptyRuleSet", "", emptyRuleList);
+        ImmutableList<String> emptyRuleList = ImmutableList.of();
+        RuleSet rsOracle = new RuleSet("emptyRuleSet", "", emptyRuleList);
         
         RSTestDescription oracle = 
                 new RSTestDescription(ruleSetLoc, 
@@ -58,8 +57,8 @@ public class RunDescriptionTest {
                 RUN_DESCRIPTION_DIR + "../ruleSets/simpleRuleSet1.json";
         
         RuleSet rsOracle =
-                new RuleSet("simpleRuleSet1", "", ImmutableList.of(
-                        new Rule("trivial check", "test desc", "", 42)));
+                new RuleSet("simpleRuleSet1", "", ImmutableList.of("emptyCheck.js"));
+        rsOracle.setDirectory(RUN_DESCRIPTION_DIR + "../ruleSets/");
         
         RSTestDescription oracle = 
                 new RSTestDescription(ruleSetLoc, 

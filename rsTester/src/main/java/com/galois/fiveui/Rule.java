@@ -19,64 +19,47 @@ package com.galois.fiveui;
 
 import java.util.HashMap;
 
-import com.google.common.base.Function;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
 import com.google.gson.Gson;
 
 public class Rule {
 
-    /**
-     * Function wrapper around `Rule.parse` for use in `transform` and other
-     * functional combinators.
-     */
-    public static final Function<HashMap<String, Object>, Rule> PARSE =
-            new Function<HashMap<String, Object>, Rule>() {
-                public Rule apply(final HashMap<String, Object> input) {
-                    return Rule.parse(input);
-                }
-            };
+	/**
+	 * Parse a string representation of a Rule into a Java POJO.
+     *
+	 * @param str string representing a rule set
+	 * @return a RuleSet object
+	 */
+	@SuppressWarnings("unchecked")
+	public static final Rule parse(String str) {
+		HtmlUnitDriver driver = new HtmlUnitDriver(true);
+		String name = "";
+		String desc = "";
+		String ruleStr = "";
+		HashMap<String, Object> res = null;
+		String stmt = str + "; return exports;";
+		try {
+			driver.get("http://localhost:8000/test.html");
+			res = (HashMap<String, Object>) driver.executeScript(stmt);
+			name = (String) res.get("name");
+			desc = (String) res.get("description");
+			ruleStr = res.get("rule").toString();
+		} finally {
+			driver.quit();
+		}
 
-    /**
-     * Parse a HashMap representation of a Rule into a plain old Java object.
-     * The input object must have keys: name, description, and rule. The 'id'
-     * key is optional.
-     * 
-     * @param obj a HashMap to convert
-     * @return a Rule object
-     * @throws IllegalArgumentException
-     */
-    public static final Rule parse(final HashMap<String, Object> obj) {
-        if ((obj !=null) && 
-           !(obj.containsKey("name") &&
-        	 obj.containsKey("description") &&
-        	 obj.containsKey("rule")))
-        	throw new IllegalArgumentException("Rule.parse:"
-        	        + "failed to find all required Rule fields (name, description, and rule) in rule description:\n"
-        			+ ((obj == null) ? "null" : obj.toString()));
-       
-    	String name = (String) obj.get("name");
-        String desc = (String) obj.get("description");
-        String rule = obj.get("rule").toString();
-        int id;
-        if (obj.containsKey("id")) {
-        	id = ((Long)obj.get("id")).intValue();
-        } else {
-        	//System.err.println("Warning: rule " + name + " has no ID #, using ID 0");
-        	id = 0;
-        } 
-        
-        return new Rule(name, desc, rule, id);
-    }
+		return new Rule(name, desc, ruleStr);
+	}
 
     private final String _name;
     private final String _desc;
     private final String _rule;
-    private final int _id;
     
-    public Rule(final String name, final String desc, final String rule, final int id) {
+    public Rule(final String name, final String desc, final String rule) {
         this._name = name;
         this._desc = desc;
         this._rule = rule;
-        this._id   = id; 
     }
 
     public String getName() {
@@ -91,19 +74,13 @@ public class Rule {
         return _rule;
     }
 
-    public int getId() {
-        return _id;
-    }
-
     @Override
     public String toString() {
         Gson gson = new Gson();
         
-        return "{ 'id': " + gson.toJson(getId()) + ",\n " +
-        		" 'name': " + gson.toJson(getName()) + ",\n" +
-                " 'description': " + gson.toJson(getDescription()) + ",\n" +
-                " 'ruleStr': " + gson.toJson(getRule()) + "\n" +
-                "}";
+        return "exports.name = " + gson.toJson(getName()) + ";\n" +
+               "exports.description = " + gson.toJson(getDescription()) + ";\n" +
+               "exports.rule = " + gson.toJson(getRule()) + ";\n";
     }
     
     /**
@@ -114,7 +91,6 @@ public class Rule {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((_desc == null) ? 0 : _desc.hashCode());
-        result = prime * result + _id;
         result = prime * result + ((_name == null) ? 0 : _name.hashCode());
         return result;
     }
@@ -135,8 +111,6 @@ public class Rule {
             if (other._desc != null)
                 return false;
         } else if (!_desc.equals(other._desc))
-            return false;
-        if (_id != other._id)
             return false;
         if (_name == null) {
             if (other._name != null)

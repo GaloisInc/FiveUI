@@ -14,8 +14,9 @@ import com.galois.fiveui.RuleSet;
 import com.galois.fiveui.Utils;
 
 /**
+ * A singular url to test with a RuleSet.
+ * 
  * @author bjones
- *
  */
 public class HeadlessAtom {
 
