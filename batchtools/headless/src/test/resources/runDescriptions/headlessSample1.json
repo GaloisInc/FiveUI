@@ -1,0 +1,8 @@
+[{
+  'url': 'http://testhost',
+<<<<<<< HEAD
+  'ruleSet': '../../../../../rsTester/src/test/resources/ruleSets/headingGuidelines.json'
+=======
+  'ruleSet': '../ruleSets/headingGuidelines.json'
+>>>>>>> ea59a5c829886959b30b2abdfe0a8308993795fd
+}]
