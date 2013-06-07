@@ -80,19 +80,14 @@ MVN_TEST_CMD := xvfb-run -a $(MVN_EXE) test
 define pkg
 .PHONY: pkg-$1
 pkg-$1:
-	cd batchtools/$1 && xvfb-run -a $(MVN_EXE) install
+	cd src/$1 && xvfb-run -a $(MVN_EXE) package
 endef
 
-$(eval $(call pkg,rsTester))
-$(eval $(call pkg,headless))
+$(eval $(call pkg,batchtools))
 
-TEST_RUNNER_DIR := testrunner
-HEADLESS_DIR    := batchtools/headless
-RSTESTER_DIR    := batchtools/rsTester
+BATCHTOOLS_DIR := src/batchtools
 
-test: fiveui.crx fiveui.xpi $(topdir)/profiles/chrome $(topdir)/profiles/firefox pkg-rsTester
-#	cd $(TEST_RUNNER_DIR) && $(MVN_TEST_CMD)
-	cd $(RSTESTER_DIR)    && $(MVN_TEST_CMD)
-	cd $(HEADLESS_DIR)    && $(MVN_TEST_CMD)
+test: fiveui.crx fiveui.xpi $(topdir)/profiles/chrome $(topdir)/profiles/firefox
+	cd $(BATCHTOOLS_DIR) && $(MVN_TEST_CMD)
 
 endif

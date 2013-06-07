@@ -39,7 +39,7 @@ public class Drivers {
             "seleniumChromeDrivers");
     
     private static final String FIVEUI_ROOT_PATH = "FIVEUI_ROOT_PATH";
-    private static final String defaultFiveuiRootPath = "../../";
+    private static final String defaultFiveuiRootPath = "../../../";
     private static final String firefoxProfilePath = "profiles/firefox";
     private static final String chromeProfilePath = "profiles/chrome";
     private static final String firefoxExtensionPath = "binaries/fiveui.xpi";
