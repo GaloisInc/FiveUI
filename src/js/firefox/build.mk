@@ -1,7 +1,10 @@
 
 # Firefox Extension ############################################################
 
-all: $(build-dir)/firefox.xpi
+all: stage-firefox
+
+package: $(build-dir)/firefox.xpi
+
 
 firefox-dir := $(path)
 
@@ -82,7 +85,10 @@ stage-firefox:                                    \
     $(firefox-build)/data/icons/options-icon.js   \
   | $(firefox-build)
 
-$(build-dir)/firefox.xpi: stage-firefox $(addon-sdk-unpacked)
+$(build-dir)/firefox.xpi:    \
+  stage-firefox              \
+  $(addon-sdk-unpacked)      \
+  $(topdir)/profiles/firefox
 	$(call label,XPI        $(call drop-prefix,$@))\
 	  $(call cfx,$(build-dir),xpi -p $(topdir)/profiles/firefox \
 	                 --pkgdir=$(firefox-build) )
