@@ -1,2 +1,4 @@
 
 PHANTOM_EXE ?= $(shell which phantomjs 2>/dev/null)
+
+addon-sdk-version ?= 1.14
