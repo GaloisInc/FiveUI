@@ -59,7 +59,11 @@ clean::
 
 # Subdirs ######################################################################
 
-$(eval $(call subdir,contexts))
+$(eval $(call subdir,src/js/fiveui))
+$(eval $(call subdir,src/js/chrome))
+$(eval $(call subdir,src/js/firefox))
+$(eval $(call subdir,src/js/tests))
+
 $(eval $(call subdir,profiles))
 $(eval $(call subdir,doc))
 
@@ -90,18 +94,5 @@ test: fiveui.crx fiveui.xpi $(topdir)/profiles/chrome $(topdir)/profiles/firefox
 #	cd $(TEST_RUNNER_DIR) && $(MVN_TEST_CMD)
 	cd $(RSTESTER_DIR)    && $(MVN_TEST_CMD)
 	cd $(HEADLESS_DIR)    && $(MVN_TEST_CMD)
-
-endif
-
-
-# JS Unit Tests ###############################################################
-
-ifneq "$(PHANTOM_EXE)" ""
-
-test: test-js
-test-js:
-	cd $(topdir)/contexts/data && $(PHANTOM_EXE)           \
-	  lib/phantomjs_jasmine/phantomjs_jasminexml_runner.js \
-	  tests/PhantomJSJasmineRunner.html tests/reports/
 
 endif

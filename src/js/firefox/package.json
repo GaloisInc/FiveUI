@@ -1,0 +1,16 @@
+{
+    "name": "fiveui",
+    "fullName": "Five UI",
+    "license": "BSD 3",
+    "author": "Galois (http://galois.com)",
+    "contributors": [ "Rogan Creswick <creswick@galois.com>",
+                      "Trevor Elliot <trevor@galois.com>",
+                      "Benjamin Jones <bjones@galois.com>"
+                    ],
+    "version": "0.2",
+    "id": "jid1-oquzbbbog1fmxq",
+    "description": "UI Constraint Checker",
+    "lib": "data/",
+    "main": "main.js",
+    "tests": "test"
+}

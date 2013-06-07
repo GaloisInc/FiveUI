@@ -11,6 +11,6 @@ exports.rule = function() {
     .cssIsNot('color', allow, fiveui.color.colorToHex)
     .each(function(i, elt) {
             var color = fiveui.color.colorToHex($(elt).css('color'));
-            report('foreground color: ' + color, elt);
+            this.report('foreground color: ' + color, elt);
           });
 };

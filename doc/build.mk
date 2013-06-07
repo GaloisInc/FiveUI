@@ -60,7 +60,7 @@ $(eval $(call stage-doc-dir,$(path)/images))
 doc: $(jsdoc-dir)/index.html
 
 $(jsdoc-dir)/index.html:                                      \
-    $(topdir)/contexts/data/fiveui/injected/prelude.js        \
-    $(topdir)/contexts/data/fiveui/injected/jquery-plugins.js \
+    $(topdir)/src/js/fiveui/injected/prelude.js        \
+    $(topdir)/src/js/fiveui/injected/jquery-plugins.js \
   | $(build-dir)
 	$(call label,JSDOC)$(topdir)/tools/bin/jsdoc $^ $(redir)
