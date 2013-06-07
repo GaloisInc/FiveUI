@@ -90,4 +90,7 @@ BATCHTOOLS_DIR := src/batchtools
 test: fiveui.crx fiveui.xpi $(topdir)/profiles/chrome $(topdir)/profiles/firefox
 	cd $(BATCHTOOLS_DIR) && $(MVN_TEST_CMD)
 
+clean::
+	cd $(BATCHTOOLS_DIR) && $(MVN_EXE) clean
+
 endif
