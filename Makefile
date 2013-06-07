@@ -30,6 +30,10 @@ unpack:
 .PHONY: clean
 clean::
 
+.PHONY: distclean
+distclean:: clean
+
+
 # Utilities ####################################################################
 
 topdir := $(CURDIR)
@@ -58,6 +62,8 @@ clean::
 
 
 # Subdirs ######################################################################
+
+$(eval $(call subdir,tools))
 
 $(eval $(call subdir,src/js/fiveui))
 $(eval $(call subdir,src/js/chrome))

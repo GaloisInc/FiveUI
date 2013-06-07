@@ -69,14 +69,6 @@ $(firefox-build)/data/main.js:     \
 
 # Packaging ####################################################################
 
-addon-sdk := $(topdir)/tools/addon-sdk
-
-# wrapper for setting up the environment for the running the cfx command
-cfx = ( cd $(addon-sdk) $(redir) && \
-        . bin/activate  $(redir) && \
-        cd $1           $(redir) && \
-        cfx $2          $(redir) )
-
 .PHONY: stage-firefox
 stage-firefox:                                    \
     $(firefox-build)/package.json                 \
@@ -90,7 +82,7 @@ stage-firefox:                                    \
     $(firefox-build)/data/icons/options-icon.js   \
   | $(firefox-build)
 
-$(build-dir)/firefox.xpi: stage-firefox
+$(build-dir)/firefox.xpi: stage-firefox $(addon-sdk-unpacked)
 	$(call label,XPI        $(call drop-prefix,$@))\
 	  $(call cfx,$(build-dir),xpi -p $(topdir)/profiles/firefox \
 	                 --pkgdir=$(firefox-build) )
@@ -98,5 +90,5 @@ $(build-dir)/firefox.xpi: stage-firefox
 
 # Testing ######################################################################
 
-run-firefox: stage-firefox
+run-firefox: stage-firefox $(addon-sdk-unpacked)
 	$(call label,RUNFF)$(call cfx,$(firefox-build),run)
