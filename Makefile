@@ -24,6 +24,9 @@
 .PHONY: all
 all:
 
+.PHONY: package
+package:
+
 .PHONY: unpack
 unpack:
 
