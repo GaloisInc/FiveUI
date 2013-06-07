@@ -1,0 +1,10 @@
+{
+  'ruleSet': '../ruleSets/simpleRuleSet1.json',
+  'tests': [ { 'url': 'http://localhost:8000/',
+               'oracle': [ { 'ruleId': 42
+                           , 'results': ['Error', 'Error']
+                           }
+                         ]
+             }
+           ]
+}

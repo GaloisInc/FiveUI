@@ -1,0 +1,4 @@
+{ "name": "simpleRuleSet1"
+, "description": ""
+, "rules": [ "emptyCheck.js" ]
+}

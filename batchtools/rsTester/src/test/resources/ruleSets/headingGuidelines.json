@@ -1,6 +1,0 @@
-{ "name": "Heading Guidelines"
-, "description": "Guidelines pertaining to the formatting and content of headings."
-, "rules": [ "headingGuidelines-caps.js",
-             "headingGuidelines-noEmptyHdrs.js"
-           ]
-}
