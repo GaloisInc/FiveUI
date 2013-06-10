@@ -1,7 +1,7 @@
 
 batchtools-dir := $(path)
 
-ifeq "$(maven-exe)" ""
+ifeq "$(maven-cmd)" ""
 $(call strict-error,"No maven found: unable to run batchtools tests")
 else
 
