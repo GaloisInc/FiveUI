@@ -28,5 +28,10 @@ quiet_cmd_cp = CP         $(call drop-prefix,$@)
       cmd_cp = cp $< $@
 
 
+ifeq "$(strict)" "1"
+strict-error = $(error $1)
+endif
+
+
 print-%:
 	@echo "$* = $($*)"

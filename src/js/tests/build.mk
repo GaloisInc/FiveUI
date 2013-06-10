@@ -7,7 +7,9 @@ clean::
 
 # Jasmine Specs ###############################################################
 
-ifneq "$(PHANTOM_EXE)" ""
+ifeq "$(PHANTOM_EXE)" ""
+$(call strict-error,"phantomjs not found, unable to run javascript tests")
+else
 
 test: test-js
 test-js:

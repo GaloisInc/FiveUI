@@ -84,7 +84,9 @@ $(eval $(call subdir,doc))
 
 # Don't try to run any of this if maven isn't installed
 MVN_EXE := $(shell which mvn 2>/dev/null)
-ifneq "$(MVN_EXE)" ""
+ifeq "$(MVN_EXE)" ""
+$(call strict-error,"No maven found unable to run java tests")
+else
 
 # package/install various maven sub-projects
 MVN_TEST_CMD := xvfb-run -a $(MVN_EXE) test
