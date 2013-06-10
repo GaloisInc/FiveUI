@@ -42,8 +42,8 @@ public class Drivers {
     private static final String defaultFiveuiRootPath = "../../../";
     private static final String firefoxProfilePath = "profiles/firefox";
     private static final String chromeProfilePath = "profiles/chrome";
-    private static final String firefoxExtensionPath = "binaries/fiveui.xpi";
-    private static final String chromeExtensionPath = "binaries/fiveui.crx";
+    private static final String firefoxExtensionPath = "build/fiveui.xpi";
+    private static final String chromeExtensionPath = "build/fiveui.crx";
     
     /**
      * Query the OS environment for the FiveUI root path, or return a default.
