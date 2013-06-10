@@ -55,15 +55,6 @@ $2: $(patsubst $(fiveui-dir)/%,$1/data/%,$(wildcard $(fiveui-dir)/images/*))
 
 # Libraries ####################################################################
 
-# simple libraries
-$1/data/%: $(lib-dir)/% | $1/data
-	$$(call cmd,cp)
-
-$2: $1/data/underscore.js \
-    $1/data/backbone.js   \
-    $1/data/md5.js
-
-
 # jquery
 $1/data/jquery: | $1/data
 	$$(call cmd,mkdir)
@@ -77,6 +68,16 @@ $1/data/jquery/%: $(lib-dir)/jquery/% | $1/data/jquery
 $2: $1/data/jquery/jquery-1.8.3.js           \
     $1/data/jquery/jquery-ui-1.9.2.custom.js \
     $1/data/jquery/bundled.css
+
+
+# simple libraries
+$1/data/%: $(lib-dir)/% | $1/data
+	$$(call cmd,cp)
+
+$2: $1/data/underscore.js \
+    $1/data/backbone.js   \
+    $1/data/md5.js
+
 
 
 # Other Files ##################################################################
