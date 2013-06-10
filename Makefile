@@ -101,7 +101,12 @@ $(eval $(call pkg,batchtools))
 
 BATCHTOOLS_DIR := src/batchtools
 
-test: fiveui.crx fiveui.xpi $(topdir)/profiles/chrome $(topdir)/profiles/firefox
+test: test-batchtools
+
+test-batchtools: $(topdir)/fiveui.crx      \
+                 $(topdir)/fiveui.xpi      \
+                 $(topdir)/profiles/chrome \
+                 $(topdir)/profiles/firefox
 	cd $(BATCHTOOLS_DIR) && $(MVN_TEST_CMD)
 
 clean::
