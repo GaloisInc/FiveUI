@@ -43,9 +43,9 @@ ul.entries li.entry:first-child {
   border-top: 0px;
 }
 
-li.entry .button {
-  cursor: pointer;
-  cursor: hand;
+li.entry button {
+  padding: 0px;
+  font-size: 0.75em;
 }
 
 li.entry .editable {

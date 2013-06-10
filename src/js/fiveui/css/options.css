@@ -129,10 +129,6 @@ div.title {
     width: 50%;
 }
 
-#upDownGroup button {
-    display: block
-}
-
 #upDownGroup {
     margin-top: auto;
     margin-bottom: auto;
