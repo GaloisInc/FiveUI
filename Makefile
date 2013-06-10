@@ -76,40 +76,7 @@ $(eval $(call subdir,src/js/chrome))
 $(eval $(call subdir,src/js/firefox))
 $(eval $(call subdir,src/js/tests))
 
+$(eval $(call subdir,src/batchtools))
+
 $(eval $(call subdir,profiles))
 $(eval $(call subdir,doc))
-
-
-# Maven Packages ###############################################################
-
-# Don't try to run any of this if maven isn't installed
-MVN_EXE := $(shell which mvn 2>/dev/null)
-ifeq "$(MVN_EXE)" ""
-$(call strict-error,"No maven found unable to run java tests")
-else
-
-# package/install various maven sub-projects
-MVN_TEST_CMD := xvfb-run -a $(MVN_EXE) test
-
-define pkg
-.PHONY: pkg-$1
-pkg-$1:
-	cd src/$1 && xvfb-run -a $(MVN_EXE) package
-endef
-
-$(eval $(call pkg,batchtools))
-
-BATCHTOOLS_DIR := src/batchtools
-
-test: test-batchtools
-
-test-batchtools: $(topdir)/fiveui.crx      \
-                 $(topdir)/fiveui.xpi      \
-                 $(topdir)/profiles/chrome \
-                 $(topdir)/profiles/firefox
-	cd $(BATCHTOOLS_DIR) && $(MVN_TEST_CMD)
-
-clean::
-	cd $(BATCHTOOLS_DIR) && $(MVN_EXE) clean
-
-endif
