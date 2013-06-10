@@ -188,6 +188,7 @@ fiveui.firefox.main = function() {
     , contentScriptWhen: 'end'
     , contentScriptFile:
         [ data.url('jquery/jquery-1.8.3.js')
+        , data.url('jquery/jquery-ui-1.9.2.custom.js')
         , data.url('underscore.js')
         , data.url('backbone.js')
         , data.url('js/settings.js')
