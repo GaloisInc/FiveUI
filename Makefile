@@ -36,6 +36,9 @@ clean::
 .PHONY: distclean
 distclean:: clean
 
+.PHONY: test
+test:
+
 
 # Utilities ####################################################################
 
