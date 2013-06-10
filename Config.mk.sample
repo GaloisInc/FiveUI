@@ -1,4 +1,5 @@
 
-PHANTOM_EXE ?= $(shell which phantomjs 2>/dev/null)
-
+phantomjs-cmd     ?= $(call find-cmd,phantomjs)
+maven-cmd         ?= $(call find-cmd,mvn)
+pandoc-cmd        ?= $(call find-cmd,pandoc)
 addon-sdk-version ?= 1.14
