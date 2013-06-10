@@ -8,7 +8,11 @@ else
 test: test-batchtools
 
 .PHONY: test-batchtools
-test-batchtools: $(topdir)/profiles/chrome $(topdir)/profiles/firefox
+test-batchtools:            \
+  $(build-dir)/fiveui.crx   \
+  $(build-dir)/fiveui.xpi   \
+  $(topdir)/profiles/chrome \
+  $(topdir)/profiles/firefox
 	$(call label,BATCHTEST)(cd $(batchtools-dir) \
 	  && xvfb-run -a $(maven-cmd) test)
 
