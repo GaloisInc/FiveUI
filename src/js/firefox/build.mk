@@ -5,9 +5,6 @@ all: stage-firefox
 
 package: $(build-dir)/firefox.xpi
 
-$(topdir)/firefox.xpi: $(build-dir)/firefox.xpi
-	$(call cmd,cp)
-
 
 firefox-dir := $(path)
 
