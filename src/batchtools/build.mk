@@ -17,6 +17,6 @@ test-batchtools:            \
 	  && xvfb-run -a $(maven-cmd) test)
 
 clean::
-	(cd $(batchtools-dir) && $(maven-exe) clean)
+	(cd $(batchtools-dir) && $(maven-cmd) clean)
 
 endif
