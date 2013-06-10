@@ -6,14 +6,12 @@ jsdoc-dir  := $(build-dir)/jsdoc
 manual-dir := $(build-dir)/manual
 manual-src := $(path)/manual_src
 
-pandoc     := $(shell which pandoc 2>/dev/null)
-
 
 # HTML Generation ##############################################################
 
 # Use pandoc to generate HTML
 quiet_cmd_pandoc = PANDOC     $(call drop-prefix,$@)
-      cmd_pandoc = $(pandoc) $< -o $@ -s --highlight-style=kate \
+      cmd_pandoc = $(pandoc-cmd) $< -o $@ -s --highlight-style=kate \
                    --template=$(manual-src)/template.html
 
 manual-deps := $(patsubst $(manual-src)/%.md,$(manual-dir)/%.html,\
@@ -25,10 +23,10 @@ $(manual-deps): $(manual-dir)/%.html: $(manual-src)/%.md | $(manual-dir)
 
 # HTML Manual ##################################################################
 
-ifneq "$(pandoc)" ""
+ifneq "$(pandoc-cmd)" ""
 doc: web-manual
 else
-$(warning pandoc not found, not building the manual)
+$(call strict-warning,pandoc not found, not building the manual)
 endif
 
 .PHONY: web-manual

@@ -7,13 +7,13 @@ clean::
 
 # Jasmine Specs ###############################################################
 
-ifeq "$(PHANTOM_EXE)" ""
-$(call strict-error,"phantomjs not found, unable to run javascript tests")
+ifeq "$(phantomjs-cmd)" ""
+$(call strict-error,"phantomjs not found: unable to run javascript tests")
 else
 
 test: test-js
 test-js:
-	cd $(topdir)/src/js && $(PHANTOM_EXE)                  \
+	cd $(topdir)/src/js && $(phantomjs-cmd)                  \
 	  lib/phantomjs_jasmine/phantomjs_jasminexml_runner.js \
 	  tests/PhantomJSJasmineRunner.html tests/reports/
 

@@ -14,6 +14,7 @@ cmd      = @$(echo-cmd) $(cmd_$1)
 
 label    = $(if $(Q),$(Q)echo '  $1';)
 
+find-cmd = $(shell which $1 2$(redir))
 
 drop-prefix = $(patsubst $(topdir)/%,%,$1)
 
@@ -29,7 +30,8 @@ quiet_cmd_cp = CP         $(call drop-prefix,$@)
 
 
 ifeq "$(strict)" "1"
-strict-error = $(error $1)
+strict-error   = $(error $1)
+strict-warning = $(warning $1)
 endif
 
 
