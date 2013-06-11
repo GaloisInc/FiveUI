@@ -5,7 +5,7 @@ package com.galois.fiveui;
 
 import java.io.IOException;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
