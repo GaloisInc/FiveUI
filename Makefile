@@ -37,7 +37,7 @@ clean::
 distclean:: clean
 
 .PHONY: test
-test: package
+test:
 
 
 # Utilities ####################################################################
