@@ -3,7 +3,7 @@
 
 all: stage-firefox
 
-package: $(build-dir)/firefox.xpi
+package: $(build-dir)/fiveui.xpi
 
 
 firefox-dir := $(path)
@@ -85,7 +85,7 @@ stage-firefox:                                    \
     $(firefox-build)/data/icons/options-icon.js   \
   | $(firefox-build)
 
-$(build-dir)/firefox.xpi:    \
+$(build-dir)/fiveui.xpi:    \
   stage-firefox              \
   $(addon-sdk-unpacked)      \
   $(topdir)/profiles/firefox

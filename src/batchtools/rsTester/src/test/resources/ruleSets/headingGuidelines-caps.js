@@ -8,12 +8,12 @@ exports.rule = function() {
       function(idx) {
         var ch = $(this).text()[0];
         if (ch) {
-          return (ch == ch.toLowerCase() );
+          return (ch == ch.toLowerCase());
         } else {
           return false;
         }
       });
-  $(badHeadings).map(function(idx, elt){
-                       report('Heading does not start with a capitol letter.', elt);
+  $(badHeadings).map(function(idx, elt) {
+                       report('Heading does not start with a capital letter.', elt);
                      });
 };
