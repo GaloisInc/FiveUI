@@ -14,9 +14,9 @@ test-batchtools:            \
   $(topdir)/profiles/chrome \
   $(topdir)/profiles/firefox
 	$(call label,BATCHTEST)(cd $(batchtools-dir) \
-	  && xvfb-run -a $(maven-cmd) test)
+	  && xvfb-run -a $(maven-cmd) test -DFIREFOX_BIN_PATH=$(firefox_bin_path))
 
 clean::
-	(cd $(batchtools-dir) && $(maven-exe) clean)
+	(cd $(batchtools-dir) && $(maven-cmd) clean)
 
 endif
