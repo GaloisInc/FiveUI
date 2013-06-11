@@ -58,6 +58,10 @@ var editable = function(el, model, placeholder) {
 
 };
 
+var button = function(el, icon) {
+  el.button({ icons: icon, text: false });
+};
+
 
 /** UrlPat Entry Elements ****************************************************/
 
@@ -68,9 +72,9 @@ fiveui.UrlPatEntry = Backbone.View.extend({
   className: 'entry',
 
   events: {
-    'click span.save'   : 'save',
-    'click span.remove' : 'remove',
-    'click span.edit'   : 'edit',
+    'click .save'   : 'save',
+    'click .remove' : 'remove',
+    'click .edit'   : 'edit',
   },
 
   initialize:function() {
@@ -82,25 +86,31 @@ fiveui.UrlPatEntry = Backbone.View.extend({
 
   viewTemplate: _.template(
     [ '<div>'
-    , '  <span class="button remove">x</span>'
-    , '  <span class="button edit">edit</span>'
+    , '  <button class="remove">x</button>'
+    , '  <button class="edit">edit</button>'
     , '  <span><%= regex %></span>'
     , '  <span><%= rule_name %></span>'
     , '</div>'
     ].join('')),
 
   render:function() {
+
     var attrs       = _.clone(this.model.attributes);
     var ruleSet     = this.options.rules.model.findWhere({ id: attrs.rule_id })
     attrs.rule_name = ruleSet.get('name');
     this.$el.html(this.viewTemplate(attrs));
+
+    // setup buttons
+    button(this.$el.find('.remove'), { primary: 'ui-icon-close'  });
+    button(this.$el.find('.edit'),   { primary: 'ui-icon-pencil' });
+
     return this;
   },
 
   editTemplate: _.template(
     [ '<div>'
-    , '  <span class="button remove">x</span>'
-    , '  <span class="button save">save</span>'
+    , '  <button class="remove">x</button>'
+    , '  <button class="save">save</button>'
     , '  <span class="regex"></span>'
     , '  <span class="rules"></span>'
     , '</div>'
@@ -112,6 +122,10 @@ fiveui.UrlPatEntry = Backbone.View.extend({
 
     this.$el.find('.rules').append(this.options.rules.render().$el);
     editable(this.$el.find('.regex'), this.model, 'url pattern');
+
+    button(this.$el.find('.remove'), { primary: 'ui-icon-close' });
+    button(this.$el.find('.save'),   { primary: 'ui-icon-disk'  });
+
     return this;
   },
 
@@ -198,23 +212,29 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
   viewTemplate: _.template(
     [ '<div class="content">'
-    , '  <span class="button remove">x</span>'
-    , '  <span class="button edit">edit</span>'
-    , '  <span class="button reload">reload</span>'
+    , '  <button class="button remove">remove</button>'
+    , '  <button class="edit">edit</button>'
+    , '  <button class="reload">reload</button>'
     , '  <span class="title"><%= name %></span>'
     , '</div>'
     ].join('')),
 
   render:function() {
+
     var attrs = this.model.attributes;
     this.$el.html(this.viewTemplate(attrs));
+
+    button(this.$el.find('.remove'), { primary: 'ui-icon-close'   });
+    button(this.$el.find('.edit'),   { primary: 'ui-icon-pencil'  });
+    button(this.$el.find('.reload'), { primary: 'ui-icon-refresh' });
+
     return this;
   },
 
   editTemplate: _.template(
     [ '<div class="content">'
-    , '  <span class="button remove">x</span>'
-    , '  <span class="button save">save</span>'
+    , '  <button class="remove">x</button>'
+    , '  <button class="save">save</button>'
     , '  <span class="source"><%= source %></span>'
     , '</div>'
     ].join('')),
@@ -222,6 +242,9 @@ fiveui.RuleSetEntry = Backbone.View.extend({
   edit:function() {
     var attrs = this.model.attributes;
     this.$el.html(this.editTemplate(attrs));
+
+    button(this.$el.find('.remove'), { primary: 'ui-icon-close' });
+    button(this.$el.find('.save'),   { primary: 'ui-icon-disk'  });
 
     editable(this.$el.find('.source'), this.model,
         'http://example.com/manifest.json')
