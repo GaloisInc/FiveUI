@@ -1,1 +1,5 @@
 target
+programs.properties
+.classpath
+.settings
+.project
