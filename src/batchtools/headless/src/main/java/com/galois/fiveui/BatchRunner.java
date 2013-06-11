@@ -51,20 +51,14 @@ public class BatchRunner {
     private JavascriptExecutor _exe;
     private String _root; // FiveUI root directory
 
+    private static final String JS_SRC_ROOT = "src/js/";
+    
     // Hard coded JS files, relative to the FiveUI root directory.
-    private static final String DATA_DIR = "contexts/data/";
-    private static final String J_QUERY_JS = DATA_DIR
-            + "lib/jquery/jquery.js";
-    private static final String PRELUDE_JS = DATA_DIR
-            + "fiveui/injected/prelude.js";
-    private static final String MD5_JS = DATA_DIR
-            + "lib/jshash/md5.js";
-    private static final String JQUERY_PLUGIN_JS = DATA_DIR
-            + "fiveui/injected/jquery-plugins.js";
-    private static final String SEL_INJECTED_COMPUTE_JS = DATA_DIR +
-            "/fiveui/selenium/selenium-injected-compute.js";
-    private static final String INJECTED_COMPUTE_JS = DATA_DIR +
-            "/fiveui/injected/fiveui-injected-compute.js";
+    private static final String J_QUERY_JS = "lib/jquery/jquery.js";
+    private static final String PRELUDE_JS = "fiveui/injected/prelude.js";
+    private static final String MD5_JS = "lib/md5.js";
+    private static final String JQUERY_PLUGIN_JS = "fiveui/injected/jquery-plugins.js";
+    private static final String SEL_INJECTED_COMPUTE_JS = "selenium/selenium-injected-compute.js";
 
     private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchRunner");
 
@@ -274,12 +268,12 @@ public class BatchRunner {
      */
     private String wrapRule(RuleSet ruleSet) throws IOException {
         String injected = "";
-        injected += Utils.readFile(_root + SEL_INJECTED_COMPUTE_JS);
-        injected += Utils.readFile(_root + J_QUERY_JS);
-        injected += Utils.readFile(_root + PRELUDE_JS);
-        injected += Utils.readFile(_root + MD5_JS);
-        injected += Utils.readFile(_root + JQUERY_PLUGIN_JS);
-        injected += Utils.readFile(_root + INJECTED_COMPUTE_JS);
+        injected += Utils.readFile(_root + JS_SRC_ROOT + SEL_INJECTED_COMPUTE_JS);
+        injected += Utils.readFile(_root + JS_SRC_ROOT + J_QUERY_JS);
+        injected += Utils.readFile(_root + JS_SRC_ROOT + PRELUDE_JS);
+        injected += Utils.readFile(_root + JS_SRC_ROOT + MD5_JS);
+        injected += Utils.readFile(_root + JS_SRC_ROOT + JQUERY_PLUGIN_JS);
+        //injected += Utils.readFile(_root + JS_SRC_ROOT + INJECTED_COMPUTE_JS);
 
         injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
 
