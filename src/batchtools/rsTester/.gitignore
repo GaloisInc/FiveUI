@@ -1,2 +1,5 @@
 target
-doc
+programs.properties
+.classpath
+.settings
+.project
