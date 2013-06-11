@@ -1,0 +1,7 @@
+{ "name": "Accessibility"
+, "description": "Web Accessibility Guidelines"
+, "rules": [ "titleNonEmpty.js",
+             "headingExists.js",
+             "imagesAltText.js"
+           ]
+}
