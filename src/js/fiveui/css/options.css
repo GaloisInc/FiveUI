@@ -135,6 +135,68 @@ div.title {
     float: left;
 }
 
-.buttons {
-    display: inline;
+.control .label {
+  color: #b2b2b2;
+  font-weight: italic;
+}
+
+.control button {
+  font-weight: normal;
+  font-size: 0.75em;
+}
+
+
+ul.entries {
+  list-style: none;
+  padding-left: 2px;
+}
+
+ul.entries li.entry {
+  border: 1px solid #CDCDCD;
+  margin-top: 5px;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+li.entry .error {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #FF4D4D;
+  color: #ffffff;
+}
+
+li.entry button {
+  padding: 0px;
+  font-size: 0.6em;
+}
+
+li.entry .editable {
+  padding: 5px;
+  border: 1px solid #CDCDCD;
+}
+
+li.entry .placeholder {
+  font-style: italic;
+  color: #CDCDCD;
+}
+
+
+
+
+li.entry div.pattern-control {
+  padding-top: 10px;
+}
+
+ul.patterns {
+  list-style: none;
+  padding: 0.5em;
+  padding-left: 0.5em;
+}
+
+ul.patterns li {
+  padding-top: 5px;
+}
+
+li.entry div.pattern-input {
+  margin: 2px;
 }

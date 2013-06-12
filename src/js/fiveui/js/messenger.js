@@ -127,14 +127,28 @@ _.extend(fiveui.Messenger.prototype, {
  */
 fiveui.Messenger.Payload = function(isCallback, type, data, id) {
   this.isCallback = isCallback;
-  this.type = type;
-  this.id = id;
+  this.type       = type;
+  this.id         = id;
+  this.rawData    = null;
+
   this.__defineGetter__('data', function() {
-                          return JSON.parse(this.rawData);
-                        });
-  this.__defineSetter__('data', function(obj){
-                          this.rawData = JSON.stringify(obj);
-                        });
+    if(_.isNull(this.rawData)) {
+      return null;
+    } else {
+      return JSON.parse(this.rawData);
+    }
+  });
+
+  this.__defineSetter__('data', function(obj) {
+    if(_.isUndefined(obj) || _.isNull(obj)) {
+      this.rawData = null;
+    } else {
+      this.rawData = JSON.stringify(obj);
+    }
+  });
+
+
+  // use the setter defined above
   this.data = data;
 };
 

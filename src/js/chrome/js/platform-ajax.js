@@ -20,6 +20,8 @@ fiveui.ajax.get = function(url, options) {
 
   jQuery.ajax(url, {
 
+    cache: false,
+
     dataType: 'text',
 
     success:function(text) {

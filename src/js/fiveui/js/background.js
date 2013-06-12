@@ -113,13 +113,11 @@ fiveui.Background.prototype.connect = function(tabId, port, url, isUiPort) {
     this._registerComputeListeners(port, tabState);
 
     // get the rule set and send it down to the injected page:
-    var pat = this.settings.checkUrl(url);
-    if (!pat) {
+    var ruleSet = this.settings.checkUrl(url);
+    if (ruleSet == null) {
       console.err('could not find url pattern for tab.url, but one was strongly expected');
     } else {
-      var ruleSet = this.settings.getRuleSet(pat.rule_id);
-
-      port.emit('SetRules', ruleSet);
+      port.emit('SetRules', ruleSet.rules);
     }
   }
 };
@@ -130,9 +128,9 @@ fiveui.Background.prototype.connect = function(tabId, port, url, isUiPort) {
  * @param {*} data
  */
 fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
-  var pat = this.settings.checkUrl(url);
+  var ruleSet = this.settings.checkUrl(url);
 
-  if (null == pat) {
+  if (ruleSet == null) {
     this.updateWidget(null);
   } else {
     var tabState = this.state.acquireTabState(tabId);
@@ -141,7 +139,6 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
     this.updateWidget(tabState);
 
     var dependencies = [];
-    var ruleSet = this.settings.getRuleSet(pat.rule_id);
 
     if (ruleSet && ruleSet.dependencies ) {
       dependencies = ruleSet.dependencies;

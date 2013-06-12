@@ -27,7 +27,6 @@
 
     <link id="favicon" rel="icon" href="images/fiveui-icon-16.png" />
     <link rel="stylesheet" href="css/options.css" />
-    <link rel="stylesheet" href="css/entry.css" />
     <link rel="stylesheet" href="jquery/bundled.css" />
     <script src="jquery/jquery-1.8.3.js"></script>
     <script src="jquery/jquery-ui-1.9.2.custom.js"></script>
@@ -39,7 +38,6 @@
     <script src="js/options.js"></script>
     <script src="js/update-manager.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/entry.js"></script>
     <script src="js/rules.js"></script>
     <script src="js/url-pat.js"></script>
     <script src="js/platform-ajax.js"></script>
@@ -52,29 +50,19 @@
     <div id="navbar-container">
       <div id="navbar-content-title">Settings</div>
       <nav>
-        <div id="url-defaults">URL Patterns</div>
         <div id="rule-sets">Rule Sets</div>
         <div id="basics">Basics</div>
       </nav>
     </div>
 
     <div id="content">
-      <section id="tab-url-defaults">
-        <div class="title">URL Patterns</div>
-        <section>
-          <ul id="urlPatEntries" class="entries"></ul>
-          <div>
-            <button id="addUrlPat">Add</button>
-          </div>
-        </section>
-      </section>
 
       <section id="tab-rule-sets">
         <div class="title">Rule Sets</div>
         <section>
           <ul id="ruleSetEntries" class="entries"></ul>
-          <div>
-            <button id="addRsButton">Add</button>
+          <div class="control">
+            <button id="addRsButton">add a rule set</button>
           </div>
         </section>
       </section>
@@ -93,6 +81,7 @@
           </div>
         </section>
       </section>
+
     </div>
 
   </body>
