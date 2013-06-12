@@ -19,11 +19,6 @@
  * limitations under the License.
  */
 
-// Init FiveUI, if necessary:
-if (typeof fiveui == 'undefined') {
-  fiveui = {};
-}
-
 /**
  * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
  */
