@@ -2,6 +2,8 @@
 , "description": "Web Accessibility Guidelines"
 , "rules": [ "titleNonEmpty.js",
              "headingExists.js",
-             "imagesAltText.js"
+             "imagesAltText.js",
+             "colorBrightness.js",
+             "colorDifference.js"
            ]
 }
