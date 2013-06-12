@@ -9,6 +9,15 @@ describe('prelude', function() {
     });
   };
 
+  // 3 argument version of addTestSet
+  var addTestSet3 = function(fn, tests) {
+    _.each(tests, function(test) {
+      it(test[0], function() {
+        expect(fn(test[1], test[2], test[3])).toEqual(test[4]);
+      });
+    });
+  };
+
   addTestSet(fiveui.isString,[
     //   name             ,  input   , oracle
     ['isString: undefined', undefined, false],
@@ -85,6 +94,24 @@ describe('prelude', function() {
     expect(typeof fiveui.color.colorCheck('', [])).toEqual('function');
   });
 
+  addTestSet(fiveui.color.hexToRGB, [
+    //   name                         ,  input   , oracle
+    ['hexToRGB: full white'           , '#000000', { r: 0, g: 0, b: 0 }],
+    ['hexToRGB: full black'           , '#FFFFFF', { r: 255, g: 255, b: 255 }],
+    ['hexToRGB: C7 grey'              , '#C7C7C7', { r: 199, g: 199, b: 199 }],
+    ['hexToRGB: full red'             , '#FF0000', { r: 255, g: 0, b: 0 }],
+    ['hexToRGB: full blue'            , '#0000FF', { r: 0, g: 0, b: 255 }],
+  ]);
+
+  addTestSet3(fiveui.color.rgbToHex, [
+    //   name                         , 3 inputs,       oracle
+    ['rgbToHex: full white'           , 0, 0, 0,       '#000000'],
+    ['rgbToHex: full black'           , 255, 255, 255, '#FFFFFF'],
+    ['rgbToHex: C7 grey'              , 199, 199, 199, '#C7C7C7'],
+    ['rgbToHex: full red'             , 255, 0, 0,     '#FF0000'],
+    ['rgbToHex: full blue'            , 0, 0, 255,     '#0000FF'],
+  ]);
+
   addTestSet(fiveui.color.colorToHex, [
     ['colorToHex: full white'         , '#000000', '#000000'],
     ['colorToHex: abreviated white 1' , '#0', '#000000'],
@@ -96,6 +123,14 @@ describe('prelude', function() {
     ['colorToHex: rgb(255, 255, 255)' , 'rgb(255, 255, 255)', '#FFFFFF'],
     ['colorToHex: rgb(222, 173, 190)' , 'rgb(222, 173, 190)', '#DEADBE'],
     ['colorToHex: rgba(255, 255, 255, 100)', 'rgba(255, 255, 255, 100)', '#FFFFFF'] // alpha is ignored
+  ]);
+
+  addTestSet(fiveui.color.colorToRGB, [
+    ['colorToRGB: full white'         , '#000000', {r: 0, g: 0, b:0} ],
+    ['colorToRGB: abreviated white 1' , '#0', {r: 0, g: 0, b:0} ],
+    ['colorToRGB: black'              , '#FFFFFF', {r: 255, g: 255, b: 255} ],
+    ['colorToRGB: rgb(222, 173, 190)' , 'rgb(222, 173, 190)', {r: 222, g: 173, b: 190} ],
+    ['colorToRGB: rgba(255, 255, 255, 100)', 'rgba(255, 255, 255, 100)', {r: 255, g: 255, b: 255} ],
   ]);
 
   var getFontTests = [
