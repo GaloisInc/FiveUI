@@ -113,9 +113,13 @@ fiveui.options.init = function(port) {
   var ruleSetEntries = jQuery('#ruleSetEntries');
 
   // handle clicks to the 'add' button on the rule sets page
-  jQuery('#addRsButton').on('click', function() {
-    ruleSets.add(new fiveui.RuleSetModel({}, { url : msg }));
-  });
+  jQuery('#addRsButton')
+    .button({
+      icons: { primary: 'ui-icon-plus' },
+    })
+    .on('click', function() {
+      ruleSets.add(new fiveui.RuleSetModel({}, { url : msg }));
+    });
 
   // render a ruleset added to the collection
   ruleSets.on('add', function(model) {
@@ -191,13 +195,12 @@ fiveui.options.init = function(port) {
   };
 
   // listen to click events on navigation elements
-  setClickHandler(jQuery('#url-defaults'), select('#tab-url-defaults'));
   setClickHandler(jQuery('#rule-sets'),    select('#tab-rule-sets'));
   setClickHandler(jQuery('#basics'),       select('#tab-basics'));
 
   // select the url patterns tab by default
-  selectNav(jQuery('#url-defaults'));
-  selectSection(jQuery('#tab-url-defaults'));
+  selectNav(jQuery('#rule-sets'));
+  selectSection(jQuery('#tab-rule-sets'));
 
 
   /** Pre-populate UI elements ***********************************************/
@@ -213,5 +216,300 @@ fiveui.options.init = function(port) {
     }
   });
 };
+
+
+  /** Rule-Set Views *********************************************************/
+
+var editable = function(el, placeholder, onEnter) {
+
+  el.prop('contenteditable', true).addClass('editable');
+
+  // prevent newlines
+  if(onEnter) {
+    el.on('keypress', function(e) {
+      if(e.which == 13) {
+        onEnter();
+        return false;
+      } else {
+        return true;
+      }
+    });
+  } else {
+    el.on('keypress', function(e) {
+      return e.which != 13;
+    });
+  }
+
+  var addPlaceholder = function() {
+    el.addClass('placeholder')
+      .text(placeholder)
+      .one('click keypress paste', remPlaceholder);
+  };
+
+  var remPlaceholder = function() {
+    el.removeClass('placeholder').text('');
+  };
+
+  // if the model is new, set the placeholder, and a listener to clear it
+  if(el.text() == '') {
+    addPlaceholder();
+  }
+
+  el.on('blur', function() {
+    if(el.text() == '') {
+      addPlaceholder();
+    }
+  });
+
+  el.focus();
+
+};
+
+var button = function(el, icon) {
+  el.button({ icons: icon, text: false });
+};
+
+
+/** Rule Set View ************************************************************/
+
+fiveui.RulesView = Backbone.View.extend({
+
+  tagName: 'select',
+
+  initialize:function() {
+    this.listenTo(this.model, 'sync',   this.update);
+    this.listenTo(this.model, 'remove', this.update);
+  },
+
+  optionTemplate:_.template(
+    '<option value="<%= id %>"><%= name %></option>'
+  ),
+
+  update:function() {
+    if(this.model.length == 0) {
+      return this.remove();
+    } else {
+      return this.render();
+    }
+  },
+
+  remove:function() {
+    this.stopListening();
+    this.$el.remove();
+
+    this.trigger('remove');
+
+    return this;
+  },
+
+  render:function() {
+
+    var scope = this;
+
+    this.$el.children().remove();
+
+    var text = this.model.foldl(function(body,ruleSet) {
+      return body + scope.optionTemplate(ruleSet.attributes);
+    }, '');
+
+    this.$el.html(text);
+
+    return this;
+  },
+
+});
+
+
+/** Rule Entry Elements ******************************************************/
+
+fiveui.RuleSetEntry = Backbone.View.extend({
+
+  tagName: 'li',
+
+  className: 'entry',
+
+  // setup the skeleton for the rule set editor.
+  initialize:function() {
+    this.$el.html(
+      [ '<div class="rule-set">'
+      , '</div>'
+      , '<ul class="patterns"></ul>'
+      , '<div class="pattern-control">'
+      , '  <div class="pattern-input"></div>'
+      , '  <button class="add-pattern">add url pattern</button'
+      , '</div>'
+      ].join(''));
+
+    this.$rs     = this.$el.find('.rule-set');
+    this.$pat    = this.$el.find('.patterns');
+    this.$urlpat = this.$el.find('.pattern-input');
+    this.$addpat = this.$el.find('.add-pattern');
+
+    // setup the url pattern editor
+    this.$addpat.button({ icons: { primary: 'ui-icon-plus' } });
+    editable(this.$urlpat, 'http://example.com/*',
+        _.bind(this.$addpat.click, this.$addpat))
+  },
+
+  events: {
+    'click .save'        : 'save',
+    'click .remove'      : 'remove',
+    'click .edit'        : 'edit',
+    'click .reload'      : 'reload',
+    'click .add-pattern' : 'addPattern',
+  },
+
+  viewRsTemplate: _.template(
+    [ '<button class="remove">remove</button>'
+    , '<button class="edit">edit</button>'
+    , '<button class="reload">reload</button>'
+    , '<span class="title"><%= name %></span>'
+    ].join('')),
+
+  // render the rule set as its title, with some buttons to edit/remove/reload
+  // it.
+  render:function() {
+
+    // render the rule set
+    var attrs = _.clone(this.model.attributes);
+    this.$rs.html(this.viewRsTemplate(attrs));
+
+    button(this.$rs.find('.edit'),   { primary: 'ui-icon-pencil'  });
+    button(this.$rs.find('.reload'), { primary: 'ui-icon-refresh' });
+    button(this.$rs.find('.remove'), { primary: 'ui-icon-close'   });
+
+    this.renderPats(this.model.get('patterns'));
+
+    this.$addpat.prop('disabled', false);
+
+    return this;
+  },
+
+  editTemplate: _.template(
+    [ '<button class="remove">x</button>'
+    , '<button class="save">save</button>'
+    , '<span class="source"><%= source %></span>'
+    ].join('')),
+
+  // rework the rule set display area to a single input field for the url, and a
+  // remove and save button.
+  edit:function() {
+    var attrs = this.model.attributes;
+    this.$rs.html(this.editTemplate(attrs));
+
+    button(this.$rs.find('.remove'), { primary: 'ui-icon-close' });
+
+    var save = this.$rs.find('.save');
+    button(save, { primary: 'ui-icon-disk' });
+
+    this.$addpat.prop('disabled', true);
+
+    editable(this.$rs.find('.source'), 'http://example.com/manifest.json',
+      _.bind(save.click, save));
+
+    return this;
+  },
+
+  errorTemplate: _.template('<div class="error"><%= message %></div>'),
+
+  // render an error message below the edit ui for the result sets, but before
+  // any url patterns.
+  editError:function(target, message) {
+    this.edit();
+    this.$rs.append(this.errorTemplate({ message: message }));
+
+    return this;
+  },
+
+  // save the current model, falling back on the editor dialog when errors show
+  // up.  it's assumed that this is only called from the editor dialog.
+  save: function() {
+    var source = this.$el.find('.source').text();
+    this.model.set('source', source);
+    this.model.save({}, {
+      success: _.bind(this.render,    this),
+      error:   _.bind(this.editError, this)
+    });
+  },
+
+  // reaload the model, and render.  on failure, display the edit dialog with a
+  // message.
+  reload:function() {
+    this.model.save({}, {
+      success: _.bind(this.render,    this),
+      error:   _.bind(this.editError, this)
+    });
+  },
+
+  // remove the model, and remove the element from the list.
+  remove:function() {
+    this.model.destroy();
+    this.$el.remove();
+    this.stopListening();
+  },
+
+
+
+  viewPatTemplate: _.template(
+    [ '<li>'
+    , '  <button class="remove-pat">remove</button>'
+    , '  <span class="pattern"><%= pattern %></span>'
+    , '</li>'
+    ].join('')),
+
+  addUrlPat:function(pat) {
+    var el = jQuery(this.viewPatTemplate({ pattern: pat }));
+
+    var remove = el.find('.remove-pat');
+
+    button(remove, { primary: 'ui-icon-close' });
+    remove.on('click', _.bind(this.removePattern, this, pat));
+
+    this.$pat.append(el);
+  },
+
+  // render the url patterns of the rule set into this.$pat.
+  renderPats:function(pats) {
+    this.$pat.children().remove();
+
+    _.each(pats, _.bind(this.addUrlPat, this))
+    return this;
+  },
+
+  // add a pattern to the underlying collection of patterns
+  addPattern:function() {
+    var pat  = this.$urlpat.text();
+    var pats = this.model.get('patterns');
+
+    pats.push(pat);
+
+    this.model.save({ patterns : pats }, {
+      wait:    true,
+      patch:   true,
+      success: _.bind(function() {
+        this.$urlpat.text('').blur();
+        this.render();
+      }, this),
+      error: function(msg) {
+        debugger;
+      },
+    });
+  },
+
+  removePattern:function(pat) {
+    var pats = _.filter(this.model.get('patterns'), function(p) {
+      return p != pat;
+    });
+
+    this.model.save({ patterns: pats }, {
+      wait:   true,
+      patch:  true,
+      success:_.bind(this.render, this),
+      // XXX make this report an actual error
+      error:  _.bind(this.render, this)
+    });
+  },
+
+});
 
 })();

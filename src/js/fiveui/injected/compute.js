@@ -60,7 +60,7 @@
        var delta = new Date() - core.lastEvent;
        if(delta > core.timeout && !core.maskRules) {
          core.scheduled = false;
-         core.evaluate(core.rules.rules);
+         core.evaluate(core.rules);
        } else {
          setTimeout(check, core.timeout);
        }
@@ -291,25 +291,18 @@
    var registerBackendListeners = function(port) {
      port.on('SetRules', function(payload) {
 
-       var rules  = payload.rules;
+       core.rules = [];
 
-       core.rules       = payload;
-       core.rules.rules = [];
-
-       for(var i=0; i<rules.length; ++i) {
+       for(var i=0; i<payload.length; ++i) {
          var moduleStr =
            [ '(function(){'
            , 'var exports = {};'
-           , rules[i].module
+           , payload[i]
            , 'return exports;'
            , '})()'
            ].join('\n');
 
-         core.rules.rules.push(eval(moduleStr));
-       }
-
-       if (null == core.rules) {
-         debugger;
+         core.rules.push(eval(moduleStr));
        }
 
        core.scheduleRules();

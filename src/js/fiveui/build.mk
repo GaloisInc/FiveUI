@@ -45,8 +45,7 @@ $2: $(patsubst $(fiveui-dir)/%,$1/data/%,$(wildcard $(fiveui-dir)/js/*))
 
 
 $(call fiveui-files,$1/data,css)
-$2: $1/data/css/entry.css   \
-    $1/data/css/options.css
+$2: $1/data/css/options.css
 
 
 $(call fiveui-files,$1/data,images)

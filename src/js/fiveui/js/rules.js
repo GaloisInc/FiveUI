@@ -25,45 +25,29 @@ var fiveui = fiveui || {};
 
 /**
  * @constructor
- * @param {!string} module A Javascript module that defines the rule.
+ * @param {!number} config Initializers for the rule set structure.
  */
-fiveui.Rule = function(module) {
-  this.module = module;
+fiveui.RuleSet = function(config) {
+  // fill in fields
+  _.defaults(this, fiveui.RuleSet.sanitize(config));
 };
 
-fiveui.Rule.defaults = function(obj) {
-  return _.defaults(obj, {
-    module: '',
-  });
+fiveui.RuleSet.sanitize = function(obj) {
+  var defs = {
+    id:           null,
+    name:         '',
+    description:  '',
+    source:       '',
+    rules:        [],
+    patterns:     [],
+    dependencies: [],
+  };
+
+  // scrub out any values that aren't in the defaults list, fill in any that are
+  // missing.
+  return _.defaults(_.pick(obj, _.keys(defs)), defs);
 };
 
-/**
- * Create a Rule from a JSON object.
- *
- * @param {!Object} obj The object to take settings from.
- * @return {!fiveui.Rule} A populated Rule object.
- */
-fiveui.Rule.fromJSON = function(obj) {
-  return new fiveui.Rule(obj.module);
-};
-
-/**
- * @constructor
- * @param {!number} id The unique RuleSet identifier.
- * @param {!string} name A human-readable name for this RuleSet.
- * @param {!string} desc A human-readable description of the Rule Set.
- * @param {!string} source The url where the manifest can be retrieved
- * @param {!Array.<fiveui.Rule>} rules An Array of Rules.
- * @param {?Array.<string>} deps Dependencies that this RuleSet requires.
- */
-fiveui.RuleSet = function(id, name, desc, source, rules, deps) {
-  this.id           = id;
-  this.name         = name;
-  this.description  = desc;
-  this.source       = source;
-  this.rules        = rules || [];
-  this.dependencies = deps  || [];
-};
 
 /**
  * Create a Rule Setfrom a JSON object.
@@ -73,21 +57,9 @@ fiveui.RuleSet = function(id, name, desc, source, rules, deps) {
  * @return {!fiveui.RuleSet} A populated RuleSet object.
  */
 fiveui.RuleSet.fromJSON = function(id, obj) {
-  var rules = (/** @type {!Array.<!fiveui.Rule>} */
-    _.map(obj.rules, fiveui.Rule.fromJSON));
-
-  return new fiveui.RuleSet(id, obj.name, obj.description, obj.source,
-                            rules, obj.dependencies);
-};
-
-
-fiveui.RuleSet.defaults = function(obj) {
-  return _.defaults(obj, {
-    name:          '',
-    description:   '',
-    rules:         [],
-    dependencies:  []
-  });
+  // make sure to override any id value passed in.
+  obj.id = id;
+  return new fiveui.RuleSet(obj);
 };
 
 
@@ -115,13 +87,13 @@ fiveui.RuleSet.load = function(manifest_url, options) {
 
         // XXX there's likely problems here, how should we make sure that the
         // url is what we expect?
-        var rule_file = fiveui.Rule.defaults(rules.pop());
+        var rule_file = rules.pop();
         var rule_url  = base_url + '/' + rule_file;
 
         fiveui.ajax.get(rule_url, {
 
           success: function(text) {
-            manifest.rules.push(new fiveui.Rule(text));
+            manifest.rules.push(text);
             loadRules(manifest, rules);
           },
 
@@ -135,21 +107,27 @@ fiveui.RuleSet.load = function(manifest_url, options) {
     fiveui.ajax.get(manifest_url, {
 
       success: function(text) {
-        try {
-          var sanitized = fiveui.utils.filterJSON(text,'json');
-          var manifest = JSON.parse(sanitized);
+        // cleanup the parsed JSON object
+        var sanitized = fiveui.utils.filterJSON(text,'json');
+        var obj       = null;
 
+        try {
+          obj = JSON.parse(sanitized);
         } catch(e) {
-          // XXX incoming error continuation is empty 
-          // (and we may have syntax error details in e)
           options.error('failed to parse manifest');
           return;
         }
 
-        fiveui.RuleSet.defaults(manifest);
+        var manifest = fiveui.RuleSet.sanitize(obj);
 
-        var rules      = manifest.rules;
-        manifest.rules = [];
+
+        // explicitly zero out the patterns, they shouldn't be part of the
+        // manifest.
+        manifest.patterns = [];
+
+        var rules       = manifest.rules;
+        manifest.rules  = [];
+        manifest.source = manifest_url;
         loadRules(manifest, rules);
       },
 
@@ -182,6 +160,7 @@ fiveui.RuleSetModel = Backbone.Model.extend({
     source:       '',
     rules:        [],
     dependencies: [],
+    patterns:     [],
   },
 
   sync: function(method, model, options) {
@@ -191,20 +170,34 @@ fiveui.RuleSetModel = Backbone.Model.extend({
       error:  function() {}
     });
 
+    var attrs  = _.clone(model.attributes);
     var msg    = this.url;
-    var id     = model.get('id');
-    var source = model.get('source');
 
     switch(method) {
+
+      // the patched fields are in options.attrs
+      case 'patch':
+
+        var patch = options.attrs;
+
+        // at the moment, we only support patching the patterns
+        if(!_.isEmpty(_.difference(_.keys(patch),['patterns']))) {
+          options.error('unable to patch more than the patterns field');
+        } else {
+          attrs.patterns = patch.patterns;
+          msg.send('updateRuleSet', attrs, options.success);
+        }
+
+        break;
 
       case 'update':
       case 'create':
         var rsMethod = method == 'update' ? 'updateRuleSet' : 'addRuleSet';
 
-        msg.send('loadRuleSet', source, function(obj) {
+        msg.send('loadRuleSet', attrs.source, function(obj) {
           if(!obj.error) {
-            obj.id     = id;
-            obj.source = source;
+            obj.id       = attrs.id;
+            obj.patterns = attrs.patterns;
 
             msg.send(rsMethod, obj, options.success);
           } else {
@@ -214,17 +207,11 @@ fiveui.RuleSetModel = Backbone.Model.extend({
         break;
 
       case 'delete':
-        msg.send('remRuleSet', id, function(obj) {
-          if(obj.removed) {
-            options.success();
-          } else {
-            options.error();
-          }
-        });
+        msg.send('remRuleSet', attrs.id, options.success);
         break;
 
       case 'read':
-        msg.send('getRuleSet', id, function(rs) {
+        msg.send('getRuleSet', attrs.id, function(rs) {
           model.set({
             title:  rs.name,
             descr:  rs.description,
@@ -251,6 +238,7 @@ fiveui.RuleSetModel = Backbone.Model.extend({
       rules:       ruleSet.rules,
       dependencies:ruleSet.dependencies,
       source:      ruleSet.source,
+      patterns:    ruleSet.patterns,
     }, { url : msg });
   },
 
