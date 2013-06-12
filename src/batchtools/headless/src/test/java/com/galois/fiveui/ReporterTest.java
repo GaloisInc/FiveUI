@@ -19,14 +19,16 @@
  */
 package com.galois.fiveui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.Files;
 
 public class ReporterTest {
 	
@@ -47,8 +49,8 @@ public class ReporterTest {
 	
 	@Test
 	public void testSummaryPage() throws IOException {
-		//File tmpPath = Files.createTempDir();
-		File tmpPath = new File("/tmp/");
+		File tmpPath = Files.createTempDir();
+		//File tmpPath = new File("/tmp/");
 		System.out.println("Writing test summary page to: " + tmpPath.toString() + File.separator);
 		ImmutableList<Result> r = ImmutableList.of(
 				new Result(ResType.Pass, (WebDriver) null, "OK", "http://nonexistant", "test rule 1", "a desc or test rule 1", "problem!"),
