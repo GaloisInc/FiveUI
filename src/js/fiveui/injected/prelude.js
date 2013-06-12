@@ -257,6 +257,33 @@ fiveui.color.colorCheck = function (selector, colorSet) {
 };
 
 /**
+ * Convert a base-10 byte to a zero padded hex byte.
+ */
+fiveui.color.componentToHex = function (c) {
+    var hex = c.toString(16).toUpperCase();
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+/**
+ * Convert RGB values to Hex.
+ */
+fiveui.color.rgbToHex = function (r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+/**
+ * Convert a 3-byte hex value to base-10 RGB 
+ */
+fiveui.color.hexToRgb = function (hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+/**
  * Covert rgb colors to hex and abreviated hex colors to their full 3 byte
  * form.
  *
@@ -290,17 +317,11 @@ fiveui.color.colorToHex = function(color) {
                     // return the input unchanged
     }
 
-    var red = parseInt(digits[1]);
-    var green = parseInt(digits[2]);
-    var blue = parseInt(digits[3]);
+    var r = parseInt(digits[1]);
+    var g = parseInt(digits[2]);
+    var b = parseInt(digits[3]);
 
-    var rgb = blue | (green << 8) | (red << 16);
-    if (rgb === 0) {
-      return '#000000'; // normalized form
-    }
-    else {
-      return '#' + rgb.toString(16).toUpperCase();
-    }
+    return fiveui.color.rgbToHex(r, g, b);
 };
 
 
