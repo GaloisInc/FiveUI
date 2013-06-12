@@ -27,6 +27,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.io.Files;
 import com.galois.fiveui.Result;
@@ -91,9 +92,9 @@ public class BatchRunner {
         CrawlParameters params = new CrawlParameters(run.getCrawlType());
         int politeness = params.toString().equals("none") ? 1000 : params.politeness;
         List<String> urls;
-        Map<String, Map<String, List<String>>> urlCache;
+        
         //-    URL,     params, urls
-        urlCache = new HashMap<String, Map<String, List<String>>>();
+        Map<String, Map<String, List<String>>> urlCache = Maps.newHashMap();
 
         for (HeadlessAtom a: run.getAtoms()) {
 	        RuleSet rs = a.getRuleSet();
@@ -196,16 +197,9 @@ public class BatchRunner {
                 ", ruleSet=\"" + ruleSet.getName() + "\"";
         logger.debug("runRule: " + state);
 
-        _exe.executeScript(contentScript);
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e1) {
-            logger.error(e1.toString());
-        }
-
-        Object res = _exe.executeScript("return fiveui.selPort.query(type='ReportProblem')");
-
+        contentScript += "return fiveui.selPort.query(type='ReportProblem')";
+        Object res =_exe.executeScript(contentScript);
+        
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
             logger.error("exception running rule: " + res);
@@ -267,19 +261,20 @@ public class BatchRunner {
      * @throws IOException
      */
     private String wrapRule(RuleSet ruleSet) throws IOException {
-        String injected = "";
-        injected += Utils.readFile(_root + JS_SRC_ROOT + SEL_INJECTED_COMPUTE_JS);
+        String injected = "fiveui = {};";
         injected += Utils.readFile(_root + JS_SRC_ROOT + J_QUERY_JS);
-        injected += Utils.readFile(_root + JS_SRC_ROOT + PRELUDE_JS);
         injected += Utils.readFile(_root + JS_SRC_ROOT + MD5_JS);
-        injected += Utils.readFile(_root + JS_SRC_ROOT + JQUERY_PLUGIN_JS);
-        //injected += Utils.readFile(_root + JS_SRC_ROOT + INJECTED_COMPUTE_JS);
+        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/prelude.js");
+        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/jquery-plugins.js");
+        injected += Utils.readFile(_root + JS_SRC_ROOT + "selenium/selenium-injected-compute.js");        
+        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/compute.js");
 
-        injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
+        //injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
+        injected += "fiveui.selPort.send('SetRules', " + ruleSet + ");";
 
         return injected;
     }
-
+    
     /**
      * Build a list of webdrivers with which to run each ruleset.
      *

@@ -19,10 +19,6 @@
  * limitations under the License.
  */
 
-if (typeof goog != 'undefined') {
-  goog.provide('fiveui.jquery');
-}
-
 /**
  * This module provides several useful jQuery plugins related to checking and reporting
  * UI consistency issues.
@@ -39,8 +35,8 @@ fiveui.jquery = fiveui.jquery || {};
  * @returns {!Object} A modified jQuery object
  */
 fiveui.jquery.hasText = function (text) {
-  return this.filter(":contains('" + text + "')")
-}
+  return this.filter(":contains('" + text + "')");
+};
 
 /**
  * Color checker plugin: filters for elements whose CSS color property is
