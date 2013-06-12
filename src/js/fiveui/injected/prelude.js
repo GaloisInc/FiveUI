@@ -256,25 +256,32 @@ fiveui.color.colorCheck = function (selector, colorSet) {
                                 // function expression ?!?
 };
 
-/**
- * Convert a base-10 byte to a zero padded hex byte.
- */
-fiveui.color.componentToHex = function (c) {
-    var hex = c.toString(16).toUpperCase();
-    return hex.length == 1 ? "0" + hex : hex;
+componentToHex = function (c) {
+  var hex = c.toString(16).toUpperCase();
+  return hex.length == 1 ? "0" + hex : hex;
 }
+
+shortHexToHex = function (color) {
+  var have = color.length - 1;
+  var haveDigits = color.substr(1, color.length);
+  var need = 6 - have;
+  var reps = Math.ceil(need / have);
+  var i, strColor;
+  for (i = 0, stdColor = color; i < reps; i += 1) { stdColor += haveDigits; }
+  return stdColor.substr(0, 7);
+};
 
 /**
  * Convert RGB values to Hex.
  */
 fiveui.color.rgbToHex = function (r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 /**
  * Convert a 3-byte hex value to base-10 RGB 
  */
-fiveui.color.hexToRgb = function (hex) {
+fiveui.color.hexToRGB = function (hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
         r: parseInt(result[1], 16),
@@ -295,35 +302,42 @@ fiveui.color.hexToRgb = function (hex) {
  * @throws {ParseError} if the rgb color string cannot be parsed
  */
 fiveui.color.colorToHex = function(color) {
-    var have, need;
     if (color.substr(0, 1) === '#') {
       if (color.length === 7) {
         return color;
       }
       else { // deal with #0 or #F7 cases
-        var have = color.length - 1;
-        var haveDigits = color.substr(1, color.length);
-        var need = 6 - have;
-        var reps = Math.ceil(need / have);
-        var i, strColor;
-        for (i = 0, stdColor = color; i < reps; i += 1) { stdColor += haveDigits; }
-        return stdColor.substr(0, 7);
+        return shortHexToHex(color);
       }
+    }
+    else {  // color == 'rgb...'
+      var c = fiveui.color.colorToRGB(color)
+      return fiveui.color.rgbToHex(c.r, c.g, c.b);
+    }
+};
+
+/**
+ * Covert color to RGB color object.
+ *
+ * @param {!String} color The color string to convert. This should be either of the form rgb(...) or #...
+ * @returns {!Object} An RGB color object with attributes: r, g, b
+ * @throws {ParseError} if the rgb color string cannot be parsed
+ */
+fiveui.color.colorToRGB = function(color) {
+
+    if (color.substr(0, 1) === '#') {
+      return fiveui.color.hexToRGB(fiveui.color.colorToHex(color));
     }
 
     var digits = /rgba?\((\d+), (\d+), (\d+)/.exec(color);
     if (!digits) {
-      return color; // in case there is a parse error, we just
-                    // return the input unchanged
+      throw new ParseError('could not parse color string: ' + color);
     }
 
-    var r = parseInt(digits[1]);
-    var g = parseInt(digits[2]);
-    var b = parseInt(digits[3]);
-
-    return fiveui.color.rgbToHex(r, g, b);
+    return { r: parseInt(digits[1]),
+             g: parseInt(digits[2]),
+             b: parseInt(digits[3]) };
 };
-
 
 /**
  * Utilities for dealing with fonts.
