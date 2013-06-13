@@ -56,10 +56,7 @@ public class BatchRunner {
     
     // Hard coded JS files, relative to the FiveUI root directory.
     private static final String J_QUERY_JS = "lib/jquery/jquery.js";
-    private static final String PRELUDE_JS = "fiveui/injected/prelude.js";
     private static final String MD5_JS = "lib/md5.js";
-    private static final String JQUERY_PLUGIN_JS = "fiveui/injected/jquery-plugins.js";
-    private static final String SEL_INJECTED_COMPUTE_JS = "selenium/selenium-injected-compute.js";
 
     private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchRunner");
 
@@ -197,9 +194,9 @@ public class BatchRunner {
                 ", ruleSet=\"" + ruleSet.getName() + "\"";
         logger.debug("runRule: " + state);
 
-        contentScript += "return fiveui.selPort.query(type='ReportProblem')";
+        contentScript += "return fiveui.selPort.query('ReportProblem')";
         Object res =_exe.executeScript(contentScript);
-        
+        logger.debug("runRule: " + state);
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
             logger.error("exception running rule: " + res);
@@ -224,13 +221,14 @@ public class BatchRunner {
                     //
                     //      Probably we should just pass along the Map<String, String>
                     //      and let the reporter deal with it.
-                    String problemAsHTML = "Rule Name: " + problem.get("name") + " / "
-                                         + "Rule Desc: " + problem.get("descr") + " / "
+                    String ruleName = problem.get("name");
+					String ruleDescr = problem.get("descr");
+					String problemAsHTML = "Rule Name: " + ruleName + " / "
+                                         + "Rule Desc: " + ruleDescr + " / "
                                          + "XPath:     " + problem.get("xpath");
                     builder.add(new Result(ResType.Error, _driver, "",
                                            _driver.getCurrentUrl(),
-                                           ruleSet.getName(),
-                                           ruleSet.getDescription(),
+                                           ruleName, ruleDescr,
                                            problemAsHTML));
                 }
 
@@ -268,11 +266,11 @@ public class BatchRunner {
         injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/jquery-plugins.js");
         injected += Utils.readFile(_root + JS_SRC_ROOT + "selenium/selenium-injected-compute.js");        
         injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/compute.js");
+        
+        String ruleStrList = ruleSet.toJS();
+        String cmd = "fiveui.selPort.send('ForceEval', " + ruleStrList + ");";
 
-        //injected += "return fiveui.selPort.send('SetRules', " + ruleSet + ");";
-        injected += "fiveui.selPort.send('SetRules', " + ruleSet + ");";
-
-        return injected;
+        return injected + cmd;
     }
     
     /**

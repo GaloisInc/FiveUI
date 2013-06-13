@@ -1,9 +1,10 @@
 [
 {
-  'url': 'http://testhost1',
-  'ruleSet': '../ruleSets/emptyRuleSet.json'
+  "url": "http://localhost:8000/headings.html",
+  "ruleSet": "../ruleSets/alwaysErrors.json"
 },
 {
   'url': 'http://testhost2',
   'ruleSet': '../../../../../rsTester/src/test/resources/ruleSets/headingGuidelines.json'
-}]
+}
+]
