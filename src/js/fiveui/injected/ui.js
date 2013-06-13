@@ -120,7 +120,9 @@
        prMessage.append(prDetails);
 
        var prDescr  = $('<p>'+prob.descr+'</p>');
+       var prPath   = $('<p>'+prob.xpath+'</p>');
        prDetails.append(prDescr);
+       prDetails.append(prPath);
        prDetails.hide();
 
        $('#problemList').append(probDiv);
