@@ -1,0 +1,4 @@
+{ "name": "A rule set that always generates an error."
+, "description": "Testing rule set; always errors."
+, "rules": [ "makeError.js" ]
+}
