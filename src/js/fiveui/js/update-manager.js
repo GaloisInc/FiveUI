@@ -28,20 +28,6 @@ fiveui.UpdateManager = function(msg) {
   // fired when the rule set gets updated
   msg.register('updateRuleSet', function(newRuleSet) {
     manager.trigger('updateRuleSet.' + newRuleSet.id, false, newRuleSet);
-
-    // update the associated url patterns
-    msg.send('getRuleSetPatIds', null, function(patIds) {
-      _.each(patIds, function(patId) {
-        manager.trigger('updateUrlPat.' + patId);
-      });
-    });
-  });
-
-  // fired when the url pat gets removed
-  msg.register('remUrlPat', function(id) {
-    var evt = 'remUrlPat.' + id;
-    manager.trigger(evt);
-    manager.off(evt);
   });
 
 };

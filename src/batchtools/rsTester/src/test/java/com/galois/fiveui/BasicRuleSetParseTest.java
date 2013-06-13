@@ -65,8 +65,8 @@ public class BasicRuleSetParseTest {
 		List<Object[]> tests = Lists.newArrayList();
 		
 		Object[][] rawTests = new Object[][] {
-				{ "ruleSets/emptyRuleSet.json", true },
-				{ "ruleSets/simpleRuleSet1.json", true },
+//				{ "ruleSets/emptyRuleSet.json", true },
+				//{ "ruleSets/simpleRuleSet1.json", true },
 				{ "ruleSets/headingGuidelines.json", true },
 				};
 		

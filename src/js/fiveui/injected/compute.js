@@ -88,9 +88,10 @@
      core.port.emit('ReportStats', stats);
    };
 
-   core.hash = function(rule, name, node) {
+   core.hash = function(rule, message, node) {
      var prob = {
-       name: name,
+       name: rule.name,
+       msg: message,
        descr: rule.description,
        url: window.location.href,
        severity: 1,
@@ -195,6 +196,9 @@
 
    /* END of BSD licensed code */
 
+   /**
+    * @param {!Array.<Rule>} rs A list of Rule objects.
+    */
    core.evaluate = function(rs) {
      var theRule = null;
      var date    = new Date();
@@ -206,8 +210,8 @@
        };
      fiveui.stats.numElts = 0; // reset stats element counter
 
-     var report = function(name, node) {
-       var prob = core.hash(theRule, name, node);
+     var report = function(message, node) {
+       var prob = core.hash(theRule, message, node);
        var query = $(node);
        if(!query.hasClass(prob.hash)) {
          query.addClass(prob.hash);
@@ -289,24 +293,34 @@
    };
 
    var registerBackendListeners = function(port) {
-     port.on('SetRules', function(payload) {
+     var assembleRules = function(ruleStrList) {
+       var ruleList = [];
 
-       core.rules = [];
-
-       for(var i=0; i<payload.length; ++i) {
+       for(var i=0; i<ruleStrList.length; ++i) {
          var moduleStr =
            [ '(function(){'
            , 'var exports = {};'
-           , payload[i]
+           , ruleStrList[i]
            , 'return exports;'
            , '})()'
            ].join('\n');
 
-         core.rules.push(eval(moduleStr));
+         var evaled = eval(moduleStr);
+         ruleList.push(evaled);
        }
+       return ruleList;
+     };
+
+     port.on('SetRules', function(payload) {
+       core.rules = assembleRules(payload);
 
        core.scheduleRules();
        registerDomListeners(document);
+     });
+
+     port.on('ForceEval', function(ruleStrList){
+       var ruleList = assembleRules(ruleStrList);
+       core.evaluate(ruleList);
      });
    };
 

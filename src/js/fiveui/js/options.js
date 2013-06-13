@@ -62,50 +62,6 @@ fiveui.options.init = function(port) {
   var update = new fiveui.UpdateManager(msg);
 
   ruleSets = new fiveui.RuleSets([], { url: msg });
-  urlPats  = new fiveui.UrlPats([], { url: msg });
-
-
-  /** UrlPat list entries ****************************************************/
-
-  var urlPatEntries = jQuery('#urlPatEntries');
-  var addUrlPat     = jQuery('#addUrlPat');
-
-  addUrlPat.prop('disabled', true);
-
-  addUrlPat.on('click', function() {
-    urlPats.add(new fiveui.UrlPatModel({}, { url : msg }));
-  });
-
-  // when a new rule set is sync'd, make sure that the add url pattern button is
-  // enabled.
-  ruleSets.on('sync', function() {
-    if(ruleSets.length > 0) {
-      addUrlPat.prop('disabled', false);
-    }
-  });
-
-  // when a rule set is destroyed, and the collection is now empty, disable the
-  // add url pattern button.
-  ruleSets.on('destroy', function(model,col) {
-    if(col.length <= 0) {
-      addUrlPat.prop('disabled', true);
-    }
-  });
-
-  // handle new url patterns being added to the collection.
-  urlPats.on('add', function(model) {
-    var view = new fiveui.UrlPatEntry({
-      model: model,
-      rules: new fiveui.RulesView({ model: ruleSets })
-    });
-    urlPatEntries.append(view.$el);
-
-    if(model.isNew()) {
-      view.edit();
-    } else {
-      view.render();
-    }
-  });
 
 
   /** RuleSet list entries ***************************************************/
@@ -129,7 +85,6 @@ fiveui.options.init = function(port) {
     if(model.isNew()) {
       entry.edit();
     } else {
-      addUrlPat.prop('disabled', false);
       entry.render();
     }
   });
@@ -198,7 +153,7 @@ fiveui.options.init = function(port) {
   setClickHandler(jQuery('#rule-sets'),    select('#tab-rule-sets'));
   setClickHandler(jQuery('#basics'),       select('#tab-basics'));
 
-  // select the url patterns tab by default
+  // select the rule sets tab
   selectNav(jQuery('#rule-sets'));
   selectSection(jQuery('#tab-rule-sets'));
 
@@ -209,12 +164,8 @@ fiveui.options.init = function(port) {
     jQuery('#windowDisplayDefault').prop('checked', def);
   });
 
-  // pre-populate the rule set and url pattern lists
-  ruleSets.fetch({
-    success:function() {
-      urlPats.fetch();
-    }
-  });
+  // pre-populate the rule sets
+  ruleSets.fetch();
 };
 
 
@@ -347,8 +298,10 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
     // setup the url pattern editor
     this.$addpat.button({ icons: { primary: 'ui-icon-plus' } });
-    editable(this.$urlpat, 'http://example.com/*',
-        _.bind(this.$addpat.click, this.$addpat))
+    editable(this.$urlpat, 'http://example.com/*', _.bind(function() {
+      this.$addpat.click();
+      this.$urlpat.focus();
+    }, this));
   },
 
   events: {
@@ -360,9 +313,11 @@ fiveui.RuleSetEntry = Backbone.View.extend({
   },
 
   viewRsTemplate: _.template(
-    [ '<button class="remove">remove</button>'
-    , '<button class="edit">edit</button>'
-    , '<button class="reload">reload</button>'
+    [ '<div class="container">'
+    , '  <button class="remove">remove</button>'
+    , '  <button class="edit">edit</button>'
+    , '  <button class="reload">reload</button>'
+    , '</div>'
     , '<span class="title"><%= name %></span>'
     ].join('')),
 
@@ -386,8 +341,10 @@ fiveui.RuleSetEntry = Backbone.View.extend({
   },
 
   editTemplate: _.template(
-    [ '<button class="remove">x</button>'
-    , '<button class="save">save</button>'
+    [ '<div class="container">'
+    , '  <button class="remove">x</button>'
+    , '  <button class="save">save</button>'
+    , '</div>'
     , '<span class="source"><%= source %></span>'
     ].join('')),
 

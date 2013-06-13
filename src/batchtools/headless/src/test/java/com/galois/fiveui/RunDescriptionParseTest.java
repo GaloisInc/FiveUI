@@ -19,7 +19,7 @@ import com.google.common.collect.ImmutableList;
  * @author bjones
  *
  */
-public class HeadlessTest {
+public class RunDescriptionParseTest {
 	private static final String RUN_DESCRIPTION_DIR = "src/test/resources/runDescriptions/";
 	private static Logger logger = Logger.getLogger("com.galois.fiveui.HeadlessTest");
 	
@@ -67,7 +67,7 @@ public class HeadlessTest {
         		"../../../../../rsTester/src/test/resources/ruleSets/headingGuidelines.json";
         RuleSet ruleSetOracle = RuleSet.parseFile(ruleSetLoc);
         HeadlessAtom headlessAtomOracle = 
-                new HeadlessAtom("http://testhost", ruleSetOracle);  
+                new HeadlessAtom("http://localhost:8000/headings.html", ruleSetOracle);  
         HeadlessRunDescription oracle = 
                 new HeadlessRunDescription(ImmutableList.of(headlessAtomOracle));     
         
@@ -87,10 +87,10 @@ public class HeadlessTest {
         String jsonFileName = RUN_DESCRIPTION_DIR + "headlessSample2.json";
         // manually build first HeadlessAtom
         String ruleSetLoc1 = 
-                RUN_DESCRIPTION_DIR + "../ruleSets/emptyRuleSet.json";
+                RUN_DESCRIPTION_DIR + "../ruleSets/alwaysErrors.json";
         RuleSet ruleSetOracle1 = RuleSet.parseFile(ruleSetLoc1);
         HeadlessAtom headlessAtomOracle1 = 
-                new HeadlessAtom("http://testhost1", ruleSetOracle1);  
+                new HeadlessAtom("http://localhost:8000/headings.html", ruleSetOracle1);  
         // manually build second HeadlessAtom
         String ruleSetLoc2 = RUN_DESCRIPTION_DIR + 
         		"../../../../../rsTester/src/test/resources/ruleSets/headingGuidelines.json";

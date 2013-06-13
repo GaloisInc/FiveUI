@@ -19,6 +19,7 @@ package com.galois.fiveui;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import com.google.common.collect.ImmutableCollection;
@@ -72,6 +73,9 @@ public class RuleSet {
 			} catch (IOException e) {
 				System.err.println("Could not load rule from file: "+adjustedPath);
 				System.err.println("  error: "+e);
+			} catch (ParseException e) {
+				System.err.println("Could not parse rule from: "+r);
+				System.err.println(e.getMessage());
 			}
         }
         
@@ -114,6 +118,32 @@ public class RuleSet {
     	return gson.toJson(this);
     }
 
+    public String toJS() {
+        Gson gson = new Gson();
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("[");
+    	
+    	for (String r : this.rules) {
+    		try {
+				String ruleStr = Utils.readFile(descDir + File.separator + r);
+				//ruleStr = "\""+ruleStr.replace("\"", "\\\"") + "\\\"";
+				ruleStr = gson.toJson(ruleStr);
+				
+				// XXX Gson doesn't seem to escape quotes or \n's enough:
+				//ruleStr = ruleStr.replace("\\", "\\\\");
+				//ruleStr = ruleStr.replace("\\u003d", "=");
+				builder.append(ruleStr + ", ");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
+    	builder.append("]");
+    	
+    	return builder.toString();
+    }
+    
 	@Override
 	public int hashCode() {
 		final int prime = 31;
