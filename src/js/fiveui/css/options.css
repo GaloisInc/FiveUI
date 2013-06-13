@@ -170,8 +170,14 @@ li.entry button {
   font-size: 0.6em;
 }
 
+li.entry div.container {
+  float: left;
+  margin-right: 10px;
+}
+
 li.entry .editable {
   padding: 5px;
+  margin-left; 10px;
   border: 1px solid #CDCDCD;
 }
 
