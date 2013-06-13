@@ -200,8 +200,6 @@
     * @param {!Array.<Rule>} rs A list of Rule objects.
     */
    core.evaluate = function(rs) {
-     console.log("in evaluate");
-     console.log(rs);
      var theRule = null;
      var date    = new Date();
      var stats   =
@@ -231,8 +229,6 @@
          report:      report
        };
 
-       console.log("theRule.rule");
-       console.log(theRule.rule);
        if (theRule.rule) {
          try {
            // note: fiveui.stats.numElts is updated as a side effect here
@@ -309,8 +305,6 @@
            , '})()'
            ].join('\n');
 
-         console.log("built module string for i="+i);
-         console.log(moduleStr);
          var evaled = eval(moduleStr);
          ruleList.push(evaled);
        }
@@ -326,7 +320,6 @@
 
      port.on('ForceEval', function(ruleStrList){
        var ruleList = assembleRules(ruleStrList);
-       console.log(ruleList);
        core.evaluate(ruleList);
      });
    };
