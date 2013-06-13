@@ -2,14 +2,14 @@
 
 This directory contains various FiveUI rule sets aimed at general websites.
 
-## Files
+## Folders
 
-colorRules.json        : rules for checking color
-fontRules.json         : rules checking font family/weight/size
-imageRules.json        : rules checking image sizes and borders
-miscRules.json         : rules checking misc constraints
-textRules.json         : rules checking text style
+accessibility/
 
-buildCombinedRules.sh  : shell script which merges all the .json files in
-                         the current directory into the file combinedRules.json
-combinedRules.json     : collection of all the above rules in the directory into one file
+    Web Accessibility guidelines based on ...
+
+basic/
+
+    Basic UI Usability Guidelines
+
+
