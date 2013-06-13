@@ -33,7 +33,7 @@ public class Result {
 
     private ResType _type;
     private String _msg;
-    private WebDriver _driver;
+    private transient WebDriver _driver;
     private String _url;
     private String _ruleName;
 	private String _ruleDesc;
@@ -66,13 +66,13 @@ public class Result {
      * An information restricted version of the other public constructor. This
      * constructor does not include URL, rule, or problem information.
      */
-    public Result(ResType type, WebDriver driver, String msg) {
+    public Result(ResType type, WebDriver driver, String name) {
         super();
         _type = type;
-        _msg = msg;
+        _msg = "";
         _driver = driver;
         _url = "";
-        _ruleName = "";
+        _ruleName = name;
         _ruleDesc = "";
         _prob = "";
     }
@@ -86,44 +86,44 @@ public class Result {
      * Result constructor, returns an "exception" type result.
      *
      * @param driver WebDriver the result came from
-     * @param res description of the result
+     * @param name name of the rule
      * @return a Result object
      */
-    public static Result exception(WebDriver driver, String res) {
-        return new Result(ResType.Exception, driver, res);
+    public static Result exception(WebDriver driver, String name) {
+        return new Result(ResType.Exception, driver, name);
     }
 
     /**
       * Result constructor, returns a "pass" type result.
       *
       * @param driver WebDriver the result came from
-      * @param res description of the result
+      * @param name name of the rule
       * @return a Result object
       */
-    public static Result pass(WebDriver driver, String res) {
-        return new Result(ResType.Pass, driver, res);
+    public static Result pass(WebDriver driver, String name) {
+        return new Result(ResType.Pass, driver, name);
     }
 
     /**
         * Result constructor, returns an "error" type result.
         *
         * @param driver WebDriver the result came from
-        * @param res description of the result
+        * @param name name of the rule
         * @return a Result object
         */
-    public static Result error(WebDriver driver, String res) {
-        return new Result(ResType.Error, driver, res);
+    public static Result error(WebDriver driver, String name) {
+        return new Result(ResType.Error, driver, name);
     }
 
     /**
         * Result constructor, returns a "warning" type result.
         *
         * @param driver WebDriver the result came from
-        * @param res description of the result
+        * @param name name of the rule
         * @return a Result object
         */
-    public static Result warning(WebDriver driver, String res) {
-        return new Result(ResType.Warning, driver, res);
+    public static Result warning(WebDriver driver, String name) {
+        return new Result(ResType.Warning, driver, name);
     }
 
     /**********************************************************************************
@@ -158,16 +158,50 @@ public class Result {
         return _prob;
     }
 
-    /**
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((_ruleName == null) ? 0 : _ruleName.hashCode());
+		result = prime * result + ((_type == null) ? 0 : _type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Result other = (Result) obj;
+		if (_ruleName == null) {
+			if (other._ruleName != null)
+				return false;
+		} else if (!_ruleName.equals(other._ruleName))
+			return false;
+		if (_type != other._type)
+			return false;
+		return true;
+	}
+
+	/**
      * Stringify the result, returning the type, driver name, and
      * full description.
      */
     @Override
     public String toString() {
-        return getType() + " - " + _driver.toString().split(":")[0] + ": "
+    	String drvStr = "Null";
+    	if (null != _driver){
+    		drvStr = _driver.toString();
+    	}
+    	
+        return getType() + " - " + drvStr.split(":")[0] + ": "
              + _msg + "\n"
              + " |\\- " + _url + "\n"
-             + " |\\_ "  + _ruleName + "\n"
+             + " |\\_ " + _ruleName + "\n"
              + " |\\_ " + _ruleDesc + "\n"
              + "  \\_ " + _prob;
     }

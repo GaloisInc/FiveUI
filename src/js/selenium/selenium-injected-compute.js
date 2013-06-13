@@ -19,11 +19,13 @@
  * limitations under the License.
  */
 
+
+
 /**
  * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
  */
 var obtainComputePort = function() {
-  fiveui.selPort = new fiveui.SeleniumPort();
+
   return fiveui.selPort;
 };
 
@@ -61,7 +63,8 @@ fiveui.SeleniumPort.prototype.emit = function(evt, obj) {
  * Send a message to the injected script.
  *
  * @param {!string} evt The event to fire.
- * @param {?Object} obj The data to associate with the event.
+ * @param {?Array.<string>} obj The data to associate with the event
+ *              (an array of strings, each representing a JS module)
  */
 fiveui.SeleniumPort.prototype.send = function(evt, obj) {
   if (this._events[evt]) {
@@ -81,8 +84,7 @@ fiveui.SeleniumPort.prototype.query = function (type) {
 
   if (!type) {
     msgs = this._messages;
-  }
-  else {
+  } else {
     for (i=0; i < this._messages.length; i += 1) {
       console.log(this._messages);
       if (this._messages[i].type === type) {
@@ -97,3 +99,9 @@ fiveui.SeleniumPort.prototype.query = function (type) {
   // return the new messages to the backend:
   return msgs;
 };
+
+// Define a port at the top level, so multiple contexts can access it.
+fiveui.selPort = new fiveui.SeleniumPort();
+// fiveui.selPort.emit('ReportProblem', {name: 'foo'});
+
+//  this._messages = [{type: 'ReportProblem', payload: {name: 'bork'}}];

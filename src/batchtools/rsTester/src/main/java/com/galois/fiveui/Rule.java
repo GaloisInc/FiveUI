@@ -17,9 +17,11 @@
  */
 package com.galois.fiveui;
 
-import java.util.HashMap;
+import java.text.ParseException;
 
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.Scriptable;
 
 import com.google.gson.Gson;
 
@@ -30,26 +32,43 @@ public class Rule {
      *
 	 * @param str string representing a rule set
 	 * @return a RuleSet object
+	 * @throws ParseException 
 	 */
-	@SuppressWarnings("unchecked")
-	public static final Rule parse(String str) {
-		HtmlUnitDriver driver = new HtmlUnitDriver(true);
-		String name = "";
-		String desc = "";
-		String ruleStr = "";
-		HashMap<String, Object> res = null;
-		String stmt = "exports = {};\n"+str + "; return exports;";
+	public static final Rule parse(String str) throws ParseException {
+		
+		Context cx = Context.enter();
+		
 		try {
-			driver.get("http://localhost:8000/test.html");
-			res = (HashMap<String, Object>) driver.executeScript(stmt);
-			name = (String) res.get("name");
-			desc = (String) res.get("description");
-			ruleStr = res.get("rule").toString();
+			Scriptable scope = cx.initStandardObjects();
+			
+			cx.evaluateString(scope, "exports = {};"+str, "<rule>", 1, null);
+			
+			Object mExports = scope.get("exports", scope);
+			
+			if (mExports == Scriptable.NOT_FOUND) {
+				throw new ParseException("Could not parse rule: no Exports found", 0);
+			} else {
+				NativeObject exports = (NativeObject)mExports;
+				String name = "";
+				String description = "";
+				Object rule;
+				String ruleStr = "";
+				if (exports.containsKey("name") ) {
+					name = exports.get("name").toString();
+				}
+				if (exports.containsKey("description") ) {
+					description = exports.get("description").toString();
+				}
+				if (exports.containsKey("rule") ) {
+					rule = exports.get("rule");
+					ruleStr = Context.toString(rule);
+				}
+				
+				return new Rule(name, description, ruleStr);
+			}
 		} finally {
-			driver.quit();
+			Context.exit();
 		}
-
-		return new Rule(name, desc, ruleStr);
 	}
 
     private final String _name;
@@ -77,10 +96,10 @@ public class Rule {
     @Override
     public String toString() {
         Gson gson = new Gson();
-        
+        String ruleStr = getRule().replace("\"", "\\\"");
         return "exports.name = " + gson.toJson(getName()) + ";\n" +
                "exports.description = " + gson.toJson(getDescription()) + ";\n" +
-               "exports.rule = " + gson.toJson(getRule()) + ";\n";
+               "exports.rule = \"" + ruleStr + "\";\n";
     }
     
     /**
