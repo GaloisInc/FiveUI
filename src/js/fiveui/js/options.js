@@ -298,8 +298,10 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
     // setup the url pattern editor
     this.$addpat.button({ icons: { primary: 'ui-icon-plus' } });
-    editable(this.$urlpat, 'http://example.com/*',
-        _.bind(this.$addpat.click, this.$addpat))
+    editable(this.$urlpat, 'http://example.com/*', _.bind(function() {
+      this.$addpat.click();
+      this.$urlpat.focus();
+    }, this));
   },
 
   events: {
