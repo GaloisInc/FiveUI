@@ -58,8 +58,6 @@ quiet_cmd_compilejs = JSC        $(call drop-prefix,$@)
 $(firefox-build)/data/main.js:     \
     $(firefox-dir)/lib/main.js     \
     $(fiveui-dir)/js/set.js        \
-    $(fiveui-dir)/js/url-pat.js    \
-    $(fiveui-dir)/js/url-pat.js    \
     $(fiveui-dir)/js/settings.js   \
     $(fiveui-dir)/js/messenger.js  \
     $(fiveui-dir)/js/state.js      \

@@ -72,25 +72,4 @@ describe('fiveui.Messenger', function() {
     expect(m1got[0]).toBe(null);
   });
 
-
-  it('is able to send rules', function() {
-    var ruleIn = new fiveui.Rule(42, 'testRule',
-        'see: http://test.description/',
-        'function() { console.log("fail"); }');
-
-    var got = [];
-    m1.register('rule', function(r){
-      got.push(r);
-    });
-
-    m2.send('rule', ruleIn);
-    expect(got.length).toBe(1);
-
-    var ruleOut = got[0];
-    expect(ruleIn.id).toBe(ruleOut.id);
-    expect(ruleIn.name).toBe(ruleOut.name);
-    expect(ruleIn.description).toBe(ruleOut.description);
-    expect(ruleIn.ruleStr).toBe(ruleOut.ruleStr);
-  });
-
 });

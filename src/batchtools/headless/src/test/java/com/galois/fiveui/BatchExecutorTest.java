@@ -46,7 +46,7 @@ import com.google.common.collect.ImmutableList;
 public class BatchExecutorTest {
 
 	private static final String RUN_DESCRIPTION_DIR = "src/test/resources/runDescriptions/";
-	private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchExecutorTest");
+	private static Logger logger = Logger.getLogger(BatchExecutorTest.class);
 	private static NanoHTTPD httpServer;
 	
 	@BeforeClass

@@ -155,7 +155,7 @@ ul.entries li.entry {
   border: 1px solid #CDCDCD;
   margin-top: 5px;
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #EAEEF3;
 }
 
 li.entry .error {
@@ -170,8 +170,14 @@ li.entry button {
   font-size: 0.6em;
 }
 
+li.entry div.container {
+  float: left;
+  margin-right: 10px;
+}
+
 li.entry .editable {
   padding: 5px;
+  margin-left; 10px;
   border: 1px solid #CDCDCD;
 }
 

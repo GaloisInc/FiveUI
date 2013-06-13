@@ -1,4 +1,4 @@
 [{
-  'url': 'http://testhost',
+  'url': 'http://localhost:8000/headings.html',
   'ruleSet': '../../../../../rsTester/src/test/resources/ruleSets/headingGuidelines.json'
 }]
