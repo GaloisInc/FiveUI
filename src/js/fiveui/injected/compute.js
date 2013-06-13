@@ -20,6 +20,7 @@
  */
 
 (function(){
+
    var guidGenerator = function () {
      var S4 = function() {
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -82,6 +83,15 @@
 
    core.reportProblem = function(prob) {
      core.port.emit('ReportProblem', prob);
+   };
+
+   core.resetStats = function() {
+     core.reportStats(
+       { start:    0
+       , end:      0
+       , numRules: 0
+       , numElts:  0
+       });
    };
 
    core.reportStats = function(stats) {
@@ -210,29 +220,24 @@
        };
      fiveui.stats.numElts = 0; // reset stats element counter
 
-     var report = function(message, node) {
-       var prob = core.hash(theRule, message, node);
-       var query = $(node);
-       if(!query.hasClass(prob.hash)) {
-         query.addClass(prob.hash);
-         core.reportProblem(prob);
+     var report = {
+       error:function(message, node) {
+         var prob = core.hash(theRule, message, node);
+         var query = $(node);
+         if(!query.hasClass(prob.hash)) {
+           query.addClass(prob.hash);
+           core.reportProblem(prob);
+         }
        }
      };
 
      for(var i=0; i<rs.length; ++i) {
-       var theRule = rs[i];
-       var scope = {
-         name:        theRule.name,
-         description: theRule.description,
-         ruleSet:     core.rules,
-         // maybe it would be better for this to be an argument to the rule?
-         report:      report
-       };
+       theRule = rs[i];
 
        if (theRule.rule) {
          try {
            // note: fiveui.stats.numElts is updated as a side effect here
-           theRule.rule.apply(scope);
+           theRule.rule.call(window, report);
          } catch (e) {
            console.log('exception running rule: ' + theRule.name);
            console.log(e.toString());
@@ -330,5 +335,6 @@
    };
 
    registerBackendListeners(core.port);
-}());
+   core.resetStats();
+})();
 
