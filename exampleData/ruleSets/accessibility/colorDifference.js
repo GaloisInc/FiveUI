@@ -18,14 +18,19 @@ exports.rule = function() {
   };
 
   var that = this;
-  fiveui.query('*').each(function (i) {
-    var fg = fiveui.color.colorToRGB($(this).attr('color'));
-    var bg = fiveui.color.colorToRGB($(this).attr('background'));
-    if (fg && bg) {
-      var diff = colorDiff(fg, bg);
-      if (diff < MIN_DIFF) {
-        that.report('Element has poor color difference: ' + diff, e);
+  fiveui.query('*')
+    .filter(function () {  // filter for lowest level elts having non-empty text
+      var $this = $(this);
+      return $this.children().length == 0 && $.trim($this.text()).length > 0;
+    })
+    .each(function (i) {
+      var fg = fiveui.color.colorToRGB($(this).css('color'));
+      var bg = fiveui.color.colorToRGB($(this).css('background-color'));
+      if (fg && bg) {
+        var diff = colorDiff(fg, bg);
+        if (diff < MIN_COLOR_DIFF) {
+          that.report('Element has poor color difference: ' + diff, this);
+        }
       }
-    }
   });
 };
