@@ -200,7 +200,7 @@ _.extend(fiveui.Settings.prototype, {
     return _.find(this.getRuleSets(), function(rs) {
 
       var pat = _.find(rs.patterns, function(pat) {
-        var regex = fiveui.UrlPat.compile(pat);
+        var regex = fiveui.utils.compilePattern(pat);
         return regex.test(url);
       });
 

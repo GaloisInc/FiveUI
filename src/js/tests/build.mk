@@ -12,6 +12,8 @@ $(call strict-error,"phantomjs not found: unable to run javascript tests")
 else
 
 test: test-js
+
+.PHONY: test-js
 test-js:
 	cd $(topdir)/src/js && $(phantomjs-cmd)                  \
 	  lib/phantomjs_jasmine/phantomjs_jasminexml_runner.js \
