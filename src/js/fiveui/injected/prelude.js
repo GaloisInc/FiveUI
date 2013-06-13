@@ -329,14 +329,20 @@ fiveui.color.colorToRGB = function(color) {
       return fiveui.color.hexToRGB(fiveui.color.colorToHex(color));
     }
 
-    var digits = /rgba?\((\d+), (\d+), (\d+)/.exec(color);
+    var digits = /rgba?\((\d+), (\d+), (\d+)(, (\d+))?/.exec(color);
     if (!digits) {
       throw new ParseError('could not parse color string: ' + color);
     }
 
-    return { r: parseInt(digits[1]),
-             g: parseInt(digits[2]),
-             b: parseInt(digits[3]) };
+    // HACK: return white if transparency is set to 0
+    if (digits[5] == 0) {
+      return { r: 255, g: 255, b: 255 };
+    }
+    else {
+      return { r: parseInt(digits[1]),
+               g: parseInt(digits[2]),
+               b: parseInt(digits[3]) };
+    }
 };
 
 /**
