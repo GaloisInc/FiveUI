@@ -1,0 +1,6 @@
+{ "name": "Basic HTML guidelines"
+, "description": "A selection of simple HTML guidelines for improved usability and consistency"
+, "rules": [ "labelFields.js",
+             "emptyHeadings.js",
+             "emptyHrefs.js" ]
+}
