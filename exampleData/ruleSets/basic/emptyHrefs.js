@@ -1,5 +1,5 @@
-exports.name': "Don't use empty hrefs."
-exports.description': "Links with no text can't generally be used."
+exports.name = "Don't use empty hrefs";
+exports.description = "Links with no text can't generally be used";
 exports.rule =
   function() {
     var that = this;
