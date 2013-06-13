@@ -76,6 +76,19 @@ fiveui.utils.getNewId = function(list) {
 
 
 /**
+ * Create a regular expression from a globbed pattern.
+ *
+ * @param {!string} str The globbed url.
+ * @return {!RegExp} A compiled regular expression.
+ */
+fiveui.utils.compilePattern = function(str) {
+  var regex = str.replace(/\./g, '\.')
+                 .replace(/\*/g, '.*');
+  return new RegExp(regex);
+};
+
+
+/**
  * Remove c-style comments
  *
  * There's probably a faster way to do this.
