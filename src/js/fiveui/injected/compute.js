@@ -305,8 +305,13 @@
            , '})()'
            ].join('\n');
 
-         var evaled = eval(moduleStr);
-         ruleList.push(evaled);
+         try {
+           var evaled = eval(moduleStr);
+           ruleList.push(evaled);
+         } catch (x) {
+           console.error('Could not evaluate rule module: ' + x);
+           console.error(moduleStr);
+         }
        }
        return ruleList;
      };
