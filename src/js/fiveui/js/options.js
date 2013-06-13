@@ -313,9 +313,11 @@ fiveui.RuleSetEntry = Backbone.View.extend({
   },
 
   viewRsTemplate: _.template(
-    [ '<button class="remove">remove</button>'
-    , '<button class="edit">edit</button>'
-    , '<button class="reload">reload</button>'
+    [ '<div class="container">'
+    , '  <button class="remove">remove</button>'
+    , '  <button class="edit">edit</button>'
+    , '  <button class="reload">reload</button>'
+    , '</div>'
     , '<span class="title"><%= name %></span>'
     ].join('')),
 
@@ -339,8 +341,10 @@ fiveui.RuleSetEntry = Backbone.View.extend({
   },
 
   editTemplate: _.template(
-    [ '<button class="remove">x</button>'
-    , '<button class="save">save</button>'
+    [ '<div class="container">'
+    , '  <button class="remove">x</button>'
+    , '  <button class="save">save</button>'
+    , '</div>'
     , '<span class="source"><%= source %></span>'
     ].join('')),
 
