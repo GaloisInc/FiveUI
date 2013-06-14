@@ -335,8 +335,6 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
     this.$rs.html(this.viewRsTemplate(attrs));
 
-    console.log(attrs.license);
-
     button(this.$rs.find('.edit'),   { primary: 'ui-icon-pencil'  });
     button(this.$rs.find('.reload'), { primary: 'ui-icon-refresh' });
     button(this.$rs.find('.remove'), { primary: 'ui-icon-close'   });
