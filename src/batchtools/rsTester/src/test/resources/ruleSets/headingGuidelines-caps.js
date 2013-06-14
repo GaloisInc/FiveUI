@@ -2,8 +2,7 @@ exports.name = "Headings are capitalized";
 
 exports.description = "Check to see if all headings use leading capital letters.";
 
-exports.rule = function() {
-  var r = this;
+exports.rule = function(r) {
   var badHeadings =
     fiveui.query(':header').filter(
       function(idx) {
@@ -15,6 +14,6 @@ exports.rule = function() {
         }
       });
   $(badHeadings).map(function(idx, elt) {
-                       r.report('Heading does not start with a capital letter.', elt);
+                       r.error('Heading does not start with a capital letter.', elt);
                      });
 };
