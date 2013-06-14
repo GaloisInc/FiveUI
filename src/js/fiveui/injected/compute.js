@@ -35,6 +35,11 @@
    core.port = obtainComputePort();
 
    /**
+    * Whether rules are being currently executed.
+    */
+   core.rulesRunning = false;
+
+   /**
     * Whether or not rules are fired when a dom change is detected.
     */
    core.maskRules = false;
@@ -123,7 +128,7 @@
          return "";
        }
 
-       return nodeParents(node) + node.id + node.tagName;
+       return nodeParents(node) + node.id + node.tagName + core.getElementXPath(node);
      };
 
      var str = prob.name + prob.descr + prob.url + prob.severity
@@ -231,6 +236,7 @@
        }
      };
 
+     core.rulesRunning = true;
      for(var i=0; i<rs.length; ++i) {
        theRule = rs[i];
 
@@ -245,6 +251,7 @@
          stats.numRules += 1;
        }
      }
+     core.rulesRunning = false;
 
      date          = new Date();
      stats.end     = date.getTime();
@@ -271,7 +278,7 @@
      };
 
      var handleDOMEvent = function(e){
-       if ( !uicAttrEvent(e.target) && !underFiveUI(e.target) ) {
+       if (!core.rulesRunning && !uicAttrEvent(e.target) && !underFiveUI(e.target) ) {
          core.scheduleRules();
        }
      };
@@ -298,9 +305,20 @@
    };
 
    var registerBackendListeners = function(port) {
-     var assembleRules = function(ruleStrList) {
+     var assembleRules = function(ruleDescr) {
        var ruleList = [];
 
+       _.each(ruleDescr.dependencies,
+              function(dep){
+                try {
+                  eval(dep.content);
+                } catch (x) {
+                  console.error('Could not evaluate rule dependency: ' + dep.url);
+                  console.error(x);
+                }
+              });
+       
+       var ruleStrList = ruleDescr.rules;
        for(var i=0; i<ruleStrList.length; ++i) {
          var moduleStr =
            [ '(function(){'
