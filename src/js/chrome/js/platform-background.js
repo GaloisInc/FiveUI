@@ -58,8 +58,6 @@ fiveui.chrome.background = function() {
 
       var script = scripts.shift();
 
-      // console.log('injecting: ' + script);
-
       if (/css$/.test(script)) {
         chrome.tabs.insertCSS(tabid, { 'file' : script }, next);
       } else {
@@ -135,7 +133,6 @@ fiveui.chrome.background = function() {
 
 
   chrome.tabs.onCreated.addListener(function(tab) {
-    console.log('in oncreated');
     if (tab.url) {
       background.pageLoad(tab.id, tab.url);
     }
@@ -143,7 +140,6 @@ fiveui.chrome.background = function() {
 
   // check page load events against the generic background
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    console.log('in onupdated');
     if (changeInfo.status == 'complete') {
       background.pageLoad(tabId, tab.url);
     }
