@@ -4,16 +4,8 @@ describe('prelude', function() {
   var addTestSet = function(fn, tests) {
     _.each(tests, function(test) {
       it(test[0], function() {
-        expect(fn(test[1])).toEqual(test[2]);
-      });
-    });
-  };
-
-  // 3 argument version of addTestSet
-  var addTestSet3 = function(fn, tests) {
-    _.each(tests, function(test) {
-      it(test[0], function() {
-        expect(fn(test[1], test[2], test[3])).toEqual(test[4]);
+        var args = test.slice(1, test.length - 1);
+        expect(fn.apply(undefined, args)).toEqual(test[test.length - 1]);
       });
     });
   };
@@ -96,28 +88,28 @@ describe('prelude', function() {
 
   addTestSet(fiveui.color.hexToRGB, [
     //   name                         ,  input   , oracle
-    ['hexToRGB: full white'           , '#000000', { r: 0, g: 0, b: 0 }],
-    ['hexToRGB: full black'           , '#FFFFFF', { r: 255, g: 255, b: 255 }],
+    ['hexToRGB: full black'           , '#000000', { r: 0, g: 0, b: 0 }],
+    ['hexToRGB: full white'           , '#FFFFFF', { r: 255, g: 255, b: 255 }],
     ['hexToRGB: C7 grey'              , '#C7C7C7', { r: 199, g: 199, b: 199 }],
     ['hexToRGB: full red'             , '#FF0000', { r: 255, g: 0, b: 0 }],
     ['hexToRGB: full blue'            , '#0000FF', { r: 0, g: 0, b: 255 }],
   ]);
 
-  addTestSet3(fiveui.color.rgbToHex, [
+  addTestSet(fiveui.color.rgbToHex, [
     //   name                         , 3 inputs,       oracle
-    ['rgbToHex: full white'           , 0, 0, 0,       '#000000'],
-    ['rgbToHex: full black'           , 255, 255, 255, '#FFFFFF'],
+    ['rgbToHex: full black'           , 0, 0, 0,       '#000000'],
+    ['rgbToHex: full white'           , 255, 255, 255, '#FFFFFF'],
     ['rgbToHex: C7 grey'              , 199, 199, 199, '#C7C7C7'],
     ['rgbToHex: full red'             , 255, 0, 0,     '#FF0000'],
-    ['rgbToHex: full blue'            , 0, 0, 255,     '#0000FF'],
+    ['rgbToHex: full blue'            , 0, 0, 255,     '#0000FF']
   ]);
 
   addTestSet(fiveui.color.colorToHex, [
-    ['colorToHex: full white'         , '#000000', '#000000'],
-    ['colorToHex: abreviated white 1' , '#0', '#000000'],
-    ['colorToHex: abreviated white 2' , '#00', '#000000'],
-    ['colorToHex: black'              , '#FFFFFF', '#FFFFFF'],
-    ['colorToHex: abreviated black'   , '#FF', '#FFFFFF'],
+    ['colorToHex: full black'         , '#000000', '#000000'],
+    ['colorToHex: abreviated black 1' , '#0', '#000000'],
+    ['colorToHex: abreviated black 2' , '#00', '#000000'],
+    ['colorToHex: white'              , '#FFFFFF', '#FFFFFF'],
+    ['colorToHex: abreviated white'   , '#FF', '#FFFFFF'],
     ['colorToHex: abreviated C7 grey' , '#C7', '#C7C7C7'],
     ['colorToHex: rgb(0, 0, 0)'       , 'rgb(0, 0, 0)', '#000000'],
     ['colorToHex: rgb(255, 255, 255)' , 'rgb(255, 255, 255)', '#FFFFFF'],
@@ -126,11 +118,19 @@ describe('prelude', function() {
   ]);
 
   addTestSet(fiveui.color.colorToRGB, [
-    ['colorToRGB: full white'         , '#000000', {r: 0, g: 0, b:0} ],
-    ['colorToRGB: abreviated white 1' , '#0', {r: 0, g: 0, b:0} ],
-    ['colorToRGB: black'              , '#FFFFFF', {r: 255, g: 255, b: 255} ],
-    ['colorToRGB: rgb(222, 173, 190)' , 'rgb(222, 173, 190)', {r: 222, g: 173, b: 190} ],
-    ['colorToRGB: rgba(255, 255, 255, 100)', 'rgba(255, 255, 255, 100)', {r: 255, g: 255, b: 255} ],
+    ['colorToRGB: full black'         , '#000000', {r: 0, g: 0, b:0} ],
+    ['colorToRGB: abreviated black 1' , '#0', {r: 0, g: 0, b:0} ],
+    ['colorToRGB: white'              , '#FFFFFF', {r: 255, g: 255, b: 255} ],
+    ['colorToRGB: rgb(222, 173, 190)' , 'rgb(222, 173, 190)', {r: 222, g: 173, b: 190, a: 1} ],
+    ['colorToRGB: rgba(255, 255, 255, 0.7)', 'rgba(255, 255, 255, 0.7)', {r: 255, g: 255, b: 255, a: 0.7 } ]
+  ]);
+
+  addTestSet(fiveui.color.alphaCombine, [
+    ['red and white make pinkish', {r: 255, g: 0, b: 0, a: 0.5}, {r: 255, g: 255, b: 255, a: 1}, 
+                                  {r: 255, g: 127, b: 127, a: 1} ],
+    ['red and yellow make orange', {r: 255, g: 0, b: 0, a: 0.5}, {r: 255, g: 255, b: 0, a: 1}, 
+                                  {r: 255, g: 127, b: 0, a: 1} ]
+
   ]);
 
   var getFontTests = [
