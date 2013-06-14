@@ -2,8 +2,8 @@ exports.name = "titleNonEmpty";
 
 exports.description = "Title of page is non-empty";
 
-exports.rule = function() {
+exports.rule = function(report) {
   if (document.title == '') {
-    this.report('Page title is empty');
+    report.error('Page title is empty');
   }
 };

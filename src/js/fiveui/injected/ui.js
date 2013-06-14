@@ -111,7 +111,7 @@
 
        /** Problem Content **/
        var prMessage = $('<div class="prMessage"></div>');
-       probDiv.append(prMessage);
+       probDiv.append(prMessage);       
 
        var prTitle = $('<div class="prTitle">'+prob.name+'</div>');
        prMessage.append(prTitle);
@@ -119,9 +119,14 @@
        var prDetails = $('<div class="prDetails"></div>');
        prMessage.append(prDetails);
 
+
        var prDescr  = $('<p>'+prob.descr+'</p>');
        var prPath   = $('<p>'+prob.xpath+'</p>');
        prDetails.append(prDescr);
+       if (prob.msg) {
+         var reportMsg = $('<div class="prReportMessage">'+prob.msg+'</div>');
+         prDetails.append(reportMsg);
+       }
        prDetails.append(prPath);
        prDetails.hide();
 
@@ -164,7 +169,6 @@
      port.on('ShowUI', function(unused) {
        core.ui.dialog('open');
      });
-
 
      port.on('ShowProblem', function(problem) {
        core.renderProblem(problem);

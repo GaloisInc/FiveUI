@@ -2,8 +2,8 @@ exports.name = "colorDifference";
 
 exports.description = "Elements should provide sufficient color difference";
 
-exports.rule = function() {
-
+exports.rule = function(report) {
+  var fc = fiveui.color;
   var MIN_COLOR_DIFF = 500; // http://www.w3.org/TR/2000/WD-AERT-20000426#color
 
   /**
@@ -17,19 +17,19 @@ exports.rule = function() {
            Math.abs(c1.b - c2.b);
   };
 
-  var that = this;
   fiveui.query('*')
     .filter(function () {  // filter for lowest level elts having non-empty text
       var $this = $(this);
       return $this.children().length == 0 && $.trim($this.text()).length > 0;
     })
     .each(function (i) {
-      var fg = fiveui.color.colorToRGB($(this).css('color'));
-      var bg = fiveui.color.colorToRGB($(this).css('background-color'));
+      // TODO take into account fg alpha values
+      var fg = fc.colorToRGB($(this).css('color'));
+      var bg = fc.findBGColor($(this));
       if (fg && bg) {
         var diff = colorDiff(fg, bg);
         if (diff < MIN_COLOR_DIFF) {
-          that.report('Element has poor color difference: ' + diff, this);
+          report.error('Element has poor color difference: ' + diff, this);
         }
       }
   });
