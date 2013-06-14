@@ -261,6 +261,7 @@ public class BatchRunner {
     private String wrapRule(RuleSet ruleSet) throws IOException {
         String injected = "fiveui = {};";
         injected += Utils.readFile(_root + JS_SRC_ROOT + J_QUERY_JS);
+        injected += Utils.readFile(_root + JS_SRC_ROOT + "lib/underscore.js");
         injected += Utils.readFile(_root + JS_SRC_ROOT + MD5_JS);
         injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/prelude.js");
         injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/jquery-plugins.js");
