@@ -1,0 +1,5 @@
+{
+  "name": "Locate Uncommon Words.",
+  "description": "Searches for words that may be confusing to some readers.",
+  "rules": ["upGoerFive-gen.js"]
+}
