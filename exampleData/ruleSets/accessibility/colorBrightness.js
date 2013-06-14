@@ -34,6 +34,7 @@ exports.rule = function(report) {
       // TODO take into account alpha values in the foreground
       var fg = fc.colorToRGB($(this).css('color'));
       var bg = fc.findBGColor($(this));
+
       if (fg && bg) {
         var diff = brightDiff(fg, bg);
         if (diff < MIN_DIFF) {

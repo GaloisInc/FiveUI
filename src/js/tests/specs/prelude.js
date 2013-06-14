@@ -133,6 +133,49 @@ describe('prelude', function() {
 
   ]);
 
+  // to test fiveui.color.findBGColor, we need a jQuery obj for input
+  describe("fiveui.color.findBGColor", function () {
+
+    beforeEach(function () {
+      // insert new div id=test to add test html content to
+      $("body").append($("<div id=test></div>"));
+    });
+
+    afterEach(function () {
+      // remove the test div
+      $("#test").remove();
+    });
+
+    it("should report a white background", function () {
+      $("#test").append($('<div id=fbgc1 style="background-color: #FFFFFF">fbgc1</div>'));
+      obj = $("#fbgc1");
+      oracle = { r: 255, g: 255, b: 255, a: 1 };
+      expect(fiveui.color.findBGColor(obj)).toEqual(oracle);
+    });
+
+    it("should report a red background", function () {
+      $("#test").append($('<div id=fbgc2 style="background-color: #FF0000">fbgc2</div>'));
+      obj = $("#fbgc2");
+      oracle = { r: 255, g: 0, b: 0, a: 1 };
+      expect(fiveui.color.findBGColor(obj)).toEqual(oracle);
+    });
+
+    it("should report a transparent red over white background", function () {
+      $("#test").append($('<div id=fbgc3 style="background-color: #FFFFFF">' + 
+                          'this bg is white ' +
+                          '<span id=pinkspan ' +
+                          'style="background-color: rgba(255, 0, 0, 0.5)">' +
+                          'this bg is pink' +
+                          '</span>' +
+                          '</div>'));
+      obj = $("#pinkspan");
+      oracle = { r: 255, g: 128, b: 128, a: 1 };
+      expect(fiveui.color.findBGColor(obj)).toEqual(oracle);
+    });
+
+  });
+
+
   var getFontTests = [
     // CSS ID,        Family,  Weight,   Size
     ['#getFontTest1', 'Arial', 'normal', '12'],
