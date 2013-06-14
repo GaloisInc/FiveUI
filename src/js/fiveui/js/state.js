@@ -46,12 +46,14 @@ fiveui.WinState = function(x, y, width, height, closed) {
  * @param {string} url The url that the problem occurred at.
  * @param {number} severity The severity of the problem
  */
-fiveui.Problem = function(name, descr, url, severity, hash) {
+fiveui.Problem = function(name, descr, url, severity, hash, xpath, msg) {
   this.name = name || '';
   this.descr = descr || '';
   this.url = url || '';
   this.severity = severity || 0;
   this.hash = hash;
+  this.xpath = xpath;
+  this.msg = msg;
 };
 
 /**
@@ -59,7 +61,7 @@ fiveui.Problem = function(name, descr, url, severity, hash) {
  * @return {!fiveui.Problem} The problem that the object represents.
  */
 fiveui.Problem.fromJSON = function(obj) {
-  return new fiveui.Problem(obj.name, obj.descr, obj.url, obj.severity, obj.hash);
+  return new fiveui.Problem(obj.name, obj.descr, obj.url, obj.severity, obj.hash, obj.xpath, obj.msg);
 };
 
 /**
