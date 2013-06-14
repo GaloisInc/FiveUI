@@ -271,6 +271,14 @@ shortHexToHex = function (color) {
   return stdColor.substr(0, 7);
 };
 
+// Compare RGBA objects
+equalRGBA = function (c1, c2) {
+  return (c1.r == c2.r &&
+          c1.g == c2.g &&
+          c1.b == c2.b &&
+          c1.a == c2.a);
+};
+
 /**
  * Convert RGB values to Hex.
  */
@@ -329,13 +337,13 @@ fiveui.color.colorToRGB = function(color) {
       return fiveui.color.hexToRGB(fiveui.color.colorToHex(color));
     }
 
-    var digits = /rgba?\((\d+), (\d+), (\d+)(, (\d.\d+))?/.exec(color);
+    var digits = /rgba?\((\d+), (\d+), (\d+)(, ([-+]?[0-9]*\.?[0-9]+))?/.exec(color);
     if (!digits) {
       throw new ParseError('could not parse color string: ' + color);
     }
 
   var alpha = 1;
-  if (digits[5]) {
+  if (digits[5] != undefined) {
     alpha = parseFloat(digits[5]);
   }
 
@@ -363,11 +371,12 @@ fiveui.color.findBGColor = function(obj) {
   var none = fc.colorToRGB('rgba(0, 0, 0, 0)');
 
   if (real.a != 1) {
+
     // find parents with a non-default bg color:
     var parents = obj.parents().filter(
       function() {
         var color = fc.colorToRGB($(this).css('background-color'));
-        return color != none;
+        return !equalRGBA(color, none);
       }).map(
         function(i) {
           return fc.colorToRGB($(this).css('background-color'));
@@ -376,6 +385,7 @@ fiveui.color.findBGColor = function(obj) {
     // push a white element onto the end of parents
     parents.push({ r: 255, g: 255, b: 255, a: 1});
 
+    // takeWhile alpha != 1
     var colors = [];
     for (var i=0; i < parents.length; i++) {
       colors.push(parents[i]);
@@ -384,9 +394,16 @@ fiveui.color.findBGColor = function(obj) {
       }
     }
 
-    // compose the colors and return:
-    return _.reduce(colors, fc.alphaCombine, none);
-  } else {
+    // Compose the colors and return. Note that fc.alphaCombine is
+    // neither commutative, nor associative, so we need to be carefull
+    // of the order in which parent colors are combined.
+    var res = real;
+    for (var i=0; i < colors.length; i++) {
+      res = fc.alphaCombine(res, colors[i]);
+    }
+    return res;
+  }
+  else {
     return real;
   }
 };
