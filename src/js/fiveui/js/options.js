@@ -318,7 +318,7 @@ fiveui.RuleSetEntry = Backbone.View.extend({
     , '  <button class="edit">edit</button>'
     , '  <button class="reload">reload</button>'
     , '</div>'
-    , '<span class="title"><%= name %></span>'
+    , '<span class="title"><%= name %><%= license %></span>'
     ].join('')),
 
   // render the rule set as its title, with some buttons to edit/remove/reload
@@ -327,6 +327,12 @@ fiveui.RuleSetEntry = Backbone.View.extend({
 
     // render the rule set
     var attrs = _.clone(this.model.attributes);
+
+    // add a comma to the license field, if it's present.
+    if(!_.isEmpty(attrs.license)) {
+      attrs.license = ', ' + attrs.license;
+    }
+
     this.$rs.html(this.viewRsTemplate(attrs));
 
     button(this.$rs.find('.edit'),   { primary: 'ui-icon-pencil'  });
