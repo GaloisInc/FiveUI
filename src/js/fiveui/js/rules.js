@@ -120,16 +120,20 @@ fiveui.RuleSet.load = function(manifest_url, options) {
           return;
         }
 
+        // set defaults in the parsed manifest
         var manifest = fiveui.RuleSet.sanitize(obj);
-
 
         // explicitly zero out the patterns, they shouldn't be part of the
         // manifest.
         manifest.patterns = [];
 
-        var rules       = manifest.rules;
-        manifest.rules  = [];
+        // remove the rules, as they'll be added back once processed.
+        var rules      = manifest.rules;
+        manifest.rules = [];
+
+        // overwrite any source present with the one given by the user.
         manifest.source = manifest_url;
+
         loadRules(manifest, rules);
       },
 
