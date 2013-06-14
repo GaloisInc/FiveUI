@@ -1,9 +1,9 @@
 ;(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({1:[function(require,module,exports){
 (function(){var natural = require('natural');
 
-exports =  {};
-exports.name = "Common words";
-exports.description = "Identifies rare word use (words not in the 1000 most common English word list).";
+rule =  {};
+rule.name = "Common words";
+rule.description = "Identifies rare word use (words not in the 1000 most common English word list).";
 
 // var words = require('./1-1000');
 
@@ -173,43 +173,32 @@ var isPunctuation = function(str) {
 
 
 var markWords = function(obj, report) {
+  var toks = tokenizer.tokenize($(obj).text());
+  var rawObj = $('<p></p>', {id: 'text'});
+  $(obj).replaceWith(rawObj);
 
-  var mergeFn = function(obj, tok) {
+  _.each(toks, function(tok) {
     if (isCommonWord(tok) || isPunctuation(tok) || _.isNumber(tok)) {
-      obj.append(tok + ' ');
+      rawObj.append(tok + ' ');
     } else {
-      //    var newObj = "<span style='background-color: red'>"+tok+"</span> ");
       var newObj = $("<span>"+tok+"</span> ");
-      obj.append(newObj);
+      rawObj.append(newObj);
       report.error("The word '"+tok+"' is uncommon", newObj);
     }
-    return obj;
-  };
-
-  var toks = tokenizer.tokenize(obj.text());
-
-  var uncommonWords = _.filter(toks, isCommonWord);
-  _.map(uncommonWords, function(w) {
-          report.error("The word '"+w+"' is uncommon", newObj);
-        });
-
-//  var rawObj = $('<p></p>', {id: 'text'});
-//  var newObj = _.reduce(toks, mergeFn , rawObj);
-
-//  obj.replaceWith(newObj);
+  });
 };
 
-exports.rule = function(report) {
-  report.error("bork");
+rule.rule = function(report) {
   console.log("checking for rare words");
   fiveui.query('body').each(
     function(i){
-      var nodes = getTextNodesIn($(this));
+      var nodes = getTextNodesIn(this);
       _.map(nodes, function(n){
               console.log(n);
               markWords(n, report);
             });
     });
+  console.log("done checking for rare words");
 };
 })()
 },{"natural":2}],2:[function(require,module,exports){
@@ -275,7 +264,7 @@ exports.normalize_ja = require('./normalizers/normalizer_ja').normalize_ja;
 exports.removeDiacritics = require('./normalizers/remove_diacritics');
 exports.transliterate_ja = require('./transliterators/ja');
 
-},{"./phonetics/soundex":3,"./phonetics/metaphone":4,"./phonetics/double_metaphone":5,"./phonetics/dm_soundex":6,"./stemmers/porter_stemmer":7,"./stemmers/porter_stemmer_fa":8,"./stemmers/porter_stemmer_ru":9,"./stemmers/porter_stemmer_it":10,"./stemmers/porter_stemmer_es":11,"./stemmers/lancaster_stemmer":12,"./stemmers/stemmer_ja":13,"./tokenizers/aggressive_tokenizer_ru":14,"./tokenizers/aggressive_tokenizer_fa":15,"./tokenizers/aggressive_tokenizer_es":16,"./tokenizers/aggressive_tokenizer_it":17,"./tokenizers/aggressive_tokenizer":18,"./tokenizers/regexp_tokenizer":19,"./tokenizers/tokenizer_ja":20,"./tokenizers/treebank_word_tokenizer":21,"./classifiers/bayes_classifier":22,"./classifiers/logistic_regression_classifier":23,"./inflectors/noun_inflector":24,"./inflectors/fr/noun_inflector":25,"./inflectors/ja/noun_inflector":26,"./inflectors/present_verb_inflector":27,"./inflectors/count_inflector":28,"./wordnet/wordnet":29,"./tfidf/tfidf":30,"./analyzers/sentence_analyzer":31,"./distance/jaro-winkler_distance":32,"./util/stopwords":33,"./ngrams/ngrams":34,"./distance/levenshtein_distance":35,"./distance/dice_coefficient":36,"./normalizers/normalizer_ja":37,"./normalizers/remove_diacritics":38,"./transliterators/ja":39}],28:[function(require,module,exports){
+},{"./phonetics/soundex":3,"./phonetics/metaphone":4,"./phonetics/double_metaphone":5,"./phonetics/dm_soundex":6,"./stemmers/porter_stemmer":7,"./stemmers/porter_stemmer_fa":8,"./stemmers/porter_stemmer_ru":9,"./stemmers/porter_stemmer_es":10,"./stemmers/porter_stemmer_it":11,"./stemmers/lancaster_stemmer":12,"./stemmers/stemmer_ja":13,"./tokenizers/aggressive_tokenizer_fa":14,"./tokenizers/aggressive_tokenizer_ru":15,"./tokenizers/aggressive_tokenizer_es":16,"./tokenizers/aggressive_tokenizer_it":17,"./tokenizers/aggressive_tokenizer":18,"./tokenizers/regexp_tokenizer":19,"./tokenizers/treebank_word_tokenizer":20,"./tokenizers/tokenizer_ja":21,"./classifiers/bayes_classifier":22,"./classifiers/logistic_regression_classifier":23,"./inflectors/noun_inflector":24,"./inflectors/fr/noun_inflector":25,"./inflectors/ja/noun_inflector":26,"./inflectors/present_verb_inflector":27,"./inflectors/count_inflector":28,"./wordnet/wordnet":29,"./tfidf/tfidf":30,"./analyzers/sentence_analyzer":31,"./util/stopwords":32,"./ngrams/ngrams":33,"./distance/jaro-winkler_distance":34,"./distance/levenshtein_distance":35,"./distance/dice_coefficient":36,"./normalizers/normalizer_ja":37,"./normalizers/remove_diacritics":38,"./transliterators/ja":39}],28:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -332,6 +321,49 @@ CountInflector.nth = nth;
 module.exports = CountInflector;
 
 },{}],32:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+// a list of commonly used words that have little meaning and can be excluded
+// from analysis.
+var words = [
+    'about', 'after', 'all', 'also', 'am', 'an', 'and', 'another', 'any', 'are', 'as', 'at', 'be',
+    'because', 'been', 'before', 'being', 'between', 'both', 'but', 'by', 'came', 'can',
+    'come', 'could', 'did', 'do', 'each', 'for', 'from', 'get', 'got', 'has', 'had',
+    'he', 'have', 'her', 'here', 'him', 'himself', 'his', 'how', 'if', 'in', 'into',
+    'is', 'it', 'like', 'make', 'many', 'me', 'might', 'more', 'most', 'much', 'must',
+    'my', 'never', 'now', 'of', 'on', 'only', 'or', 'other', 'our', 'out', 'over',
+    'said', 'same', 'see', 'should', 'since', 'some', 'still', 'such', 'take', 'than',
+    'that', 'the', 'their', 'them', 'then', 'there', 'these', 'they', 'this', 'those',
+    'through', 'to', 'too', 'under', 'up', 'very', 'was', 'way', 'we', 'well', 'were',
+    'what', 'where', 'which', 'while', 'who', 'with', 'would', 'you', 'your',
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+    'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '$', '1',
+    '2', '3', '4', '5', '6', '7', '8', '9', '0', '_'];
+    
+// tell the world about the noise words.    
+exports.words = words;
+
+},{}],34:[function(require,module,exports){
 /*
 Copyright (c) 2012, Adam Phillabaum, Chris Umbel
 
@@ -443,49 +475,6 @@ function JaroWinklerDistance(s1, s2, dj) {
     return jaro + l * p * (1 - jaro);
 }
 module.exports = JaroWinklerDistance;
-
-},{}],33:[function(require,module,exports){
-/*
-Copyright (c) 2011, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-// a list of commonly used words that have little meaning and can be excluded
-// from analysis.
-var words = [
-    'about', 'after', 'all', 'also', 'am', 'an', 'and', 'another', 'any', 'are', 'as', 'at', 'be',
-    'because', 'been', 'before', 'being', 'between', 'both', 'but', 'by', 'came', 'can',
-    'come', 'could', 'did', 'do', 'each', 'for', 'from', 'get', 'got', 'has', 'had',
-    'he', 'have', 'her', 'here', 'him', 'himself', 'his', 'how', 'if', 'in', 'into',
-    'is', 'it', 'like', 'make', 'many', 'me', 'might', 'more', 'most', 'much', 'must',
-    'my', 'never', 'now', 'of', 'on', 'only', 'or', 'other', 'our', 'out', 'over',
-    'said', 'same', 'see', 'should', 'since', 'some', 'still', 'such', 'take', 'than',
-    'that', 'the', 'their', 'them', 'then', 'there', 'these', 'they', 'this', 'those',
-    'through', 'to', 'too', 'under', 'up', 'very', 'was', 'way', 'we', 'well', 'were',
-    'what', 'where', 'which', 'while', 'who', 'with', 'would', 'you', 'your',
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-    'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '$', '1',
-    '2', '3', '4', '5', '6', '7', '8', '9', '0', '_'];
-    
-// tell the world about the noise words.    
-exports.words = words;
 
 },{}],35:[function(require,module,exports){
 /*
@@ -1430,6 +1419,196 @@ SoundEx.condense = condense;
 SoundEx.padRight0 = padRight0;
 
 })()
+},{"./phonetic":44}],4:[function(require,module,exports){
+(function(){/*
+Copyright (c) 2011, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var Phonetic = require('./phonetic');
+
+function dedup(token) {
+    return token.replace(/([^c])\1/g, '$1');
+}
+
+function dropInitialLetters(token) {
+    if(token.match(/^(kn|gn|pn|ae|wr)/))
+        return token.substr(1, token.length - 1);
+        
+    return token;
+}
+
+function dropBafterMAtEnd(token) {
+    return token.replace(/mb$/, 'm');
+}
+
+function cTransform(token) {
+    token = token.replace(/([^s]|^)(c)(h)/g, '$1x$3').trim();
+    token = token.replace(/cia/g, 'xia');
+    token = token.replace(/c(i|e|y)/g, 's$1');
+    token = token.replace(/c/g, 'k'); 
+    
+    return token;
+}
+
+function dTransform(token) {
+    token = token.replace(/d(ge|gy|gi)/g, 'j$1');
+    token = token.replace(/d/g, 't');
+    
+    return token;
+}
+
+function dropG(token) {
+    token = token.replace(/gh(^$|[^aeiou])/g, 'h$1');
+    token = token.replace(/g(n|ned)$/g, '$1');    
+    
+    return token;
+}
+
+function transformG(token) {
+    token = token.replace(/([^g]|^)(g)(i|e|y)/g, '$1j$3');
+    token = token.replace(/gg/g, 'g');
+    token = token.replace(/g/g, 'k');    
+    
+    return token;
+}
+
+function dropH(token) {
+    return token.replace(/([aeiou])h([^aeiou])/g, '$1$2');
+}
+
+function transformCK(token) {
+    return token.replace(/ck/g, 'k');
+}
+function transformPH(token) {
+    return token.replace(/ph/g, 'f');
+}
+
+function transformQ(token) {
+    return token.replace(/q/g, 'k');
+}
+
+function transformS(token) {
+    return token.replace(/s(h|io|ia)/g, 'x$1');
+}
+
+function transformT(token) {
+    token = token.replace(/t(ia|io)/g, 'x$1');
+    token = token.replace(/th/, '0');
+    
+    return token;
+}
+
+function dropT(token) {
+    return token.replace(/tch/g, 'ch');
+}
+
+function transformV(token) {
+    return token.replace(/v/g, 'f');
+}
+
+function transformWH(token) {
+    return token.replace(/^wh/, 'w');
+}
+
+function dropW(token) {
+    return token.replace(/w([^aeiou]|$)/g, '$1');
+}
+
+function transformX(token) {
+    token = token.replace(/^x/, 's');
+    token = token.replace(/x/g, 'ks');
+    return token;
+}
+
+function dropY(token) {
+    return token.replace(/y([^aeiou]|$)/g, '$1');
+}
+
+function transformZ(token) {
+    return token.replace(/z/, 's');
+}
+
+function dropVowels(token) {
+    return token.charAt(0) + token.substr(1, token.length).replace(/[aeiou]/g, '');
+}
+
+var Metaphone = new Phonetic();
+module.exports = Metaphone;
+
+Metaphone.process = function(token, maxLength) {
+    maxLength == maxLength || 32;
+    token = token.toLowerCase();
+    token = dedup(token);
+    token = dropInitialLetters(token);
+    token = dropBafterMAtEnd(token);
+    token = transformCK(token);
+    token = cTransform(token);
+    token = dTransform(token);
+    token = dropG(token);
+    token = transformG(token);
+    token = dropH(token);
+    token = transformPH(token);
+    token = transformQ(token);
+    token = transformS(token);
+    token = transformX(token);    
+    token = transformT(token);
+    token = dropT(token);
+    token = transformV(token);
+    token = transformWH(token);
+    token = dropW(token);
+    token = dropY(token);
+    token = transformZ(token);
+    token = dropVowels(token);
+    
+    token.toUpperCase();
+    if(token.length >= maxLength)
+        token = token.substring(0, maxLength);        
+
+    return token.toUpperCase();
+};
+
+// expose functions for testing    
+Metaphone.dedup = dedup;
+Metaphone.dropInitialLetters = dropInitialLetters;
+Metaphone.dropBafterMAtEnd = dropBafterMAtEnd;
+Metaphone.cTransform = cTransform;
+Metaphone.dTransform = dTransform;
+Metaphone.dropG = dropG;
+Metaphone.transformG = transformG;
+Metaphone.dropH = dropH;
+Metaphone.transformCK = transformCK;
+Metaphone.transformPH = transformPH;
+Metaphone.transformQ = transformQ;
+Metaphone.transformS = transformS;
+Metaphone.transformT = transformT;
+Metaphone.dropT = dropT;
+Metaphone.transformV = transformV;
+Metaphone.transformWH = transformWH;
+Metaphone.dropW = dropW;
+Metaphone.transformX = transformX;
+Metaphone.dropY = dropY;
+Metaphone.transformZ = transformZ;
+Metaphone.dropVowels = dropVowels;
+
+})()
 },{"./phonetic":44}],5:[function(require,module,exports){
 (function(){/*
 Copyright (c) 2011, Chris Umbel
@@ -2189,196 +2368,6 @@ module.exports = soundex;
 
 
 })()
-},{"./phonetic":44}],4:[function(require,module,exports){
-(function(){/*
-Copyright (c) 2011, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var Phonetic = require('./phonetic');
-
-function dedup(token) {
-    return token.replace(/([^c])\1/g, '$1');
-}
-
-function dropInitialLetters(token) {
-    if(token.match(/^(kn|gn|pn|ae|wr)/))
-        return token.substr(1, token.length - 1);
-        
-    return token;
-}
-
-function dropBafterMAtEnd(token) {
-    return token.replace(/mb$/, 'm');
-}
-
-function cTransform(token) {
-    token = token.replace(/([^s]|^)(c)(h)/g, '$1x$3').trim();
-    token = token.replace(/cia/g, 'xia');
-    token = token.replace(/c(i|e|y)/g, 's$1');
-    token = token.replace(/c/g, 'k'); 
-    
-    return token;
-}
-
-function dTransform(token) {
-    token = token.replace(/d(ge|gy|gi)/g, 'j$1');
-    token = token.replace(/d/g, 't');
-    
-    return token;
-}
-
-function dropG(token) {
-    token = token.replace(/gh(^$|[^aeiou])/g, 'h$1');
-    token = token.replace(/g(n|ned)$/g, '$1');    
-    
-    return token;
-}
-
-function transformG(token) {
-    token = token.replace(/([^g]|^)(g)(i|e|y)/g, '$1j$3');
-    token = token.replace(/gg/g, 'g');
-    token = token.replace(/g/g, 'k');    
-    
-    return token;
-}
-
-function dropH(token) {
-    return token.replace(/([aeiou])h([^aeiou])/g, '$1$2');
-}
-
-function transformCK(token) {
-    return token.replace(/ck/g, 'k');
-}
-function transformPH(token) {
-    return token.replace(/ph/g, 'f');
-}
-
-function transformQ(token) {
-    return token.replace(/q/g, 'k');
-}
-
-function transformS(token) {
-    return token.replace(/s(h|io|ia)/g, 'x$1');
-}
-
-function transformT(token) {
-    token = token.replace(/t(ia|io)/g, 'x$1');
-    token = token.replace(/th/, '0');
-    
-    return token;
-}
-
-function dropT(token) {
-    return token.replace(/tch/g, 'ch');
-}
-
-function transformV(token) {
-    return token.replace(/v/g, 'f');
-}
-
-function transformWH(token) {
-    return token.replace(/^wh/, 'w');
-}
-
-function dropW(token) {
-    return token.replace(/w([^aeiou]|$)/g, '$1');
-}
-
-function transformX(token) {
-    token = token.replace(/^x/, 's');
-    token = token.replace(/x/g, 'ks');
-    return token;
-}
-
-function dropY(token) {
-    return token.replace(/y([^aeiou]|$)/g, '$1');
-}
-
-function transformZ(token) {
-    return token.replace(/z/, 's');
-}
-
-function dropVowels(token) {
-    return token.charAt(0) + token.substr(1, token.length).replace(/[aeiou]/g, '');
-}
-
-var Metaphone = new Phonetic();
-module.exports = Metaphone;
-
-Metaphone.process = function(token, maxLength) {
-    maxLength == maxLength || 32;
-    token = token.toLowerCase();
-    token = dedup(token);
-    token = dropInitialLetters(token);
-    token = dropBafterMAtEnd(token);
-    token = transformCK(token);
-    token = cTransform(token);
-    token = dTransform(token);
-    token = dropG(token);
-    token = transformG(token);
-    token = dropH(token);
-    token = transformPH(token);
-    token = transformQ(token);
-    token = transformS(token);
-    token = transformX(token);    
-    token = transformT(token);
-    token = dropT(token);
-    token = transformV(token);
-    token = transformWH(token);
-    token = dropW(token);
-    token = dropY(token);
-    token = transformZ(token);
-    token = dropVowels(token);
-    
-    token.toUpperCase();
-    if(token.length >= maxLength)
-        token = token.substring(0, maxLength);        
-
-    return token.toUpperCase();
-};
-
-// expose functions for testing    
-Metaphone.dedup = dedup;
-Metaphone.dropInitialLetters = dropInitialLetters;
-Metaphone.dropBafterMAtEnd = dropBafterMAtEnd;
-Metaphone.cTransform = cTransform;
-Metaphone.dTransform = dTransform;
-Metaphone.dropG = dropG;
-Metaphone.transformG = transformG;
-Metaphone.dropH = dropH;
-Metaphone.transformCK = transformCK;
-Metaphone.transformPH = transformPH;
-Metaphone.transformQ = transformQ;
-Metaphone.transformS = transformS;
-Metaphone.transformT = transformT;
-Metaphone.dropT = dropT;
-Metaphone.transformV = transformV;
-Metaphone.transformWH = transformWH;
-Metaphone.dropW = dropW;
-Metaphone.transformX = transformX;
-Metaphone.dropY = dropY;
-Metaphone.transformZ = transformZ;
-Metaphone.dropVowels = dropVowels;
-
-})()
 },{"./phonetic":44}],7:[function(require,module,exports){
 (function(){/*
 Copyright (c) 2011, Chris Umbel
@@ -2777,6 +2766,230 @@ PorterStemmer.stem = function(token) {
 };
 },{"./stemmer_fa":47}],10:[function(require,module,exports){
 /*
+Copyright (c) 2012, David Przybilla, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var Stemmer = require('./stemmer_es');
+
+var PorterStemmer = new Stemmer();
+module.exports = PorterStemmer;
+
+
+function isVowel(letter){
+	return (letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u' || letter == 'á' || letter == 'é' ||
+			letter == 'í' || letter == 'ó' || letter == 'ú');
+};
+
+function getNextVowelPos(token,start){
+	length=token.length
+			for (var i = start; i < length; i++)
+				if (isVowel(token[i])) return i;
+			return length;
+};
+
+function getNextConsonantPos(token,start){
+	length=token.length
+			for (var i = start; i < length; i++)
+				if (!isVowel(token[i])) return i;
+			return length;
+};
+
+
+function endsin(token, suffix) {
+	if (token.length < suffix.length) return false;
+	return (token.slice(-suffix.length) == suffix);
+};
+
+function endsinArr(token, suffixes) {
+	for(var i=0;i<suffixes.length;i++){
+		if (endsin(token, suffixes[i])) return suffixes[i];
+	}
+	return '';
+};
+
+function removeAccent(token) {
+	var str=token.replace(/á/gi,'a');
+	str=str.replace(/é/gi,'e');
+	str=str.replace(/í/gi,'i');
+	str=str.replace(/ó/gi,'o');
+	str=str.replace(/ú/gi,'u');
+	return str;
+};
+
+
+// perform full stemming algorithm on a single word
+PorterStemmer.stem = function(token) {
+	token = token.toLowerCase();
+
+	if (token.length<3){
+		return token;
+	}
+
+	var r1,r2,rv,len= token.length;
+	//looking for regions after vowels
+
+	for(var i=0; i< token.length-1 && r1==len;i++){
+ 		if(isVowel(token[i]) && !isVowel(token[i+1]) ){
+ 			r1=i+2;
+ 		}
+
+	}
+
+	for(var i=r1; i< token.length-1 && r2==len;i++){
+		if(isVowel(token[i]) && !isVowel(token[i+1])){
+			r2=i+2;
+		}
+	}
+
+	if (len > 3) {
+			if(isVowel(token[1])) {
+				// If the second letter is a consonant, RV is the region after the next following vowel
+				rv = getNextVowelPos(token, 2) +1;
+			} else if (isVowel(token[0]) && isVowel(token[1])) { 
+				// or if the first two letters are vowels, RV is the region after the next consonant
+				rv = getNextConsonantPos(token, 2) + 1;
+			} else {
+				//otherwise (consonant-vowel case) RV is the region after the third letter. But RV is the end of the word if these positions cannot be found.
+				rv = 3;
+			}
+		}
+
+	var r1_txt = token.substring(r1-1);
+	var r2_txt = token.substring(r2-1);
+	var rv_txt = token.substring(rv-1);
+
+
+	var token_orig = token;
+
+	// Step 0: Attached pronoun
+	var pronoun_suf = new Array('me', 'se', 'sela', 'selo', 'selas', 'selos', 'la', 'le', 'lo', 'las', 'les', 'los', 'nos');	
+	var pronoun_suf_pre1 = new Array('éndo', 'ándo', 'ár', 'ér', 'ír');	
+	var pronoun_suf_pre2 = new Array('ando', 'iendo', 'ar', 'er', 'ir');
+	var suf = endsinArr(token, pronoun_suf);
+
+    
+	if (suf!='') {
+
+		var pre_suff = endsinArr(rv_txt.slice(0,-suf.length),pronoun_suf_pre1);
+		
+		if (pre_suff != '') {
+				
+				token = removeAccent(token.slice(0,-suf.length));
+		} else {
+			var pre_suff = endsinArr(rv_txt.slice(0,-suf.length),pronoun_suf_pre2);
+			
+			if (pre_suff != '' ||
+				(endsin(token, 'yendo' ) && 
+				(token.slice(-suf.length-6,1) == 'u'))) {
+				token = token.slice(0,-suf.length);
+			}
+		}
+	}
+		
+		if (token != token_orig) {
+			r1_txt = token.substring(r1-1);
+			r2_txt = token.substring(r2-1);
+			rv_txt = token.substring(rv-1);
+		}
+		var token_after0 = token;
+		
+		if ((suf = endsinArr(r2_txt, new Array('anza', 'anzas', 'ico', 'ica', 'icos', 'icas', 'ismo', 'ismos', 'able', 'ables', 'ible', 'ibles', 'ista', 'istas', 'oso', 'osa', 'osos', 'osas', 'amiento', 'amientos', 'imiento', 'imientos'))) != '') {
+			token = token.slice(0, -suf.length);	
+		} else if ((suf = endsinArr(r2_txt, new  Array('icadora', 'icador', 'icación', 'icadoras', 'icadores', 'icaciones', 'icante', 'icantes', 'icancia', 'icancias', 'adora', 'ador', 'ación', 'adoras', 'adores', 'aciones', 'ante', 'antes', 'ancia', 'ancias'))) != '') {
+			token = token.slice(0,  -suf.length);	
+		} else if ((suf = endsinArr(r2_txt, new  Array('logía', 'logías'))) != '') {
+			token = token.slice(0,  -suf.length)+ 'log';
+		} else if ((suf =endsinArr(r2_txt, new  Array('ución', 'uciones'))) != '') {
+			token = token.slice(0,  -suf.length) + 'u';
+		} else if ((suf = endsinArr(r2_txt, new  Array('encia', 'encias'))) != '') {
+			token = token.slice(0,  -suf.length)+ 'ente';
+		} else if ((suf = endsinArr(r2_txt, new  Array('ativamente', 'ivamente', 'osamente', 'icamente', 'adamente'))) != '') {
+			token = token.slice(0,  -suf.length);
+		} else if ((suf = endsinArr(r1_txt, new  Array('amente'))) != '') {
+			token = token.slice(0,  -suf.length);
+		} else if ((suf = endsinArr(r2_txt, new  Array('antemente', 'ablemente', 'iblemente', 'mente'))) != '') {
+			token = token.slice(0,  -suf.length);
+		} else if ((suf = endsinArr(r2_txt, new  Array('abilidad', 'abilidades', 'icidad', 'icidades', 'ividad', 'ividades', 'idad', 'idades'))) != '') {
+			token = token.slice(0,  -suf.length);
+		} else if ((suf = endsinArr(r2_txt, new  Array('ativa', 'ativo', 'ativas', 'ativos', 'iva', 'ivo', 'ivas', 'ivos'))) != '') {
+			token = token.slice(0,  -suf.length);
+		}
+
+		if (token != token_after0) {
+			r1_txt = token.substring(r1-1);
+			r2_txt = token.substring(r2-1);
+			rv_txt = token.substring(rv-1);
+		}
+		var token_after1 = token;
+		
+		if (token_after0 == token_after1) {
+			// Do step 2a if no ending was removed by step 1. 
+			if ((suf = endsinArr(rv_txt, new Array('ya', 'ye', 'yan', 'yen', 'yeron', 'yendo', 'yo', 'yó', 'yas', 'yes', 'yais', 'yamos'))) != '' && (token.substring(suf.length-1,1) == 'u')) {
+				token = token.slice(0, -suf.length);
+			}
+			
+			if (token != token_after1) {
+				r1_txt = token.substring(r1-1);
+				r2_txt = token.substring(r2-1);
+				rv_txt = token.substring(rv-1);
+			}
+			var token_after2a = token;
+			
+			// Do Step 2b if step 2a was done, but failed to remove a suffix. 
+			if (token_after2a == token_after1) {
+				
+				if ((suf = endsinArr(rv_txt,new Array('en', 'es', 'éis', 'emos'))) != '') {
+					token = token.slice(0,-suf.length);
+					if (endsin(token, 'gu')) {
+						token = token.slice(0,-1);
+					}
+				} else if ((suf = endsinArr(rv_txt, new Array('arían', 'arías', 'arán', 'arás', 'aríais', 'aría', 'aréis', 'aríamos', 'aremos', 'ará', 'aré', 'erían', 'erías', 'erán', 'erás', 'eríais', 'ería', 'eréis', 'eríamos', 'eremos', 'erá', 'eré', 'irían', 'irías', 'irán', 'irás', 'iríais', 'iría', 'iréis', 'iríamos', 'iremos', 'irá', 'iré', 'aba', 'ada', 'ida', 'ía', 'ara', 'iera', 'ad', 'ed', 'id', 'ase', 'iese', 'aste', 'iste', 'an', 'aban', 'ían', 'aran', 'ieran', 'asen', 'iesen', 'aron', 'ieron', 'ado', 'ido', 'ando', 'iendo', 'ió', 'ar', 'er', 'ir', 'as', 'abas', 'adas', 'idas', 'ías', 'aras', 'ieras', 'ases', 'ieses', 'ís', 'áis', 'abais', 'íais', 'arais', 'ierais', '  aseis', 'ieseis', 'asteis', 'isteis', 'ados', 'idos', 'amos', 'ábamos', 'íamos', 'imos', 'áramos', 'iéramos', 'iésemos', 'ásemos'))) != '') {
+					
+					token = token.slice(0, -suf.length);
+					
+				}
+			}
+		}
+
+		// Always do step 3. 
+		r1_txt = token.substring(r1-1);
+		r2_txt = token.substring(r2-1);
+		rv_txt = token.substring(rv-1);
+
+		if ((suf = endsinArr(rv_txt, new Array('os', 'a', 'o', 'á', 'í', 'ó'))) != '') {
+			token = token.slice(0, -suf.length);
+		} else if ((suf = endsinArr(rv_txt ,new Array('e','é'))) != '') {
+			token = token.slice(0,-1);
+			rv_txt = token.substring(rv-1);
+			if (endsin(rv_txt,'u') && endsin(token,'gu')) {
+				token = token.slice(0,-1);
+			}
+		}
+		
+		return removeAccent(token);
+
+};
+
+},{"./stemmer_es":48}],11:[function(require,module,exports){
+/*
 Copyright (c) 2012, Leonardo Fenu, Chris Umbel
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -3009,7 +3222,7 @@ PorterStemmer.stem = function(token) {
 	return token.toLowerCase();
 
 };
-},{"./stemmer_it":48}],12:[function(require,module,exports){
+},{"./stemmer_it":49}],12:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -3085,231 +3298,7 @@ module.exports = LancasterStemmer;
 LancasterStemmer.stem = function(token) {
     return applyRuleSection(token.toLowerCase(), true);
 }
-},{"./stemmer":45,"./lancaster_rules":49}],11:[function(require,module,exports){
-/*
-Copyright (c) 2012, David Przybilla, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var Stemmer = require('./stemmer_es');
-
-var PorterStemmer = new Stemmer();
-module.exports = PorterStemmer;
-
-
-function isVowel(letter){
-	return (letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u' || letter == 'á' || letter == 'é' ||
-			letter == 'í' || letter == 'ó' || letter == 'ú');
-};
-
-function getNextVowelPos(token,start){
-	length=token.length
-			for (var i = start; i < length; i++)
-				if (isVowel(token[i])) return i;
-			return length;
-};
-
-function getNextConsonantPos(token,start){
-	length=token.length
-			for (var i = start; i < length; i++)
-				if (!isVowel(token[i])) return i;
-			return length;
-};
-
-
-function endsin(token, suffix) {
-	if (token.length < suffix.length) return false;
-	return (token.slice(-suffix.length) == suffix);
-};
-
-function endsinArr(token, suffixes) {
-	for(var i=0;i<suffixes.length;i++){
-		if (endsin(token, suffixes[i])) return suffixes[i];
-	}
-	return '';
-};
-
-function removeAccent(token) {
-	var str=token.replace(/á/gi,'a');
-	str=str.replace(/é/gi,'e');
-	str=str.replace(/í/gi,'i');
-	str=str.replace(/ó/gi,'o');
-	str=str.replace(/ú/gi,'u');
-	return str;
-};
-
-
-// perform full stemming algorithm on a single word
-PorterStemmer.stem = function(token) {
-	token = token.toLowerCase();
-
-	if (token.length<3){
-		return token;
-	}
-
-	var r1,r2,rv,len= token.length;
-	//looking for regions after vowels
-
-	for(var i=0; i< token.length-1 && r1==len;i++){
- 		if(isVowel(token[i]) && !isVowel(token[i+1]) ){
- 			r1=i+2;
- 		}
-
-	}
-
-	for(var i=r1; i< token.length-1 && r2==len;i++){
-		if(isVowel(token[i]) && !isVowel(token[i+1])){
-			r2=i+2;
-		}
-	}
-
-	if (len > 3) {
-			if(isVowel(token[1])) {
-				// If the second letter is a consonant, RV is the region after the next following vowel
-				rv = getNextVowelPos(token, 2) +1;
-			} else if (isVowel(token[0]) && isVowel(token[1])) { 
-				// or if the first two letters are vowels, RV is the region after the next consonant
-				rv = getNextConsonantPos(token, 2) + 1;
-			} else {
-				//otherwise (consonant-vowel case) RV is the region after the third letter. But RV is the end of the word if these positions cannot be found.
-				rv = 3;
-			}
-		}
-
-	var r1_txt = token.substring(r1-1);
-	var r2_txt = token.substring(r2-1);
-	var rv_txt = token.substring(rv-1);
-
-
-	var token_orig = token;
-
-	// Step 0: Attached pronoun
-	var pronoun_suf = new Array('me', 'se', 'sela', 'selo', 'selas', 'selos', 'la', 'le', 'lo', 'las', 'les', 'los', 'nos');	
-	var pronoun_suf_pre1 = new Array('éndo', 'ándo', 'ár', 'ér', 'ír');	
-	var pronoun_suf_pre2 = new Array('ando', 'iendo', 'ar', 'er', 'ir');
-	var suf = endsinArr(token, pronoun_suf);
-
-    
-	if (suf!='') {
-
-		var pre_suff = endsinArr(rv_txt.slice(0,-suf.length),pronoun_suf_pre1);
-		
-		if (pre_suff != '') {
-				
-				token = removeAccent(token.slice(0,-suf.length));
-		} else {
-			var pre_suff = endsinArr(rv_txt.slice(0,-suf.length),pronoun_suf_pre2);
-			
-			if (pre_suff != '' ||
-				(endsin(token, 'yendo' ) && 
-				(token.slice(-suf.length-6,1) == 'u'))) {
-				token = token.slice(0,-suf.length);
-			}
-		}
-	}
-		
-		if (token != token_orig) {
-			r1_txt = token.substring(r1-1);
-			r2_txt = token.substring(r2-1);
-			rv_txt = token.substring(rv-1);
-		}
-		var token_after0 = token;
-		
-		if ((suf = endsinArr(r2_txt, new Array('anza', 'anzas', 'ico', 'ica', 'icos', 'icas', 'ismo', 'ismos', 'able', 'ables', 'ible', 'ibles', 'ista', 'istas', 'oso', 'osa', 'osos', 'osas', 'amiento', 'amientos', 'imiento', 'imientos'))) != '') {
-			token = token.slice(0, -suf.length);	
-		} else if ((suf = endsinArr(r2_txt, new  Array('icadora', 'icador', 'icación', 'icadoras', 'icadores', 'icaciones', 'icante', 'icantes', 'icancia', 'icancias', 'adora', 'ador', 'ación', 'adoras', 'adores', 'aciones', 'ante', 'antes', 'ancia', 'ancias'))) != '') {
-			token = token.slice(0,  -suf.length);	
-		} else if ((suf = endsinArr(r2_txt, new  Array('logía', 'logías'))) != '') {
-			token = token.slice(0,  -suf.length)+ 'log';
-		} else if ((suf =endsinArr(r2_txt, new  Array('ución', 'uciones'))) != '') {
-			token = token.slice(0,  -suf.length) + 'u';
-		} else if ((suf = endsinArr(r2_txt, new  Array('encia', 'encias'))) != '') {
-			token = token.slice(0,  -suf.length)+ 'ente';
-		} else if ((suf = endsinArr(r2_txt, new  Array('ativamente', 'ivamente', 'osamente', 'icamente', 'adamente'))) != '') {
-			token = token.slice(0,  -suf.length);
-		} else if ((suf = endsinArr(r1_txt, new  Array('amente'))) != '') {
-			token = token.slice(0,  -suf.length);
-		} else if ((suf = endsinArr(r2_txt, new  Array('antemente', 'ablemente', 'iblemente', 'mente'))) != '') {
-			token = token.slice(0,  -suf.length);
-		} else if ((suf = endsinArr(r2_txt, new  Array('abilidad', 'abilidades', 'icidad', 'icidades', 'ividad', 'ividades', 'idad', 'idades'))) != '') {
-			token = token.slice(0,  -suf.length);
-		} else if ((suf = endsinArr(r2_txt, new  Array('ativa', 'ativo', 'ativas', 'ativos', 'iva', 'ivo', 'ivas', 'ivos'))) != '') {
-			token = token.slice(0,  -suf.length);
-		}
-
-		if (token != token_after0) {
-			r1_txt = token.substring(r1-1);
-			r2_txt = token.substring(r2-1);
-			rv_txt = token.substring(rv-1);
-		}
-		var token_after1 = token;
-		
-		if (token_after0 == token_after1) {
-			// Do step 2a if no ending was removed by step 1. 
-			if ((suf = endsinArr(rv_txt, new Array('ya', 'ye', 'yan', 'yen', 'yeron', 'yendo', 'yo', 'yó', 'yas', 'yes', 'yais', 'yamos'))) != '' && (token.substring(suf.length-1,1) == 'u')) {
-				token = token.slice(0, -suf.length);
-			}
-			
-			if (token != token_after1) {
-				r1_txt = token.substring(r1-1);
-				r2_txt = token.substring(r2-1);
-				rv_txt = token.substring(rv-1);
-			}
-			var token_after2a = token;
-			
-			// Do Step 2b if step 2a was done, but failed to remove a suffix. 
-			if (token_after2a == token_after1) {
-				
-				if ((suf = endsinArr(rv_txt,new Array('en', 'es', 'éis', 'emos'))) != '') {
-					token = token.slice(0,-suf.length);
-					if (endsin(token, 'gu')) {
-						token = token.slice(0,-1);
-					}
-				} else if ((suf = endsinArr(rv_txt, new Array('arían', 'arías', 'arán', 'arás', 'aríais', 'aría', 'aréis', 'aríamos', 'aremos', 'ará', 'aré', 'erían', 'erías', 'erán', 'erás', 'eríais', 'ería', 'eréis', 'eríamos', 'eremos', 'erá', 'eré', 'irían', 'irías', 'irán', 'irás', 'iríais', 'iría', 'iréis', 'iríamos', 'iremos', 'irá', 'iré', 'aba', 'ada', 'ida', 'ía', 'ara', 'iera', 'ad', 'ed', 'id', 'ase', 'iese', 'aste', 'iste', 'an', 'aban', 'ían', 'aran', 'ieran', 'asen', 'iesen', 'aron', 'ieron', 'ado', 'ido', 'ando', 'iendo', 'ió', 'ar', 'er', 'ir', 'as', 'abas', 'adas', 'idas', 'ías', 'aras', 'ieras', 'ases', 'ieses', 'ís', 'áis', 'abais', 'íais', 'arais', 'ierais', '  aseis', 'ieseis', 'asteis', 'isteis', 'ados', 'idos', 'amos', 'ábamos', 'íamos', 'imos', 'áramos', 'iéramos', 'iésemos', 'ásemos'))) != '') {
-					
-					token = token.slice(0, -suf.length);
-					
-				}
-			}
-		}
-
-		// Always do step 3. 
-		r1_txt = token.substring(r1-1);
-		r2_txt = token.substring(r2-1);
-		rv_txt = token.substring(rv-1);
-
-		if ((suf = endsinArr(rv_txt, new Array('os', 'a', 'o', 'á', 'í', 'ó'))) != '') {
-			token = token.slice(0, -suf.length);
-		} else if ((suf = endsinArr(rv_txt ,new Array('e','é'))) != '') {
-			token = token.slice(0,-1);
-			rv_txt = token.substring(rv-1);
-			if (endsin(rv_txt,'u') && endsin(token,'gu')) {
-				token = token.slice(0,-1);
-			}
-		}
-		
-		return removeAccent(token);
-
-};
-
-},{"./stemmer_es":50}],13:[function(require,module,exports){
+},{"./lancaster_rules":50,"./stemmer":45}],13:[function(require,module,exports){
 /*
  Copyright (c) 2012, Guillaume Marty
 
@@ -3449,9 +3438,9 @@ StemmerJa.prototype.attach = function() {
 
 module.exports = StemmerJa;
 
-},{"../tokenizers/tokenizer_ja":20,"../util/stopwords_ja":51}],14:[function(require,module,exports){
+},{"../tokenizers/tokenizer_ja":21,"../util/stopwords_ja":51}],16:[function(require,module,exports){
 /*
-Copyright (c) 2011, Chris Umbel
+Copyright (c) 2011, Chris Umbel,David Przybilla
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -3478,25 +3467,16 @@ var Tokenizer = require('./tokenizer'),
 var AggressiveTokenizer = function() {
     Tokenizer.call(this);    
 };
-
 util.inherits(AggressiveTokenizer, Tokenizer);
 
 module.exports = AggressiveTokenizer;
 
-AggressiveTokenizer.prototype.withoutEmpty = function(array) {
-	return array.filter(function(a) {return a;});
-};
-
-AggressiveTokenizer.prototype.clearText = function(text) {
-	return text.replace(/[^a-zа-яё0-9]/gi, ' ').replace(/[\s\n]+/g, ' ').trim();
-};
-
 AggressiveTokenizer.prototype.tokenize = function(text) {
     // break a string up into an array of tokens by anything non-word
-    return this.withoutEmpty(this.clearText(text).split(' '));
+    return this.trim(text.split(/\W+/));
 };
 
-},{"util":40,"./tokenizer":52}],15:[function(require,module,exports){
+},{"util":40,"./tokenizer":52}],14:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 Farsi Aggressive Tokenizer by Fardin Koochaki <me@fardinak.com>
@@ -3546,7 +3526,54 @@ AggressiveTokenizer.prototype.tokenize = function(text) {
     return this.clearEmptyString(text.split(/\s+/));
 };
 
-},{"util":40,"./tokenizer":52}],16:[function(require,module,exports){
+},{"util":40,"./tokenizer":52}],15:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var Tokenizer = require('./tokenizer'),
+    util = require('util');
+
+var AggressiveTokenizer = function() {
+    Tokenizer.call(this);    
+};
+
+util.inherits(AggressiveTokenizer, Tokenizer);
+
+module.exports = AggressiveTokenizer;
+
+AggressiveTokenizer.prototype.withoutEmpty = function(array) {
+	return array.filter(function(a) {return a;});
+};
+
+AggressiveTokenizer.prototype.clearText = function(text) {
+	return text.replace(/[^a-zа-яё0-9]/gi, ' ').replace(/[\s\n]+/g, ' ').trim();
+};
+
+AggressiveTokenizer.prototype.tokenize = function(text) {
+    // break a string up into an array of tokens by anything non-word
+    return this.withoutEmpty(this.clearText(text).split(' '));
+};
+
+},{"util":40,"./tokenizer":52}],17:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel,David Przybilla
 
@@ -3622,45 +3649,7 @@ AggressiveTokenizer.prototype.tokenize = function(text) {
     return this.trim(text.split(/\W+/));
 };
 
-},{"util":40,"./tokenizer":52}],17:[function(require,module,exports){
-/*
-Copyright (c) 2011, Chris Umbel,David Przybilla
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var Tokenizer = require('./tokenizer'),
-    util = require('util');
-
-var AggressiveTokenizer = function() {
-    Tokenizer.call(this);    
-};
-util.inherits(AggressiveTokenizer, Tokenizer);
-
-module.exports = AggressiveTokenizer;
-
-AggressiveTokenizer.prototype.tokenize = function(text) {
-    // break a string up into an array of tokens by anything non-word
-    return this.trim(text.split(/\W+/));
-};
-
-},{"util":40,"./tokenizer":52}],20:[function(require,module,exports){
+},{"util":40,"./tokenizer":52}],21:[function(require,module,exports){
 // Original copyright:
 /*
  Copyright (c) 2008, Taku Kudo
@@ -5218,7 +5207,7 @@ exports.replacer = replacer;
 exports.flip = flip;
 exports.merge = merge;
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -6010,6 +5999,59 @@ exports.rules = {
 };
 
 
+},{}],52:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+/**
+ * \@todo Use .bind() in Tokenizer.prototype.attach().
+ */
+
+var Tokenizer = function() {
+};
+
+Tokenizer.prototype.trim = function(array) {
+  if (array[array.length - 1] == '')
+    array.pop();
+
+  if (array[0] == '')
+    array.shift();
+
+  return array;
+};
+
+// Expose an attach function that will patch String with new methods.
+Tokenizer.prototype.attach = function() {
+  var self = this;
+
+  String.prototype.tokenize = function() {
+    return self.tokenize(this);
+  }
+};
+
+Tokenizer.prototype.tokenize = function() {};
+
+module.exports = Tokenizer;
+
 },{}],51:[function(require,module,exports){
 // Original copyright:
 /*
@@ -6070,59 +6112,6 @@ var words = ['の', 'に', 'は', 'を', 'た', 'が', 'で', 'て', 'と', 'し
 
 // tell the world about the noise words.
 module.exports = words;
-
-},{}],52:[function(require,module,exports){
-/*
-Copyright (c) 2011, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-/**
- * \@todo Use .bind() in Tokenizer.prototype.attach().
- */
-
-var Tokenizer = function() {
-};
-
-Tokenizer.prototype.trim = function(array) {
-  if (array[array.length - 1] == '')
-    array.pop();
-
-  if (array[0] == '')
-    array.shift();
-
-  return array;
-};
-
-// Expose an attach function that will patch String with new methods.
-Tokenizer.prototype.attach = function() {
-  var self = this;
-
-  String.prototype.tokenize = function() {
-    return self.tokenize(this);
-  }
-};
-
-Tokenizer.prototype.tokenize = function() {};
-
-module.exports = Tokenizer;
 
 },{}],53:[function(require,module,exports){
 /*
@@ -6907,7 +6896,67 @@ module.exports = function() {
 };
 
 })()
-},{"../util/stopwords":33,"../tokenizers/aggressive_tokenizer":18}],45:[function(require,module,exports){
+},{"../util/stopwords":32,"../tokenizers/aggressive_tokenizer":18}],46:[function(require,module,exports){
+/*
+Copyright (c) 2012, Polyakov Vladimir, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var stopwords = require('../util/stopwords_ru');
+var Tokenizer = require('../tokenizers/aggressive_tokenizer_ru');
+
+module.exports = function() {
+    var stemmer = this;
+
+    stemmer.stem = function(token) {
+        return token;
+    };
+
+    stemmer.tokenizeAndStem = function(text, keepStops) {
+        var stemmedTokens = [];
+        
+        new Tokenizer().tokenize(text).forEach(function(token) {
+            if (keepStops || stopwords.words.indexOf(token) == -1) {
+                var resultToken = token.toLowerCase();
+                if (resultToken.match(new RegExp('[а-яё0-9]+', 'gi'))) {
+                    resultToken = stemmer.stem(resultToken);
+                }
+                stemmedTokens.push(resultToken);
+            }
+        });
+        
+        return stemmedTokens;
+    };
+
+    stemmer.attach = function() {
+        String.prototype.stem = function() {
+            return stemmer.stem(this);
+        };
+        
+        String.prototype.tokenizeAndStem = function(keepStops) {
+            return stemmer.tokenizeAndStem(this, keepStops);
+        };
+    };
+}
+
+},{"../tokenizers/aggressive_tokenizer_ru":15,"../util/stopwords_ru":56}],45:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -6970,67 +7019,7 @@ module.exports = function() {
     };
 }
 
-},{"../util/stopwords":33,"../tokenizers/aggressive_tokenizer":18}],46:[function(require,module,exports){
-/*
-Copyright (c) 2012, Polyakov Vladimir, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var stopwords = require('../util/stopwords_ru');
-var Tokenizer = require('../tokenizers/aggressive_tokenizer_ru');
-
-module.exports = function() {
-    var stemmer = this;
-
-    stemmer.stem = function(token) {
-        return token;
-    };
-
-    stemmer.tokenizeAndStem = function(text, keepStops) {
-        var stemmedTokens = [];
-        
-        new Tokenizer().tokenize(text).forEach(function(token) {
-            if (keepStops || stopwords.words.indexOf(token) == -1) {
-                var resultToken = token.toLowerCase();
-                if (resultToken.match(new RegExp('[а-яё0-9]+', 'gi'))) {
-                    resultToken = stemmer.stem(resultToken);
-                }
-                stemmedTokens.push(resultToken);
-            }
-        });
-        
-        return stemmedTokens;
-    };
-
-    stemmer.attach = function() {
-        String.prototype.stem = function() {
-            return stemmer.stem(this);
-        };
-        
-        String.prototype.tokenizeAndStem = function(keepStops) {
-            return stemmer.tokenizeAndStem(this, keepStops);
-        };
-    };
-}
-
-},{"../util/stopwords_ru":56,"../tokenizers/aggressive_tokenizer_ru":14}],47:[function(require,module,exports){
+},{"../util/stopwords":32,"../tokenizers/aggressive_tokenizer":18}],47:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 Farsi Stemmer by Fardin Koochaki <me@fardinak.com>
@@ -7086,44 +7075,7 @@ module.exports = function() {
     };
 }
 
-},{"../util/stopwords_fa":57,"../tokenizers/aggressive_tokenizer_fa":15}],48:[function(require,module,exports){
-var stopwords = require('../util/stopwords_it');
-var Tokenizer = require('../tokenizers/aggressive_tokenizer_it');
-
-module.exports = function() {
-    var stemmer = this;
-
-    stemmer.stem = function(token) {
-        return token;
-    };
-
-    stemmer.tokenizeAndStem = function(text, keepStops) {
-        var stemmedTokens = [];
-        
-        new Tokenizer().tokenize(text).forEach(function(token) {
-            if (keepStops || stopwords.words.indexOf(token) == -1) {
-                var resultToken = token.toLowerCase();
-                if (resultToken.match(/[a-zàèìòù0-9]/gi)) {
-                    resultToken = stemmer.stem(resultToken);
-                }
-                stemmedTokens.push(resultToken);
-            }
-        });
-        
-        return stemmedTokens;
-    };
-
-    stemmer.attach = function() {
-        String.prototype.stem = function() {
-            return stemmer.stem(this);
-        };
-        
-        String.prototype.tokenizeAndStem = function(keepStops) {
-            return stemmer.tokenizeAndStem(this, keepStops);
-        };
-    };
-}
-},{"../util/stopwords_it":58,"../tokenizers/aggressive_tokenizer_it":17}],50:[function(require,module,exports){
+},{"../util/stopwords_fa":57,"../tokenizers/aggressive_tokenizer_fa":14}],48:[function(require,module,exports){
 /*
 Copyright (c) 2012, David Przybilla, Chris Umbel
 
@@ -7183,7 +7135,44 @@ module.exports = function() {
     };
 }
 
-},{"../util/stopwords_es":59,"../tokenizers/aggressive_tokenizer_es":16}],60:[function(require,module,exports){
+},{"../util/stopwords_es":58,"../tokenizers/aggressive_tokenizer_es":16}],49:[function(require,module,exports){
+var stopwords = require('../util/stopwords_it');
+var Tokenizer = require('../tokenizers/aggressive_tokenizer_it');
+
+module.exports = function() {
+    var stemmer = this;
+
+    stemmer.stem = function(token) {
+        return token;
+    };
+
+    stemmer.tokenizeAndStem = function(text, keepStops) {
+        var stemmedTokens = [];
+        
+        new Tokenizer().tokenize(text).forEach(function(token) {
+            if (keepStops || stopwords.words.indexOf(token) == -1) {
+                var resultToken = token.toLowerCase();
+                if (resultToken.match(/[a-zàèìòù0-9]/gi)) {
+                    resultToken = stemmer.stem(resultToken);
+                }
+                stemmedTokens.push(resultToken);
+            }
+        });
+        
+        return stemmedTokens;
+    };
+
+    stemmer.attach = function() {
+        String.prototype.stem = function() {
+            return stemmer.stem(this);
+        };
+        
+        String.prototype.tokenizeAndStem = function(keepStops) {
+            return stemmer.tokenizeAndStem(this, keepStops);
+        };
+    };
+}
+},{"../util/stopwords_it":59,"../tokenizers/aggressive_tokenizer_it":17}],60:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -11398,7 +11387,47 @@ IndexFile.prototype._findAt = findAt;
 module.exports = IndexFile;
 
 })(require("__browserify_buffer").Buffer)
-},{"fs":42,"util":40,"./wordnet_file":63,"__browserify_buffer":61}],56:[function(require,module,exports){
+},{"fs":42,"util":40,"./wordnet_file":63,"__browserify_buffer":61}],57:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel
+Farsi Stop Words by Fardin Koochaki <me@fardinak.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+// a list of commonly used words that have little meaning and can be excluded
+// from analysis.
+var words = [
+    // Words
+    'از', 'با', 'یه', 'برای', 'و', 'باید', 'شاید',
+
+    // Symbols
+    '؟', '!', '٪', '.', '،', '؛', ':', ';', ',',
+    
+    // Numbers
+    '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '۰'
+];
+    
+// tell the world about the noise words.    
+exports.words = words;
+
+},{}],56:[function(require,module,exports){
 /*
 Copyright (c) 2011, Polyakov Vladimir, Chris Umbel
 
@@ -11441,47 +11470,7 @@ var words = [
 // tell the world about the noise words.    
 exports.words = words;
 
-},{}],57:[function(require,module,exports){
-/*
-Copyright (c) 2011, Chris Umbel
-Farsi Stop Words by Fardin Koochaki <me@fardinak.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-// a list of commonly used words that have little meaning and can be excluded
-// from analysis.
-var words = [
-    // Words
-    'از', 'با', 'یه', 'برای', 'و', 'باید', 'شاید',
-
-    // Symbols
-    '؟', '!', '٪', '.', '،', '؛', ':', ';', ',',
-    
-    // Numbers
-    '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '۰'
-];
-    
-// tell the world about the noise words.    
-exports.words = words;
-
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 /*
 Copyright (c) 2011, David Przybilla, Chris Umbel
 
@@ -11535,7 +11524,7 @@ var words = [
 // tell the world about the noise words.    
 exports.words = words;
 
-},{}],59:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 /*
 Copyright (c) 2011, David Przybilla, Chris Umbel
 
@@ -11645,7 +11634,7 @@ WordNetFile.appendLineChar = appendLineChar;
 module.exports = WordNetFile;
 
 })(require("__browserify_buffer").Buffer)
-},{"fs":42,"path":65,"util":40,"__browserify_buffer":61}],21:[function(require,module,exports){
+},{"fs":42,"path":65,"util":40,"__browserify_buffer":61}],20:[function(require,module,exports){
 /*
 Copyright (c) 2011, Rob Ellis, Chris Umbel
 
@@ -12223,7 +12212,63 @@ TfIdf.prototype.tfidfs = function(terms, callback) {
     return tfidfs;
 };
 
-},{"fs":42,"../tokenizers/regexp_tokenizer":19,"../util/stopwords":33,"underscore":66}],31:[function(require,module,exports){
+},{"fs":42,"../tokenizers/regexp_tokenizer":19,"../util/stopwords":32,"underscore":66}],33:[function(require,module,exports){
+/*
+Copyright (c) 2011, Rob Ellis, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var _ = require("underscore")._,
+    Tokenizer = require('../tokenizers/regexp_tokenizer').WordTokenizer,
+    tokenizer = new Tokenizer();
+
+exports.ngrams = function(sequence, n) {
+    return ngrams(sequence, n);
+}
+
+exports.bigrams = function(sequence) {
+    return ngrams(sequence, 2);
+}
+
+exports.trigrams = function(sequence) {
+    return ngrams(sequence, 3);
+}
+
+var ngrams = function(sequence, n) {
+    var result = [];
+    
+    if (!_(sequence).isArray()) {
+        sequence = tokenizer.tokenize(sequence);
+    }
+
+    var count = _.max([0, sequence.length - n + 1]);
+    
+    for (var i = 0; i < count; i++) {
+        result.push(sequence.slice(i, i + n));
+    }
+    
+    return result;
+}
+
+
+},{"../tokenizers/regexp_tokenizer":19,"underscore":66}],31:[function(require,module,exports){
 /*
 Copyright (c) 2011, Rob Ellis, Chris Umbel
 
@@ -12398,63 +12443,7 @@ Sentences.prototype.type = function(callback) {
 
 module.exports = Sentences;
 
-},{"underscore":66}],34:[function(require,module,exports){
-/*
-Copyright (c) 2011, Rob Ellis, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var _ = require("underscore")._,
-    Tokenizer = require('../tokenizers/regexp_tokenizer').WordTokenizer,
-    tokenizer = new Tokenizer();
-
-exports.ngrams = function(sequence, n) {
-    return ngrams(sequence, n);
-}
-
-exports.bigrams = function(sequence) {
-    return ngrams(sequence, 2);
-}
-
-exports.trigrams = function(sequence) {
-    return ngrams(sequence, 3);
-}
-
-var ngrams = function(sequence, n) {
-    var result = [];
-    
-    if (!_(sequence).isArray()) {
-        sequence = tokenizer.tokenize(sequence);
-    }
-
-    var count = _.max([0, sequence.length - n + 1]);
-    
-    for (var i = 0; i < count; i++) {
-        result.push(sequence.slice(i, i + n));
-    }
-    
-    return result;
-}
-
-
-},{"../tokenizers/regexp_tokenizer":19,"underscore":66}],66:[function(require,module,exports){
+},{"underscore":66}],66:[function(require,module,exports){
 (function(){//     Underscore.js 1.4.4
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
@@ -13867,7 +13856,7 @@ exports.BayesClassifier = require('./classifier/bayes_classifier');
 exports.LogisticRegressionClassifier = require('./classifier/logistic_regression_classifier');
 exports.KMeans = require('./clusterer/kmeans');
 
-},{"./classifier/bayes_classifier":69,"./classifier/logistic_regression_classifier":70,"./clusterer/kmeans":71}],69:[function(require,module,exports){
+},{"./classifier/bayes_classifier":69,"./clusterer/kmeans":70,"./classifier/logistic_regression_classifier":71}],69:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -14075,6 +14064,127 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+var Sylvester = require('sylvester'),
+Matrix = Sylvester.Matrix,
+Vector = Sylvester.Vector;
+
+function KMeans(Observations) {
+    if(!Observations.elements)
+	Observations = $M(Observations);
+
+    this.Observations = Observations;
+}
+
+// create an initial centroid matrix with initial values between 
+// 0 and the max of feature data X.
+function createCentroids(k) {
+    var Centroid = [];
+    var maxes = this.Observations.maxColumns();
+    //console.log(maxes);
+
+    for(var i = 1; i <= k; i++) {
+	var centroid = [];
+	
+	for(var j = 1; j <= this.Observations.cols(); j++) {
+	    centroid.push(Math.random() * maxes.e(j));
+	}
+
+	Centroid.push(centroid);
+    }
+
+    //console.log(centroid)
+    
+    return $M(Centroid);
+}
+
+// get the euclidian distance between the feature data X and
+// a given centroid matrix C.
+function distanceFrom(Centroids) {
+    var distances = [];
+
+    for(var i = 1; i <= this.Observations.rows(); i++) {
+	var distance = [];
+
+	for(var j = 1; j <= Centroids.rows(); j++) {
+	    distance.push(this.Observations.row(i).distanceFrom(Centroids.row(j)));
+	}
+
+	distances.push(distance);
+    }
+
+    return $M(distances);
+}
+
+// categorize the feature data X into k clusters. return a vector
+// containing the results.
+function cluster(k) {
+    var Centroids = this.createCentroids(k);
+    var LastDistances = Matrix.Zero(this.Observations.rows(), this.Observations.cols());
+    var Distances = this.distanceFrom(Centroids);
+    var Groups;
+
+    while(!(LastDistances.eql(Distances))) {
+	Groups = Distances.minColumnIndexes();
+	LastDistances = Distances;
+
+	var newCentroids = [];
+
+	for(var i = 1; i <= Centroids.rows(); i++) {
+	    var centroid = [];
+
+	    for(var j = 1; j <= Centroids.cols(); j++) {
+		var sum = 0;
+		var count = 0;
+
+		for(var l = 1; l <= this.Observations.rows(); l++) {
+		    if(Groups.e(l) == i) {
+			count++;
+			sum += this.Observations.e(l, j);
+		    }
+		}
+
+		centroid.push(sum / count);
+	    }
+
+	    newCentroids.push(centroid);
+	}
+	
+	Centroids = $M(newCentroids);
+	Distances = this.distanceFrom(Centroids);
+    }
+
+    return Groups;
+}
+
+KMeans.prototype.createCentroids = createCentroids;
+KMeans.prototype.distanceFrom = distanceFrom;
+KMeans.prototype.cluster = cluster;
+
+module.exports = KMeans;
+
+},{"sylvester":73}],71:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 var util = require('util'),
      Classifier = require('./classifier');
 
@@ -14242,128 +14352,7 @@ LogisticRegressionClassifier.restore = restore;
 
 module.exports = LogisticRegressionClassifier;
 
-},{"util":40,"./classifier":72,"sylvester":73}],71:[function(require,module,exports){
-/*
-Copyright (c) 2011, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var Sylvester = require('sylvester'),
-Matrix = Sylvester.Matrix,
-Vector = Sylvester.Vector;
-
-function KMeans(Observations) {
-    if(!Observations.elements)
-	Observations = $M(Observations);
-
-    this.Observations = Observations;
-}
-
-// create an initial centroid matrix with initial values between 
-// 0 and the max of feature data X.
-function createCentroids(k) {
-    var Centroid = [];
-    var maxes = this.Observations.maxColumns();
-    //console.log(maxes);
-
-    for(var i = 1; i <= k; i++) {
-	var centroid = [];
-	
-	for(var j = 1; j <= this.Observations.cols(); j++) {
-	    centroid.push(Math.random() * maxes.e(j));
-	}
-
-	Centroid.push(centroid);
-    }
-
-    //console.log(centroid)
-    
-    return $M(Centroid);
-}
-
-// get the euclidian distance between the feature data X and
-// a given centroid matrix C.
-function distanceFrom(Centroids) {
-    var distances = [];
-
-    for(var i = 1; i <= this.Observations.rows(); i++) {
-	var distance = [];
-
-	for(var j = 1; j <= Centroids.rows(); j++) {
-	    distance.push(this.Observations.row(i).distanceFrom(Centroids.row(j)));
-	}
-
-	distances.push(distance);
-    }
-
-    return $M(distances);
-}
-
-// categorize the feature data X into k clusters. return a vector
-// containing the results.
-function cluster(k) {
-    var Centroids = this.createCentroids(k);
-    var LastDistances = Matrix.Zero(this.Observations.rows(), this.Observations.cols());
-    var Distances = this.distanceFrom(Centroids);
-    var Groups;
-
-    while(!(LastDistances.eql(Distances))) {
-	Groups = Distances.minColumnIndexes();
-	LastDistances = Distances;
-
-	var newCentroids = [];
-
-	for(var i = 1; i <= Centroids.rows(); i++) {
-	    var centroid = [];
-
-	    for(var j = 1; j <= Centroids.cols(); j++) {
-		var sum = 0;
-		var count = 0;
-
-		for(var l = 1; l <= this.Observations.rows(); l++) {
-		    if(Groups.e(l) == i) {
-			count++;
-			sum += this.Observations.e(l, j);
-		    }
-		}
-
-		centroid.push(sum / count);
-	    }
-
-	    newCentroids.push(centroid);
-	}
-	
-	Centroids = $M(newCentroids);
-	Distances = this.distanceFrom(Centroids);
-    }
-
-    return Groups;
-}
-
-KMeans.prototype.createCentroids = createCentroids;
-KMeans.prototype.distanceFrom = distanceFrom;
-KMeans.prototype.cluster = cluster;
-
-module.exports = KMeans;
-
-},{"sylvester":73}],73:[function(require,module,exports){
+},{"util":40,"./classifier":72,"sylvester":73}],73:[function(require,module,exports){
 (function(global){// Copyright (c) 2011, Chris Umbel
 
 exports.Vector = require('./vector');
@@ -15068,7 +15057,7 @@ Line.Z = Line.create(Vector.Zero(3), Vector.k);
 
 module.exports = Line;
 
-},{"./matrix":75,"./vector":74,"./plane":77,"./sylvester":79}],77:[function(require,module,exports){
+},{"./vector":74,"./matrix":75,"./plane":77,"./sylvester":79}],77:[function(require,module,exports){
 // Copyright (c) 2011, Chris Umbel, James Coglan
 // Plane class - depends on Vector. Some methods require Matrix and Line.
 var Vector = require('./vector');
@@ -16914,7 +16903,131 @@ module.exports.jsMatrixToFortranArray = jsMatrixToFortranArray;
 module.exports.fortranArrayToJSArray = fortranArrayToJSArray;
 module.exports.fortranIntArrayToJSArray = fortranIntArrayToJSArray;
 
-},{"node-ffi":83}],83:[function(require,module,exports){
+},{"node-ffi":83}],84:[function(require,module,exports){
+(function(Buffer){var ffi = require('./ffi')
+  , util = require('util')
+  , Pointer = module.exports = ffi.Bindings.Pointer
+
+/**
+ * `attach()` is used for tracking dependencies among pointers to prevent
+ * garbage collection.
+ */
+
+Pointer.prototype.attach = function attach (friend) {
+  if (!Array.isArray(friend.__attached)) {
+    friend.__attached = []
+  }
+  friend.__attached.push(this)
+}
+
+/**
+ * Creates and returns a new Pointer that points to the same `address` as this
+ * pointer. Usefor for when you want to use a pointer as in iterator, but still
+ * want to retain this original pointer's address for use.
+ *
+ * The returned Pointer's `free` variable is set to `false` by default.
+ *
+ * @return {Pointer} A new Pointer independent of this one, but points to the same `address`.
+ */
+
+Pointer.prototype.clone = function clone () {
+  return this.seek(0)
+}
+
+/**
+ * This wraps _putPointer so it supports direct Struct writing.
+ */
+
+Pointer.prototype.putPointer = function putPointer (ptr, seek) {
+  var p = ptr && 'pointer' in ptr ? ptr.pointer : ptr
+  return this._putPointer(p, seek)
+}
+
+/**
+ * Custom inspect() function for easier inspecting of Pointers in the REPL
+ */
+
+Pointer.prototype.inspect = function inspect (depth, hidden, colors) {
+  return '<Pointer address="'
+    + util.inspect(this.address, hidden, depth - 1, colors)
+    +'" allocated="'
+    + util.inspect(this.allocated, hidden, depth - 1, colors)
+    +'" free="'
+    + util.inspect(this.free, hidden, depth - 1, colors)
+    +'">'
+}
+
+/**
+ * Returns `true` if the given argument is a `Pointer` instance.
+ * Returns `false` otherwise.
+ *
+ * @param {Object} p A pointer object (possibly...)
+ * @return {Boolean} `true` if the object is a `Pointer` instance
+ */
+
+Pointer.isPointer = function isPointer (p) {
+  return p instanceof Pointer
+}
+
+/**
+ * Allocates a pointer big enough to fit *type* and *value*, writes the value,
+ * and returns it.
+ */
+
+Pointer.alloc = function alloc (type, value) {
+  var size = type == 'string'
+           ? Buffer.byteLength(value, 'utf8') + 1
+           : ffi.sizeOf(type)
+
+  // malloc() the buffer
+  var ptr = new Pointer(size)
+
+  // write the value
+  ptr['put' + ffi.TYPE_TO_POINTER_METHOD_MAP[type]](value)
+
+  if (type == 'string') {
+    // XXX: consider removing this string special case. it's dumb.
+    // we have to actually build an "in-between" pointer for strings
+    var dptr = new ffi.Pointer(ffi.Bindings.TYPE_SIZE_MAP.pointer)
+    ptr.attach(dptr) // save it from garbage collection
+    dptr.putPointer(ptr)
+    return dptr
+  }
+
+  return ptr
+}
+
+/**
+ * Appends the `NON_SPECIFIC_TYPES` to the `TYPE_TO_POINTER_METHOD_MAP` by
+ * discovering the method suffix by type size.
+ */
+
+Object.keys(ffi.NON_SPECIFIC_TYPES).forEach(function (type) {
+  var method = ffi.NON_SPECIFIC_TYPES[type]
+    , suffix = ffi.TYPE_TO_POINTER_METHOD_MAP[type]
+
+  if (!suffix) {
+    // No hard mapping, determine by size
+    var size = ffi.sizeOf(type)
+      , szFunc = ffi.SIZE_TO_POINTER_METHOD_MAP[size]
+      , signed = type !== 'byte' && type != 'size_t' && type[0] != 'u'
+    suffix = (signed ? '' : 'U') + szFunc
+  }
+
+  ffi.TYPE_TO_POINTER_METHOD_MAP[type] = suffix
+
+  Pointer.prototype['put' + method] = Pointer.prototype['put' + suffix]
+  Pointer.prototype['get' + method] = Pointer.prototype['get' + suffix]
+})
+
+/**
+ * Define the `NULL` pointer. Used internally in other parts of node-ffi.
+ */
+
+Pointer.NULL = new Pointer(0)
+
+})(require("__browserify_buffer").Buffer)
+},{"util":40,"./ffi":83,"__browserify_buffer":61}],83:[function(require,module,exports){
 var ffi = module.exports
 
 ffi.Bindings = require('bindings')('ffi_bindings.node')
@@ -17102,131 +17215,7 @@ ffi.FFI_TYPE = ffi.Struct([
 ])
 
 
-},{"./pointer":84,"./cif":85,"./foreign_function":86,"./library":87,"./dynamic_library":88,"./callback":89,"./struct":90,"./errno":91,"bindings":92}],84:[function(require,module,exports){
-(function(Buffer){var ffi = require('./ffi')
-  , util = require('util')
-  , Pointer = module.exports = ffi.Bindings.Pointer
-
-/**
- * `attach()` is used for tracking dependencies among pointers to prevent
- * garbage collection.
- */
-
-Pointer.prototype.attach = function attach (friend) {
-  if (!Array.isArray(friend.__attached)) {
-    friend.__attached = []
-  }
-  friend.__attached.push(this)
-}
-
-/**
- * Creates and returns a new Pointer that points to the same `address` as this
- * pointer. Usefor for when you want to use a pointer as in iterator, but still
- * want to retain this original pointer's address for use.
- *
- * The returned Pointer's `free` variable is set to `false` by default.
- *
- * @return {Pointer} A new Pointer independent of this one, but points to the same `address`.
- */
-
-Pointer.prototype.clone = function clone () {
-  return this.seek(0)
-}
-
-/**
- * This wraps _putPointer so it supports direct Struct writing.
- */
-
-Pointer.prototype.putPointer = function putPointer (ptr, seek) {
-  var p = ptr && 'pointer' in ptr ? ptr.pointer : ptr
-  return this._putPointer(p, seek)
-}
-
-/**
- * Custom inspect() function for easier inspecting of Pointers in the REPL
- */
-
-Pointer.prototype.inspect = function inspect (depth, hidden, colors) {
-  return '<Pointer address="'
-    + util.inspect(this.address, hidden, depth - 1, colors)
-    +'" allocated="'
-    + util.inspect(this.allocated, hidden, depth - 1, colors)
-    +'" free="'
-    + util.inspect(this.free, hidden, depth - 1, colors)
-    +'">'
-}
-
-/**
- * Returns `true` if the given argument is a `Pointer` instance.
- * Returns `false` otherwise.
- *
- * @param {Object} p A pointer object (possibly...)
- * @return {Boolean} `true` if the object is a `Pointer` instance
- */
-
-Pointer.isPointer = function isPointer (p) {
-  return p instanceof Pointer
-}
-
-/**
- * Allocates a pointer big enough to fit *type* and *value*, writes the value,
- * and returns it.
- */
-
-Pointer.alloc = function alloc (type, value) {
-  var size = type == 'string'
-           ? Buffer.byteLength(value, 'utf8') + 1
-           : ffi.sizeOf(type)
-
-  // malloc() the buffer
-  var ptr = new Pointer(size)
-
-  // write the value
-  ptr['put' + ffi.TYPE_TO_POINTER_METHOD_MAP[type]](value)
-
-  if (type == 'string') {
-    // XXX: consider removing this string special case. it's dumb.
-    // we have to actually build an "in-between" pointer for strings
-    var dptr = new ffi.Pointer(ffi.Bindings.TYPE_SIZE_MAP.pointer)
-    ptr.attach(dptr) // save it from garbage collection
-    dptr.putPointer(ptr)
-    return dptr
-  }
-
-  return ptr
-}
-
-/**
- * Appends the `NON_SPECIFIC_TYPES` to the `TYPE_TO_POINTER_METHOD_MAP` by
- * discovering the method suffix by type size.
- */
-
-Object.keys(ffi.NON_SPECIFIC_TYPES).forEach(function (type) {
-  var method = ffi.NON_SPECIFIC_TYPES[type]
-    , suffix = ffi.TYPE_TO_POINTER_METHOD_MAP[type]
-
-  if (!suffix) {
-    // No hard mapping, determine by size
-    var size = ffi.sizeOf(type)
-      , szFunc = ffi.SIZE_TO_POINTER_METHOD_MAP[size]
-      , signed = type !== 'byte' && type != 'size_t' && type[0] != 'u'
-    suffix = (signed ? '' : 'U') + szFunc
-  }
-
-  ffi.TYPE_TO_POINTER_METHOD_MAP[type] = suffix
-
-  Pointer.prototype['put' + method] = Pointer.prototype['put' + suffix]
-  Pointer.prototype['get' + method] = Pointer.prototype['get' + suffix]
-})
-
-/**
- * Define the `NULL` pointer. Used internally in other parts of node-ffi.
- */
-
-Pointer.NULL = new Pointer(0)
-
-})(require("__browserify_buffer").Buffer)
-},{"util":40,"./ffi":83,"__browserify_buffer":61}],85:[function(require,module,exports){
+},{"./pointer":84,"./cif":85,"./foreign_function":86,"./dynamic_library":87,"./library":88,"./callback":89,"./struct":90,"./errno":91,"bindings":92}],85:[function(require,module,exports){
 var ffi = require('./ffi')
 
 /**
@@ -17378,89 +17367,6 @@ ForeignFunction.build = ForeignFunction
 
 })(require("__browserify_buffer").Buffer)
 },{"events":41,"./ffi":83,"__browserify_buffer":61}],87:[function(require,module,exports){
-(function(process){var ffi = require('./ffi')
-  , EXT = ffi.PLATFORM_LIBRARY_EXTENSIONS[process.platform]
-  , RTLD_NOW = ffi.DynamicLibrary.FLAGS.RTLD_NOW
-
-/**
- * Provides a friendly abstraction/API on-top of DynamicLibrary and
- * ForeignFunction.
- */
-function Library (libfile, funcs) {
-  if (libfile && libfile.indexOf(EXT) === -1) {
-    libfile += EXT
-  }
-
-  var lib = {}
-    , dl = new ffi.DynamicLibrary(libfile || null, RTLD_NOW)
-
-  if (funcs) {
-    Object.keys(funcs).forEach(function (func) {
-      var fptr = dl.get(func)
-        , info = funcs[func]
-
-      if (fptr.isNull()) {
-        throw new Error('DynamicLibrary "'+libfile+'" returned NULL function pointer for "'+func+'"')
-      }
-
-      var resultType = info[0]
-        , paramTypes = info[1]
-        , fopts = info[2]
-        , async = fopts ? fopts.async : false
-
-      lib[func] = ffi.ForeignFunction(fptr, resultType, paramTypes, async)
-    })
-  }
-
-  return lib
-}
-module.exports = Library
-
-})(require("__browserify_process"))
-},{"./ffi":83,"__browserify_process":43}],89:[function(require,module,exports){
-var ffi = require('./ffi')
-
-/**
- * Turns a JavaScript function into a C function pointer.
- * The function pointer may be used in other C functions that
- * accept C callback functions.
- * TODO: Deprecate this class, make this function return the callback pointer
- *       directly.
- */
-
-function Callback (typedata, func) {
-  var retType = typedata[0]
-    , types   = typedata[1]
-
-  this._cif   = new ffi.CIF(retType, types)
-  this._info  = new ffi.CallbackInfo(this._cif.getPointer(), function (retval, params) {
-    var pptr = params.clone()
-    var args = types.map(function (type) {
-      return ffi.derefValuePtr(type, pptr.getPointer(true))
-    })
-
-    // Invoke the user-given function
-    var result = func.apply(null, args)
-
-    if (retType !== 'void') {
-      retval['put' + ffi.TYPE_TO_POINTER_METHOD_MAP[retType]](result)
-    }
-  })
-
-  this.pointer = this._info.pointer
-}
-module.exports = Callback
-
-/**
- * Returns the callback function pointer. Deprecated. Use `callback.pointer`
- * instead.
- */
-
-Callback.prototype.getPointer = function getPointer () {
-  return this.pointer
-}
-
-},{"./ffi":83}],88:[function(require,module,exports){
 var ffi = require('./ffi')
   , read  = require('fs').readFileSync
   , dlopen = ffi.ForeignFunction(ffi.Bindings.StaticFunctions.dlopen
@@ -17555,7 +17461,90 @@ DynamicLibrary.prototype.error = function error () {
   return dlerror()
 }
 
-},{"fs":42,"./ffi":83}],90:[function(require,module,exports){
+},{"fs":42,"./ffi":83}],88:[function(require,module,exports){
+(function(process){var ffi = require('./ffi')
+  , EXT = ffi.PLATFORM_LIBRARY_EXTENSIONS[process.platform]
+  , RTLD_NOW = ffi.DynamicLibrary.FLAGS.RTLD_NOW
+
+/**
+ * Provides a friendly abstraction/API on-top of DynamicLibrary and
+ * ForeignFunction.
+ */
+function Library (libfile, funcs) {
+  if (libfile && libfile.indexOf(EXT) === -1) {
+    libfile += EXT
+  }
+
+  var lib = {}
+    , dl = new ffi.DynamicLibrary(libfile || null, RTLD_NOW)
+
+  if (funcs) {
+    Object.keys(funcs).forEach(function (func) {
+      var fptr = dl.get(func)
+        , info = funcs[func]
+
+      if (fptr.isNull()) {
+        throw new Error('DynamicLibrary "'+libfile+'" returned NULL function pointer for "'+func+'"')
+      }
+
+      var resultType = info[0]
+        , paramTypes = info[1]
+        , fopts = info[2]
+        , async = fopts ? fopts.async : false
+
+      lib[func] = ffi.ForeignFunction(fptr, resultType, paramTypes, async)
+    })
+  }
+
+  return lib
+}
+module.exports = Library
+
+})(require("__browserify_process"))
+},{"./ffi":83,"__browserify_process":43}],89:[function(require,module,exports){
+var ffi = require('./ffi')
+
+/**
+ * Turns a JavaScript function into a C function pointer.
+ * The function pointer may be used in other C functions that
+ * accept C callback functions.
+ * TODO: Deprecate this class, make this function return the callback pointer
+ *       directly.
+ */
+
+function Callback (typedata, func) {
+  var retType = typedata[0]
+    , types   = typedata[1]
+
+  this._cif   = new ffi.CIF(retType, types)
+  this._info  = new ffi.CallbackInfo(this._cif.getPointer(), function (retval, params) {
+    var pptr = params.clone()
+    var args = types.map(function (type) {
+      return ffi.derefValuePtr(type, pptr.getPointer(true))
+    })
+
+    // Invoke the user-given function
+    var result = func.apply(null, args)
+
+    if (retType !== 'void') {
+      retval['put' + ffi.TYPE_TO_POINTER_METHOD_MAP[retType]](result)
+    }
+  })
+
+  this.pointer = this._info.pointer
+}
+module.exports = Callback
+
+/**
+ * Returns the callback function pointer. Deprecated. Use `callback.pointer`
+ * instead.
+ */
+
+Callback.prototype.getPointer = function getPointer () {
+  return this.pointer
+}
+
+},{"./ffi":83}],90:[function(require,module,exports){
 (function(Buffer){var ffi = require('./ffi')
 
 /**

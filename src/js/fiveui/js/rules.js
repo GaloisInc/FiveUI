@@ -80,6 +80,26 @@ fiveui.RuleSet.load = function(manifest_url, options) {
   if(match) {
     var base_url = manifest_url.substring(0,match.index);
 
+    var loadDependencies = function(manifest, dependencies, rules) {
+      if (_.isEmpty(dependencies)) {
+        loadRules(manifest, rules);
+      } else {
+        // XXX there's likely problems here, how should we make sure that the
+        // url is what we expect?
+        var dep_file = dependencies.pop();
+        var dep_url  = base_url + '/' + dep_file;
+      
+        fiveui.ajax.get(dep_url, {
+            success: function(text) {
+              manifest.dependencies.push({'url': dep_url, 'content': text});
+              loadDependencies(manifest, dependencies, rules);
+            },
+
+            error: options.error
+        });
+      }
+    };
+
     // iterate over rules, retrieving the 
     var loadRules = function(manifest, rules) {
 
@@ -127,6 +147,9 @@ fiveui.RuleSet.load = function(manifest_url, options) {
         // manifest.
         manifest.patterns = [];
 
+        var dependencies = manifest.dependencies;
+        manifest.dependencies = [];
+
         // remove the rules, as they'll be added back once processed.
         var rules      = manifest.rules;
         manifest.rules = [];
@@ -134,7 +157,7 @@ fiveui.RuleSet.load = function(manifest_url, options) {
         // overwrite any source present with the one given by the user.
         manifest.source = manifest_url;
 
-        loadRules(manifest, rules);
+        loadDependencies(manifest, dependencies, rules);
       },
 
       error: function() {

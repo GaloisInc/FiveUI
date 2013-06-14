@@ -1,8 +1,8 @@
 var natural = require('natural');
 
-exports =  {};
-exports.name = "Common words";
-exports.description = "Identifies rare word use (words not in the 1000 most common English word list).";
+rule =  {};
+rule.name = "Common words";
+rule.description = "Identifies rare word use (words not in the 1000 most common English word list).";
 
 // var words = require('./1-1000');
 
@@ -172,41 +172,30 @@ var isPunctuation = function(str) {
 
 
 var markWords = function(obj, report) {
+  var toks = tokenizer.tokenize($(obj).text());
+  var rawObj = $('<p></p>', {id: 'text'});
+  $(obj).replaceWith(rawObj);
 
-  var mergeFn = function(obj, tok) {
+  _.each(toks, function(tok) {
     if (isCommonWord(tok) || isPunctuation(tok) || _.isNumber(tok)) {
-      obj.append(tok + ' ');
+      rawObj.append(tok + ' ');
     } else {
-      //    var newObj = "<span style='background-color: red'>"+tok+"</span> ");
       var newObj = $("<span>"+tok+"</span> ");
-      obj.append(newObj);
+      rawObj.append(newObj);
       report.error("The word '"+tok+"' is uncommon", newObj);
     }
-    return obj;
-  };
-
-  var toks = tokenizer.tokenize(obj.text());
-
-  var uncommonWords = _.filter(toks, isCommonWord);
-  _.map(uncommonWords, function(w) {
-          report.error("The word '"+w+"' is uncommon", newObj);
-        });
-
-//  var rawObj = $('<p></p>', {id: 'text'});
-//  var newObj = _.reduce(toks, mergeFn , rawObj);
-
-//  obj.replaceWith(newObj);
+  });
 };
 
-exports.rule = function(report) {
-  report.error("bork");
+rule.rule = function(report) {
   console.log("checking for rare words");
   fiveui.query('body').each(
     function(i){
-      var nodes = getTextNodesIn($(this));
+      var nodes = getTextNodesIn(this);
       _.map(nodes, function(n){
               console.log(n);
               markWords(n, report);
             });
     });
+  console.log("done checking for rare words");
 };

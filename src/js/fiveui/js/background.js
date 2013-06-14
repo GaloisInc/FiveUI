@@ -117,7 +117,7 @@ fiveui.Background.prototype.connect = function(tabId, port, url, isUiPort) {
     if (ruleSet == null) {
       console.err('could not find url pattern for tab.url, but one was strongly expected');
     } else {
-      port.emit('SetRules', ruleSet.rules);
+      port.emit('SetRules', _.pick(ruleSet, ["dependencies", "rules"]));
     }
   }
 };
@@ -138,26 +138,18 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
 
     this.updateWidget(tabState);
 
-    var dependencies = [];
+    var computeScripts = 
+      [ this.dataLoader('underscore.js')
+      , this.dataLoader('jquery/jquery-1.8.3.js')
+      , this.dataLoader('md5.js')
+      , this.dataLoader('injected/prelude.js')
+      , this.dataLoader('injected/jquery-plugins.js')
+      , this.dataLoader('injected/compute.js')
+      ];
 
-    if (ruleSet && ruleSet.dependencies ) {
-      dependencies = ruleSet.dependencies;
-    }
-
-    var computeScripts = _.flatten(
-      [ [ this.dataLoader('underscore.js')
-        , this.dataLoader('jquery/jquery-1.8.3.js')
-        , this.dataLoader('md5.js')
-        , this.dataLoader('injected/prelude.js')
-        , this.dataLoader('injected/jquery-plugins.js')
-        ]
-      , dependencies
-      , [ this.dataLoader('injected/compute.js')
-        ]
-      ]);
     this.loadScripts(tabId, computeScripts, true, data);
 
-    var uiScripts = _.flatten(
+    var uiScripts =
         [ this.dataLoader('underscore.js')
         , this.dataLoader('jquery/bundled.css')
         , this.dataLoader('jquery/jquery-1.8.3.js')
@@ -166,7 +158,7 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
         , this.dataLoader('injected/prelude.js')
         , this.dataLoader('injected/ui.js')
         , this.dataLoader('injected/jquery-plugins.js')
-        ]);
+        ];
     this.loadScripts(tabId, uiScripts, false, data);
   }
 };
