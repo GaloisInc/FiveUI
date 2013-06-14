@@ -41,10 +41,12 @@ fiveui.RuleSet.sanitize = function(obj) {
     rules:        [],
     patterns:     [],
     dependencies: [],
+    license:      '',
   };
 
   // scrub out any values that aren't in the defaults list, fill in any that are
-  // missing.
+  // missing.  pick will implicitly return a copy, so it's OK to not clone obj
+  // here.
   return _.defaults(_.pick(obj, _.keys(defs)), defs);
 };
 
@@ -231,15 +233,9 @@ fiveui.RuleSetModel = Backbone.Model.extend({
    * Generate a RuleSetModel from a RuleSet
    */
   fromRuleSet: function(ruleSet,msg) {
-    return new fiveui.RuleSetModel({
-      id:          ruleSet.id,
-      name:        ruleSet.name,
-      description: ruleSet.description,
-      rules:       ruleSet.rules,
-      dependencies:ruleSet.dependencies,
-      source:      ruleSet.source,
-      patterns:    ruleSet.patterns,
-    }, { url : msg });
+    return new fiveui.RuleSetModel(fiveui.RuleSet.sanitize(ruleSet), {
+      url: msg
+    });
   },
 
 });
