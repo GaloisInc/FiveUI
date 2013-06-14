@@ -145,7 +145,8 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
     }
 
     var computeScripts = _.flatten(
-      [ [ this.dataLoader('jquery/jquery-1.8.3.js')
+      [ [ this.dataLoader('underscore.js')
+        , this.dataLoader('jquery/jquery-1.8.3.js')
         , this.dataLoader('md5.js')
         , this.dataLoader('injected/prelude.js')
         , this.dataLoader('injected/jquery-plugins.js')
