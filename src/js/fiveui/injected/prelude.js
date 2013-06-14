@@ -320,7 +320,7 @@ fiveui.color.colorToHex = function(color) {
  * Covert color to RGB color object.
  *
  * @param {!String} color The color string to convert. This should be either of the form rgb(...) or #...
- * @returns {!Object} An RGB color object with attributes: r, g, b
+ * @returns {!Object} An RGB color object with attributes: r, g, b, a
  * @throws {ParseError} if the rgb color string cannot be parsed
  */
 fiveui.color.colorToRGB = function(color) {
@@ -329,20 +329,84 @@ fiveui.color.colorToRGB = function(color) {
       return fiveui.color.hexToRGB(fiveui.color.colorToHex(color));
     }
 
-    var digits = /rgba?\((\d+), (\d+), (\d+)(, (\d+))?/.exec(color);
+    var digits = /rgba?\((\d+), (\d+), (\d+)(, (\d.\d+))?/.exec(color);
     if (!digits) {
       throw new ParseError('could not parse color string: ' + color);
     }
 
-    // HACK: return white if transparency is set to 0
-    if (digits[5] == 0) {
-      return { r: 255, g: 255, b: 255 };
+  var alpha = 1;
+  if (digits[5]) {
+    alpha = parseFloat(digits[5]);
+  }
+
+  return { r: parseInt(digits[1]),
+           g: parseInt(digits[2]),
+           b: parseInt(digits[3]),
+           a: alpha };
+};
+
+/**
+ * Computationally determine the actual displayed background color for
+ * an object.  This accounts for parent colors that may appear when 
+ * a bg color is unspecified, or fully transparent.
+ *
+ * It does not account for elements that are shifted out of their
+ * parent containers.
+ *
+ * @param {!Object} A jquery object.
+ * @returns {color} an RGB color object. (no alpha - this does not
+ * return transparent colors)
+ */
+fiveui.color.findBGColor = function(obj) {
+  var fc = fiveui.color;
+  var real = fc.colorToRGB(obj.css('background-color'));
+  var none = fc.colorToRGB('rgba(0, 0, 0, 0)');
+
+  if (real.a != 1) {
+    // find parents with a non-default bg color:
+    var parents = obj.parents().filter(
+      function() {
+        var color = fc.colorToRGB($(this).css('background-color'));
+        return color != none;
+      }).map(
+        function(i) {
+          return fc.colorToRGB($(this).css('background-color'));
+        });
+
+    // push a white element onto the end of parents
+    parents.push({ r: 255, g: 255, b: 255, a: 1});
+
+    var colors = [];
+    for (var i=0; i < parents.length; i++) {
+      colors.push(parents[i]);
+      if (parents[i].a == 1) {
+        break;
+      }
     }
-    else {
-      return { r: parseInt(digits[1]),
-               g: parseInt(digits[2]),
-               b: parseInt(digits[3]) };
-    }
+
+    // compose the colors and return:
+    return _.reduce(colors, fc.alphaCombine, none);
+  } else {
+    return real;
+  }
+};
+
+/**
+ * Combines two colors, accounting for alpha values less than 1.
+ * 
+ * @param {color} top The color "on top"
+ * @param {color} bot The color "on bottom"
+ * @return {color} the composite RGBA color.
+ */
+fiveui.color.alphaCombine = function(top, bot) {
+  var result = {  };
+  result.r = Math.floor(top.r * top.a + bot.r * bot.a * (1 - top.a));
+  result.g = Math.floor(top.g * top.a + bot.g * bot.a * (1 - top.a));
+  result.b = Math.floor(top.b * top.a + bot.b * bot.a * (1 - top.a));
+
+  result.a = top.a + bot.a * (1 - top.a);
+
+  return result;
 };
 
 /**
