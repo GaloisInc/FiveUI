@@ -26,7 +26,7 @@
    var core = {};
    core.port = obtainPort();
 
-   core.ui = $('<div></div>').attr('id', 'uic-dialog');
+   core.ui = $('<div></div>');
 
    core.lockDepth = 0;
 
@@ -193,7 +193,7 @@
                         autoOpen: false,
                         zIndex: 50000
                       });
-       newDialog.parent().attr('id', 'uic-top');
+       newDialog.parent().attr('id', 'fiveui-top');
 
        $('#controls').append($('<div id="clearButton"></div>')
                              .button({ label: 'clear' }));

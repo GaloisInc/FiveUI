@@ -147,6 +147,9 @@ var getTextNodesIn = function (node, includeWhitespaceNodes) {
     var textNodes = [], whitespace = /^\s*$/;
 
     function getTextNodes(node) {
+        if ($(node).attr('id') == 'fiveui-top') {
+          return;
+        }
         if (node.nodeType == 3) {
             if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
                 textNodes.push(node);
@@ -178,7 +181,7 @@ var markWords = function(obj, report) {
 
   _.each(toks, function(tok) {
     if (isCommonWord(tok) || isPunctuation(tok) || _.isNumber(tok)) {
-      rawObj.append(tok + ' ');
+      rawObj.append(' ' + tok + ' ');
     } else {
       var newObj = $("<span>"+tok+"</span> ");
       rawObj.append(newObj);
