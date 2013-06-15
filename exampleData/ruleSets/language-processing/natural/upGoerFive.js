@@ -177,6 +177,7 @@ var isPunctuation = function(str) {
 var markWords = function(obj, report) {
   var toks = tokenizer.tokenize($(obj).text());
   var rawObj = $('<p></p>', {id: 'text'});
+//  $(obj).empty();
   $(obj).replaceWith(rawObj);
 
   _.each(toks, function(tok) {
@@ -185,7 +186,7 @@ var markWords = function(obj, report) {
     } else {
       var newObj = $("<span>"+tok+"</span> ");
       rawObj.append(newObj);
-      report.error("The word '"+tok+"' is uncommon", newObj);
+      report.error("The word '"+tok+"' is uncommon", newObj.get(0));
     }
   });
 };

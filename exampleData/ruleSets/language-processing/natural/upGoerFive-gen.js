@@ -178,6 +178,7 @@ var isPunctuation = function(str) {
 var markWords = function(obj, report) {
   var toks = tokenizer.tokenize($(obj).text());
   var rawObj = $('<p></p>', {id: 'text'});
+//  $(obj).empty();
   $(obj).replaceWith(rawObj);
 
   _.each(toks, function(tok) {
@@ -186,7 +187,7 @@ var markWords = function(obj, report) {
     } else {
       var newObj = $("<span>"+tok+"</span> ");
       rawObj.append(newObj);
-      report.error("The word '"+tok+"' is uncommon", newObj);
+      report.error("The word '"+tok+"' is uncommon", newObj.get(0));
     }
   });
 };
@@ -267,7 +268,7 @@ exports.normalize_ja = require('./normalizers/normalizer_ja').normalize_ja;
 exports.removeDiacritics = require('./normalizers/remove_diacritics');
 exports.transliterate_ja = require('./transliterators/ja');
 
-},{"./phonetics/soundex":3,"./phonetics/metaphone":4,"./phonetics/double_metaphone":5,"./phonetics/dm_soundex":6,"./stemmers/porter_stemmer":7,"./stemmers/porter_stemmer_fa":8,"./stemmers/porter_stemmer_ru":9,"./stemmers/porter_stemmer_es":10,"./stemmers/porter_stemmer_it":11,"./stemmers/lancaster_stemmer":12,"./stemmers/stemmer_ja":13,"./tokenizers/aggressive_tokenizer_fa":14,"./tokenizers/aggressive_tokenizer_ru":15,"./tokenizers/aggressive_tokenizer_es":16,"./tokenizers/aggressive_tokenizer_it":17,"./tokenizers/aggressive_tokenizer":18,"./tokenizers/regexp_tokenizer":19,"./tokenizers/treebank_word_tokenizer":20,"./tokenizers/tokenizer_ja":21,"./classifiers/bayes_classifier":22,"./classifiers/logistic_regression_classifier":23,"./inflectors/noun_inflector":24,"./inflectors/fr/noun_inflector":25,"./inflectors/ja/noun_inflector":26,"./inflectors/present_verb_inflector":27,"./inflectors/count_inflector":28,"./wordnet/wordnet":29,"./tfidf/tfidf":30,"./analyzers/sentence_analyzer":31,"./util/stopwords":32,"./ngrams/ngrams":33,"./distance/jaro-winkler_distance":34,"./distance/levenshtein_distance":35,"./distance/dice_coefficient":36,"./normalizers/normalizer_ja":37,"./normalizers/remove_diacritics":38,"./transliterators/ja":39}],28:[function(require,module,exports){
+},{"./phonetics/soundex":3,"./phonetics/metaphone":4,"./phonetics/double_metaphone":5,"./phonetics/dm_soundex":6,"./stemmers/porter_stemmer":7,"./stemmers/porter_stemmer_fa":8,"./stemmers/porter_stemmer_ru":9,"./stemmers/porter_stemmer_es":10,"./stemmers/porter_stemmer_it":11,"./stemmers/lancaster_stemmer":12,"./stemmers/stemmer_ja":13,"./tokenizers/aggressive_tokenizer_fa":14,"./tokenizers/aggressive_tokenizer_ru":15,"./tokenizers/aggressive_tokenizer_es":16,"./tokenizers/aggressive_tokenizer_it":17,"./tokenizers/regexp_tokenizer":18,"./tokenizers/aggressive_tokenizer":19,"./tokenizers/treebank_word_tokenizer":20,"./classifiers/bayes_classifier":21,"./tokenizers/tokenizer_ja":22,"./classifiers/logistic_regression_classifier":23,"./inflectors/noun_inflector":24,"./inflectors/fr/noun_inflector":25,"./inflectors/ja/noun_inflector":26,"./inflectors/present_verb_inflector":27,"./inflectors/count_inflector":28,"./wordnet/wordnet":29,"./tfidf/tfidf":30,"./analyzers/sentence_analyzer":31,"./util/stopwords":32,"./ngrams/ngrams":33,"./distance/jaro-winkler_distance":34,"./distance/levenshtein_distance":35,"./distance/dice_coefficient":36,"./normalizers/normalizer_ja":37,"./normalizers/remove_diacritics":38,"./transliterators/ja":39}],28:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -1422,6 +1423,196 @@ SoundEx.condense = condense;
 SoundEx.padRight0 = padRight0;
 
 })()
+},{"./phonetic":44}],4:[function(require,module,exports){
+(function(){/*
+Copyright (c) 2011, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var Phonetic = require('./phonetic');
+
+function dedup(token) {
+    return token.replace(/([^c])\1/g, '$1');
+}
+
+function dropInitialLetters(token) {
+    if(token.match(/^(kn|gn|pn|ae|wr)/))
+        return token.substr(1, token.length - 1);
+        
+    return token;
+}
+
+function dropBafterMAtEnd(token) {
+    return token.replace(/mb$/, 'm');
+}
+
+function cTransform(token) {
+    token = token.replace(/([^s]|^)(c)(h)/g, '$1x$3').trim();
+    token = token.replace(/cia/g, 'xia');
+    token = token.replace(/c(i|e|y)/g, 's$1');
+    token = token.replace(/c/g, 'k'); 
+    
+    return token;
+}
+
+function dTransform(token) {
+    token = token.replace(/d(ge|gy|gi)/g, 'j$1');
+    token = token.replace(/d/g, 't');
+    
+    return token;
+}
+
+function dropG(token) {
+    token = token.replace(/gh(^$|[^aeiou])/g, 'h$1');
+    token = token.replace(/g(n|ned)$/g, '$1');    
+    
+    return token;
+}
+
+function transformG(token) {
+    token = token.replace(/([^g]|^)(g)(i|e|y)/g, '$1j$3');
+    token = token.replace(/gg/g, 'g');
+    token = token.replace(/g/g, 'k');    
+    
+    return token;
+}
+
+function dropH(token) {
+    return token.replace(/([aeiou])h([^aeiou])/g, '$1$2');
+}
+
+function transformCK(token) {
+    return token.replace(/ck/g, 'k');
+}
+function transformPH(token) {
+    return token.replace(/ph/g, 'f');
+}
+
+function transformQ(token) {
+    return token.replace(/q/g, 'k');
+}
+
+function transformS(token) {
+    return token.replace(/s(h|io|ia)/g, 'x$1');
+}
+
+function transformT(token) {
+    token = token.replace(/t(ia|io)/g, 'x$1');
+    token = token.replace(/th/, '0');
+    
+    return token;
+}
+
+function dropT(token) {
+    return token.replace(/tch/g, 'ch');
+}
+
+function transformV(token) {
+    return token.replace(/v/g, 'f');
+}
+
+function transformWH(token) {
+    return token.replace(/^wh/, 'w');
+}
+
+function dropW(token) {
+    return token.replace(/w([^aeiou]|$)/g, '$1');
+}
+
+function transformX(token) {
+    token = token.replace(/^x/, 's');
+    token = token.replace(/x/g, 'ks');
+    return token;
+}
+
+function dropY(token) {
+    return token.replace(/y([^aeiou]|$)/g, '$1');
+}
+
+function transformZ(token) {
+    return token.replace(/z/, 's');
+}
+
+function dropVowels(token) {
+    return token.charAt(0) + token.substr(1, token.length).replace(/[aeiou]/g, '');
+}
+
+var Metaphone = new Phonetic();
+module.exports = Metaphone;
+
+Metaphone.process = function(token, maxLength) {
+    maxLength == maxLength || 32;
+    token = token.toLowerCase();
+    token = dedup(token);
+    token = dropInitialLetters(token);
+    token = dropBafterMAtEnd(token);
+    token = transformCK(token);
+    token = cTransform(token);
+    token = dTransform(token);
+    token = dropG(token);
+    token = transformG(token);
+    token = dropH(token);
+    token = transformPH(token);
+    token = transformQ(token);
+    token = transformS(token);
+    token = transformX(token);    
+    token = transformT(token);
+    token = dropT(token);
+    token = transformV(token);
+    token = transformWH(token);
+    token = dropW(token);
+    token = dropY(token);
+    token = transformZ(token);
+    token = dropVowels(token);
+    
+    token.toUpperCase();
+    if(token.length >= maxLength)
+        token = token.substring(0, maxLength);        
+
+    return token.toUpperCase();
+};
+
+// expose functions for testing    
+Metaphone.dedup = dedup;
+Metaphone.dropInitialLetters = dropInitialLetters;
+Metaphone.dropBafterMAtEnd = dropBafterMAtEnd;
+Metaphone.cTransform = cTransform;
+Metaphone.dTransform = dTransform;
+Metaphone.dropG = dropG;
+Metaphone.transformG = transformG;
+Metaphone.dropH = dropH;
+Metaphone.transformCK = transformCK;
+Metaphone.transformPH = transformPH;
+Metaphone.transformQ = transformQ;
+Metaphone.transformS = transformS;
+Metaphone.transformT = transformT;
+Metaphone.dropT = dropT;
+Metaphone.transformV = transformV;
+Metaphone.transformWH = transformWH;
+Metaphone.dropW = dropW;
+Metaphone.transformX = transformX;
+Metaphone.dropY = dropY;
+Metaphone.transformZ = transformZ;
+Metaphone.dropVowels = dropVowels;
+
+})()
 },{"./phonetic":44}],5:[function(require,module,exports){
 (function(){/*
 Copyright (c) 2011, Chris Umbel
@@ -1929,196 +2120,6 @@ function compare(stringA, stringB) {
 DoubleMetaphone.compare = compare
 DoubleMetaphone.process = process;
 DoubleMetaphone.isVowel = isVowel;
-
-})()
-},{"./phonetic":44}],4:[function(require,module,exports){
-(function(){/*
-Copyright (c) 2011, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var Phonetic = require('./phonetic');
-
-function dedup(token) {
-    return token.replace(/([^c])\1/g, '$1');
-}
-
-function dropInitialLetters(token) {
-    if(token.match(/^(kn|gn|pn|ae|wr)/))
-        return token.substr(1, token.length - 1);
-        
-    return token;
-}
-
-function dropBafterMAtEnd(token) {
-    return token.replace(/mb$/, 'm');
-}
-
-function cTransform(token) {
-    token = token.replace(/([^s]|^)(c)(h)/g, '$1x$3').trim();
-    token = token.replace(/cia/g, 'xia');
-    token = token.replace(/c(i|e|y)/g, 's$1');
-    token = token.replace(/c/g, 'k'); 
-    
-    return token;
-}
-
-function dTransform(token) {
-    token = token.replace(/d(ge|gy|gi)/g, 'j$1');
-    token = token.replace(/d/g, 't');
-    
-    return token;
-}
-
-function dropG(token) {
-    token = token.replace(/gh(^$|[^aeiou])/g, 'h$1');
-    token = token.replace(/g(n|ned)$/g, '$1');    
-    
-    return token;
-}
-
-function transformG(token) {
-    token = token.replace(/([^g]|^)(g)(i|e|y)/g, '$1j$3');
-    token = token.replace(/gg/g, 'g');
-    token = token.replace(/g/g, 'k');    
-    
-    return token;
-}
-
-function dropH(token) {
-    return token.replace(/([aeiou])h([^aeiou])/g, '$1$2');
-}
-
-function transformCK(token) {
-    return token.replace(/ck/g, 'k');
-}
-function transformPH(token) {
-    return token.replace(/ph/g, 'f');
-}
-
-function transformQ(token) {
-    return token.replace(/q/g, 'k');
-}
-
-function transformS(token) {
-    return token.replace(/s(h|io|ia)/g, 'x$1');
-}
-
-function transformT(token) {
-    token = token.replace(/t(ia|io)/g, 'x$1');
-    token = token.replace(/th/, '0');
-    
-    return token;
-}
-
-function dropT(token) {
-    return token.replace(/tch/g, 'ch');
-}
-
-function transformV(token) {
-    return token.replace(/v/g, 'f');
-}
-
-function transformWH(token) {
-    return token.replace(/^wh/, 'w');
-}
-
-function dropW(token) {
-    return token.replace(/w([^aeiou]|$)/g, '$1');
-}
-
-function transformX(token) {
-    token = token.replace(/^x/, 's');
-    token = token.replace(/x/g, 'ks');
-    return token;
-}
-
-function dropY(token) {
-    return token.replace(/y([^aeiou]|$)/g, '$1');
-}
-
-function transformZ(token) {
-    return token.replace(/z/, 's');
-}
-
-function dropVowels(token) {
-    return token.charAt(0) + token.substr(1, token.length).replace(/[aeiou]/g, '');
-}
-
-var Metaphone = new Phonetic();
-module.exports = Metaphone;
-
-Metaphone.process = function(token, maxLength) {
-    maxLength == maxLength || 32;
-    token = token.toLowerCase();
-    token = dedup(token);
-    token = dropInitialLetters(token);
-    token = dropBafterMAtEnd(token);
-    token = transformCK(token);
-    token = cTransform(token);
-    token = dTransform(token);
-    token = dropG(token);
-    token = transformG(token);
-    token = dropH(token);
-    token = transformPH(token);
-    token = transformQ(token);
-    token = transformS(token);
-    token = transformX(token);    
-    token = transformT(token);
-    token = dropT(token);
-    token = transformV(token);
-    token = transformWH(token);
-    token = dropW(token);
-    token = dropY(token);
-    token = transformZ(token);
-    token = dropVowels(token);
-    
-    token.toUpperCase();
-    if(token.length >= maxLength)
-        token = token.substring(0, maxLength);        
-
-    return token.toUpperCase();
-};
-
-// expose functions for testing    
-Metaphone.dedup = dedup;
-Metaphone.dropInitialLetters = dropInitialLetters;
-Metaphone.dropBafterMAtEnd = dropBafterMAtEnd;
-Metaphone.cTransform = cTransform;
-Metaphone.dTransform = dTransform;
-Metaphone.dropG = dropG;
-Metaphone.transformG = transformG;
-Metaphone.dropH = dropH;
-Metaphone.transformCK = transformCK;
-Metaphone.transformPH = transformPH;
-Metaphone.transformQ = transformQ;
-Metaphone.transformS = transformS;
-Metaphone.transformT = transformT;
-Metaphone.dropT = dropT;
-Metaphone.transformV = transformV;
-Metaphone.transformWH = transformWH;
-Metaphone.dropW = dropW;
-Metaphone.transformX = transformX;
-Metaphone.dropY = dropY;
-Metaphone.transformZ = transformZ;
-Metaphone.dropVowels = dropVowels;
 
 })()
 },{"./phonetic":44}],6:[function(require,module,exports){
@@ -2991,83 +2992,7 @@ PorterStemmer.stem = function(token) {
 
 };
 
-},{"./stemmer_es":48}],12:[function(require,module,exports){
-/*
-Copyright (c) 2011, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var Stemmer = require('./stemmer');
-var ruleTable = require('./lancaster_rules').rules;
-
-function acceptable(candidate) {
-    if (candidate.match(/^[aeiou]/))
-        return (candidate.length > 1);
-    else
-        return (candidate.length > 2 && candidate.match(/[aeiouy]/));
-}
-
-// take a token, look up the applicatble rule section and attempt some stemming!
-function applyRuleSection(token, intact) {
-    var section = token.substr( - 1);
-    var rules = ruleTable[section];
-
-    if (rules) {
-        for (var i = 0; i < rules.length; i++) {
-            if ((intact || !rules[i].intact)
-            // only apply intact rules to intact tokens
-            && token.substr(0 - rules[i].pattern.length) == rules[i].pattern) {
-                // hack off only as much as the rule indicates
-                var result = token.substr(0, token.length - rules[i].size);
-
-                // if the rules wants us to apply an appendage do so
-                if (rules[i].appendage)
-                    result += rules[i].appendage;
-
-                if (acceptable(result)) {
-                    token = result;
-
-                    // see what the rules wants to do next
-                    if (rules[i].continuation) {
-                        // this rule thinks there still might be stem left. keep at it.
-                        // since we've applied a change we'll pass false in for intact
-                        return applyRuleSection(result, false);
-                    } else {
-                        // the rule thinks we're done stemming. drop out.
-                        return result;
-                    }
-                }
-            }
-        }
-    }
-
-    return token;
-}
-
-var LancasterStemmer = new Stemmer();
-module.exports = LancasterStemmer;
-
-LancasterStemmer.stem = function(token) {
-    return applyRuleSection(token.toLowerCase(), true);
-}
-},{"./stemmer":45,"./lancaster_rules":49}],11:[function(require,module,exports){
+},{"./stemmer_es":48}],11:[function(require,module,exports){
 /*
 Copyright (c) 2012, Leonardo Fenu, Chris Umbel
 
@@ -3301,7 +3226,83 @@ PorterStemmer.stem = function(token) {
 	return token.toLowerCase();
 
 };
-},{"./stemmer_it":50}],13:[function(require,module,exports){
+},{"./stemmer_it":49}],12:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var Stemmer = require('./stemmer');
+var ruleTable = require('./lancaster_rules').rules;
+
+function acceptable(candidate) {
+    if (candidate.match(/^[aeiou]/))
+        return (candidate.length > 1);
+    else
+        return (candidate.length > 2 && candidate.match(/[aeiouy]/));
+}
+
+// take a token, look up the applicatble rule section and attempt some stemming!
+function applyRuleSection(token, intact) {
+    var section = token.substr( - 1);
+    var rules = ruleTable[section];
+
+    if (rules) {
+        for (var i = 0; i < rules.length; i++) {
+            if ((intact || !rules[i].intact)
+            // only apply intact rules to intact tokens
+            && token.substr(0 - rules[i].pattern.length) == rules[i].pattern) {
+                // hack off only as much as the rule indicates
+                var result = token.substr(0, token.length - rules[i].size);
+
+                // if the rules wants us to apply an appendage do so
+                if (rules[i].appendage)
+                    result += rules[i].appendage;
+
+                if (acceptable(result)) {
+                    token = result;
+
+                    // see what the rules wants to do next
+                    if (rules[i].continuation) {
+                        // this rule thinks there still might be stem left. keep at it.
+                        // since we've applied a change we'll pass false in for intact
+                        return applyRuleSection(result, false);
+                    } else {
+                        // the rule thinks we're done stemming. drop out.
+                        return result;
+                    }
+                }
+            }
+        }
+    }
+
+    return token;
+}
+
+var LancasterStemmer = new Stemmer();
+module.exports = LancasterStemmer;
+
+LancasterStemmer.stem = function(token) {
+    return applyRuleSection(token.toLowerCase(), true);
+}
+},{"./stemmer":45,"./lancaster_rules":50}],13:[function(require,module,exports){
 /*
  Copyright (c) 2012, Guillaume Marty
 
@@ -3441,7 +3442,7 @@ StemmerJa.prototype.attach = function() {
 
 module.exports = StemmerJa;
 
-},{"../tokenizers/tokenizer_ja":21,"../util/stopwords_ja":51}],14:[function(require,module,exports){
+},{"../tokenizers/tokenizer_ja":22,"../util/stopwords_ja":51}],14:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 Farsi Aggressive Tokenizer by Fardin Koochaki <me@fardinak.com>
@@ -3491,44 +3492,6 @@ AggressiveTokenizer.prototype.tokenize = function(text) {
     return this.clearEmptyString(text.split(/\s+/));
 };
 
-},{"util":40,"./tokenizer":52}],16:[function(require,module,exports){
-/*
-Copyright (c) 2011, Chris Umbel,David Przybilla
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var Tokenizer = require('./tokenizer'),
-    util = require('util');
-
-var AggressiveTokenizer = function() {
-    Tokenizer.call(this);    
-};
-util.inherits(AggressiveTokenizer, Tokenizer);
-
-module.exports = AggressiveTokenizer;
-
-AggressiveTokenizer.prototype.tokenize = function(text) {
-    // break a string up into an array of tokens by anything non-word
-    return this.trim(text.split(/\W+/));
-};
-
 },{"util":40,"./tokenizer":52}],15:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
@@ -3576,6 +3539,44 @@ AggressiveTokenizer.prototype.tokenize = function(text) {
     return this.withoutEmpty(this.clearText(text).split(' '));
 };
 
+},{"util":40,"./tokenizer":52}],16:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel,David Przybilla
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var Tokenizer = require('./tokenizer'),
+    util = require('util');
+
+var AggressiveTokenizer = function() {
+    Tokenizer.call(this);    
+};
+util.inherits(AggressiveTokenizer, Tokenizer);
+
+module.exports = AggressiveTokenizer;
+
+AggressiveTokenizer.prototype.tokenize = function(text) {
+    // break a string up into an array of tokens by anything non-word
+    return this.trim(text.split(/\W+/));
+};
+
 },{"util":40,"./tokenizer":52}],17:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel,David Przybilla
@@ -3614,7 +3615,7 @@ AggressiveTokenizer.prototype.tokenize = function(text) {
     return this.trim(text.split(/\W+/));
 };
 
-},{"util":40,"./tokenizer":52}],18:[function(require,module,exports){
+},{"util":40,"./tokenizer":52}],19:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -3652,7 +3653,7 @@ AggressiveTokenizer.prototype.tokenize = function(text) {
     return this.trim(text.split(/\W+/));
 };
 
-},{"util":40,"./tokenizer":52}],21:[function(require,module,exports){
+},{"util":40,"./tokenizer":52}],22:[function(require,module,exports){
 // Original copyright:
 /*
  Copyright (c) 2008, Taku Kudo
@@ -5210,7 +5211,7 @@ exports.replacer = replacer;
 exports.flip = flip;
 exports.merge = merge;
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -6899,7 +6900,7 @@ module.exports = function() {
 };
 
 })()
-},{"../util/stopwords":32,"../tokenizers/aggressive_tokenizer":18}],45:[function(require,module,exports){
+},{"../util/stopwords":32,"../tokenizers/aggressive_tokenizer":19}],45:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -6962,7 +6963,7 @@ module.exports = function() {
     };
 }
 
-},{"../util/stopwords":32,"../tokenizers/aggressive_tokenizer":18}],46:[function(require,module,exports){
+},{"../util/stopwords":32,"../tokenizers/aggressive_tokenizer":19}],46:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 Farsi Stemmer by Fardin Koochaki <me@fardinak.com>
@@ -7138,7 +7139,7 @@ module.exports = function() {
     };
 }
 
-},{"../util/stopwords_es":58,"../tokenizers/aggressive_tokenizer_es":16}],50:[function(require,module,exports){
+},{"../util/stopwords_es":58,"../tokenizers/aggressive_tokenizer_es":16}],49:[function(require,module,exports){
 var stopwords = require('../util/stopwords_it');
 var Tokenizer = require('../tokenizers/aggressive_tokenizer_it');
 
@@ -11196,84 +11197,6 @@ var WordNetFile = require('./wordnet_file'),
   fs = require('fs'),
   util = require('util');
 
-function get(location, callback) {
-  var buff = new Buffer(4096);
-
-  this.open(function(err, fd, done) {
-    WordNetFile.appendLineChar(fd, location, 0, buff, function(line) {
-      done();
-      var data = line.split('| ');
-      var tokens = data[0].split(/\s+/);
-      var ptrs = [];
-      var wCnt = parseInt(tokens[3], 10);
-      var synonyms = [];
-
-      for(var i = 0; i < wCnt; i++) {
-        synonyms.push(tokens[4 + i * 2]);
-      }
-
-      var ptrOffset = (wCnt - 1) * 2 + 6;
-      for(var i = 0; i < parseInt(tokens[ptrOffset], 10); i++) {
-        ptrs.push({
-          pointerSymbol: tokens[ptrOffset + 1 + i * 4],
-          synsetOffset: parseInt(tokens[ptrOffset + 2 + i * 4], 10),
-          pos: tokens[ptrOffset + 3 + i * 4],
-          sourceTarget: tokens[ptrOffset + 4 + i * 4]
-        });
-      }
-
-      callback({
-        synsetOffset: parseInt(tokens[0], 10),
-        lexFilenum: parseInt(tokens[1], 10),
-        pos: tokens[2],
-        wCnt: wCnt,
-        lemma: tokens[4],
-        synonyms: synonyms,
-        lexId: tokens[5],
-        ptrs: ptrs,
-        gloss: data[1]
-      });
-    });
-  });
-}
-
-var DataFile = function(dataDir, name) {
-  WordNetFile.call(this, dataDir, 'data.' + name);
-};
-
-util.inherits(DataFile, WordNetFile);
-DataFile.prototype.get = get;
-
-module.exports = DataFile;
-
-})(require("__browserify_buffer").Buffer)
-},{"fs":42,"util":40,"./wordnet_file":63,"__browserify_buffer":61}],64:[function(require,module,exports){
-(function(Buffer){/*
-Copyright (c) 2011, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var WordNetFile = require('./wordnet_file'),
-  fs = require('fs'),
-  util = require('util');
-
 function getFileSize(path) {
   var stat = fs.statSync(path);
   return stat.size;
@@ -11390,10 +11313,9 @@ IndexFile.prototype._findAt = findAt;
 module.exports = IndexFile;
 
 })(require("__browserify_buffer").Buffer)
-},{"fs":42,"util":40,"./wordnet_file":63,"__browserify_buffer":61}],56:[function(require,module,exports){
-/*
+},{"fs":42,"util":40,"./wordnet_file":63,"__browserify_buffer":61}],64:[function(require,module,exports){
+(function(Buffer){/*
 Copyright (c) 2011, Chris Umbel
-Farsi Stop Words by Fardin Koochaki <me@fardinak.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -11414,23 +11336,62 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-// a list of commonly used words that have little meaning and can be excluded
-// from analysis.
-var words = [
-    // Words
-    'از', 'با', 'یه', 'برای', 'و', 'باید', 'شاید',
+var WordNetFile = require('./wordnet_file'),
+  fs = require('fs'),
+  util = require('util');
 
-    // Symbols
-    '؟', '!', '٪', '.', '،', '؛', ':', ';', ',',
-    
-    // Numbers
-    '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '۰'
-];
-    
-// tell the world about the noise words.    
-exports.words = words;
+function get(location, callback) {
+  var buff = new Buffer(4096);
 
-},{}],57:[function(require,module,exports){
+  this.open(function(err, fd, done) {
+    WordNetFile.appendLineChar(fd, location, 0, buff, function(line) {
+      done();
+      var data = line.split('| ');
+      var tokens = data[0].split(/\s+/);
+      var ptrs = [];
+      var wCnt = parseInt(tokens[3], 10);
+      var synonyms = [];
+
+      for(var i = 0; i < wCnt; i++) {
+        synonyms.push(tokens[4 + i * 2]);
+      }
+
+      var ptrOffset = (wCnt - 1) * 2 + 6;
+      for(var i = 0; i < parseInt(tokens[ptrOffset], 10); i++) {
+        ptrs.push({
+          pointerSymbol: tokens[ptrOffset + 1 + i * 4],
+          synsetOffset: parseInt(tokens[ptrOffset + 2 + i * 4], 10),
+          pos: tokens[ptrOffset + 3 + i * 4],
+          sourceTarget: tokens[ptrOffset + 4 + i * 4]
+        });
+      }
+
+      callback({
+        synsetOffset: parseInt(tokens[0], 10),
+        lexFilenum: parseInt(tokens[1], 10),
+        pos: tokens[2],
+        wCnt: wCnt,
+        lemma: tokens[4],
+        synonyms: synonyms,
+        lexId: tokens[5],
+        ptrs: ptrs,
+        gloss: data[1]
+      });
+    });
+  });
+}
+
+var DataFile = function(dataDir, name) {
+  WordNetFile.call(this, dataDir, 'data.' + name);
+};
+
+util.inherits(DataFile, WordNetFile);
+DataFile.prototype.get = get;
+
+module.exports = DataFile;
+
+})(require("__browserify_buffer").Buffer)
+},{"fs":42,"util":40,"./wordnet_file":63,"__browserify_buffer":61}],57:[function(require,module,exports){
 /*
 Copyright (c) 2011, Polyakov Vladimir, Chris Umbel
 
@@ -11565,6 +11526,46 @@ var words = [
 // tell the world about the noise words.    
 exports.words = words;
 
+},{}],56:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel
+Farsi Stop Words by Fardin Koochaki <me@fardinak.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+// a list of commonly used words that have little meaning and can be excluded
+// from analysis.
+var words = [
+    // Words
+    'از', 'با', 'یه', 'برای', 'و', 'باید', 'شاید',
+
+    // Symbols
+    '؟', '!', '٪', '.', '،', '؛', ':', ';', ',',
+    
+    // Numbers
+    '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '۰'
+];
+    
+// tell the world about the noise words.    
+exports.words = words;
+
 },{}],63:[function(require,module,exports){
 (function(Buffer){/*
 Copyright (c) 2011, Chris Umbel
@@ -11637,60 +11638,7 @@ WordNetFile.appendLineChar = appendLineChar;
 module.exports = WordNetFile;
 
 })(require("__browserify_buffer").Buffer)
-},{"fs":42,"path":65,"util":40,"__browserify_buffer":61}],22:[function(require,module,exports){
-/*
-Copyright (c) 2011, Chris Umbel
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-
-var PorterStemmer = require('../stemmers/porter_stemmer'),
-util = require('util'),
-Classifier = require('./classifier'),
-ApparatusBayesClassifier = require('apparatus').BayesClassifier;
-
-var BayesClassifier = function(stemmer) {
-    Classifier.call(this, new ApparatusBayesClassifier(), stemmer);
-};
-
-util.inherits(BayesClassifier, Classifier);
-
-function restore(classifier, stemmer) {
-    classifier = Classifier.restore(classifier, stemmer);
-    classifier.__proto__ = BayesClassifier.prototype;
-    classifier.classifier = ApparatusBayesClassifier.restore(classifier.classifier);
-
-    return classifier;
-}
-
-function load(filename, stemmer, callback) {
-    Classifier.load(filename, function(err, classifier) {
-        callback(err, restore(classifier, stemmer));
-    });
-}
-
-BayesClassifier.restore = restore;
-BayesClassifier.load = load;
-
-module.exports = BayesClassifier;
-
-},{"util":40,"../stemmers/porter_stemmer":7,"./classifier":60,"apparatus":66}],19:[function(require,module,exports){
+},{"fs":42,"path":65,"util":40,"__browserify_buffer":61}],18:[function(require,module,exports){
 /*
 Copyright (c) 2011, Rob Ellis, Chris Umbel
 
@@ -11778,7 +11726,7 @@ var WordPunctTokenizer = function(options) {
 util.inherits(WordPunctTokenizer, RegexpTokenizer);
 exports.WordPunctTokenizer = WordPunctTokenizer;
 
-},{"util":40,"./tokenizer":52,"underscore":67}],20:[function(require,module,exports){
+},{"util":40,"./tokenizer":52,"underscore":66}],20:[function(require,module,exports){
 /*
 Copyright (c) 2011, Rob Ellis, Chris Umbel
 
@@ -11854,7 +11802,7 @@ TreebankWordTokenizer.prototype.tokenize = function(text) {
 
 module.exports = TreebankWordTokenizer;
 
-},{"util":40,"./tokenizer":52,"underscore":67}],23:[function(require,module,exports){
+},{"util":40,"./tokenizer":52,"underscore":66}],21:[function(require,module,exports){
 /*
 Copyright (c) 2011, Chris Umbel
 
@@ -11880,18 +11828,18 @@ THE SOFTWARE.
 var PorterStemmer = require('../stemmers/porter_stemmer'),
 util = require('util'),
 Classifier = require('./classifier'),
-ApparatusLogisticRegressionClassifier = require('apparatus').LogisticRegressionClassifier;
+ApparatusBayesClassifier = require('apparatus').BayesClassifier;
 
-var LogisticRegressionClassifier = function(stemmer) {
-    Classifier.call(this, new ApparatusLogisticRegressionClassifier(), stemmer);
+var BayesClassifier = function(stemmer) {
+    Classifier.call(this, new ApparatusBayesClassifier(), stemmer);
 };
 
-util.inherits(LogisticRegressionClassifier, Classifier);
+util.inherits(BayesClassifier, Classifier);
 
 function restore(classifier, stemmer) {
     classifier = Classifier.restore(classifier, stemmer);
-    classifier.__proto__ = LogisticRegressionClassifier.prototype;
-    classifier.classifier = ApparatusLogisticRegressionClassifier.restore(classifier.classifier);
+    classifier.__proto__ = BayesClassifier.prototype;
+    classifier.classifier = ApparatusBayesClassifier.restore(classifier.classifier);
 
     return classifier;
 }
@@ -11902,21 +11850,12 @@ function load(filename, stemmer, callback) {
     });
 }
 
-function train() {
-    // we need to reset the traning state because logistic regression
-    // needs its matricies to have their widths synced, etc.
-    this.lastAdded = 0;
-    this.classifier = new ApparatusLogisticRegressionClassifier();
-    Classifier.prototype.train.call(this);
-}
+BayesClassifier.restore = restore;
+BayesClassifier.load = load;
 
-LogisticRegressionClassifier.prototype.train = train;
-LogisticRegressionClassifier.restore = restore;
-LogisticRegressionClassifier.load = load;
+module.exports = BayesClassifier;
 
-module.exports = LogisticRegressionClassifier;
-
-},{"util":40,"../stemmers/porter_stemmer":7,"./classifier":60,"apparatus":66}],65:[function(require,module,exports){
+},{"util":40,"../stemmers/porter_stemmer":7,"./classifier":60,"apparatus":67}],65:[function(require,module,exports){
 (function(process){function filter (xs, fn) {
     var res = [];
     for (var i = 0; i < xs.length; i++) {
@@ -12094,7 +12033,69 @@ exports.relative = function(from, to) {
 };
 
 })(require("__browserify_process"))
-},{"__browserify_process":43}],33:[function(require,module,exports){
+},{"__browserify_process":43}],23:[function(require,module,exports){
+/*
+Copyright (c) 2011, Chris Umbel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+var PorterStemmer = require('../stemmers/porter_stemmer'),
+util = require('util'),
+Classifier = require('./classifier'),
+ApparatusLogisticRegressionClassifier = require('apparatus').LogisticRegressionClassifier;
+
+var LogisticRegressionClassifier = function(stemmer) {
+    Classifier.call(this, new ApparatusLogisticRegressionClassifier(), stemmer);
+};
+
+util.inherits(LogisticRegressionClassifier, Classifier);
+
+function restore(classifier, stemmer) {
+    classifier = Classifier.restore(classifier, stemmer);
+    classifier.__proto__ = LogisticRegressionClassifier.prototype;
+    classifier.classifier = ApparatusLogisticRegressionClassifier.restore(classifier.classifier);
+
+    return classifier;
+}
+
+function load(filename, stemmer, callback) {
+    Classifier.load(filename, function(err, classifier) {
+        callback(err, restore(classifier, stemmer));
+    });
+}
+
+function train() {
+    // we need to reset the traning state because logistic regression
+    // needs its matricies to have their widths synced, etc.
+    this.lastAdded = 0;
+    this.classifier = new ApparatusLogisticRegressionClassifier();
+    Classifier.prototype.train.call(this);
+}
+
+LogisticRegressionClassifier.prototype.train = train;
+LogisticRegressionClassifier.restore = restore;
+LogisticRegressionClassifier.load = load;
+
+module.exports = LogisticRegressionClassifier;
+
+},{"util":40,"../stemmers/porter_stemmer":7,"./classifier":60,"apparatus":67}],30:[function(require,module,exports){
 /*
 Copyright (c) 2011, Rob Ellis, Chris Umbel
 
@@ -12119,38 +12120,103 @@ THE SOFTWARE.
 
 var _ = require("underscore")._,
     Tokenizer = require('../tokenizers/regexp_tokenizer').WordTokenizer,
-    tokenizer = new Tokenizer();
+    tokenizer = new Tokenizer(),
+    stopwords = require('../util/stopwords').words,
+    fs = require('fs');
 
-exports.ngrams = function(sequence, n) {
-    return ngrams(sequence, n);
-}
-
-exports.bigrams = function(sequence) {
-    return ngrams(sequence, 2);
-}
-
-exports.trigrams = function(sequence) {
-    return ngrams(sequence, 3);
-}
-
-var ngrams = function(sequence, n) {
-    var result = [];
+function buildDocument(text, key) {
+    var stopOut;
     
-    if (!_(sequence).isArray()) {
-        sequence = tokenizer.tokenize(sequence);
+    if(typeof text === 'string') {
+        text = tokenizer.tokenize(text.toLowerCase());
+        stopOut = true;
+    } else if(!_.isArray(text)) {
+        return text;
+        stopOut = false;
     }
 
-    var count = _.max([0, sequence.length - n + 1]);
-    
-    for (var i = 0; i < count; i++) {
-        result.push(sequence.slice(i, i + n));
-    }
-    
-    return result;
+    return text.reduce(function(document, term) {
+        if(!stopOut || stopwords.indexOf(term) < 0)
+            document[term] = (document[term] ? document[term] + 1 : 1);
+            
+        return document;
+    }, {__key: key});
 }
 
+function tf(term, document) {
+    return document[term] ? document[term]: 0;
+}
 
-},{"../tokenizers/regexp_tokenizer":19,"underscore":67}],31:[function(require,module,exports){
+function documentHasTerm(term, document) {
+    return document[term] && document[term] > 0;
+}
+
+function TfIdf(deserialized) {
+    if(deserialized)
+        this.documents = deserialized.documents;
+    else
+        this.documents = [];
+}
+
+module.exports = TfIdf;
+TfIdf.tf = tf;
+
+TfIdf.prototype.idf = function(term) {
+    var docsWithTerm = this.documents.reduce(function(count, document) {
+        return count + (documentHasTerm(term, document) ? 1 : 0);
+    }, 1);
+        
+    return Math.log(this.documents.length + 1 / docsWithTerm /* inited to 1 so
+        no addition needed */);
+};
+
+TfIdf.prototype.addDocument = function(document, key) {
+    this.documents.push(buildDocument(document, key));
+};
+
+TfIdf.prototype.addFileSync = function(path, encoding, key) {
+    if(encoding)
+        encoding = 'UTF-8';
+        
+    var document = fs.readFileSync(path, 'UTF-8');
+    this.documents.push(buildDocument(document, key));
+};
+
+TfIdf.prototype.tfidf = function(terms, d) {
+    var _this = this;
+    
+    if(!_.isArray(terms))
+        terms = tokenizer.tokenize(terms.toString().toLowerCase());
+    
+    return terms.reduce(function(value, term) {
+        return value + (tf(term, _this.documents[d]) * _this.idf(term));
+    }, 0.0);
+};
+
+TfIdf.prototype.listTerms = function(d) {
+    var terms = [];
+
+    for(var term in this.documents[d]) {
+	terms.push({term: term, tfidf: this.tfidf(term, d)})
+    }
+
+    return terms.sort(function(x, y) { return y.tfidf - x.tfidf });
+}
+
+TfIdf.prototype.tfidfs = function(terms, callback) {
+    var tfidfs = new Array(this.documents.length);
+    
+    for(var i = 0; i < this.documents.length; i++) {
+        tfidfs[i] = this.tfidf(terms, i);
+        
+        if(callback)
+            callback(i, tfidfs[i], this.documents[i].__key);
+    }
+
+    return tfidfs;
+};
+
+},{"fs":42,"../tokenizers/regexp_tokenizer":18,"../util/stopwords":32,"underscore":66}],31:[function(require,module,exports){
 /*
 Copyright (c) 2011, Rob Ellis, Chris Umbel
 
@@ -12325,7 +12391,7 @@ Sentences.prototype.type = function(callback) {
 
 module.exports = Sentences;
 
-},{"underscore":67}],30:[function(require,module,exports){
+},{"underscore":66}],33:[function(require,module,exports){
 /*
 Copyright (c) 2011, Rob Ellis, Chris Umbel
 
@@ -12350,103 +12416,38 @@ THE SOFTWARE.
 
 var _ = require("underscore")._,
     Tokenizer = require('../tokenizers/regexp_tokenizer').WordTokenizer,
-    tokenizer = new Tokenizer(),
-    stopwords = require('../util/stopwords').words,
-    fs = require('fs');
+    tokenizer = new Tokenizer();
 
-function buildDocument(text, key) {
-    var stopOut;
+exports.ngrams = function(sequence, n) {
+    return ngrams(sequence, n);
+}
+
+exports.bigrams = function(sequence) {
+    return ngrams(sequence, 2);
+}
+
+exports.trigrams = function(sequence) {
+    return ngrams(sequence, 3);
+}
+
+var ngrams = function(sequence, n) {
+    var result = [];
     
-    if(typeof text === 'string') {
-        text = tokenizer.tokenize(text.toLowerCase());
-        stopOut = true;
-    } else if(!_.isArray(text)) {
-        return text;
-        stopOut = false;
+    if (!_(sequence).isArray()) {
+        sequence = tokenizer.tokenize(sequence);
     }
 
-    return text.reduce(function(document, term) {
-        if(!stopOut || stopwords.indexOf(term) < 0)
-            document[term] = (document[term] ? document[term] + 1 : 1);
-            
-        return document;
-    }, {__key: key});
-}
-
-function tf(term, document) {
-    return document[term] ? document[term]: 0;
-}
-
-function documentHasTerm(term, document) {
-    return document[term] && document[term] > 0;
-}
-
-function TfIdf(deserialized) {
-    if(deserialized)
-        this.documents = deserialized.documents;
-    else
-        this.documents = [];
-}
-
-module.exports = TfIdf;
-TfIdf.tf = tf;
-
-TfIdf.prototype.idf = function(term) {
-    var docsWithTerm = this.documents.reduce(function(count, document) {
-        return count + (documentHasTerm(term, document) ? 1 : 0);
-    }, 1);
-        
-    return Math.log(this.documents.length + 1 / docsWithTerm /* inited to 1 so
-        no addition needed */);
-};
-
-TfIdf.prototype.addDocument = function(document, key) {
-    this.documents.push(buildDocument(document, key));
-};
-
-TfIdf.prototype.addFileSync = function(path, encoding, key) {
-    if(encoding)
-        encoding = 'UTF-8';
-        
-    var document = fs.readFileSync(path, 'UTF-8');
-    this.documents.push(buildDocument(document, key));
-};
-
-TfIdf.prototype.tfidf = function(terms, d) {
-    var _this = this;
+    var count = _.max([0, sequence.length - n + 1]);
     
-    if(!_.isArray(terms))
-        terms = tokenizer.tokenize(terms.toString().toLowerCase());
-    
-    return terms.reduce(function(value, term) {
-        return value + (tf(term, _this.documents[d]) * _this.idf(term));
-    }, 0.0);
-};
-
-TfIdf.prototype.listTerms = function(d) {
-    var terms = [];
-
-    for(var term in this.documents[d]) {
-	terms.push({term: term, tfidf: this.tfidf(term, d)})
+    for (var i = 0; i < count; i++) {
+        result.push(sequence.slice(i, i + n));
     }
-
-    return terms.sort(function(x, y) { return y.tfidf - x.tfidf });
+    
+    return result;
 }
 
-TfIdf.prototype.tfidfs = function(terms, callback) {
-    var tfidfs = new Array(this.documents.length);
-    
-    for(var i = 0; i < this.documents.length; i++) {
-        tfidfs[i] = this.tfidf(terms, i);
-        
-        if(callback)
-            callback(i, tfidfs[i], this.documents[i].__key);
-    }
 
-    return tfidfs;
-};
-
-},{"fs":42,"../tokenizers/regexp_tokenizer":19,"../util/stopwords":32,"underscore":67}],67:[function(require,module,exports){
+},{"../tokenizers/regexp_tokenizer":18,"underscore":66}],66:[function(require,module,exports){
 (function(){//     Underscore.js 1.4.4
 //     http://underscorejs.org
 //     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
@@ -13846,14 +13847,14 @@ function WordNet(dataDir) {
 
 module.exports = WordNet;
 
-},{"./index_file":64,"./data_file":62,"WNdb":68}],68:[function(require,module,exports){
+},{"./index_file":62,"./data_file":64,"WNdb":68}],68:[function(require,module,exports){
 (function(__dirname){
 exports.version = "3.0";	// this is the WordNet DB version
 exports.path = require('path').join(__dirname, "dict");
 exports.files = require('fs').readdirSync(exports.path);
 
 })("/node_modules/WNdb")
-},{"path":65,"fs":42}],66:[function(require,module,exports){
+},{"path":65,"fs":42}],67:[function(require,module,exports){
 
 exports.BayesClassifier = require('./classifier/bayes_classifier');
 exports.LogisticRegressionClassifier = require('./classifier/logistic_regression_classifier');
@@ -14370,7 +14371,7 @@ exports.Line.Segment = require('./line.segment');
 exports.Sylvester = require('./sylvester');
 
 })(window)
-},{"./vector":74,"./matrix":75,"./plane":76,"./line":77,"./line.segment":78,"./sylvester":79}],79:[function(require,module,exports){
+},{"./vector":74,"./line":75,"./matrix":76,"./plane":77,"./line.segment":78,"./sylvester":79}],79:[function(require,module,exports){
 // Copyright (c) 2011, Chris Umbel, James Coglan
 // This file is required in order for any other classes to work. Some Vector methods work with the
 // other Sylvester classes and are useless unless they are included. Other classes such as Line and
@@ -14827,7 +14828,240 @@ Vector.log = function(v) {
 
 module.exports = Vector;
 
-},{"./sylvester":79,"./matrix":75}],76:[function(require,module,exports){
+},{"./sylvester":79,"./matrix":76}],75:[function(require,module,exports){
+// Copyright (c) 2011, Chris Umbel, James Coglan
+var Vector = require('./vector');
+var Matrix = require('./matrix');
+var Plane = require('./plane');
+var Sylvester = require('./sylvester');
+
+// Line class - depends on Vector, and some methods require Matrix and Plane.
+
+function Line() {}
+Line.prototype = {
+
+  // Returns true if the argument occupies the same space as the line
+  eql: function(line) {
+    return (this.isParallelTo(line) && this.contains(line.anchor));
+  },
+
+  // Returns a copy of the line
+  dup: function() {
+    return Line.create(this.anchor, this.direction);
+  },
+
+  // Returns the result of translating the line by the given vector/array
+  translate: function(vector) {
+    var V = vector.elements || vector;
+    return Line.create([
+      this.anchor.elements[0] + V[0],
+      this.anchor.elements[1] + V[1],
+      this.anchor.elements[2] + (V[2] || 0)
+    ], this.direction);
+  },
+
+  // Returns true if the line is parallel to the argument. Here, 'parallel to'
+  // means that the argument's direction is either parallel or antiparallel to
+  // the line's own direction. A line is parallel to a plane if the two do not
+  // have a unique intersection.
+  isParallelTo: function(obj) {
+    if (obj.normal || (obj.start && obj.end)) { return obj.isParallelTo(this); }
+    var theta = this.direction.angleFrom(obj.direction);
+    return (Math.abs(theta) <= Sylvester.precision || Math.abs(theta - Math.PI) <= Sylvester.precision);
+  },
+
+  // Returns the line's perpendicular distance from the argument,
+  // which can be a point, a line or a plane
+  distanceFrom: function(obj) {
+    if (obj.normal || (obj.start && obj.end)) { return obj.distanceFrom(this); }
+    if (obj.direction) {
+      // obj is a line
+      if (this.isParallelTo(obj)) { return this.distanceFrom(obj.anchor); }
+      var N = this.direction.cross(obj.direction).toUnitVector().elements;
+      var A = this.anchor.elements, B = obj.anchor.elements;
+      return Math.abs((A[0] - B[0]) * N[0] + (A[1] - B[1]) * N[1] + (A[2] - B[2]) * N[2]);
+    } else {
+      // obj is a point
+      var P = obj.elements || obj;
+      var A = this.anchor.elements, D = this.direction.elements;
+      var PA1 = P[0] - A[0], PA2 = P[1] - A[1], PA3 = (P[2] || 0) - A[2];
+      var modPA = Math.sqrt(PA1*PA1 + PA2*PA2 + PA3*PA3);
+      if (modPA === 0) return 0;
+      // Assumes direction vector is normalized
+      var cosTheta = (PA1 * D[0] + PA2 * D[1] + PA3 * D[2]) / modPA;
+      var sin2 = 1 - cosTheta*cosTheta;
+      return Math.abs(modPA * Math.sqrt(sin2 < 0 ? 0 : sin2));
+    }
+  },
+
+  // Returns true iff the argument is a point on the line, or if the argument
+  // is a line segment lying within the receiver
+  contains: function(obj) {
+    if (obj.start && obj.end) { return this.contains(obj.start) && this.contains(obj.end); }
+    var dist = this.distanceFrom(obj);
+    return (dist !== null && dist <= Sylvester.precision);
+  },
+
+  // Returns the distance from the anchor of the given point. Negative values are
+  // returned for points that are in the opposite direction to the line's direction from
+  // the line's anchor point.
+  positionOf: function(point) {
+    if (!this.contains(point)) { return null; }
+    var P = point.elements || point;
+    var A = this.anchor.elements, D = this.direction.elements;
+    return (P[0] - A[0]) * D[0] + (P[1] - A[1]) * D[1] + ((P[2] || 0) - A[2]) * D[2];
+  },
+
+  // Returns true iff the line lies in the given plane
+  liesIn: function(plane) {
+    return plane.contains(this);
+  },
+
+  // Returns true iff the line has a unique point of intersection with the argument
+  intersects: function(obj) {
+    if (obj.normal) { return obj.intersects(this); }
+    return (!this.isParallelTo(obj) && this.distanceFrom(obj) <= Sylvester.precision);
+  },
+
+  // Returns the unique intersection point with the argument, if one exists
+  intersectionWith: function(obj) {
+    if (obj.normal || (obj.start && obj.end)) { return obj.intersectionWith(this); }
+    if (!this.intersects(obj)) { return null; }
+    var P = this.anchor.elements, X = this.direction.elements,
+        Q = obj.anchor.elements, Y = obj.direction.elements;
+    var X1 = X[0], X2 = X[1], X3 = X[2], Y1 = Y[0], Y2 = Y[1], Y3 = Y[2];
+    var PsubQ1 = P[0] - Q[0], PsubQ2 = P[1] - Q[1], PsubQ3 = P[2] - Q[2];
+    var XdotQsubP = - X1*PsubQ1 - X2*PsubQ2 - X3*PsubQ3;
+    var YdotPsubQ = Y1*PsubQ1 + Y2*PsubQ2 + Y3*PsubQ3;
+    var XdotX = X1*X1 + X2*X2 + X3*X3;
+    var YdotY = Y1*Y1 + Y2*Y2 + Y3*Y3;
+    var XdotY = X1*Y1 + X2*Y2 + X3*Y3;
+    var k = (XdotQsubP * YdotY / XdotX + XdotY * YdotPsubQ) / (YdotY - XdotY * XdotY);
+    return Vector.create([P[0] + k*X1, P[1] + k*X2, P[2] + k*X3]);
+  },
+
+  // Returns the point on the line that is closest to the given point or line/line segment
+  pointClosestTo: function(obj) {
+    if (obj.start && obj.end) {
+      // obj is a line segment
+      var P = obj.pointClosestTo(this);
+      return (P === null) ? null : this.pointClosestTo(P);
+    } else if (obj.direction) {
+      // obj is a line
+      if (this.intersects(obj)) { return this.intersectionWith(obj); }
+      if (this.isParallelTo(obj)) { return null; }
+      var D = this.direction.elements, E = obj.direction.elements;
+      var D1 = D[0], D2 = D[1], D3 = D[2], E1 = E[0], E2 = E[1], E3 = E[2];
+      // Create plane containing obj and the shared normal and intersect this with it
+      // Thank you: http://www.cgafaq.info/wiki/Line-line_distance
+      var x = (D3 * E1 - D1 * E3), y = (D1 * E2 - D2 * E1), z = (D2 * E3 - D3 * E2);
+      var N = [x * E3 - y * E2, y * E1 - z * E3, z * E2 - x * E1];
+      var P = Plane.create(obj.anchor, N);
+      return P.intersectionWith(this);
+    } else {
+      // obj is a point
+      var P = obj.elements || obj;
+      if (this.contains(P)) { return Vector.create(P); }
+      var A = this.anchor.elements, D = this.direction.elements;
+      var D1 = D[0], D2 = D[1], D3 = D[2], A1 = A[0], A2 = A[1], A3 = A[2];
+      var x = D1 * (P[1]-A2) - D2 * (P[0]-A1), y = D2 * ((P[2] || 0) - A3) - D3 * (P[1]-A2),
+          z = D3 * (P[0]-A1) - D1 * ((P[2] || 0) - A3);
+      var V = Vector.create([D2 * x - D3 * z, D3 * y - D1 * x, D1 * z - D2 * y]);
+      var k = this.distanceFrom(P) / V.modulus();
+      return Vector.create([
+        P[0] + V.elements[0] * k,
+        P[1] + V.elements[1] * k,
+        (P[2] || 0) + V.elements[2] * k
+      ]);
+    }
+  },
+
+  // Returns a copy of the line rotated by t radians about the given line. Works by
+  // finding the argument's closest point to this line's anchor point (call this C) and
+  // rotating the anchor about C. Also rotates the line's direction about the argument's.
+  // Be careful with this - the rotation axis' direction affects the outcome!
+  rotate: function(t, line) {
+    // If we're working in 2D
+    if (typeof(line.direction) == 'undefined') { line = Line.create(line.to3D(), Vector.k); }
+    var R = Matrix.Rotation(t, line.direction).elements;
+    var C = line.pointClosestTo(this.anchor).elements;
+    var A = this.anchor.elements, D = this.direction.elements;
+    var C1 = C[0], C2 = C[1], C3 = C[2], A1 = A[0], A2 = A[1], A3 = A[2];
+    var x = A1 - C1, y = A2 - C2, z = A3 - C3;
+    return Line.create([
+      C1 + R[0][0] * x + R[0][1] * y + R[0][2] * z,
+      C2 + R[1][0] * x + R[1][1] * y + R[1][2] * z,
+      C3 + R[2][0] * x + R[2][1] * y + R[2][2] * z
+    ], [
+      R[0][0] * D[0] + R[0][1] * D[1] + R[0][2] * D[2],
+      R[1][0] * D[0] + R[1][1] * D[1] + R[1][2] * D[2],
+      R[2][0] * D[0] + R[2][1] * D[1] + R[2][2] * D[2]
+    ]);
+  },
+
+  // Returns a copy of the line with its direction vector reversed.
+  // Useful when using lines for rotations.
+  reverse: function() {
+    return Line.create(this.anchor, this.direction.x(-1));
+  },
+
+  // Returns the line's reflection in the given point or line
+  reflectionIn: function(obj) {
+    if (obj.normal) {
+      // obj is a plane
+      var A = this.anchor.elements, D = this.direction.elements;
+      var A1 = A[0], A2 = A[1], A3 = A[2], D1 = D[0], D2 = D[1], D3 = D[2];
+      var newA = this.anchor.reflectionIn(obj).elements;
+      // Add the line's direction vector to its anchor, then mirror that in the plane
+      var AD1 = A1 + D1, AD2 = A2 + D2, AD3 = A3 + D3;
+      var Q = obj.pointClosestTo([AD1, AD2, AD3]).elements;
+      var newD = [Q[0] + (Q[0] - AD1) - newA[0], Q[1] + (Q[1] - AD2) - newA[1], Q[2] + (Q[2] - AD3) - newA[2]];
+      return Line.create(newA, newD);
+    } else if (obj.direction) {
+      // obj is a line - reflection obtained by rotating PI radians about obj
+      return this.rotate(Math.PI, obj);
+    } else {
+      // obj is a point - just reflect the line's anchor in it
+      var P = obj.elements || obj;
+      return Line.create(this.anchor.reflectionIn([P[0], P[1], (P[2] || 0)]), this.direction);
+    }
+  },
+
+  // Set the line's anchor point and direction.
+  setVectors: function(anchor, direction) {
+    // Need to do this so that line's properties are not
+    // references to the arguments passed in
+    anchor = Vector.create(anchor);
+    direction = Vector.create(direction);
+    if (anchor.elements.length == 2) {anchor.elements.push(0); }
+    if (direction.elements.length == 2) { direction.elements.push(0); }
+    if (anchor.elements.length > 3 || direction.elements.length > 3) { return null; }
+    var mod = direction.modulus();
+    if (mod === 0) { return null; }
+    this.anchor = anchor;
+    this.direction = Vector.create([
+      direction.elements[0] / mod,
+      direction.elements[1] / mod,
+      direction.elements[2] / mod
+    ]);
+    return this;
+  }
+};
+
+// Constructor function
+Line.create = function(anchor, direction) {
+  var L = new Line();
+  return L.setVectors(anchor, direction);
+};
+
+// Axes
+Line.X = Line.create(Vector.Zero(3), Vector.i);
+Line.Y = Line.create(Vector.Zero(3), Vector.j);
+Line.Z = Line.create(Vector.Zero(3), Vector.k);
+
+module.exports = Line;
+
+},{"./vector":74,"./matrix":76,"./plane":77,"./sylvester":79}],77:[function(require,module,exports){
 // Copyright (c) 2011, Chris Umbel, James Coglan
 // Plane class - depends on Vector. Some methods require Matrix and Line.
 var Vector = require('./vector');
@@ -15103,240 +15337,7 @@ Plane.fromPoints = function(points) {
 
 module.exports = Plane;
 
-},{"./vector":74,"./matrix":75,"./line":77,"./sylvester":79}],77:[function(require,module,exports){
-// Copyright (c) 2011, Chris Umbel, James Coglan
-var Vector = require('./vector');
-var Matrix = require('./matrix');
-var Plane = require('./plane');
-var Sylvester = require('./sylvester');
-
-// Line class - depends on Vector, and some methods require Matrix and Plane.
-
-function Line() {}
-Line.prototype = {
-
-  // Returns true if the argument occupies the same space as the line
-  eql: function(line) {
-    return (this.isParallelTo(line) && this.contains(line.anchor));
-  },
-
-  // Returns a copy of the line
-  dup: function() {
-    return Line.create(this.anchor, this.direction);
-  },
-
-  // Returns the result of translating the line by the given vector/array
-  translate: function(vector) {
-    var V = vector.elements || vector;
-    return Line.create([
-      this.anchor.elements[0] + V[0],
-      this.anchor.elements[1] + V[1],
-      this.anchor.elements[2] + (V[2] || 0)
-    ], this.direction);
-  },
-
-  // Returns true if the line is parallel to the argument. Here, 'parallel to'
-  // means that the argument's direction is either parallel or antiparallel to
-  // the line's own direction. A line is parallel to a plane if the two do not
-  // have a unique intersection.
-  isParallelTo: function(obj) {
-    if (obj.normal || (obj.start && obj.end)) { return obj.isParallelTo(this); }
-    var theta = this.direction.angleFrom(obj.direction);
-    return (Math.abs(theta) <= Sylvester.precision || Math.abs(theta - Math.PI) <= Sylvester.precision);
-  },
-
-  // Returns the line's perpendicular distance from the argument,
-  // which can be a point, a line or a plane
-  distanceFrom: function(obj) {
-    if (obj.normal || (obj.start && obj.end)) { return obj.distanceFrom(this); }
-    if (obj.direction) {
-      // obj is a line
-      if (this.isParallelTo(obj)) { return this.distanceFrom(obj.anchor); }
-      var N = this.direction.cross(obj.direction).toUnitVector().elements;
-      var A = this.anchor.elements, B = obj.anchor.elements;
-      return Math.abs((A[0] - B[0]) * N[0] + (A[1] - B[1]) * N[1] + (A[2] - B[2]) * N[2]);
-    } else {
-      // obj is a point
-      var P = obj.elements || obj;
-      var A = this.anchor.elements, D = this.direction.elements;
-      var PA1 = P[0] - A[0], PA2 = P[1] - A[1], PA3 = (P[2] || 0) - A[2];
-      var modPA = Math.sqrt(PA1*PA1 + PA2*PA2 + PA3*PA3);
-      if (modPA === 0) return 0;
-      // Assumes direction vector is normalized
-      var cosTheta = (PA1 * D[0] + PA2 * D[1] + PA3 * D[2]) / modPA;
-      var sin2 = 1 - cosTheta*cosTheta;
-      return Math.abs(modPA * Math.sqrt(sin2 < 0 ? 0 : sin2));
-    }
-  },
-
-  // Returns true iff the argument is a point on the line, or if the argument
-  // is a line segment lying within the receiver
-  contains: function(obj) {
-    if (obj.start && obj.end) { return this.contains(obj.start) && this.contains(obj.end); }
-    var dist = this.distanceFrom(obj);
-    return (dist !== null && dist <= Sylvester.precision);
-  },
-
-  // Returns the distance from the anchor of the given point. Negative values are
-  // returned for points that are in the opposite direction to the line's direction from
-  // the line's anchor point.
-  positionOf: function(point) {
-    if (!this.contains(point)) { return null; }
-    var P = point.elements || point;
-    var A = this.anchor.elements, D = this.direction.elements;
-    return (P[0] - A[0]) * D[0] + (P[1] - A[1]) * D[1] + ((P[2] || 0) - A[2]) * D[2];
-  },
-
-  // Returns true iff the line lies in the given plane
-  liesIn: function(plane) {
-    return plane.contains(this);
-  },
-
-  // Returns true iff the line has a unique point of intersection with the argument
-  intersects: function(obj) {
-    if (obj.normal) { return obj.intersects(this); }
-    return (!this.isParallelTo(obj) && this.distanceFrom(obj) <= Sylvester.precision);
-  },
-
-  // Returns the unique intersection point with the argument, if one exists
-  intersectionWith: function(obj) {
-    if (obj.normal || (obj.start && obj.end)) { return obj.intersectionWith(this); }
-    if (!this.intersects(obj)) { return null; }
-    var P = this.anchor.elements, X = this.direction.elements,
-        Q = obj.anchor.elements, Y = obj.direction.elements;
-    var X1 = X[0], X2 = X[1], X3 = X[2], Y1 = Y[0], Y2 = Y[1], Y3 = Y[2];
-    var PsubQ1 = P[0] - Q[0], PsubQ2 = P[1] - Q[1], PsubQ3 = P[2] - Q[2];
-    var XdotQsubP = - X1*PsubQ1 - X2*PsubQ2 - X3*PsubQ3;
-    var YdotPsubQ = Y1*PsubQ1 + Y2*PsubQ2 + Y3*PsubQ3;
-    var XdotX = X1*X1 + X2*X2 + X3*X3;
-    var YdotY = Y1*Y1 + Y2*Y2 + Y3*Y3;
-    var XdotY = X1*Y1 + X2*Y2 + X3*Y3;
-    var k = (XdotQsubP * YdotY / XdotX + XdotY * YdotPsubQ) / (YdotY - XdotY * XdotY);
-    return Vector.create([P[0] + k*X1, P[1] + k*X2, P[2] + k*X3]);
-  },
-
-  // Returns the point on the line that is closest to the given point or line/line segment
-  pointClosestTo: function(obj) {
-    if (obj.start && obj.end) {
-      // obj is a line segment
-      var P = obj.pointClosestTo(this);
-      return (P === null) ? null : this.pointClosestTo(P);
-    } else if (obj.direction) {
-      // obj is a line
-      if (this.intersects(obj)) { return this.intersectionWith(obj); }
-      if (this.isParallelTo(obj)) { return null; }
-      var D = this.direction.elements, E = obj.direction.elements;
-      var D1 = D[0], D2 = D[1], D3 = D[2], E1 = E[0], E2 = E[1], E3 = E[2];
-      // Create plane containing obj and the shared normal and intersect this with it
-      // Thank you: http://www.cgafaq.info/wiki/Line-line_distance
-      var x = (D3 * E1 - D1 * E3), y = (D1 * E2 - D2 * E1), z = (D2 * E3 - D3 * E2);
-      var N = [x * E3 - y * E2, y * E1 - z * E3, z * E2 - x * E1];
-      var P = Plane.create(obj.anchor, N);
-      return P.intersectionWith(this);
-    } else {
-      // obj is a point
-      var P = obj.elements || obj;
-      if (this.contains(P)) { return Vector.create(P); }
-      var A = this.anchor.elements, D = this.direction.elements;
-      var D1 = D[0], D2 = D[1], D3 = D[2], A1 = A[0], A2 = A[1], A3 = A[2];
-      var x = D1 * (P[1]-A2) - D2 * (P[0]-A1), y = D2 * ((P[2] || 0) - A3) - D3 * (P[1]-A2),
-          z = D3 * (P[0]-A1) - D1 * ((P[2] || 0) - A3);
-      var V = Vector.create([D2 * x - D3 * z, D3 * y - D1 * x, D1 * z - D2 * y]);
-      var k = this.distanceFrom(P) / V.modulus();
-      return Vector.create([
-        P[0] + V.elements[0] * k,
-        P[1] + V.elements[1] * k,
-        (P[2] || 0) + V.elements[2] * k
-      ]);
-    }
-  },
-
-  // Returns a copy of the line rotated by t radians about the given line. Works by
-  // finding the argument's closest point to this line's anchor point (call this C) and
-  // rotating the anchor about C. Also rotates the line's direction about the argument's.
-  // Be careful with this - the rotation axis' direction affects the outcome!
-  rotate: function(t, line) {
-    // If we're working in 2D
-    if (typeof(line.direction) == 'undefined') { line = Line.create(line.to3D(), Vector.k); }
-    var R = Matrix.Rotation(t, line.direction).elements;
-    var C = line.pointClosestTo(this.anchor).elements;
-    var A = this.anchor.elements, D = this.direction.elements;
-    var C1 = C[0], C2 = C[1], C3 = C[2], A1 = A[0], A2 = A[1], A3 = A[2];
-    var x = A1 - C1, y = A2 - C2, z = A3 - C3;
-    return Line.create([
-      C1 + R[0][0] * x + R[0][1] * y + R[0][2] * z,
-      C2 + R[1][0] * x + R[1][1] * y + R[1][2] * z,
-      C3 + R[2][0] * x + R[2][1] * y + R[2][2] * z
-    ], [
-      R[0][0] * D[0] + R[0][1] * D[1] + R[0][2] * D[2],
-      R[1][0] * D[0] + R[1][1] * D[1] + R[1][2] * D[2],
-      R[2][0] * D[0] + R[2][1] * D[1] + R[2][2] * D[2]
-    ]);
-  },
-
-  // Returns a copy of the line with its direction vector reversed.
-  // Useful when using lines for rotations.
-  reverse: function() {
-    return Line.create(this.anchor, this.direction.x(-1));
-  },
-
-  // Returns the line's reflection in the given point or line
-  reflectionIn: function(obj) {
-    if (obj.normal) {
-      // obj is a plane
-      var A = this.anchor.elements, D = this.direction.elements;
-      var A1 = A[0], A2 = A[1], A3 = A[2], D1 = D[0], D2 = D[1], D3 = D[2];
-      var newA = this.anchor.reflectionIn(obj).elements;
-      // Add the line's direction vector to its anchor, then mirror that in the plane
-      var AD1 = A1 + D1, AD2 = A2 + D2, AD3 = A3 + D3;
-      var Q = obj.pointClosestTo([AD1, AD2, AD3]).elements;
-      var newD = [Q[0] + (Q[0] - AD1) - newA[0], Q[1] + (Q[1] - AD2) - newA[1], Q[2] + (Q[2] - AD3) - newA[2]];
-      return Line.create(newA, newD);
-    } else if (obj.direction) {
-      // obj is a line - reflection obtained by rotating PI radians about obj
-      return this.rotate(Math.PI, obj);
-    } else {
-      // obj is a point - just reflect the line's anchor in it
-      var P = obj.elements || obj;
-      return Line.create(this.anchor.reflectionIn([P[0], P[1], (P[2] || 0)]), this.direction);
-    }
-  },
-
-  // Set the line's anchor point and direction.
-  setVectors: function(anchor, direction) {
-    // Need to do this so that line's properties are not
-    // references to the arguments passed in
-    anchor = Vector.create(anchor);
-    direction = Vector.create(direction);
-    if (anchor.elements.length == 2) {anchor.elements.push(0); }
-    if (direction.elements.length == 2) { direction.elements.push(0); }
-    if (anchor.elements.length > 3 || direction.elements.length > 3) { return null; }
-    var mod = direction.modulus();
-    if (mod === 0) { return null; }
-    this.anchor = anchor;
-    this.direction = Vector.create([
-      direction.elements[0] / mod,
-      direction.elements[1] / mod,
-      direction.elements[2] / mod
-    ]);
-    return this;
-  }
-};
-
-// Constructor function
-Line.create = function(anchor, direction) {
-  var L = new Line();
-  return L.setVectors(anchor, direction);
-};
-
-// Axes
-Line.X = Line.create(Vector.Zero(3), Vector.i);
-Line.Y = Line.create(Vector.Zero(3), Vector.j);
-Line.Z = Line.create(Vector.Zero(3), Vector.k);
-
-module.exports = Line;
-
-},{"./vector":74,"./matrix":75,"./plane":76,"./sylvester":79}],78:[function(require,module,exports){
+},{"./vector":74,"./matrix":76,"./line":75,"./sylvester":79}],78:[function(require,module,exports){
 // Copyright (c) 2011, Chris Umbel, James Coglan
 // Line.Segment class - depends on Line and its dependencies.
 
@@ -15464,7 +15465,7 @@ Line.Segment.create = function(v1, v2) {
 
 module.exports = Line.Segment;
 
-},{"./line":77,"./vector":74}],75:[function(require,module,exports){
+},{"./line":75,"./vector":74}],76:[function(require,module,exports){
 // Copyright (c) 2011, Chris Umbel, James Coglan
 // Matrix class - depends on Vector.
 
@@ -17218,46 +17219,7 @@ Object.keys(ffi.NON_SPECIFIC_TYPES).forEach(function (type) {
 Pointer.NULL = new Pointer(0)
 
 })(require("__browserify_buffer").Buffer)
-},{"util":40,"./ffi":83,"__browserify_buffer":61}],85:[function(require,module,exports){
-var ffi = require('./ffi')
-
-/**
- * CIF provides a JS interface for the libffi "callback info" (CIF) structure.
- * TODO: Deprecate this class. Turn this into a simple function that returns the
- *       CIF pointer.
- */
-
-function CIF (rtype, types) {
-
-  if (!ffi.isValidReturnType(rtype)) {
-    throw new Error('Invalid Return Type: ' + rtype)
-  }
-
-  var numArgs = types.length
-
-  this._argtypesptr = new ffi.Pointer(types.length * ffi.Bindings.FFI_TYPE_SIZE)
-  this._rtypeptr = ffi.ffiTypeFor(rtype)
-
-  var tptr = this._argtypesptr.clone()
-
-  for (var i=0; i<numArgs; i++) {
-    var typeName = types[i]
-
-    if (!ffi.isValidParamType(typeName)) {
-      throw new Error('Invalid Type: ' + typeName)
-    }
-
-    var ffiType = ffi.ffiTypeFor(typeName)
-    tptr.putPointer(ffiType, true)
-  }
-
-  this.pointer = ffi.Bindings.prepCif(numArgs, this._rtypeptr, this._argtypesptr)
-}
-module.exports = CIF
-
-CIF.prototype.getPointer = function () { return this.pointer }
-
-},{"./ffi":83}],86:[function(require,module,exports){
+},{"util":40,"./ffi":83,"__browserify_buffer":61}],86:[function(require,module,exports){
 (function(Buffer){var ffi = require('./ffi')
   , EventEmitter = require('events').EventEmitter
   , POINTER_SIZE = ffi.Bindings.POINTER_SIZE
@@ -17369,7 +17331,46 @@ module.exports = ForeignFunction
 ForeignFunction.build = ForeignFunction
 
 })(require("__browserify_buffer").Buffer)
-},{"events":41,"./ffi":83,"__browserify_buffer":61}],87:[function(require,module,exports){
+},{"events":41,"./ffi":83,"__browserify_buffer":61}],85:[function(require,module,exports){
+var ffi = require('./ffi')
+
+/**
+ * CIF provides a JS interface for the libffi "callback info" (CIF) structure.
+ * TODO: Deprecate this class. Turn this into a simple function that returns the
+ *       CIF pointer.
+ */
+
+function CIF (rtype, types) {
+
+  if (!ffi.isValidReturnType(rtype)) {
+    throw new Error('Invalid Return Type: ' + rtype)
+  }
+
+  var numArgs = types.length
+
+  this._argtypesptr = new ffi.Pointer(types.length * ffi.Bindings.FFI_TYPE_SIZE)
+  this._rtypeptr = ffi.ffiTypeFor(rtype)
+
+  var tptr = this._argtypesptr.clone()
+
+  for (var i=0; i<numArgs; i++) {
+    var typeName = types[i]
+
+    if (!ffi.isValidParamType(typeName)) {
+      throw new Error('Invalid Type: ' + typeName)
+    }
+
+    var ffiType = ffi.ffiTypeFor(typeName)
+    tptr.putPointer(ffiType, true)
+  }
+
+  this.pointer = ffi.Bindings.prepCif(numArgs, this._rtypeptr, this._argtypesptr)
+}
+module.exports = CIF
+
+CIF.prototype.getPointer = function () { return this.pointer }
+
+},{"./ffi":83}],87:[function(require,module,exports){
 var ffi = require('./ffi')
   , read  = require('fs').readFileSync
   , dlopen = ffi.ForeignFunction(ffi.Bindings.StaticFunctions.dlopen
@@ -17504,50 +17505,7 @@ function Library (libfile, funcs) {
 module.exports = Library
 
 })(require("__browserify_process"))
-},{"./ffi":83,"__browserify_process":43}],89:[function(require,module,exports){
-var ffi = require('./ffi')
-
-/**
- * Turns a JavaScript function into a C function pointer.
- * The function pointer may be used in other C functions that
- * accept C callback functions.
- * TODO: Deprecate this class, make this function return the callback pointer
- *       directly.
- */
-
-function Callback (typedata, func) {
-  var retType = typedata[0]
-    , types   = typedata[1]
-
-  this._cif   = new ffi.CIF(retType, types)
-  this._info  = new ffi.CallbackInfo(this._cif.getPointer(), function (retval, params) {
-    var pptr = params.clone()
-    var args = types.map(function (type) {
-      return ffi.derefValuePtr(type, pptr.getPointer(true))
-    })
-
-    // Invoke the user-given function
-    var result = func.apply(null, args)
-
-    if (retType !== 'void') {
-      retval['put' + ffi.TYPE_TO_POINTER_METHOD_MAP[retType]](result)
-    }
-  })
-
-  this.pointer = this._info.pointer
-}
-module.exports = Callback
-
-/**
- * Returns the callback function pointer. Deprecated. Use `callback.pointer`
- * instead.
- */
-
-Callback.prototype.getPointer = function getPointer () {
-  return this.pointer
-}
-
-},{"./ffi":83}],90:[function(require,module,exports){
+},{"./ffi":83,"__browserify_process":43}],90:[function(require,module,exports){
 (function(Buffer){var ffi = require('./ffi')
 
 /**
@@ -17732,7 +17690,50 @@ function Struct () {
 module.exports = Struct
 
 })(require("__browserify_buffer").Buffer)
-},{"./ffi":83,"__browserify_buffer":61}],91:[function(require,module,exports){
+},{"./ffi":83,"__browserify_buffer":61}],89:[function(require,module,exports){
+var ffi = require('./ffi')
+
+/**
+ * Turns a JavaScript function into a C function pointer.
+ * The function pointer may be used in other C functions that
+ * accept C callback functions.
+ * TODO: Deprecate this class, make this function return the callback pointer
+ *       directly.
+ */
+
+function Callback (typedata, func) {
+  var retType = typedata[0]
+    , types   = typedata[1]
+
+  this._cif   = new ffi.CIF(retType, types)
+  this._info  = new ffi.CallbackInfo(this._cif.getPointer(), function (retval, params) {
+    var pptr = params.clone()
+    var args = types.map(function (type) {
+      return ffi.derefValuePtr(type, pptr.getPointer(true))
+    })
+
+    // Invoke the user-given function
+    var result = func.apply(null, args)
+
+    if (retType !== 'void') {
+      retval['put' + ffi.TYPE_TO_POINTER_METHOD_MAP[retType]](result)
+    }
+  })
+
+  this.pointer = this._info.pointer
+}
+module.exports = Callback
+
+/**
+ * Returns the callback function pointer. Deprecated. Use `callback.pointer`
+ * instead.
+ */
+
+Callback.prototype.getPointer = function getPointer () {
+  return this.pointer
+}
+
+},{"./ffi":83}],91:[function(require,module,exports){
 (function(process){
 /**
  * Implementation of errno. This is a #define :/
