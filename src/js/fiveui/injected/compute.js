@@ -268,7 +268,7 @@
       * @param {DOMNode} elt
       */
      var underFiveUI = function(elt) {
-       var ancestor = $(elt).parentsUntil('#uic-top', 'body');
+       var ancestor = $(elt).parentsUntil('#fiveui-top', 'body');
        return ancestor.length == 0;
      };
 

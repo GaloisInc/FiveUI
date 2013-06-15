@@ -81,8 +81,8 @@ fiveui.query = function (sel, context) {
     }
   );
 
-  $filteredResults = $results.not('#uic-top *')
-                             .not('#uic-top')
+  $filteredResults = $results.not('#fiveui-top')
+                             .not('#fiveui-top *')
                              .filter(':visible');
 
   // update global stats

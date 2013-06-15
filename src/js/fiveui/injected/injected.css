@@ -26,13 +26,9 @@
 }
 
 /* Reduce the JQuery UI spacing on the left of the dialog content. */
-#uic-dialog {
+#fiveui-top {
     padding-left: 3px;
     font-family: Courier;
-}
-
-#uic-top {
-  font-family: Courier;
 }
 
 .ui-dialog .ui-dialog-content {
