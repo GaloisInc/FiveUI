@@ -36,12 +36,12 @@ public class RunDescriptionTest {
                 RUN_DESCRIPTION_DIR + "../ruleSets/emptyRuleSet.json";
         
         ImmutableList<String> emptyRuleList = ImmutableList.of();
-        RuleSet rsOracle = new RuleSet("emptyRuleSet", "", emptyRuleList);
+        RuleSet rsOracle = new RuleSet("emptyRuleSet", "", 
+        				emptyRuleList, ImmutableList.<String>of());
         
         RSTestDescription oracle = 
                 new RSTestDescription(ruleSetLoc, 
                         new ArrayList<RSTestDescription.URIMap>(), rsOracle); 
-        
         
         RSTestDescription actual = RSTestDescription.parse(jsonFileName);
         assertObjEqual("Object deserialized incorrectly.", oracle, actual);
@@ -59,13 +59,13 @@ public class RunDescriptionTest {
                 RUN_DESCRIPTION_DIR + "../ruleSets/simpleRuleSet1.json";
         
         RuleSet rsOracle =
-                new RuleSet("simpleRuleSet1", "", ImmutableList.of("emptyCheck.js"));
+                new RuleSet("simpleRuleSet1", "", 
+                		ImmutableList.of("emptyCheck.js"), ImmutableList.<String>of());
         rsOracle.setDirectory(RUN_DESCRIPTION_DIR + "../ruleSets/");
         
         RSTestDescription oracle = 
                 new RSTestDescription(ruleSetLoc, 
                         new ArrayList<RSTestDescription.URIMap>(), rsOracle); 
-        
         
         RSTestDescription actual = RSTestDescription.parse(jsonFileName);
         assertObjEqual("Object deserialized incorrectly.", oracle, actual);
@@ -87,7 +87,8 @@ public class RunDescriptionTest {
         		"Heading Guidelines",
         		"Guidelines pertaining to the formatting and content of headings.",
         		ImmutableList.of("headingGuidelines-caps.js",
-        	                     "headingGuidelines-noEmptyHdrs.js"));
+        	                     "headingGuidelines-noEmptyHdrs.js"),
+        	    ImmutableList.<String>of());
         rsOracle.setDirectory(RUN_DESCRIPTION_DIR + "../ruleSets/");
         rsOracle.getRules(); // force the rules to parse
         

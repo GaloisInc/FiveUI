@@ -305,6 +305,9 @@
    };
 
    var registerBackendListeners = function(port) {
+     /**
+      * @param {{rules: [string], dependencies: [string]}} ruleDescr
+      */
      var assembleRules = function(ruleDescr) {
        var ruleList = [];
 
@@ -317,7 +320,7 @@
                   console.error(x);
                 }
               });
-       
+
        var ruleStrList = ruleDescr.rules;
        for(var i=0; i<ruleStrList.length; ++i) {
          var moduleStr =

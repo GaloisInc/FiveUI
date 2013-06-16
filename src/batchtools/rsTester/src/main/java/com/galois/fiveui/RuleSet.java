@@ -48,15 +48,18 @@ public class RuleSet {
 	private final String name;
     private final String description;
     private final List<String> rules;
+    private final List<String> dependencies;
     
     private transient ImmutableMap<String, Rule> _evaledRules = null;
 
 	private transient String descDir = ".";
 	
-    public RuleSet(String name, String description, List<String> ruleFiles) {
+    public RuleSet(String name, String description, 
+    		List<String> ruleFiles, List<String> dependencies) {
         this.name = name;
         this.description = description;
         this.rules = ruleFiles;
+        this.dependencies = dependencies;
     }
     
     private void parseRules() {
@@ -89,7 +92,8 @@ public class RuleSet {
      */
     public static RuleSet empty() {
     	List<String> rules = Lists.newArrayList();
-    	return new RuleSet("", "", ImmutableList.copyOf(rules));
+    	return new RuleSet("", "", ImmutableList.copyOf(rules), 
+    				               ImmutableList.<String>of());
     }
 
     public String getName() {
@@ -100,6 +104,11 @@ public class RuleSet {
         return description;
     }
 
+    public List<String> getDependencies() {
+    	return dependencies;
+    }
+
+    
     public ImmutableCollection<Rule> getRules() {
     	if (null == _evaledRules) {
     		parseRules();
@@ -121,7 +130,10 @@ public class RuleSet {
     public String toJS() {
         Gson gson = new Gson();
     	StringBuilder builder = new StringBuilder();
-    	builder.append("[");
+    	builder.append("{ \"dependencies\": ");
+    	builder.append(gson.toJson(this.dependencies));
+    	builder.append(",\n");
+    	builder.append(" \"rules\": [");
     	
     	for (String r : this.rules) {
     		try {
@@ -139,7 +151,8 @@ public class RuleSet {
 			}
     	}
     	
-    	builder.append("]");
+    	builder.append(" ]\n");
+    	builder.append("}");
     	
     	return builder.toString();
     }
