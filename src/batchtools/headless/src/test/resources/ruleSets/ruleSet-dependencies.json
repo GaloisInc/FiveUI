@@ -1,0 +1,5 @@
+{ "name": "RS with deps"
+, "description": ""
+, "dependencies": [ "customReporter.js" ]
+, "rules": [ "makeError-deps.js" ]
+}

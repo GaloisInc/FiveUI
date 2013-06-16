@@ -105,7 +105,15 @@ public class RuleSet {
     }
 
     public List<String> getDependencies() {
-    	return dependencies;
+    	if (null == dependencies) {
+    		return null;
+    	}
+    	
+    	List<String> qualifiedDeps = Lists.newArrayList();
+    	for (String dep : dependencies) {
+    		qualifiedDeps.add(this.descDir + File.separator + dep);
+    	}
+    	return qualifiedDeps;
     }
 
     

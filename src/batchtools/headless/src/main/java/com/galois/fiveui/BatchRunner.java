@@ -268,6 +268,12 @@ public class BatchRunner {
         injected += Utils.readFile(_root + JS_SRC_ROOT + "selenium/selenium-injected-compute.js");        
         injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/compute.js");
         
+        if (null != ruleSet.getDependencies()) {
+        	for (String dep : ruleSet.getDependencies()) {
+        		injected += Utils.readFile(dep);
+        	}
+        }
+        
         String ruleStrList = ruleSet.toJS();
         String cmd = "fiveui.selPort.send('ForceEval', " + ruleStrList + ");";
 

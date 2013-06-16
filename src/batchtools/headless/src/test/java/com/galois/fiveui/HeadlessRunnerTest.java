@@ -94,9 +94,14 @@ public class HeadlessRunnerTest {
 				},
 				{
 				  "../../../exampleData/sites/",
-				  "src/test/resources/runDescriptions/headlessSample3.json", 
+				  "src/test/resources/runDescriptions/headlessSample4.json", 
 				  ImmutableList.of(Result.error(null, "Generate Errors"))
-				  }
+				},
+				{
+					  "../../../exampleData/sites/",
+					  "src/test/resources/runDescriptions/headlessSample3.json", 
+					  ImmutableList.of(Result.error(null, "Generate Errors - custom"))
+			    }
 				};
 		
 		for (Object[] descr : rawTests) {
