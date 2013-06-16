@@ -1,0 +1,5 @@
+{
+  'ruleSet': '../ruleSets/alwaysErrorsDeps.json',
+  'tests': [ 
+           ]
+}

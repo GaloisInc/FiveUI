@@ -71,6 +71,33 @@ public class RunDescriptionTest {
         assertObjEqual("Object deserialized incorrectly.", oracle, actual);
     }
 
+
+    /**
+     * Test method for {@link com.galois.fiveui.RSTestDescription}.
+     * @throws FileNotFoundException 
+     */
+    @Test
+    public final void testDeserialize_deps1() throws FileNotFoundException {
+        
+        String jsonFileName = RUN_DESCRIPTION_DIR + "sample6.json";
+        String ruleSetLoc = 
+                RUN_DESCRIPTION_DIR + "../ruleSets/alwaysErrorsDeps.json";
+        
+        RuleSet rsOracle =
+                new RuleSet("Testing RuleSet with dependencies", 
+                		"Testing rule set; always errors.", 
+                		ImmutableList.of("makeError.js"), 
+                		ImmutableList.of("dep1.js", "dep2.js"));
+        rsOracle.setDirectory(RUN_DESCRIPTION_DIR + "../ruleSets/");
+        
+        RSTestDescription oracle = 
+                new RSTestDescription(ruleSetLoc, 
+                        new ArrayList<RSTestDescription.URIMap>(), rsOracle); 
+        
+        RSTestDescription actual = RSTestDescription.parse(jsonFileName);
+        assertObjEqual("Object deserialized incorrectly.", oracle, actual);
+    }
+    
     /**
      * Test method for {@link com.galois.fiveui.RSTestDescription}.
      * @throws FileNotFoundException 
