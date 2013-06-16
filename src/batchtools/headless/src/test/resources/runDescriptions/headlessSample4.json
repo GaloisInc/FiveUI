@@ -1,6 +1,6 @@
 [
 {
   "url": "http://localhost:8000/headings.html",
-  "ruleSet": "../ruleSets/ruleSet-dependencies.json"
+  "ruleSet": "../ruleSets/alwaysErrors.json"
 }
 ]
