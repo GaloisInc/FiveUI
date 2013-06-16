@@ -110,6 +110,10 @@ public class HeadlessRunDescription {
         	if (json.isJsonObject()) { // check if the description is an extended one
         		JsonObject obj = json.getAsJsonObject();
         		ruleSetDir = objGetString(obj, "rulePath");
+        		String runDescDir = new File(_fn).getParent();
+        		if (null != runDescDir) {
+        			ruleSetDir = runDescDir + File.separator + ruleSetDir;
+        		}
         		_crawlType = objGetString(obj, "crawlType");
         		arr = obj.get("runs").getAsJsonArray();
         	} else if (json.isJsonArray()) {

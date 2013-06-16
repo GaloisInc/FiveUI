@@ -158,6 +158,7 @@ The format of a run configuration is as follows:
  */
 {
   'rulePath'  : '<path>',                         // path = the path where rule set files referenced below live.
+                                                  // rulePath is relative to the run description file.
   'crawlType' : '<d> <n> <p> <pat>',              // d = crawl depth, n = max number of pages to retrieve.
                                                   // p = politeness delay (ms), pat = URL glob pattern
                                                   // (crawlType can also be 'none').
