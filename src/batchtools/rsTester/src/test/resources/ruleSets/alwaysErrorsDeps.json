@@ -1,0 +1,5 @@
+{ "name": "Testing RuleSet with dependencies"
+, "description": "Testing rule set; always errors."
+, "dependencies": [ "dep1.js", "dep2.js" ]
+, "rules": [ "makeError.js" ]
+}
