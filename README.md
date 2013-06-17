@@ -31,50 +31,55 @@ the generated extensions in the top-level directory.
 
 ### Chrome signing key
 
-Note that you will need to first place a Chrome key in:
+In order to build the Google Chrome extension, you will need to first place a
+signing key in the top level directory with the name `fiveui.pem`. It isn't
+necessary to do this in order to build and use the Chrome extension locally
+(see `Using the Chrome Extension Unpacked` below).
 
-    contexts\chrome\fiveui.pem
+### Using the Chrome Extension Unpacked
 
-before the chrome extension will build successfully.
+See the
+[Chrome Extentions FAQ](http://developer.chrome.com/extensions/faq.html#faq-dev-01)
+on how to load an unpacked extension using "Developer mode". You should use the
+`build/chrome/` directory for this.
 
 ## Running the tests
 
-The testing target relies on:
+The `make test` target depends on:
 
- - a virtual framebuffer (xvfb)
+ - a virtual framebuffer (xvfb-run)
  - Mozilla Firefox
- - Google Chrome
- - a recent Java runtime.
+ - a Java runtime
  - Apache Maven
+ - PhanomJS
 
 If those are installed, then you should be able to run the test target
-from the top-level repository root as well:
+from the top-level directory with:
 
     $ make test
 
-If that fails to work on your system, then please let us know so we
+If this fails to work on your system, please let us know so we
 can make the testing process more robust.
 
-### Testing a Mac OS X Installation ###
+### Testing without xvfb
 
 Getting a virtual framebuffer (xvfb) working on OS X is tough. You can still
-run the tests manually by going to any of the maven project directories
-(e.g. testrunner, rsTester, headless) and running:
+run the Maven tests manually by going to `src/batchtools` and running:
 
     $ mvn test
+
+Beware that multiple browser instances will spawn in the process. The maven test
+reports are by default written to the various
+`*/target/surefire-reports/` directories.
 
 # Repository layout
 
 This is the repository for the FiveUI project.
 
-```
-binaries    : A directory holding the latest extension binaries
-contexts    : Implementation details for supported contexts (Firefox, Chrome, etc.)
-doc         : FiveUI Documentation
-exampleData : Sample web pages and rule sets for testing.
-headless    : A headless run system for large scale automated ruleset testing.
-profiles    : Sample user profiles for web browsers.  Used for testing.
-ruleSets    : A growing collection of codified Guidelines
-testrunner  : Browser-automation tests and testing infrastructure
-tools       : Third-party build tools
-```
+    binaries    : A directory holding the latest extension binaries
+    doc         : FiveUI Documentation
+    exampleData : Sample web pages and rule sets for testing.
+    mk          : Build system utilities
+    profiles    : Sample user profiles for web browsers.  Used for testing.
+    src         : Project source code
+    tools       : Third-party build tools
