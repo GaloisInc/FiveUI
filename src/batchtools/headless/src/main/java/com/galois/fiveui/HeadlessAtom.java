@@ -48,8 +48,18 @@ public class HeadlessAtom {
      * @throws JsonParseException
      */
     public static HeadlessAtom fromJsonObject(JsonObject obj, String dir) throws IOException {
-		String url = obj.get("url").getAsString();
-		String ruleSet = obj.get("ruleSet").getAsString();
+		String url = null;
+		String ruleSet = null;
+		
+		try {
+			url = obj.get("url").getAsString();
+		} catch (NullPointerException e) {
+		}
+
+		try {
+			ruleSet = obj.get("ruleSet").getAsString();
+		} catch (NullPointerException e) {
+		}	
 
 		if (url == null || ruleSet == null) {
 			throw new JsonParseException("could get either 'url' or 'ruleSet' properties");
