@@ -92,7 +92,7 @@ public class Reporter {
 			h1().text("Headless Run Summary").end();
 			p();
 				ul();
-				li().a().href("byUrl.html").text("Results organized by URL").end().end();
+				li().a().href("byURL.html").text("Results organized by URL").end().end();
 				li().a().href("byRule.html").text("Results organized by Rule").end().end();
 				end();
 			end();

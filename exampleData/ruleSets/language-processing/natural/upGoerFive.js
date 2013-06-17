@@ -1,6 +1,6 @@
 var natural = require('natural');
 
-rule =  {};
+rule = {};
 rule.name = "Common words";
 rule.description = "Identifies rare word use (words not in the 1000 most common English word list).";
 
@@ -144,25 +144,25 @@ var stemmer = natural.PorterStemmer;
 var tokenizer = new natural.TreebankWordTokenizer();
 
 var getTextNodesIn = function (node, includeWhitespaceNodes) {
-    var textNodes = [], whitespace = /^\s*$/;
+  var textNodes = [], whitespace = /^\s*$/;
 
-    function getTextNodes(node) {
-        if ($(node).attr('id') == 'fiveui-top') {
-          return;
-        }
-        if (node.nodeType == 3) {
-            if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
-                textNodes.push(node);
-            }
-        } else {
-            for (var i = 0, len = node.childNodes.length; i < len; ++i) {
-                getTextNodes(node.childNodes[i]);
-            }
-        }
+  function getTextNodes(node) {
+    if ($(node).attr('id') == 'fiveui-top') {
+      return;
     }
+    if (node.nodeType == 3) {
+      if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
+        textNodes.push(node);
+      }
+    } else {
+      for (var i = 0, len = node.childNodes.length; i < len; ++i) {
+        getTextNodes(node.childNodes[i]);
+      }
+    }
+  }
 
-    getTextNodes(node);
-    return textNodes;
+  getTextNodes(node);
+  return textNodes;
 };
 
 var isCommonWord = function(word) {
@@ -173,11 +173,9 @@ var isPunctuation = function(str) {
   return _.contains(['&', '%', '(', ')', ';', ':', '.', ',', '"', "'", '`', '!', '?' ], str);
 };
 
-
 var markWords = function(obj, report) {
   var toks = tokenizer.tokenize($(obj).text());
   var rawObj = $('<p></p>', {id: 'text'});
-//  $(obj).empty();
   $(obj).replaceWith(rawObj);
 
   _.each(toks, function(tok) {
@@ -192,14 +190,11 @@ var markWords = function(obj, report) {
 };
 
 rule.rule = function(report) {
-  console.log("checking for rare words");
   fiveui.query('body').each(
     function(i){
       var nodes = getTextNodesIn(this);
       _.map(nodes, function(n){
-              console.log(n);
               markWords(n, report);
             });
     });
-  console.log("done checking for rare words");
 };
