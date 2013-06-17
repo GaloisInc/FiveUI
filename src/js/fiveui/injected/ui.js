@@ -62,30 +62,23 @@
      }, 10);
    };
 
-   /**
-    * Temp storage for the old in-line styles on elements.
-    *
-    * XXX account for marking multiple elements at once.
-    *     (or use a different approach for marking elements)
-    */
-   core.oldStyle = '';
-
    core.highlightProblem = function(elt) {
      core.maskRules(function() {
-       core.oldStyle = elt.attr('style');
-       console.log('old style: '+core.oldStyle);
+       var oldStyle = elt.attr('style');
 
        elt.attr('style', 'background-color: rgba(255,0,0,0.3); background-image: none;');
        elt.addClass('uic-problem');
+
+       return oldStyle;
      });
    };
 
-   core.maskProblem = function(elt) {
+   core.maskProblem = function(elt, oldStyle) {
      core.maskRules(function() {
-       if (core.oldStyle == undefined) {
+       if (oldStyle == undefined) {
          elt.removeAttr('style');
        } else {
-         elt.attr('style', core.oldStyle);
+         elt.attr('style', oldStyle);
        }
 
        elt.removeClass('uic-problem');
@@ -150,17 +143,18 @@
 
        prExpand.click(
          function() {
+           var oldStyle;
            var elt = $(this);
            if(elt.is('.prExpand-down')) {
              elt.removeClass('prExpand-down')
                 .addClass('prExpand-right');
              prDetails.hide();
-             core.maskProblem(fiveui.query('.' + prob.hash));
+             core.maskProblem(fiveui.query('.' + prob.hash), oldStyle);
            } else {
              elt.addClass('prExpand-down')
                 .removeClass('prExpand-right');
              prDetails.show();
-             core.highlightProblem(fiveui.query('.' + prob.hash));
+             oldStyle = core.highlightProblem(fiveui.query('.' + prob.hash));
            }
 
            return false;
@@ -218,7 +212,10 @@
              $('#problemList').children().remove();
              port.emit('ClearProblems');
              core.renderStats(fiveui.stats.zero);
-             core.maskProblem(fiveui.query('.uic-problem'));
+             $('prExpand-down').click();
+
+             // Just in case the click event on prExpand-down missde anything:
+             core.maskProblem(fiveui.query('.uic-problem'), undefined);
          });
 
        ///////////////////////////////////////////
