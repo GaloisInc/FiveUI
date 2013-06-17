@@ -62,17 +62,33 @@
      }, 10);
    };
 
+   /**
+    * Temp storage for the old in-line styles on elements.
+    *
+    * XXX account for marking multiple elements at once.
+    *     (or use a different approach for marking elements)
+    */
+   core.oldStyle = '';
+
    core.highlightProblem = function(elt) {
      core.maskRules(function() {
-       elt.css('background-color', 'rgba(255,0,0,0.3)')
-          .addClass('uic-problem');
+       core.oldStyle = elt.attr('style');
+       console.log('old style: '+core.oldStyle);
+
+       elt.attr('style', 'background-color: rgba(255,0,0,0.3); background-image: none;');
+       elt.addClass('uic-problem');
      });
    };
 
    core.maskProblem = function(elt) {
      core.maskRules(function() {
-       elt.css('background-color', '')
-          .removeClass('uic-problem');
+       if (core.oldStyle == undefined) {
+         elt.removeAttr('style');
+       } else {
+         elt.attr('style', core.oldStyle);
+       }
+
+       elt.removeClass('uic-problem');
      });
    };
 
