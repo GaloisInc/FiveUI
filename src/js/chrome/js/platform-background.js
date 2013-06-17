@@ -131,13 +131,6 @@ fiveui.chrome.background = function() {
       background.connect(tabId, port, url, chPort.name == 'ui');
     });
 
-
-  chrome.tabs.onCreated.addListener(function(tab) {
-    if (tab.url) {
-      background.pageLoad(tab.id, tab.url);
-    }
-  });
-
   // check page load events against the generic background
   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.status == 'complete') {
