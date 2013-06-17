@@ -38,11 +38,7 @@ exports.rule = function(report) {
       if (fg && bg) {
         var diff = brightDiff(fg, bg);
         if (diff < MIN_DIFF) {
-          report.error('Element has poor brightness difference: ' +
-                       'fg = ' + JSON.stringify(fg) +
-                       ', fgb = ' + bright(fg) +
-                       ', bg = ' + JSON.stringify(bg) +
-                       ', bgb = ' + bright(bg), this);
+          report.error('Element has poor brightness difference: ' + diff, this);
         }
       }
     });
