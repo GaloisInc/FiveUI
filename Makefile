@@ -80,3 +80,41 @@ $(eval $(call subdir,src/batchtools))
 
 $(eval $(call subdir,profiles))
 $(eval $(call subdir,doc))
+
+
+# Package Deployment ###########################################################
+
+ifeq "$(git-cmd)" ""
+$(call strict-error,"unable to locate git")
+else
+
+remote-url := $(shell $(git-cmd) config remote.origin.url)
+
+$(build-dir)/gh-pages: $(topdir)/.git/index | $(build-dir)
+	$(call label,CLONE      $(call drop-prefix,$@))\
+	  (  $(git-cmd) clone $(if $(Q),-q) $(topdir) $@ \
+	  && cd $@ \
+	  && $(git-cmd) remote set-url origin $(remote-url) \
+	  && $(git-cmd) fetch $(if $(Q),-q) origin \
+	  && $(git-cmd) checkout $(if $(Q),-q) gh-pages )
+
+$(build-dir)/gh-pages/binaries/%: $(build-dir)/% \
+                                | $(build-dir)/gh-pages
+	$(call cmd,cp)
+
+.PHONY: genereate
+generate: $(build-dir)/gh-pages/binaries/fiveui.xpi \
+          $(build-dir)/gh-pages/binaries/fiveui.crx
+	$(call label,GENERATE)\
+	  (  cd $(build-dir)/gh-pages \
+	  && $(git-cmd) add binaries \
+	  && $(git-cmd) add -u binaries \
+	  && $(git-cmd) commit $(if $(Q),-q) -m "deploy extensions" )
+
+.PHONY: deploy
+deploy: generate
+	$(call label,DEPLOY)\
+	  (  cd $(build-dir)/gh-pages \
+	  && git push $(if $(Q),-q) origin gh-pages )
+
+endif

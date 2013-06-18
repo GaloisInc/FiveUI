@@ -2,5 +2,6 @@
 phantomjs-cmd     ?= $(call find-cmd,phantomjs)
 maven-cmd         ?= $(call find-cmd,mvn)
 pandoc-cmd        ?= $(call find-cmd,pandoc)
+git-cmd           ?= $(call find-cmd,git)
 addon-sdk-version ?= 1.14
 firefox_bin_path  ?= $(call find-cmd,firefox)
