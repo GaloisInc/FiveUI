@@ -26,8 +26,11 @@ repository, so building FiveUI should be as simple as running:
 
     $ make
 
-In the top-level FiveUI repository root.  On success, this will put
-the generated extensions in the top-level directory.
+The default target will stage both extensions into the `build/chrome` and
+`build/firefox` directories, respectively.  To build the packaged extensions,
+use the `package` target.
+
+    $ make package
 
 ### Chrome signing key
 
@@ -42,6 +45,15 @@ See the
 [Chrome Extentions FAQ](http://developer.chrome.com/extensions/faq.html#faq-dev-01)
 on how to load an unpacked extension using "Developer mode". You should use the
 `build/chrome/` directory for this.
+
+### Running the Firefox Extension Unpacked
+
+The build system provides a `run-firefox` target that will make sure that the
+staged extension is up to date, and then execute the `cfx run` command in the
+right context.
+
+    $ make run-firefox
+
 
 ## Running the tests
 
