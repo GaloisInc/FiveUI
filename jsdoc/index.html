@@ -656,6 +656,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <span class="co">   */</span>
   <span class="ch">&#39;description&#39;</span>: <span class="ch">&#39;Rule Set description &#39;</span>
                + <span class="ch">&#39;Multiple lines can be used to describe the Rule Set&#39;</span>,
+
+  <span class="co">/**</span>
+<span class="co">   * A free-form string field for licensing information.</span>
+<span class="co">   */</span>
+  <span class="ch">&#39;license&#39;</span>: <span class="ch">&#39;Apache 2.0&#39;</span>,
+
+  <span class="co">/**</span>
+<span class="co">   * A list of dependencies, resolved relative to the rule set json file.</span>
+<span class="co">   */</span>
+  <span class="ch">&#39;dependencies&#39;</span>: []<span class="ch">&#39;</span>
+
   <span class="co">/**</span>
 <span class="co">   * A list of rules to load and evaluate on pages</span>
 <span class="co">   * that are matched to this RuleSet.</span>
@@ -664,10 +675,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <span class="co">   */</span>
   <span class="ch">&#39;rules&#39;</span>: []
 };</code></pre>
-<h2 id="rule-syntax">Rule Syntax</h2>
-Individual Rules are created with the following format:
-</p>
-
+<h2 id="rule-manifest-syntax">Rule Manifest Syntax</h2>
+<p>Individual Rules are specified with the following manifest:</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript">{
   <span class="co">/**</span>
 <span class="co">   * A short descriptive name for the Rule.</span>
@@ -693,15 +702,30 @@ Individual Rules are created with the following format:
 <span class="co">   *</span>
 <span class="co">   * The rule function has access to the FiveUI prelude and jQuery.</span>
 <span class="co">   */</span>
-  <span class="ch">&#39;rule&#39;</span>: <span class="kw">function</span>() {
-      <span class="kw">fiveui</span>.<span class="fu">query</span>(<span class="ch">&#39;selector&#39;</span>).<span class="fu">each</span>(<span class="kw">function</span>(idx, elt) {
-         <span class="kw">if</span>(condition(elt)) {
-            report(<span class="ch">&#39;Guideline was violated&#39;</span>, elt);
-         }
-      });
-   }
+  <span class="ch">&#39;rule&#39;</span>: []
 };</code></pre>
-<p>In the context of the function passed as the <strong>rule</strong> field, the <strong>this</strong> object will point to an anonymous object that contains the other fields of the rule ,<strong>name</strong> and <strong>description</strong>. In addition to the fields of the rule, there is a field named <strong>ruleSet</strong>, which is a reference to the enclosing <code>Rule Set</code>.</p>
+<h2 id="rule-syntax">Rule Syntax</h2>
+<p>Rules are encoded as javascript files that specify an unbound exports object. This object is expected to have three fields:</p>
+<p>name: A short, unique, but readable name for the rule.</p>
+<p>description: A textual description.</p>
+<p>rule: a function that takes one object as a parameter.</p>
+<p>In the context of the function provided as the <strong>rule</strong> field, the <strong>this</strong> object will point to an anonymous object that contains the other fields of the rule, <strong>name</strong> and <strong>description</strong>. In addition to the fields of the rule, there is a field named <strong>ruleSet</strong>, which is a reference to the enclosing <code>Rule Set</code>.</p>
+<p>The function parameter is an object with one method: 'error' which takes an error message and a DOM element as its two parameters. The DOM element is used by FiveUI to describe the location of the error, so it should be chosen to best represent the location on the page where the error occurred. If the DOM element is unspecified, the rule will run, but less debugging information will be provided to the user.</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">exports</span>.<span class="fu">name</span> = <span class="st">&quot;imagesAltText&quot;</span>;
+
+<span class="kw">exports</span>.<span class="fu">description</span> = <span class="st">&quot;Each image should have alt text.&quot;</span>;
+
+<span class="kw">exports</span>.<span class="fu">rule</span> = <span class="kw">function</span>(report) {
+  <span class="kw">fiveui</span>.<span class="fu">query</span>(<span class="ch">&#39;img&#39;</span>)
+     .<span class="fu">filter</span>(<span class="kw">function</span> (i) {
+               <span class="kw">var</span> altAttr = $(<span class="kw">this</span>).<span class="fu">attr</span>(<span class="ch">&#39;alt&#39;</span>);
+               <span class="kw">return</span> altAttr == undefined || altAttr  == <span class="ch">&#39;&#39;</span>;
+             })
+     .<span class="fu">each</span>(<span class="kw">function</span> (i, e) {
+             <span class="kw">report</span>.<span class="fu">error</span>(<span class="ch">&#39;Image has no alt text&#39;</span>, e);
+           });
+};</code></pre>
+<p>Find more examples in the <a href="https://github.com/GaloisInc/FiveUI/tree/master/exampleData">GitHub repository</a>.</p>
 
 		       <!-- <h1 class="classTitle">Class Index</h1> -->
 		       <!--  -->
