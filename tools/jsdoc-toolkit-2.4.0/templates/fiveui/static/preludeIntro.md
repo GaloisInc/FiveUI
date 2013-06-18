@@ -30,6 +30,17 @@ Rule Sets take the form of:
    */
   'description': 'Rule Set description '
                + 'Multiple lines can be used to describe the Rule Set',
+
+  /**
+   * A free-form string field for licensing information.
+   */
+  'license': 'Apache 2.0',
+
+  /**
+   * A list of dependencies, resolved relative to the rule set json file.
+   */
+  'dependencies': []'
+
   /**
    * A list of rules to load and evaluate on pages
    * that are matched to this RuleSet.
@@ -40,9 +51,9 @@ Rule Sets take the form of:
 };
 ```
 
-## Rule Syntax
+## Rule Manifest Syntax
 
-Individual Rules are created with the following format:</p>
+Individual Rules are specified with the following manifest:
 
 ```javascript
 {
@@ -70,17 +81,49 @@ Individual Rules are created with the following format:</p>
    *
    * The rule function has access to the FiveUI prelude and jQuery.
    */
-  'rule': function() {
-      fiveui.query('selector').each(function(idx, elt) {
-         if(condition(elt)) {
-            report('Guideline was violated', elt);
-         }
-      });
-   }
+  'rule': []
 };
 ```
 
-In the context of the function passed as the **rule** field, the **this** object
-will point to an anonymous object that contains the other fields of the rule
-,**name** and **description**.  In addition to the fields of the rule, there is
-a field named **ruleSet**, which is a reference to the enclosing `Rule Set`.
+## Rule Syntax
+
+Rules are encoded as javascript files that specify an unbound exports
+object.  This object is expected to have three fields:
+
+name: A short, unique, but readable name for the rule.
+
+description: A textual description.
+
+rule: a function that takes one object as a parameter.
+
+In the context of the function provided as the **rule** field, the
+**this** object will point to an anonymous object that contains the
+other fields of the rule, **name** and **description**.  In addition
+to the fields of the rule, there is a field named **ruleSet**, which
+is a reference to the enclosing `Rule Set`.
+
+The function parameter is an object with one method: 'error' which
+takes an error message and a DOM element as its two parameters.  The
+DOM element is used by FiveUI to describe the location of the error,
+so it should be chosen to best represent the location on the page
+where the error occurred.  If the DOM element is unspecified, the rule
+will run, but less debugging information will be provided to the user.
+
+```javascript
+exports.name = "imagesAltText";
+
+exports.description = "Each image should have alt text.";
+
+exports.rule = function(report) {
+  fiveui.query('img')
+     .filter(function (i) {
+               var altAttr = $(this).attr('alt');
+               return altAttr == undefined || altAttr  == '';
+             })
+     .each(function (i, e) {
+             report.error('Image has no alt text', e);
+           });
+};
+```
+
+Find more examples in the [GitHub repository](https://github.com/GaloisInc/FiveUI/tree/master/exampleData).
