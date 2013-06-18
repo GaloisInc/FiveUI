@@ -63,7 +63,7 @@ The `make test` target depends on:
  - Mozilla Firefox
  - a Java runtime
  - Apache Maven
- - PhanomJS
+ - PhantomJS
 
 If those are installed, then you should be able to run the test target
 from the top-level directory with:
