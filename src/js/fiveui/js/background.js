@@ -50,6 +50,12 @@ fiveui.Background = function(settings, updateWidget, loadScripts, dataLoader) {
   this.dataLoader = dataLoader;
 };
 
+/**
+ * NOTE: As compute nodes get injected first, there's a chance that if send
+ * ReportProblem or ReportStats too early, the uiPort element of the tabState
+ * might not be setup yet.  This will cause some strange problems, and we should
+ * consider reversing the order that the injection happens in.
+ */
 fiveui.Background.prototype._registerComputeListeners = function(port, tabState){
     var bg = this;
     port.on('ReportProblem', function(request) {
@@ -134,6 +140,9 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
     this.updateWidget(null);
   } else {
     var tabState = this.state.acquireTabState(tabId);
+
+    // clear out old ports
+    tabState.uiPort       = null;
     tabState.computePorts = [];
 
     this.updateWidget(tabState);

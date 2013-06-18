@@ -85,15 +85,42 @@
      });
    };
 
+   core.renderStatsTemplate = _.template(
+     [ '<table class="fiveui-table">'
+     , '  <tr>'
+     , '    <td class="fiveui-table-text">rules checked:</td>'
+     , '    <td class="fiveui-table-number"><%= numRules %></td>'
+     , '  </tr>'
+     , '  <tr>'
+     , '    <td class="fiveui-table-text">elements checked:</td>'
+     , '    <td class="fiveui-table-number"><%= numElts %></td>'
+     , '  </tr>'
+     , '  <tr>'
+     , '    <td class="fiveui-table-text">elapsed time (ms):</td>'
+     , '    <td class="fiveui-table-number"><%= time %></td>'
+     , '  </tr>'
+     , '</table>'
+     ].join(''));
+
    core.renderStats = function (stats) {
+
+     // give stats some sane defaults.
+     stats = stats || {};
+     _.defaults(stats, {
+       numRules: 0,
+       numElts: 0,
+       start: 0,
+       end: 0,
+     });
+
      core.maskRules(function () {
+
        var statsDiv, statsDetail;
        statsDiv = $('#fiveui-stats');
        statsDiv.children().remove();
-       statsDetail = $('<table class="fiveui-table"><tr><td class="fiveui-table-text">rules checked:</td><td class="fiveui-table-number">' + stats.numRules + '</td></tr>' +
-                           '<tr><td class="fiveui-table-text">elements checked:</td><td class="fiveui-table-number">' + stats.numElts + '</td></tr>' +
-                           '<tr><td class="fiveui-table-text">elapsed time (ms):</td><td class="fiveui-table-number">' + (stats.end - stats.start) + '</td></tr></table>');
-       statsDiv.append(statsDetail);
+
+       stats.time = stats.end - stats.start;
+       statsDiv.html(core.renderStatsTemplate(stats));
      });
    };
 
@@ -211,11 +238,13 @@
        $('#clearButton').click(function() {
              $('#problemList').children().remove();
              port.emit('ClearProblems');
-             core.renderStats(fiveui.stats.zero);
+
+             core.renderStats();
              $('prExpand-down').click();
 
              // Just in case the click event on prExpand-down missde anything:
              core.maskProblem(fiveui.query('.uic-problem'), undefined);
+             core.renderStats();
          });
 
        ///////////////////////////////////////////
@@ -239,6 +268,7 @@
        $(state.problems).each(function(ix,prob) {
                                 core.renderProblem(prob);
                               });
+
        core.renderStats(state.stats);
      });
    };
