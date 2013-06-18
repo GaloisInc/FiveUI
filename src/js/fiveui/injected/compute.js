@@ -90,15 +90,6 @@
      core.port.emit('ReportProblem', prob);
    };
 
-   core.resetStats = function() {
-     core.reportStats(
-       { start:    0
-       , end:      0
-       , numRules: 0
-       , numElts:  0
-       });
-   };
-
    core.reportStats = function(stats) {
      core.port.emit('ReportStats', stats);
    };
@@ -356,6 +347,5 @@
    };
 
    registerBackendListeners(core.port);
-   core.resetStats();
 })();
 
