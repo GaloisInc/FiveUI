@@ -8,8 +8,8 @@
 , "description": "Foreground/background color guidelines"
 , "license": "BSD3"
 , "rules":
-  [ "colorRules/foregroundCheck.js"
-  , "colorRules/backgroundCheck.js"
+  [ "foregroundCheck.js"
+  , "backgroundCheck.js"
   ]
 }
 //----------------------------------------------------------------
