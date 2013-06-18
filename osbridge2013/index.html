@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>FiveUI: Open-source UI Tests</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=1024, user-scalable=no">
+
+  <link rel="stylesheet" href="deck/core/deck.core.css">
+  <link rel="stylesheet" href="deck/extensions/goto/deck.goto.css">
+  <link rel="stylesheet" href="deck/extensions/menu/deck.menu.css">
+  <link rel="stylesheet" href="deck/extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" href="deck/extensions/status/deck.status.css">
+  <link rel="stylesheet" href="deck/extensions/hash/deck.hash.css">
+  <link rel="stylesheet" href="deck/extensions/scale/deck.scale.css">
+  <link rel="stylesheet" href="galois.css">
+  <link rel="stylesheet" href="deck/themes/transition/horizontal-slide.css">
+  <script src="deck/modernizr.custom.js"></script>
+
+</head>
+<body class="deck-container">
+
+<!-- Begin slides -->
+
+<section class="slide">
+  <div class="vcenter">
+    <h1>FiveUI</h1>
+    <h2>Open Source UI Tests for the Common Good</h2>
+  </div>
+
+  <div style="padding-top: 10px">
+    <p>
+      Rogan Creswick <small>and</small> Benjamin Jones
+      <img src="GaloisWebLogo.gif" height="40" alt="Galois logo" style="float: right">
+    </p>
+  </div>
+</section>
+
+<section class="slide">
+  <h2>Motivation</h2>
+  <blockquote>Consistency in user interfaces follows the second law of
+  thermodynamics.</blockquote>
+  <p style="float:right">&mdash;Jakob Nielsen (1989) </p>
+</section>
+
+
+
+<section class="slide">
+  <h2>Fighting entropy</h2>
+
+  <h3>Open Source User Interface Testing</h3>
+  <ul>
+    <li><i>User Interface</i> &mdash; web-based (HTML 5) user interfaces</li>
+    <li><i>Testing</i> &mdash; consistency and style</li>
+    <li><i>Open Source</i> &mdash; tests should to be user generated and shared</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Why we're here</h2>
+
+    <h3>We want to talk about a <u>tool</u> designed to make user
+    interface testing ...</h3>
+    <ul>
+      <li>easy</li>
+      <li>open</li>
+      <li>reusable</li>
+    </ul>
+
+  <div class="slide">
+    <img src="5ive_logo.png" height="150" alt="fiveui logo" style="float: left; padding: 20px;">
+    <div style="padding-top: 20px">
+      <h3 style="color: rgb(242, 101, 41)">FiveUI</h3>
+      <i>"Extensible UI Analysis in your Browser"</i><br>
+      <a href="http://galoisinc.github.com/FiveUI">galoisinc.github.io/FiveUI</a>
+    </div>
+  </div>
+
+</section>
+
+<section class="slide">
+    <h2>Inconsistency</h2>
+    <p>We can all think of inconsistent user interfaces!</p>
+    <img src="grumpy-cat-meme-website-awful.jpg" alt="grumpy cat">
+</section>
+
+<section class="slide">
+  <h2>Inconsistency causes outrage</h2>
+  <ul>
+        <li>Gnome 2 to Gnome 3</li>
+        <li>Gnome 2 to Unity</li>
+        <li>Windows XP to Vista</li>
+        <li>Windows 7 to Windows 8 (Metro)</li>
+        <li>etc...</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Quote</h2>
+    <blockquote>
+     [In Windows 8] you have this shiny tablet interface, and you sit and you use
+     then you press the wrong button then it slaps you in the face and Windows 7
+     is back. And then you think OK, this is familiar, so you’re kind of getting
+     into it and whack [Windows 8 is back].
+     </blockquote>
+     <p style="float: right">&mdash;Mark Shuttleworth, OSCON 2012</p>
+</section>
+
+<section class="slide">
+  <h2>Consistency is important!</h2>
+  <div class="vcenter">
+    <h3>SCADA System:</h3>
+    <figure>
+      <img src="scada-animation.gif" alt="scada animation">
+    </figure>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="vcenter">
+    <figure>
+      <img src="scada-martem.jpg" alt="scada Martem">
+    </figure>
+    <p style="float: right; font-size: 50%">Image credit: Martem Telecontrol
+    Systems</p>
+  </div>
+</section>
+
+<section class="slide">
+    <h2>Aspects of consistency</h2>
+
+    <ul class="incremental">
+      <li>Visual
+      <li>Terminology
+      <li>Between pages
+      <li>Within pages
+      <li>Interactions
+      <li>User expectations
+    </ul>
+</section>
+
+<section class="slide">
+  <h2>UI Guidelines</h2>
+  <ul>
+    <li>(DHHS) Usability.gov</li>
+    <li>(W3C) Web Content Accessibility Guidelines</li>
+    <li>(Apple) iOS Human Interface Guidelines,</li>
+    <li>(Microsoft) Windows "UX Guide"</li>
+  </ul>
+  <div class="slide">
+    <p>There is a lot of repetition...</p>
+    <blockquote>
+    Every text input field should have a label.
+    </blockquote>
+  </div>
+</section>
+
+<section class="slide">
+  <h2>There are many UI analysis tools</h2>
+  <ul>
+    <li>Selenium</li>
+    <li>WAVE (Web Accessibility)</li>
+    <li>HTML Lint</li>
+    <li>Sikuli</li>
+  </ul>
+
+  <div class="slide">
+    <h3>... but</h3>
+    There aren't easy ways to integrate the <u>tools</u> with the
+    <u>guidelines</u> in an open and extensible way.
+  </div>
+
+</section>
+
+<!--
+<section class="slide">
+    <h2>Another Quote</h2>
+    <blockquote>Wouldn’t you think by now we’d have design and content tools which
+   would make it easy or automatic to follow these standards.</blockquote>
+
+   <p style="float:right">&mdash;Robert Shaver (Comment on
+   <a href="http://alistapart.com/article/writingainterfacestyleguide">
+   Writing an Interface Style Guide</a>, 2008)</p>
+</section>
+-->
+
+<section class="slide">
+  <h2>UI testing tools</h2>
+  <div>
+    <h3>Selenium:</h3>
+    <ul>
+      <li><span style="color: blue">The good:</span> unlimited extensibility,
+      unbounded browser automation</li>
+      <li><span style="color: red">The bad:</span> low-level, steep learning
+      curve
+      <ul>
+        <li>"Selenium – Is it worth the pain?"</li>
+        <li>"We scheduled 16 hours for writing the tests ... This
+      turned out to be a bit of an under-estimation."</li>
+      </ul>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <h2>UI testing tools</h2>
+  <div>
+    <a href="http://wave.webaim.org/" style="float: right">http://wave.webaim.org/</a>
+    <h3>WAVE:</h3>
+    <ul style="list-style-type: none;">
+      <li><span style="color: blue">The good:</span> easy, intuitive,
+      comprehensive for web accessibility issues</li>
+      <li><span style="color: red">The bad:</span> narrow scope, only addresses web
+      accessibility, not extensible, not open source</li>
+    </ul>
+  </div>
+</section>
+
+<section class="slide">
+  <h2>FiveUI is here to help!</h2>
+
+  <h3>We've built a tool called <span style="color: rgb(242, 101, 41)">FiveUI</span></h3>
+
+  <p>With <span style="color: rgb(242, 101, 41)">FiveUI</span>, you can:</p>
+  <ul>
+    <li><i>encode</i> guidelines</li>
+    <li><i>analyse</i> your interfaces using the guidelines you've encoded</li>
+    <li><i>automate</i> the analysis for your entire website</li>
+    <li><i>share</i> your encoded guidelines with the community</li>
+  </ul>
+
+    <img src="5ive_logo.png" height="80" alt="fiveui logo" style="float: right">
+</section>
+
+<section class="slide">
+  <h2>FiveUI is...</h2>
+  <ul>
+    <li>a web browser extension <small>(Firefox and Chrome)</small></li>
+    <li>a headless system for testing automation</li>
+    <li>open source (Apache 2.0)</li>
+    <li>at <a href="http://galoisinc.github.com/FiveUI">http://galoisinc.github.io/FiveUI</a></li>
+  </ul>
+
+    <img src="5ive_logo.png" height="80" alt="fiveui logo" style="float:
+    right">
+</section>
+
+
+<!--      -->
+<!-- DEMO -->
+<!--      -->
+
+<section class="slide">
+  <h1>Demo</h1>
+</section>
+
+<section class="slide">
+  <h2>Demo</h2>
+  <h3>Basic UI Rules</h3>
+  <ul>
+    <li><a href="rules/basic/test_basic.html">test page</a></li>
+  </ul>
+  <div class="slide">
+    <p style="color: blue">Example:</p>
+    <pre class="language-javascript">
+exports.name = "Don't use empty headings";
+exports.description = "Empty headings confuse layout";
+
+exports.rule = function(report) {
+  $5(':header').each(function(i, elt) {
+    if ($(elt).text() == '') report.error('Heading is empty', elt);
+  });
+}
+    </pre>
+  </div>
+
+</section>
+
+<section class="slide">
+  <h2>Demo</h2>
+  <h3>Accessibility</h3>
+  <ul>
+    <li><a href="rules/accessibility/test.html">Basic accessibility</a></li>
+    <li><a href="rules/accessibility/test_color.html">Color examples</a></li>
+    <li><a href="http://trac.edgewall.org/demo-1.0/newticket">Trac UI</a></li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Demo</h2>
+  <h3>Playing with Content</h3>
+
+  <ul>
+    <li><a href="rules/upGoerFive/natural-test1.html">Sample page</a></li>
+    <li><a href="http://blag.xkcd.com/">Real world example</a></li>
+  </ul>
+
+  <img src="up_goer_five_top.png" alt="Up Goer Five comic" height="600" style="">
+  <p style="float:right">(Image credit of <a href="http://www.xkcd.com">XKCD</a>)</p>
+</section>
+
+
+<section class="slide">
+  <h2>Demo</h2>
+  <h3>Specifying Dependencies</h3>
+
+  <pre class="language-javascript">
+{ "name":         "Locate Uncommon Words.",
+  "description":  "Searches for words that may be confusing to some readers.",
+  "dependencies": ["upGoerFive-deps.js"],  // dependencies copiled with browserify
+  "rules":        ["upGoerFive-rule.js"]
+}
+</pre>
+</section>
+
+<!--                -->
+<!--  TECH DETAILS  -->
+<!--                -->
+
+
+<section class="slide">
+  <h1>Getting Involved</h1>
+</section>
+
+<section class="slide">
+  <h2>Writing Rules</h2>
+  <h3>Pick your favorite UI guideline and encode it!</h3>
+  <ul>
+    <li>The only requirement is some knowledge of
+    Javascript (familiarity with jQuery is a plus!)</li>
+    <li>Rules are written in Javascript and use the
+    <a href="http://commonjs.org/">CommonJS</a> module format</li>
+    <li>There are many examples in our github repo</li>
+  </ul>
+
+  <div>
+    <p style="color: blue">Example:</p>
+    <pre class="language-javascript">
+exports.name = "imagesAltText";
+
+exports.description = "Each image should have an alternative text description";
+
+exports.rule = function(report) {
+  fiveui.query('img')
+     .filter(function (i) {
+               var altAttr = $(this).attr('alt');
+               return altAttr == undefined || altAttr  == '';
+             })
+     .each(function (i, e) {
+             report.error('Image has no alt text', e);
+           });
+};
+    </pre>
+  </div>
+</section>
+
+<section class="slide">
+  <h2>Contribute</h2>
+    <ul>
+      <li>Once you've written a useful rule, add it to the
+          <a href="https://github.com/GaloisInc/FiveUI">growing collection</a>
+          on <a href="http://github.com">github</a>
+          </li>
+      <li>Write <i>general-purpose</i> rules that apply to any website</li>
+      <li>The community can take advantage of the rules contributed by everyone
+          else</li>
+    </ul>
+</section>
+
+
+<section class="slide">
+  <h1>Let's write some rules...</h1>
+</section>
+
+<!--           -->
+<!--  CREDITS  -->
+<!--           -->
+
+<section class="slide">
+  <h2>Credits</h2>
+
+  <h3>Authors</h3>
+  <ul>
+    <li> Rogan Creswick
+    <span style="float: right"><small><a
+    href="mailto:creswick@galois.com">creswick@galois.com</a>
+    </small></span></li>
+    <li> Trevor Elliott
+    <li> Benjamin Jones
+  </ul>
+
+  <img src="GaloisWebLogo.gif" alt="Galois logo" height="50"
+  style="float: left">
+  <a href="http://corp.galois.com" style="float: right">http://corp.galois.com</a>
+
+  <a href="https://github.com/galoisinc/fiveui">
+  <img style="position: absolute; top: 0; right: 0; border: 0;"
+  src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"
+  alt="Fork me on GitHub"></a>
+</section>
+
+<!-- End slides. -->
+
+
+<!-- Begin extension snippets. Add or remove as needed. -->
+
+<!-- deck.navigation snippet -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<!-- deck.status snippet -->
+<p class="deck-status">
+<span class="deck-status-current"></span> / <span class="deck-status-total"></span>
+</p>
+
+<!-- deck.goto snippet -->
+<form action="." method="get" class="goto-form">
+  <label for="goto-slide">Go to slide:</label>
+  <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+  <datalist id="goto-datalist"></datalist>
+  <input type="submit" value="Go">
+</form>
+
+<!-- deck.hash snippet -->
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<!-- Required JS files. -->
+<script src="deck/jquery-1.7.2.min.js"></script>
+<script src="jquery.syntaxhighlighter.min.js"></script>
+<script src="deck/core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="deck/core/deck.core.js"></script>
+<script src="deck/extensions/hash/deck.hash.js"></script>
+<script src="deck/extensions/menu/deck.menu.js"></script>
+<script src="deck/extensions/goto/deck.goto.js"></script>
+<script src="deck/extensions/status/deck.status.js"></script>
+<script src="deck/extensions/navigation/deck.navigation.js"></script>
+<script src="deck/extensions/scale/deck.scale.js"></script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+  $(function() {
+    $.SyntaxHighlighter.init();
+    $.deck('.slide');
+  });
+</script>
+</body>
+</html>

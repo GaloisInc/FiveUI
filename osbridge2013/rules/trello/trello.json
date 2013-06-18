@@ -1,0 +1,5 @@
+{
+  "name": "trello rules",
+  "description": "",
+  "rules": [ "trello.js" ]
+}
