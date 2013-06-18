@@ -202,6 +202,23 @@
 
    /* END of BSD licensed code */
 
+   core.beforeRules = function() {
+
+     if(core.dialog) {
+       core.dialog.remove();
+     }
+
+     core.rulesRunning = true;
+   };
+
+   core.afterRules = function() {
+     core.rulesRunning = false;
+
+     if(core.dialog) {
+       $('body').append(core.dialog);
+     }
+   };
+
    /**
     * @param {!Array.<Rule>} rs A list of Rule objects.
     */
@@ -227,7 +244,8 @@
        }
      };
 
-     core.rulesRunning = true;
+     core.beforeRules();
+
      for(var i=0; i<rs.length; ++i) {
        theRule = rs[i];
 
@@ -242,7 +260,8 @@
          stats.numRules += 1;
        }
      }
-     core.rulesRunning = false;
+
+     core.afterRules();
 
      date          = new Date();
      stats.end     = date.getTime();
