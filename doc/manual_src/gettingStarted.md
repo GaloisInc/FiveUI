@@ -57,94 +57,79 @@ fields, along with an empty set of **rules**.
 
 ### Rules
 
-The elements of the **rules** array in the `Rule Set` are also represented as
-JSON Objects.  A minimal rule consists of three fields: **name**,
-**description** and **rule**.  While **name** and **description** are just
-strings, like the definition of a `Rule Set`, the **rule** field is a javascript
-function.
+The elements of the **rules** array in the `Rule Set` are just file paths,
+relative to the path of the manifest file.  The contents of the file referenced
+are javascript, using an exports object to expose the public parts of the rule
+API.
 
-The definition of the **rule** function consists of a single javascript function
-that expects no arguments and returns no value.  The rule will be invoked with
-no special context, and it is expected to perform its validation based on uses of
-the `FiveUI prelude`.  Rules are able to report problems to the in-page FivUI
-interface by invoking the *report* function.
+The required exports of a **rule** file are:
+
+ 1. A rule name, called `name`
+ 2. A description, called 'description`
+ 3. A function that will be called as the body of the rule, named `rule`
 
 As a simple example, the following rule will log an error for each header tag
 that contains no text:
 
 ```javascript
-{ "name": "Disallow Empty Headers"
-, "description": "Heading elements should contain text"
-, "rule": function() {
-    fiveui.query(':header').each(function(ix, elt) {
-      if($(elt).text() == '') {
-        report('Heading does not contain text', elt);
-      }
-    });
-  }
-}
+exports.name        = 'Disallow Empty Headers';
+exports.description = 'Heading elements should contain text';
+exports.rule        = function(report) {
+  fiveui.query(':header').each(function(ix, elt) {
+    if($(elt).text() == '') {
+      report.error('Heading does not contain text', elt);
+    }
+  });
+};
 ```
+
+Notice that the `rule` function is given a report argument that has an error
+method exposed, this is how errors are reported back to the extension from the
+context of a rule.
 
 ### Creating a `Rule Set`
 
 Reusing the previous example and the skeleton of the first, we can create a
-simple `Rule Set` that applies the empty header rule:
-
-* Begin by copying this code block, so that it will be available to the `Rule
-   Set` editor later.
+simple manifest that applies the empty header rule.  Enter the following json
+structure into a file called manifest.json:
 
 ```javascript
-{ "name": "Header Rule Set"
-, "description": "Simple rules about HTML headers."
-, "rules":
-  [ { "name": "Disallow Empty Headers"
-    , "description": "Heading elements should contain text."
-    , "rule": function() {
-        fiveui.query(':header').each(function(ix, elt) {
-          if($(elt).text() == '') {
-            report('Heading does not contain text', elt);
-          }
-        });
-      }
-    }
-  ]
+{ "name"        : "Header Rule Set"
+, "description" : "Simple rules about HTML headers."
+, "rules"       : [ "emptyHeaders.js" ]
 }
 ```
 
-* Next, open the options page for the FiveUI extension.
-* Navigate to the `Rule Sets` preferences tab, by clicking the `Rule Sets` link
-  on the left-hand side of the page.
-* Click the `Add` button.
-* Paste in the contents of the example Rule Set into the text area that appears.
-  FiveUI should highlight the syntax of the rule.
+As the above manifest references the emptyHeader.js file, we now need to
+implement that rule.  We'll go ahead and use the same example rule that's
+defined above, placing it in the emptyHeader.js file in the same directory as
+the manifest that references it.
 
-![FiveUI uses a rich Javascript editor to highlight rule sets.](figures/ff-add-rule-set.png)
+ * Run `python -m SimpleHTTPServer` in the directory that contains manifest.json
+   and exampleHeader.js
+ * Next, open the options page for the FiveUI extension.
+ * Make sure that the `Rule Sets` tab is selected
+ * Click the `Add` button.
+ * Paste http://localhost:8000/manifest.json into the address field
+ * Click the save icon (a disk)
 
-* Click the `Save` button.
-* An entry in the list above the `Add` button should appear, describing the rule
-  that was added in the previous steps.
+You should now see an entry in the `Rule Sets` list that includes a `add url
+pattern` button.
 
 ## URL Patterns
 
-`URL Patterns` can be managed by first clicking the `URL Patterns` tab on the
-left-hand side of the options page.
+`URL Patterns` can be added by the use of the `add url patterns` button on a
+rule set, and removed by clicking their `x` icon.
 
 `URL Patterns` represent the conditions in which a `Rule Set` will be applied to
 a page.  To create a `URL Pattern` first make sure that you have created a `Rule
-Set` with the instructions above.  If not, when you click the `Add` button on
-the `URL Patterns` tab, you will get an error dialog explaining that it is not
-possible to create a `URL Pattern` without one or more `Rule Sets` having been
-defined.
-
-If you have created a `Rule Set`, a new tab should appear that
-contains two fields, one text box for the rule pattern and a drop-down
-menu that contains all of the `Rule Sets` that have been defined thus
-far.
+Set` with the instructions above.  Now you can enter a pattern in the text field
+above the `add url pattern` button, using the pattern language defined below.
 
 ### Pattern Language
 
 The **pattern** text in a `URL Pattern` uses the glob character
-`*`, to allow for a `URL Pattern` to apply to many URLs.  For example, if you
+*, to allow for a `URL Pattern` to apply to many URLs.  For example, if you
 would like to design a pattern that applies to all of the `http` pages under the
 www.example.com domain, then you could use a pattern such as:
 
