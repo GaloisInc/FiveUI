@@ -1,13 +1,19 @@
 % Getting Started with FiveUI
 
-# Configuring FiveUI
+# Getting Started with the FiveUI Browser Extension
 
 Once FiveUI has been installed, some initial configuration will need to be done
 to make the extension useful.
 
-The options page allows the user to configure `URL Patterns` that will apply
-when the browser is navigating to new URLs, and `Rule Sets` which categorize
-user interface guidelines into named groups.
+The options page allows the user to configure `Rule Sets` that
+categorize user interface guidelines into named groups.  The options
+page also allows the user to set a list of `URL Patterns` that each
+`Rule Set` will analyze.
+
+`Rule Sets` define the guidelines, while `URL Patterns` state where
+the guidelines should run.
+
+![A Rule Set that will apply to two URL Patterns.](figures/options.png)
 
 ## Options in Chrome
 
@@ -30,23 +36,23 @@ as shown in the figure.
 
 # The Options Page
 
-The options page allows the user to configure `URL Patterns` that will apply
-when the browser is navigating to new URLs, and `Rule Sets` which categorize
-user interface guidelines into named groups.  As it's required that one or more
-`Rule Sets` already exist to create a `URL Pattern`, let's start with the `Rule
-Sets` tab.
+The options page allows the user to configure `Rule Sets` which
+categorize user interface guidelines into named groups.  Once a `Rule
+Set` is added, you will be able to set any number of patterns that
+determine which web pages the `Rule Set` should evaluate.
 
 ## Rule Sets
 
 `Rule Sets` can be managed by clicking on the `Rule Sets` tab on the left-hand
 side of the options page.
 
-`Rule Sets` in FiveUi are specified as a JSON-like object that
-contains javascript functions for the rule implementations.  Each
-`Rule Set` contains a **name**, **description** and list of zero or
-more **rules**.  The following snippet exhibits the minimal definition
-for a `Rule Set`, providing only the **name** and **description**
-fields, along with an empty set of **rules**.
+FiveUI loads `Rule Sets` from a URL.
+
+`Rule Sets` in FiveUi are specified as a JSON object that contains javascript
+functions for the rule implementations.  Each `Rule Set` contains a **name**,
+**description** and list of zero or more **rules**.  The following snippet
+exhibits the minimal definition for a `Rule Set`, providing only the **name**
+and **description** fields, along with an empty set of **rules**.
 
 ```javascript
 { "name": "Empty Rules"
@@ -182,29 +188,33 @@ This rule identifies headers that start with a lower-case letter.
 { "name": "Header Rule Set"
 , "description": "Simple rules about HTML headers."
 , "rules":
-  [ { "name": "Disallow Empty Headers"
-    , "description": "Heading elements should contain text."
-    , "rule": function() {
-        fiveui.query(':header').each(function(ix, elt) {
-          if($(elt).text() == '') {
-            report('Heading does not contain text', elt);
-          }
-        });
-      }
-    },
-    { "name": "Headers should be capitalized"
-    , "description": "Heading elements should not start "
-                   + "with lowercase letters."
-    , "rule": function() {
-        fiveui.query(':header').each(function(ix, elt) {
-          if( !fiveui.word.capitalized($(elt).text()) ) {
-            report('Heading is not capitalized', elt);
-          }
-        });
-      }
-    },
-  ]
+  [ "lowerCase.js", "emptyHeaders.js" ]
 }
+```
+
+```javascript
+exports.name        = 'Headers should be capitalized';
+exports.description = 'Heading elements should not start '
+                    + 'with lowercase letters.';
+exports.rule        = function() {
+  fiveui.query(':header').each(function(ix, elt) {
+    if( !fiveui.word.capitalized($(elt).text()) ) {
+      report('Heading is not capitalized', elt);
+    }
+  });
+};
+```
+
+```javascript
+exports.name        = 'Empty Headers';
+exports.description = 'Heading elements should contain text.';
+exports.rule        = function() {
+  fiveui.query(':header').each(function(ix, elt) {
+    if($(elt).text() == '') {
+      report('Heading does not contain text', elt);
+    }
+  });
+};
 ```
 
 This sample `Rule Set` demonstrates some new capabilities:
@@ -226,5 +236,4 @@ For more detail on the API available when writing new rules, see the
 [Javascript documentation](../jsdoc/index.html).
 
 `Headless` is a tool for automated rule set checking using FiveUI.
-To get started with Headless, see [Headless
-documentation](headlessFiveUI.html).
+To get started with Headless, see [Headless documentation](headlessFiveUI.html).
