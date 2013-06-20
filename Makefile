@@ -90,7 +90,7 @@ else
 
 remote-url := $(shell $(git-cmd) config remote.origin.url)
 
-$(build-dir)/gh-pages: $(topdir)/.git/index | $(build-dir)
+$(build-dir)/gh-pages: | $(build-dir)
 	$(call label,CLONE      $(call drop-prefix,$@))\
 	  (  $(git-cmd) clone $(if $(Q),-q) $(topdir) $@ \
 	  && cd $@ \
@@ -107,6 +107,7 @@ generate: $(build-dir)/gh-pages/binaries/fiveui.xpi \
           $(build-dir)/gh-pages/binaries/fiveui.crx
 	$(call label,GENERATE)\
 	  (  cd $(build-dir)/gh-pages \
+	  && $(git-cmd) pull $(if $(Q),-q) \
 	  && $(git-cmd) add binaries \
 	  && $(git-cmd) add -u binaries \
 	  && $(git-cmd) commit $(if $(Q),-q) -m "deploy extensions" )
