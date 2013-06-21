@@ -83,10 +83,8 @@ stage-firefox:                                    \
     $(firefox-build)/data/icons/options-icon.js   \
   | $(firefox-build)
 
-$(build-dir)/fiveui.xpi:    \
-  stage-firefox              \
-  $(addon-sdk-unpacked)      \
-  $(topdir)/profiles/firefox
+$(build-dir)/fiveui.xpi: stage-firefox \
+                       | $(topdir)/profiles/firefox  $(addon-sdk-unpacked)
 	$(call label,XPI        $(call drop-prefix,$@))\
 	  $(call cfx,$(build-dir),xpi -p $(topdir)/profiles/firefox \
 	                 --pkgdir=$(firefox-build) )
@@ -94,5 +92,5 @@ $(build-dir)/fiveui.xpi:    \
 
 # Testing ######################################################################
 
-run-firefox: stage-firefox $(addon-sdk-unpacked)
+run-firefox: stage-firefox | $(addon-sdk-unpacked)
 	$(call label,RUNFF)$(call cfx,$(firefox-build),run)

@@ -62,3 +62,25 @@ $(jsdoc-dir)/index.html:                                      \
     $(topdir)/src/js/fiveui/injected/jquery-plugins.js \
   | $(build-dir)
 	$(call label,JSDOC)$(topdir)/tools/bin/jsdoc $^ $(redir)
+
+
+
+# Web Manual Publishing ########################################################
+
+generate: generate-docs
+
+.PHONY: generate-docs
+generate-docs: $(gh-pages-dir)/manual
+
+# this is a bit conservative, as it will copy the documentation through each
+# time the rule gets invoked.  Some sort of a tag file to track actual changes
+# would be sufficient to not perform extra work.
+$(gh-pages-dir)/manual: DIR := $(manual-dir)
+$(gh-pages-dir)/manual: web-manual | pull-gh-pages
+	$(call cmd,copydir)
+
+generate-docs: $(gh-pages-dir)/jsdoc
+
+$(gh-pages-dir)/jsdoc: DIR := $(jsdoc-dir)
+$(gh-pages-dir)/jsdoc: $(jsdoc-dir)/index.html | pull-gh-pages
+	$(call cmd,copydir)

@@ -14,7 +14,7 @@ cmd      = @$(echo-cmd) $(cmd_$1)
 
 label    = $(if $(Q),$(Q)echo '  $1';)
 
-find-cmd = $(shell which $1 2$(redir))
+find-cmd = $(shell which $1 2>/dev/null)
 
 drop-prefix = $(patsubst $(topdir)/%,%,$1)
 
@@ -23,7 +23,7 @@ quiet_cmd_mkdir = MKDIR      $(call drop-prefix,$@)
       cmd_mkdir = mkdir -p $@
 
 quiet_cmd_copydir = CPDIR      $(call drop-prefix,$@)
-      cmd_copydir = cp -r $(DIR) $@
+      cmd_copydir = cp -r $(DIR) $(dir $@)
 
 quiet_cmd_cp = CP         $(call drop-prefix,$@)
       cmd_cp = cp $< $@

@@ -39,6 +39,12 @@ distclean:: clean
 .PHONY: test
 test:
 
+.PHONY: generate
+generate:
+
+.PHONY: deploy
+deploy:
+
 
 # Utilities ####################################################################
 
@@ -59,6 +65,8 @@ endif
 # Build Directory Staging ######################################################
 
 build-dir := $(topdir)/build
+
+gh-pages-dir := $(build-dir)/gh-pages
 
 $(build-dir):
 	$(call cmd,mkdir)
@@ -82,40 +90,51 @@ $(eval $(call subdir,profiles))
 $(eval $(call subdir,doc))
 
 
-# Package Deployment ###########################################################
+# GH-Pages Generation ##########################################################
 
 ifeq "$(git-cmd)" ""
 $(call strict-error,"unable to locate git")
-else
+endif
 
 remote-url := $(shell $(git-cmd) config remote.origin.url)
 
-$(build-dir)/gh-pages: | $(build-dir)
+$(gh-pages-dir): | $(build-dir)
 	$(call label,CLONE      $(call drop-prefix,$@))\
 	  (  $(git-cmd) clone $(if $(Q),-q) $(topdir) $@ \
-	  && cd $@ \
+	  && cd $(gh-pages-dir) \
 	  && $(git-cmd) remote set-url origin $(remote-url) \
-	  && $(git-cmd) fetch $(if $(Q),-q) origin \
+	  && $(git-cmd) fetch $(if $(Q),-q) origin gh-pages \
 	  && $(git-cmd) checkout $(if $(Q),-q) gh-pages )
 
-$(build-dir)/gh-pages/binaries/%: $(build-dir)/% \
-                                | $(build-dir)/gh-pages
+
+generate: pull-gh-pages
+
+.PHONY: pull-gh-pages
+ifeq "$(pull)" "0"
+pull-gh-pages:
+else
+pull-gh-pages: $(gh-pages-dir)
+	$(call label,PULL       $(call drop-prefix,$(gh-pages-dir)))\
+	  (  cd $(gh-pages-dir) \
+	  && $(git-cmd) pull $(if $(Q),-q) )
+endif
+
+
+# Move extensions into the binaries directory of the gh-pages branch
+$(gh-pages-dir)/binaries/%: $(build-dir)/% pull-gh-pages
 	$(call cmd,cp)
 
-.PHONY: genereate
-generate: $(build-dir)/gh-pages/binaries/fiveui.xpi \
-          $(build-dir)/gh-pages/binaries/fiveui.crx
-	$(call label,GENERATE)\
-	  (  cd $(build-dir)/gh-pages \
-	  && $(git-cmd) pull $(if $(Q),-q) \
-	  && $(git-cmd) add binaries \
-	  && $(git-cmd) add -u binaries \
-	  && $(git-cmd) commit $(if $(Q),-q) -m "deploy extensions" )
+generate: $(build-dir)/gh-pages/binaries/fiveui.xpi
+generate: $(build-dir)/gh-pages/binaries/fiveui.crx
 
-.PHONY: deploy
+
+# GH-Pages Deployment ##########################################################
+
+# this should be the only implementation of deploy.
 deploy: generate
 	$(call label,DEPLOY)\
-	  (  cd $(build-dir)/gh-pages \
+	  (  cd $(gh-pages-dir) \
+	  && $(git-cmd) commit $(if $(Q),-q) -m "deploy gh-pages" \
+	  && $(git-cmd) add    \
+	  && $(git-cmd) add -u \
 	  && git push $(if $(Q),-q) origin gh-pages )
-
-endif
