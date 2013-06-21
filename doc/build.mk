@@ -80,6 +80,7 @@ $(gh-pages-dir)/manual: web-manual | pull-gh-pages
 	$(call cmd,copydir)
 
 generate-docs: $(gh-pages-dir)/jsdoc
+	$(call commit,manual jsdoc,"update documentation")
 
 $(gh-pages-dir)/jsdoc: DIR := $(jsdoc-dir)
 $(gh-pages-dir)/jsdoc: $(jsdoc-dir)/index.html | pull-gh-pages

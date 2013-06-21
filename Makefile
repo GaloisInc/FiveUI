@@ -39,6 +39,10 @@ distclean:: clean
 .PHONY: test
 test:
 
+# Generate and commit all changed files to the gh-pages branch.  There is a good
+# chance that this will always produce a new commit for the extensions, so use
+# it with care.  If you only want to deploy the manual/doc changes, use
+# generate-docs, defined in doc/build.mk
 .PHONY: generate
 generate:
 
@@ -65,8 +69,7 @@ endif
 # Build Directory Staging ######################################################
 
 build-dir := $(topdir)/build
-
-gh-pages-dir := $(build-dir)/gh-pages
+include mk/gh-pages.mk
 
 $(build-dir):
 	$(call cmd,mkdir)
@@ -92,49 +95,14 @@ $(eval $(call subdir,doc))
 
 # GH-Pages Generation ##########################################################
 
-ifeq "$(git-cmd)" ""
-$(call strict-error,"unable to locate git")
-endif
+generate: generate-exts
 
-remote-url := $(shell $(git-cmd) config remote.origin.url)
-
-$(gh-pages-dir): | $(build-dir)
-	$(call label,CLONE      $(call drop-prefix,$@))\
-	  (  $(git-cmd) clone $(if $(Q),-q) $(topdir) $@ \
-	  && cd $(gh-pages-dir) \
-	  && $(git-cmd) remote set-url origin $(remote-url) \
-	  && $(git-cmd) fetch $(if $(Q),-q) origin gh-pages \
-	  && $(git-cmd) checkout $(if $(Q),-q) gh-pages )
-
-
-generate: pull-gh-pages
-
-.PHONY: pull-gh-pages
-ifeq "$(pull)" "0"
-pull-gh-pages:
-else
-pull-gh-pages: $(gh-pages-dir)
-	$(call label,PULL       $(call drop-prefix,$(gh-pages-dir)))\
-	  (  cd $(gh-pages-dir) \
-	  && $(git-cmd) pull $(if $(Q),-q) )
-endif
-
+.PHONY: generate-exts
+generate-exts: $(build-dir)/gh-pages/binaries/fiveui.xpi \
+               $(build-dir)/gh-pages/binaries/fiveui.crx \
+             | pull-gh-pages
+	$(call commit,binaries,"deploy extensions")
 
 # Move extensions into the binaries directory of the gh-pages branch
 $(gh-pages-dir)/binaries/%: $(build-dir)/% pull-gh-pages
 	$(call cmd,cp)
-
-generate: $(build-dir)/gh-pages/binaries/fiveui.xpi
-generate: $(build-dir)/gh-pages/binaries/fiveui.crx
-
-
-# GH-Pages Deployment ##########################################################
-
-# this should be the only implementation of deploy.
-deploy: generate
-	$(call label,DEPLOY)\
-	  (  cd $(gh-pages-dir) \
-	  && $(git-cmd) commit $(if $(Q),-q) -m "deploy gh-pages" \
-	  && $(git-cmd) add    \
-	  && $(git-cmd) add -u \
-	  && git push $(if $(Q),-q) origin gh-pages )
