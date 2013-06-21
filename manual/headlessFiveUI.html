@@ -8,7 +8,7 @@
   <style type="text/css">
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; }
+table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #dddddd; }
 td.sourceCode { padding-left: 5px; }
 code > span.kw { font-weight: bold; }
@@ -127,14 +127,14 @@ $ mkdir -p reports/basic</code></pre>
 <span class="co"> * Comments</span>
 <span class="co"> */</span>
 {
-  <span class="ch">&#39;rulePath&#39;</span>  : <span class="ch">&#39;&lt;path&gt;&#39;</span>,                         <span class="co">// path = the path where rule set files referenced below live.</span>
+  <span class="st">&#39;rulePath&#39;</span>  : <span class="st">&#39;&lt;path&gt;&#39;</span>,                         <span class="co">// path = the path where rule set files referenced below live.</span>
                                                   <span class="co">// rulePath is relative to the run description file.</span>
-  <span class="ch">&#39;crawlType&#39;</span> : <span class="ch">&#39;&lt;d&gt; &lt;n&gt; &lt;p&gt; &lt;pat&gt;&#39;</span>,              <span class="co">// d = crawl depth, n = max number of pages to retrieve.</span>
+  <span class="st">&#39;crawlType&#39;</span> : <span class="st">&#39;&lt;d&gt; &lt;n&gt; &lt;p&gt; &lt;pat&gt;&#39;</span>,              <span class="co">// d = crawl depth, n = max number of pages to retrieve.</span>
                                                   <span class="co">// p = politeness delay (ms), pat = URL glob pattern</span>
                                                   <span class="co">// (crawlType can also be &#39;none&#39;).</span>
-  <span class="ch">&#39;runs&#39;</span>: [
-  { <span class="ch">&#39;url&#39;</span>: <span class="ch">&#39;&lt;url&gt;&#39;</span>, <span class="ch">&#39;ruleSet&#39;</span>: <span class="ch">&#39;&lt;rule_file&gt;&#39;</span> },   <span class="co">// Each line here corresponds to a separate webcrawl</span>
-  { <span class="ch">&#39;url&#39;</span>: <span class="ch">&#39;&lt;url&gt;&#39;</span>, <span class="ch">&#39;ruleSet&#39;</span>: <span class="ch">&#39;&lt;rule_file&gt;&#39;</span> },   <span class="co">// and rule execution pass.</span>
+  <span class="st">&#39;runs&#39;</span>: [
+  { <span class="st">&#39;url&#39;</span>: <span class="st">&#39;&lt;url&gt;&#39;</span>, <span class="st">&#39;ruleSet&#39;</span>: <span class="st">&#39;&lt;rule_file&gt;&#39;</span> },   <span class="co">// Each line here corresponds to a separate webcrawl</span>
+  { <span class="st">&#39;url&#39;</span>: <span class="st">&#39;&lt;url&gt;&#39;</span>, <span class="st">&#39;ruleSet&#39;</span>: <span class="st">&#39;&lt;rule_file&gt;&#39;</span> },   <span class="co">// and rule execution pass.</span>
   ...                                             <span class="co">// Many URL lines may follow.</span>
   ]
 }</code></pre>
