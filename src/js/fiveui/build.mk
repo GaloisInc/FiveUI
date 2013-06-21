@@ -29,7 +29,7 @@ define stage-fiveui
 
 # Common Files #################################################################
 
-$1/data/injected/injected.css: $(build-dir)/injected.css
+$1/data/injected/injected.css: $(build-dir)/injected.css | $1/data/injected
 	$$(call cmd,cp)
 
 $(call fiveui-files,$1/data,injected)
@@ -58,7 +58,7 @@ $2: $(patsubst $(fiveui-dir)/%,$1/data/%,$(wildcard $(fiveui-dir)/images/*))
 $1/data/jquery: | $1/data
 	$$(call cmd,mkdir)
 
-$1/data/jquery/bundled.css: $(build-dir)/bundled.css
+$1/data/jquery/bundled.css: $(build-dir)/bundled.css | $1/data/jquery
 	$$(call cmd,cp)
 
 $1/data/jquery/%: $(lib-dir)/jquery/% | $1/data/jquery
