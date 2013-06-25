@@ -175,24 +175,11 @@ public class Reporter {
                     ul();
                     int i = 0;
                     for (Result r : scopedMap.get(url)) {
-                        String cAttr = i % 2 == 0 ? "regRow" : "hlRow";
+                        String cAttr = i % 2 == 0 ? "hlRow" : "regRow";
 
                         // format an individual Result for this url:
                         li().classAttr(cAttr).b().text(r.getRuleName()).end();
-                        
-                        ul();
-                        li().classAttr(cAttr).b().text("Description:").end();
-                        text(r.getRuleDesc()).end();
-                        
-                        li().classAttr(cAttr).b().text("Message:").end();
-                        text(r.getMsg()).end();
-
-                        li().classAttr(cAttr).b().text("xpath:").end();
-                        text(r.getXpath()).end();
-                        
-                        li().classAttr(cAttr).b().text("Severity:").end();
-                        text(r.getType().toString()).end();
-                        end();
+                        resultToHtml(this, r, cAttr);
                         end();
                         i++;
                     }
@@ -202,10 +189,13 @@ public class Reporter {
                 endAll();
                 done();
             }
+
         };
         return byURLPage.getBuffer().toString();
     }
 
+    
+    
     /**
      * Build the HTML markup for a report page sorted by rule name.
      * 
@@ -231,10 +221,11 @@ public class Reporter {
                     ul();
                     int i = 0;
                     for (Result r : scopedMap.get(rule)) {
-                        li().classAttr(i % 2 == 0 ? "regRow" : "hlRow");
-                        text("Problem: " + r.getProblem()).br();
-                        text("URL: ").a().href(r.getURL()).text(r.getURL())
-                                .end().end();
+                        String cAttr = i % 2 == 0 ? "hlRow" : "regRow";
+                        
+                        li().classAttr(cAttr).b().text(r.getURL()).end();
+                        resultToHtml(this, r, cAttr);
+                        end();
                         i++;
                     }
                     end();
@@ -247,6 +238,31 @@ public class Reporter {
         return byRulePage.getBuffer().toString();
     }
 
+
+    private void resultToHtml(Html html, Result r, String cAttr) {
+        
+        html.ul();
+        html.li().b().text("Description:").end();
+        html.text(r.getRuleDesc()).end();
+        
+        html.li().b().text("Message:").end();
+        html.text(r.getMsg()).end();
+
+        html.li().b().text("xpath:").end();
+        html.text(r.getXpath()).end();
+        
+        html.li().b().text("Severity:").end();
+        html.text(r.getType().toString()).end();
+        
+        html.li().b().text("Browser:").end();
+        html.text(r.getDriver().toString()).end();
+        
+        html.li().b().text("Url:").end();
+        html.a().href(r.getURL()).text(r.getURL()).end().end();
+
+        html.end();
+    }
+    
     /**
      * Utility method to take all the reports and write them to standard file
      * names under a given directory.

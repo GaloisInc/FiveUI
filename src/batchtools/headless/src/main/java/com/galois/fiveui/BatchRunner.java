@@ -19,27 +19,23 @@ package com.galois.fiveui;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
-import com.google.common.collect.ImmutableList.Builder;
-import com.google.common.io.Files;
-import com.galois.fiveui.Result;
-import com.galois.fiveui.RuleSet;
-import com.galois.fiveui.Utils;
 import com.galois.fiveui.drivers.Drivers;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 
 import edu.uci.ics.crawler4j.util.IO;
-
-import org.apache.log4j.Logger; // System.out.* is old fashioned
+// System.out.* is old fashioned
 
 
 /**
@@ -54,10 +50,8 @@ public class BatchRunner {
     private JavascriptExecutor _exe;
     private String _root; // FiveUI root directory
 
-    private static final String JS_SRC_ROOT = "src/js/";
-
     private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchRunner");
-
+    
     private void registerDriver(WebDriver driver) {
     	logger.debug("registering new webdriver...");
     	this._driver = driver;
@@ -294,7 +288,7 @@ public class BatchRunner {
     	logger.debug("building webdrivers ...");
         ImmutableList<WebDriver> r = ImmutableList.<WebDriver>of(
                   Drivers.buildFFDriver(ffProfile)
-             // , Drivers.buildChromeDriver()
+                //, Drivers.buildChromeDriver()
                 );
         logger.debug("built: " + r.toString());
         return r;
