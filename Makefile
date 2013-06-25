@@ -39,6 +39,16 @@ distclean:: clean
 .PHONY: test
 test:
 
+# Generate and commit all changed files to the gh-pages branch.  There is a good
+# chance that this will always produce a new commit for the extensions, so use
+# it with care.  If you only want to deploy the manual/doc changes, use
+# generate-docs, defined in doc/build.mk
+.PHONY: generate
+generate:
+
+.PHONY: deploy
+deploy:
+
 
 # Utilities ####################################################################
 
@@ -59,6 +69,7 @@ endif
 # Build Directory Staging ######################################################
 
 build-dir := $(topdir)/build
+include mk/gh-pages.mk
 
 $(build-dir):
 	$(call cmd,mkdir)
@@ -82,40 +93,16 @@ $(eval $(call subdir,profiles))
 $(eval $(call subdir,doc))
 
 
-# Package Deployment ###########################################################
+# GH-Pages Generation ##########################################################
 
-ifeq "$(git-cmd)" ""
-$(call strict-error,"unable to locate git")
-else
+generate: generate-exts
 
-remote-url := $(shell $(git-cmd) config remote.origin.url)
+.PHONY: generate-exts
+generate-exts: $(build-dir)/gh-pages/binaries/fiveui.xpi \
+               $(build-dir)/gh-pages/binaries/fiveui.crx \
+             | pull-gh-pages
+	$(call commit,binaries,"deploy extensions")
 
-$(build-dir)/gh-pages: | $(build-dir)
-	$(call label,CLONE      $(call drop-prefix,$@))\
-	  (  $(git-cmd) clone $(if $(Q),-q) $(topdir) $@ \
-	  && cd $@ \
-	  && $(git-cmd) remote set-url origin $(remote-url) \
-	  && $(git-cmd) fetch $(if $(Q),-q) origin \
-	  && $(git-cmd) checkout $(if $(Q),-q) gh-pages )
-
-$(build-dir)/gh-pages/binaries/%: $(build-dir)/% \
-                                | $(build-dir)/gh-pages
+# Move extensions into the binaries directory of the gh-pages branch
+$(gh-pages-dir)/binaries/%: $(build-dir)/% pull-gh-pages
 	$(call cmd,cp)
-
-.PHONY: genereate
-generate: $(build-dir)/gh-pages/binaries/fiveui.xpi \
-          $(build-dir)/gh-pages/binaries/fiveui.crx
-	$(call label,GENERATE)\
-	  (  cd $(build-dir)/gh-pages \
-	  && $(git-cmd) pull $(if $(Q),-q) \
-	  && $(git-cmd) add binaries \
-	  && $(git-cmd) add -u binaries \
-	  && $(git-cmd) commit $(if $(Q),-q) -m "deploy extensions" )
-
-.PHONY: deploy
-deploy: generate
-	$(call label,DEPLOY)\
-	  (  cd $(build-dir)/gh-pages \
-	  && git push $(if $(Q),-q) origin gh-pages )
-
-endif

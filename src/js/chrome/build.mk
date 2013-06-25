@@ -6,6 +6,7 @@ all: stage-chrome
 
 package: $(build-dir)/fiveui.crx
 
+
 chrome-dir := $(path)
 
 chrome-build := $(build-dir)/chrome
