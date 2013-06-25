@@ -24,8 +24,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * @author bjones
@@ -36,6 +38,7 @@ public class HeadlessRunDescription {
 	private static Logger logger = Logger.getLogger("com.galois.fiveui.HeadlessRunDescription");
 	private static String _crawlType;
 	private List<HeadlessAtom> _atoms;
+    private static String _firefoxProfile;
 	
 	public HeadlessRunDescription (List<HeadlessAtom> atoms) {
 		_atoms = atoms;
@@ -58,12 +61,28 @@ public class HeadlessRunDescription {
      */
     public static HeadlessRunDescription parse(String runDescFileName) 
             throws FileNotFoundException {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(HeadlessRunDescription.class, 
-                new HeadlessRunDescription.Deserializer(runDescFileName));
-        Gson gson = gsonBuilder.create();
-        Reader in = new InputStreamReader(new FileInputStream(runDescFileName));
-        return gson.fromJson(in, HeadlessRunDescription.class);
+        HeadlessRunDescription runDescr = null;
+        try {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(HeadlessRunDescription.class, 
+                    new HeadlessRunDescription.Deserializer(runDescFileName));
+            Gson gson = gsonBuilder.create();
+            Reader in = new InputStreamReader(new FileInputStream(runDescFileName));
+            runDescr = gson.fromJson(in, HeadlessRunDescription.class);
+        } catch (JsonSyntaxException e) {
+            System.err.println("We were unable to parse the run description at: "+runDescFileName);
+            System.err.println(e.getLocalizedMessage());
+
+            e.printStackTrace();
+            throw new IllegalStateException("Could not parse run description");
+        } catch (JsonIOException e) {
+            System.err.println("We were unable to load the run description at: "+runDescFileName);
+            System.err.println(e.getLocalizedMessage());
+            
+            e.printStackTrace();
+            throw new IllegalStateException("Could not parse run description");
+        }
+        return runDescr;
     }
 
     public static class Deserializer implements JsonDeserializer<HeadlessRunDescription> {
@@ -80,7 +99,7 @@ public class HeadlessRunDescription {
         }
         
         public static void reportError(JsonElement json) {
-        	logger.error("HeadlessRunDescription.parse: ran into unexpected jsonElement type:");
+        	logger.error("HeadlessRunDescription.parse: ran into unexpected jsonElement type: \""+json+"\"");
         	logger.error("                              " + json.getAsString());
         }
         
@@ -114,6 +133,13 @@ public class HeadlessRunDescription {
         		if (null != runDescDir) {
         			ruleSetDir = runDescDir + File.separator + ruleSetDir;
         		}
+        		
+        	    String ffProfile = objGetString(obj, "firefoxProfile");
+        		if (null != ffProfile) {
+        		    ffProfile = runDescDir + File.separator + ffProfile;
+        		}
+        		_firefoxProfile = ffProfile;
+        	    
         		_crawlType = objGetString(obj, "crawlType");
         		arr = obj.get("runs").getAsJsonArray();
         	} else if (json.isJsonArray()) {
@@ -127,13 +153,20 @@ public class HeadlessRunDescription {
             
             Builder<HeadlessAtom> atoms = ImmutableList.builder();
             for (JsonElement jsonElement : arr) {
+                // we only care about json objects, so if anything else is found,
+                // skip this loop:
+                if (!jsonElement.isJsonObject()) {
+                    continue;
+                }
                 try {
+                    
                 	JsonObject obj = jsonElement.getAsJsonObject();
                 	atoms.add(HeadlessAtom.fromJsonObject(obj, ruleSetDir));
                 } catch (IOException e) {
                 	logger.error("HeadlessAtom.parse: error parsing ruleSet file: " + e.getMessage());
                 	System.exit(1);
                 } catch (IllegalStateException e) {
+                    e.printStackTrace();
                 	reportError(jsonElement);
                 }
             }
@@ -149,6 +182,10 @@ public class HeadlessRunDescription {
     public String toString() {
         Gson gson = new Gson();
         return gson.toJson(this);
+    }
+    
+    public String getFirefoxProfile() {
+        return _firefoxProfile;
     }
     
     @Override
@@ -178,4 +215,5 @@ public class HeadlessRunDescription {
         
         return true;
     }
+
 }

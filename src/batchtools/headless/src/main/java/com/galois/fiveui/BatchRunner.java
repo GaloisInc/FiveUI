@@ -19,6 +19,8 @@ package com.galois.fiveui;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,10 +55,6 @@ public class BatchRunner {
     private String _root; // FiveUI root directory
 
     private static final String JS_SRC_ROOT = "src/js/";
-    
-    // Hard coded JS files, relative to the FiveUI root directory.
-    private static final String J_QUERY_JS = "lib/jquery/jquery.js";
-    private static final String MD5_JS = "lib/md5.js";
 
     private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchRunner");
 
@@ -144,7 +142,7 @@ public class BatchRunner {
 	         * Drive the browser(s)
 	         ***********************/
 
-	        for (WebDriver driver: getDrivers()) {
+	        for (WebDriver driver: getDrivers(run.getFirefoxProfile())) {
 	        	registerDriver(driver);
 				for (String url: urls) {
 					logger.info("loading " + url + " for ruleset run ...");
@@ -260,13 +258,20 @@ public class BatchRunner {
      */
     private String wrapRule(RuleSet ruleSet) throws IOException {
         String injected = "fiveui = {};";
-        injected += Utils.readFile(_root + JS_SRC_ROOT + J_QUERY_JS);
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "lib/underscore.js");
-        injected += Utils.readFile(_root + JS_SRC_ROOT + MD5_JS);
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/prelude.js");
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/jquery-plugins.js");
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "selenium/selenium-injected-compute.js");        
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/compute.js");
+        Class<? extends BatchRunner> cl = this.getClass();
+        
+        try {
+            injected += Utils.readStream(cl.getResourceAsStream("/lib/jquery/jquery.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/lib/underscore.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/lib/md5.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/fiveui/injected/prelude.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/fiveui/injected/jquery-plugins.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/selenium/selenium-injected-compute.js"));        
+            injected += Utils.readStream(cl.getResourceAsStream("/fiveui/injected/compute.js"));
+        } catch (NullPointerException e) {
+            logger.error("Could not access javascript resources");
+            throw e;
+        }
         
         if (null != ruleSet.getDependencies()) {
         	for (String dep : ruleSet.getDependencies()) {
@@ -285,10 +290,10 @@ public class BatchRunner {
      *
      * @return list of initialized WebDriver objects
      */
-    private static ImmutableList<WebDriver> getDrivers() {
+    private static ImmutableList<WebDriver> getDrivers(String ffProfile) {
     	logger.debug("building webdrivers ...");
         ImmutableList<WebDriver> r = ImmutableList.<WebDriver>of(
-                  Drivers.buildFFDriver()
+                  Drivers.buildFFDriver(ffProfile)
              // , Drivers.buildChromeDriver()
                 );
         logger.debug("built: " + r.toString());
