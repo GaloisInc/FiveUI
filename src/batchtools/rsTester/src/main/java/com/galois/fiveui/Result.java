@@ -205,4 +205,9 @@ public class Result {
              + " |\\_ " + _ruleDesc + "\n"
              + "  \\_ " + _prob;
     }
+
+    public String getXpath() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

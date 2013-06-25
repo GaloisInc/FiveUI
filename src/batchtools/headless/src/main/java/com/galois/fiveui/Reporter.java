@@ -175,11 +175,24 @@ public class Reporter {
                     ul();
                     int i = 0;
                     for (Result r : scopedMap.get(url)) {
-                        li().classAttr(i % 2 == 0 ? "regRow" : "hlRow");
+                        String cAttr = i % 2 == 0 ? "regRow" : "hlRow";
+
                         // format an individual Result for this url:
-                        ul().li().em().text(r.getRuleName()+ ": ").end();
+                        li().classAttr(cAttr).b().text(r.getRuleName()).end();
+                        
+                        ul();
+                        li().classAttr(cAttr).b().text("Description:").end();
                         text(r.getRuleDesc()).end();
-                        li().text(r.getProblem()).end();
+                        
+                        li().classAttr(cAttr).b().text("Message:").end();
+                        text(r.getMsg()).end();
+
+                        li().classAttr(cAttr).b().text("xpath:").end();
+                        text(r.getXpath()).end();
+                        
+                        li().classAttr(cAttr).b().text("Severity:").end();
+                        text(r.getType().toString()).end();
+                        end();
                         end();
                         i++;
                     }
