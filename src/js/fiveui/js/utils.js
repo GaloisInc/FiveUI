@@ -98,6 +98,8 @@ var removeComments = function(data) {
   var state     = 0;
   var toEOL     = 1;
   var toEOC     = 2;
+  var inQUOTE   = 3;
+  var inDQUOTE  = 4;
 
   var sanitized = '';
   var len       = data.length;
@@ -120,8 +122,24 @@ var removeComments = function(data) {
         }
         break;
 
+      case inQUOTE:
+        if(data[e] == '\'') {
+          state = 0;
+        }
+        break;
+
+      case inDQUOTE:
+        if(data[e] == '"') {
+          state = 0;
+        }
+        break;
+
       default:
-        if(data[e] == '/') {
+        if(data[e] == '\'') {
+          state = inQUOTE;
+        } else if(data[e] == '"') {
+          state = inDQUOTE;
+        } else if(data[e] == '/') {
           if(data[e+1] == '/') {
             sanitized = sanitized + data.substring(s,e);
             state     = toEOL;
