@@ -1,6 +1,15 @@
 exports.name        = "colorDifference";
 exports.description = "Elements should provide sufficient color difference";
 exports.rule        = function(report) {
+
+  /* Checkpoint 2.1 ***********************************************************/
+
+  // TODO: not sure about the best way to test that information isn't hidden
+  // when colors go away.
+
+
+  /* Checkpoint 2.2 ***********************************************************/
+
   var fc = fiveui.color;
   var MIN_COLOR_DIFF = 500; // http://www.w3.org/TR/2000/WD-AERT-20000426#color
 

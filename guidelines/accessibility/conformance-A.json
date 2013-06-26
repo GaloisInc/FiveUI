@@ -4,5 +4,6 @@
 , "rules":
   [ "guideline-1.js"
   , "guideline-2.js"
+  , "guideline-3.js"
   ]
 }
