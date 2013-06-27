@@ -123,7 +123,7 @@
      };
 
      var str = prob.name + prob.descr + prob.url + prob.severity
-             + name + nodeHash(node);
+             + name + nodeHash(node) + message;
 
      prob.hash = hex_md5(str); // hex_md5() is from md5.js
 
