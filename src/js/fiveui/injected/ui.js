@@ -62,27 +62,55 @@
      }, 10);
    };
 
-   core.highlightProblem = function(elt) {
-     core.maskRules(function() {
+   core.highlighted = {};
+
+   core.highlightProblem = function(prob) {
+     var obj = core.highlighted[prob.hash];
+     if(obj) {
+       // increment the number of times this has been highlighted
+       obj.highlighted = obj.highlighted + 1;
+     } else {
+       // add the rule to the list of highlighted elements, and change its style
+       // to look obvious.
+       var elt      = fiveui.query('.' + prob.hash);
        var oldStyle = elt.attr('style');
 
-       elt.attr('style', 'background-color: rgba(255,0,0,0.3); background-image: none;');
-       elt.addClass('uic-problem');
+       core.maskRules(function() {
+         elt.attr('style', 'background-color: rgba(255,0,0,0.3); background-image: none;');
+         elt.addClass('uic-problem');
+       });
 
-       return oldStyle;
-     });
+       // record the element for the future
+       core.highlighted[prob.hash] = {
+         highlighted: 1,
+         oldStyle:    oldStyle,
+       }
+     }
    };
 
-   core.maskProblem = function(elt, oldStyle) {
-     core.maskRules(function() {
-       if (oldStyle == undefined) {
-         elt.removeAttr('style');
-       } else {
-         elt.attr('style', oldStyle);
-       }
+   core.maskProblem = function(prob) {
+     var obj = core.highlighted[prob.hash];
 
-       elt.removeClass('uic-problem');
-     });
+     if(obj) {
+       obj.highlighted = obj.highlighted - 1;
+
+       if(obj.highlighted == 0) {
+         var elt = fiveui.query('.' + prob.hash);
+
+         // remove the fiveui style
+         core.maskRules(function() {
+           if (_.isEmpty(obj.oldStyle)) {
+             elt.removeAttr('style');
+           } else {
+             elt.attr('style', obj.oldStyle);
+           }
+
+           elt.removeClass('uic-problem');
+         });
+
+         delete core.highlighted[prob.hash];
+       }
+     }
    };
 
    core.renderStatsTemplate = _.template(
@@ -170,18 +198,17 @@
 
        prExpand.click(
          function() {
-           var oldStyle;
            var elt = $(this);
            if(elt.is('.prExpand-down')) {
              elt.removeClass('prExpand-down')
                 .addClass('prExpand-right');
              prDetails.hide();
-             core.maskProblem(fiveui.query('.' + prob.hash), oldStyle);
+             core.maskProblem(prob);
            } else {
              elt.addClass('prExpand-down')
                 .removeClass('prExpand-right');
              prDetails.show();
-             oldStyle = core.highlightProblem(fiveui.query('.' + prob.hash));
+             core.highlightProblem(prob);
            }
 
            return false;

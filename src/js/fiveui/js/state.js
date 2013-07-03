@@ -41,19 +41,28 @@ fiveui.WinState = function(x, y, width, height, closed) {
 
 /**
  * @constructor
- * @param {string} name The name of the rule that this problem represents.
- * @param {string} descr Short description of the problem.
- * @param {string} url The url that the problem occurred at.
- * @param {number} severity The severity of the problem
+ * @param {string} cfg The config object for the problem.  See
+ *                     fiveui.Problem.sanitize
  */
-fiveui.Problem = function(name, descr, url, severity, hash, xpath, msg) {
-  this.name = name || '';
-  this.descr = descr || '';
-  this.url = url || '';
-  this.severity = severity || 0;
-  this.hash = hash;
-  this.xpath = xpath;
-  this.msg = msg;
+fiveui.Problem = function(cfg) {
+  _.defaults(this, fiveui.Problem.sanitize(cfg));
+};
+
+fiveui.Problem.sanitize = function(obj) {
+
+  var defs = {
+    name:     '',   // the name of the rule that this problem came from
+    descr:    '',   // short description of the problem
+    url:      '',   // url that the problem came from
+    severity: 0,    // severity of the problem
+    phash:    null, // hash for the combination of problem and element in context
+    hash:     null, // hash for the element in context
+    xpath:    '',   // path of the element in the document
+    msg:      '',   // problem message
+  };
+
+  return _.defaults(_.pick(obj, _.keys(defs)), defs);
+
 };
 
 /**
@@ -61,7 +70,7 @@ fiveui.Problem = function(name, descr, url, severity, hash, xpath, msg) {
  * @return {!fiveui.Problem} The problem that the object represents.
  */
 fiveui.Problem.fromJSON = function(obj) {
-  return new fiveui.Problem(obj.name, obj.descr, obj.url, obj.severity, obj.hash, obj.xpath, obj.msg);
+  return new fiveui.Problem(obj);
 };
 
 /**
@@ -73,25 +82,31 @@ fiveui.Problem.fromJSON = function(obj) {
  *                                   the corresponding tab.
  */
 fiveui.TabState = function(tabId, winState, uiPort) {
-  this.tabId = tabId;
-  this.winState = winState;
-  this.uiPort = uiPort;
+  this.tabId        = tabId;
+  this.winState     = winState;
+  this.uiPort       = uiPort;
   this.computePorts = [];
-  this.problems = [];
+  this.problems     = [];
   this.seenProblems = new Set();
-  this.stats = {};
+  this.stats        = {};
 };
 
 _.extend(fiveui.TabState.prototype, {
 
+  /**
+   * Returns true when the combination of element and problem has been seen
+   * before, to avoid repeats.
+   *
+   * NOTE:  we use phash here, as it allows multiple distinct problems to target
+   * the same element.
+   */
   addProblem: function(prob) {
-    if(!this.seenProblems.contains(prob.hash)) {
-      this.problems.push(prob);
-      this.seenProblems.add(prob.hash);
-      return true;
-    }
-    else {
+    if(this.seenProblems.contains(prob.phash)) {
       return false;
+    } else {
+      this.problems.push(prob);
+      this.seenProblems.add(prob.phash);
+      return true;
     }
   },
 

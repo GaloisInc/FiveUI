@@ -95,13 +95,16 @@
    };
 
    core.hash = function(rule, message, node) {
+
      var prob = {
-       name: rule.name,
-       msg: message,
-       descr: rule.description,
-       url: window.location.href,
+       name:     rule.name,
+       msg:      message,
+       descr:    rule.description,
+       url:      window.location.href,
        severity: 1,
-       xpath: core.getElementXPath(node)
+       xpath:    core.getElementXPath(node),
+       phash:    null,
+       hash:     null,
      };
 
      var nodeParents = function(node) {
@@ -125,7 +128,9 @@
      var str = prob.name + prob.descr + prob.url + prob.severity
              + name + nodeHash(node);
 
-     prob.hash = hex_md5(str); // hex_md5() is from md5.js
+     // hex_md5() is from md5.js
+     prob.hash  = hex_md5(str);
+     prob.phash = hex_md5(str + message);
 
      return prob;
    };
@@ -237,10 +242,10 @@
        error:function(message, node) {
          var prob = core.hash(theRule, message, node);
          var query = $(node);
-         if(!query.hasClass(prob.hash)) {
-           query.addClass(prob.hash);
-           core.reportProblem(prob);
-         }
+
+         // let the backend sort out if this problem has been reported already
+         query.addClass(prob.hash);
+         core.reportProblem(prob);
        }
      };
 
