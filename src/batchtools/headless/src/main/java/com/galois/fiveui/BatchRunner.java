@@ -23,21 +23,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
-import com.google.common.collect.ImmutableList.Builder;
-import com.google.common.io.Files;
-import com.galois.fiveui.Result;
-import com.galois.fiveui.RuleSet;
-import com.galois.fiveui.Utils;
 import com.galois.fiveui.drivers.Drivers;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 
 import edu.uci.ics.crawler4j.util.IO;
-
-import org.apache.log4j.Logger; // System.out.* is old fashioned
+// System.out.* is old fashioned
 
 
 /**
@@ -52,14 +50,8 @@ public class BatchRunner {
     private JavascriptExecutor _exe;
     private String _root; // FiveUI root directory
 
-    private static final String JS_SRC_ROOT = "src/js/";
-    
-    // Hard coded JS files, relative to the FiveUI root directory.
-    private static final String J_QUERY_JS = "lib/jquery/jquery.js";
-    private static final String MD5_JS = "lib/md5.js";
-
     private static Logger logger = Logger.getLogger("com.galois.fiveui.BatchRunner");
-
+    
     private void registerDriver(WebDriver driver) {
     	logger.debug("registering new webdriver...");
     	this._driver = driver;
@@ -144,7 +136,7 @@ public class BatchRunner {
 	         * Drive the browser(s)
 	         ***********************/
 
-	        for (WebDriver driver: getDrivers()) {
+	        for (WebDriver driver: getDrivers(run.getFirefoxProfile())) {
 	        	registerDriver(driver);
 				for (String url: urls) {
 					logger.info("loading " + url + " for ruleset run ...");
@@ -260,13 +252,20 @@ public class BatchRunner {
      */
     private String wrapRule(RuleSet ruleSet) throws IOException {
         String injected = "fiveui = {};";
-        injected += Utils.readFile(_root + JS_SRC_ROOT + J_QUERY_JS);
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "lib/underscore.js");
-        injected += Utils.readFile(_root + JS_SRC_ROOT + MD5_JS);
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/prelude.js");
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/jquery-plugins.js");
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "selenium/selenium-injected-compute.js");        
-        injected += Utils.readFile(_root + JS_SRC_ROOT + "fiveui/injected/compute.js");
+        Class<? extends BatchRunner> cl = this.getClass();
+        
+        try {
+            injected += Utils.readStream(cl.getResourceAsStream("/lib/jquery/jquery.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/lib/underscore.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/lib/md5.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/fiveui/injected/prelude.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/fiveui/injected/jquery-plugins.js"));
+            injected += Utils.readStream(cl.getResourceAsStream("/selenium/selenium-injected-compute.js"));        
+            injected += Utils.readStream(cl.getResourceAsStream("/fiveui/injected/compute.js"));
+        } catch (NullPointerException e) {
+            logger.error("Could not access javascript resources");
+            throw e;
+        }
         
         if (null != ruleSet.getDependencies()) {
         	for (String dep : ruleSet.getDependencies()) {
@@ -285,11 +284,11 @@ public class BatchRunner {
      *
      * @return list of initialized WebDriver objects
      */
-    private static ImmutableList<WebDriver> getDrivers() {
+    private static ImmutableList<WebDriver> getDrivers(String ffProfile) {
     	logger.debug("building webdrivers ...");
         ImmutableList<WebDriver> r = ImmutableList.<WebDriver>of(
-                  Drivers.buildFFDriver()
-             // , Drivers.buildChromeDriver()
+                  Drivers.buildFFDriver(ffProfile)
+                //, Drivers.buildChromeDriver()
                 );
         logger.debug("built: " + r.toString());
         return r;

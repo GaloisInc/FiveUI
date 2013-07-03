@@ -1,0 +1,13 @@
+/*
+ * A very basic headless run example. This configuration runs two rule sets on
+ * the Whitehouse main webpage.
+ */
+{
+  "rulePath"  : "../ruleSets/",
+  "crawlType" : "2 5 1000 *localhost*",
+  "firefoxProfile": "../../profiles/firefox/",
+  "runs": [
+    { "url": "http://localhost:8000/sites/headings.html", "ruleSet": "accessibility/accessibility.json" },
+    { "url": "http://localhost:8000/sites/headings.html", "ruleSet": "basic/basicUIRules.json" }
+  ]
+}

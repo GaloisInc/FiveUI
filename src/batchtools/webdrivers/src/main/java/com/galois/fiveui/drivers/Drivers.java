@@ -42,8 +42,6 @@ public class Drivers {
     private static final String defaultFiveuiRootPath = "../../../";
     private static final String firefoxProfilePath = "profiles/firefox";
     private static final String chromeProfilePath = "profiles/chrome";
-    private static final String firefoxExtensionPath = "build/fiveui.xpi";
-    private static final String chromeExtensionPath = "build/fiveui.crx";
     
     /**
      * Query the OS environment for the FiveUI root path, or return a default.
@@ -53,21 +51,14 @@ public class Drivers {
     	return (null != rootPath) ? rootPath + File.separator : defaultFiveuiRootPath;
     }
     
-    public static FirefoxDriver buildFFDriver() {
+    public static FirefoxDriver buildFFDriver(String ffProfile) {
         // Extracted into a method so we can set up profiles
 
     	String rootPath = getRootPath();
     	
-        File profileDir = new File(rootPath+firefoxProfilePath);
+        File profileDir = new File(ffProfile);
         FirefoxProfile profile = new FirefoxProfile(profileDir);
         
-        File fiveuiXpi = new File(rootPath+firefoxExtensionPath);
-        try {
-            profile.addExtension(fiveuiXpi);
-        } catch (IOException e) {
-            System.err.println("could not load firefox with FiveUI");
-            e.printStackTrace();
-        }
 
         String ffBinaryPath = System.getProperty(FIREFOX_BIN_PATH);
 
@@ -100,7 +91,6 @@ public class Drivers {
         options.addArguments("--user-data-dir=" + rootPath + chromeProfilePath); // ,
                                                                     // "--enable-logging",
                                                                     // "--v=1");
-        options.addExtensions(new File(rootPath + chromeExtensionPath));
 
         String chromeBinaryPath = System.getProperty(CHROME_BIN_PATH);
         if (null == chromeBinaryPath) {

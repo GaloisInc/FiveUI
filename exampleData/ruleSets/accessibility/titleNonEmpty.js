@@ -1,6 +1,6 @@
-exports.name = "titleNonEmpty";
+exports.name = "titleExists";
 
-exports.description = "Title of page is non-empty";
+exports.description = "Title of page should not be empty";
 
 exports.rule = function(report) {
   if (document.title == '') {
