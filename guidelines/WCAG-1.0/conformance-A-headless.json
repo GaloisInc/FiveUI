@@ -1,0 +1,16 @@
+/*
+ * Test web accessibility conformance according to the WCAG 2.0
+ * guidelines.
+ *
+ * http://www.w3.org/TR/WCAG/
+ */
+{
+  'rulePath'  : '.',
+  'crawlType' : 'none',
+  'runs': [
+    {
+      'url': 'http://en.wikipedia.org/wiki/Main_Page',
+      'ruleSet': 'conformance-A.json'
+    }
+  ]
+}
