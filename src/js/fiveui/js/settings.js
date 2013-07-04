@@ -199,6 +199,10 @@ _.extend(fiveui.Settings.prototype, {
   checkUrl: function(url) {
     return _.find(this.getRuleSets(), function(rs) {
 
+      if(!rs.enabled) {
+        return false;
+      }
+
       var pat = _.find(rs.patterns, function(pat) {
         var regex = fiveui.utils.compilePattern(pat);
         return regex.test(url);

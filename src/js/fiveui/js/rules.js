@@ -32,8 +32,7 @@ fiveui.RuleSet = function(config) {
   _.defaults(this, fiveui.RuleSet.sanitize(config));
 };
 
-fiveui.RuleSet.sanitize = function(obj) {
-  var defs = {
+fiveui.RuleSet.defaults = {
     id:           null,
     name:         '',
     description:  '',
@@ -42,7 +41,11 @@ fiveui.RuleSet.sanitize = function(obj) {
     patterns:     [],
     dependencies: [],
     license:      '',
+    enabled:      true,
   };
+
+fiveui.RuleSet.sanitize = function(obj) {
+  var defs = fiveui.RuleSet.defaults;
 
   // scrub out any values that aren't in the defaults list, fill in any that are
   // missing.  pick will implicitly return a copy, so it's OK to not clone obj
@@ -182,15 +185,7 @@ fiveui.RuleSet.load = function(manifest_url, options) {
  */
 fiveui.RuleSetModel = Backbone.Model.extend({
 
-  defaults: {
-    id:           null,
-    name:         '',
-    description:  '',
-    source:       '',
-    rules:        [],
-    dependencies: [],
-    patterns:     [],
-  },
+  defaults: fiveui.RuleSet.defaults,
 
   sync: function(method, model, options) {
 
