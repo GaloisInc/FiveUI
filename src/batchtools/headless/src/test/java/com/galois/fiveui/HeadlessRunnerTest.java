@@ -63,97 +63,97 @@ import com.google.common.collect.Lists;
  */
 @RunWith(Parameterized.class)
 public class HeadlessRunnerTest {
-	private static Logger logger = 
-			Logger.getLogger(HeadlessRunnerTest.class);
+        private static Logger logger =
+                        Logger.getLogger(HeadlessRunnerTest.class);
 
-	static {
-		BasicConfigurator.configure();
+        static {
+                BasicConfigurator.configure();
         logger.setLevel(Level.DEBUG);
         Logger root = Logger.getRootLogger();
         root.setLevel(Level.ERROR);
-	}
+        }
 
-	/**
-	 * Set up the tests via the parameterized runner:
-	 * 
-	 * @return
-	 * @throws Throwable
-	 */
-	@Parameters(name = "{0} {1}")
-	public static Collection<Object[]> buildtests() throws Throwable {
+        /**
+         * Set up the tests via the parameterized runner:
+         *
+         * @return
+         * @throws Throwable
+         */
+        @Parameters(name = "{0} {1}")
+        public static Collection<Object[]> buildtests() throws Throwable {
 
-		List<Object[]> tests = Lists.newArrayList();
-		
-		// webRoot, startingUrl, runDescr, oracle
-		Object[][] rawTests = new Object[][] {
-				{ "../../../exampleData/sites/",
-				  "src/test/resources/runDescriptions/headlessSample1.json", 
-				  ImmutableList.of(Result.error(null, "Headings are capitalized"),
-						  Result.error(null, "Headings are capitalized"),
-						  Result.error(null, "Disallow Empty Headers"))
-				},
-				{
-				  "../../../exampleData/sites/",
-				  "src/test/resources/runDescriptions/headlessSample4.json", 
-				  ImmutableList.of(Result.error(null, "Generate Errors"))
-				},
-				{
-					  "../../../exampleData/sites/",
-					  "src/test/resources/runDescriptions/headlessSample3.json", 
-					  ImmutableList.of(Result.error(null, "Generate Errors - custom"))
-			    }
-				};
-		
-		for (Object[] descr : rawTests) {
-			tests.add(descr);
-		}
-		
-		return tests;
-	}
-	
-	private final String _webRoot;
-	
-	private final String _runDescrPath;
-	
-	private final ImmutableList<Result> _oracle;
-	
-	private NanoHTTPD _httpServer;
-	
-	public HeadlessRunnerTest(String webRoot, String runDescrPath,
-			ImmutableList<Result> oracle) {
-		super();
-		this._webRoot = webRoot;
-		this._runDescrPath = runDescrPath;
-		this._oracle = oracle;
-	}
+                List<Object[]> tests = Lists.newArrayList();
 
-	@Before
-	public void setup() {
-		File dir = new File(_webRoot);
-		int port = 8000;
-		logger.info("Starting NanoHTTPD webserver in " + dir.getAbsolutePath() + " on port "+port);
-		try {
-			_httpServer = new NanoHTTPD(port, dir);
-		} catch (BindException e) {
-			logger.debug("assuming that local web server is already running");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			Assert.assertTrue("failed to start NanoHTTPD in current directory " + dir.getAbsolutePath(), false);
-		}
-	}
-	
-	@After
-	public void teardown() {
-		_httpServer.stop();
-	}
-	
-	@Test
-	public void test() throws FileNotFoundException {
-		HeadlessRunDescription descr =
-				HeadlessRunDescription.parse(_runDescrPath);
-		BatchRunner runner = new BatchRunner();
-		ImmutableList<Result> actual = runner.runHeadless(descr);
-		Assert.assertEquals("Expected results differ from actual.", _oracle, actual);
-	}
+                // webRoot, startingUrl, runDescr, oracle
+                Object[][] rawTests = new Object[][] {
+                                { "../../../exampleData/sites/",
+                                  "src/test/resources/runDescriptions/headlessSample1.json",
+                                  ImmutableList.of(Result.error(null, "Headings are capitalized"),
+                                                  Result.error(null, "Headings are capitalized"),
+                                                  Result.error(null, "Disallow Empty Headers"))
+                                },
+                                {
+                                  "../../../exampleData/sites/",
+                                  "src/test/resources/runDescriptions/headlessSample4.json",
+                                  ImmutableList.of(Result.error(null, "Generate Errors"))
+                                },
+                                {
+                                  "../../../exampleData/sites/",
+                                  "src/test/resources/runDescriptions/headlessSample3.json",
+                                  ImmutableList.of(Result.error(null, "Generate Errors - custom"))
+                                }
+                };
+
+                for (Object[] descr : rawTests) {
+                        tests.add(descr);
+                }
+
+                return tests;
+        }
+
+        private final String _webRoot;
+
+        private final String _runDescrPath;
+
+        private final ImmutableList<Result> _oracle;
+
+        private NanoHTTPD _httpServer;
+
+        public HeadlessRunnerTest(String webRoot, String runDescrPath,
+                        ImmutableList<Result> oracle) {
+                super();
+                this._webRoot = webRoot;
+                this._runDescrPath = runDescrPath;
+                this._oracle = oracle;
+        }
+
+        @Before
+        public void setup() {
+                File dir = new File(_webRoot);
+                int port = 8000;
+                logger.info("Starting NanoHTTPD webserver in " + dir.getAbsolutePath() + " on port "+port);
+                try {
+                        _httpServer = new NanoHTTPD(port, dir);
+                } catch (BindException e) {
+                        logger.debug("assuming that local web server is already running");
+                } catch (IOException e1) {
+                        e1.printStackTrace();
+                        Assert.assertTrue("failed to start NanoHTTPD in current directory " + dir.getAbsolutePath(), false);
+                }
+        }
+
+        @After
+        public void teardown() {
+                _httpServer.stop();
+        }
+
+        @Test
+        public void test() throws FileNotFoundException {
+                HeadlessRunDescription descr =
+                                HeadlessRunDescription.parse(_runDescrPath);
+                BatchRunner runner = new BatchRunner();
+                ImmutableList<Result> actual = runner.runHeadless(descr);
+                Assert.assertEquals("Expected results differ from actual.", _oracle, actual);
+        }
 
 }

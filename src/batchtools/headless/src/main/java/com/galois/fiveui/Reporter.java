@@ -254,8 +254,11 @@ public class Reporter {
         html.li().b().text("Severity:").end();
         html.text(r.getType().toString()).end();
         
-        html.li().b().text("Browser:").end();
-        html.text(r.getDriver().toString()).end();
+    	html.li().b().text("Browser:").end();
+    	// unit tests use a null webdriver object
+        if (null != r.getDriver()) {
+        	html.text(r.getDriver().toString()).end();
+        }
         
         html.li().b().text("Url:").end();
         html.a().href(r.getURL()).text(r.getURL()).end().end();

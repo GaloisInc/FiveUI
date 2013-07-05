@@ -111,13 +111,11 @@ public class HeadlessRunDescription {
          * @return string property or null if the prop doesn't resolve
          */
         public static String objGetString(JsonObject obj, String prop) {
-        	try {
-        		return obj.get(prop).getAsString();
-        	} catch (NullPointerException e) {
-        		logger.error("HeadlessRunDescription.parse: failed to lookup JSON property: " + prop);
-        		logger.error(e.toString());
-        		return null;
+        	JsonElement value = obj.get(prop);
+        	if (null == value) {
+        		logger.warn("HeadlessRunDescription.parse: failed to lookup JSON property: " + prop);
         	}
+        	return null == value ? null : value.getAsString();
         }
         
         public HeadlessRunDescription deserialize(JsonElement json, Type typeOfT,
@@ -136,15 +134,16 @@ public class HeadlessRunDescription {
         		
         	    String ffProfile = objGetString(obj, "firefoxProfile");
         		if (null != ffProfile) {
-        		    ffProfile = runDescDir + File.separator + ffProfile;
+        			ffProfile = runDescDir + File.separator + ffProfile;
         		}
         		_firefoxProfile = ffProfile;
         	    
         		_crawlType = objGetString(obj, "crawlType");
         		arr = obj.get("runs").getAsJsonArray();
-        	} else if (json.isJsonArray()) {
+        	} else if (json.isJsonArray()) { // description has only a list of URL/rule pairs
         		ruleSetDir = _ctxDir;
         		_crawlType = "none";
+        		_firefoxProfile = null; // indicates that webdriver setup code should make a blank temp profile
         		arr = json.getAsJsonArray();
         	} else {
         		reportError(json);

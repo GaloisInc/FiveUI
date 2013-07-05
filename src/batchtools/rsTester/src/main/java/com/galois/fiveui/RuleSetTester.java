@@ -72,7 +72,7 @@ public class RuleSetTester {
 
     private static ImmutableList<WebDriver> getDrivers() {
         return ImmutableList.<WebDriver>of(
-                  Drivers.buildFFDriver()
+                  Drivers.buildFFDriver("")
              // , Drivers.buildChromeDriver()
                 );
     }
