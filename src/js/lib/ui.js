@@ -1,123 +1,181 @@
 
+var fiveui = fiveui || {};
+
 ;(function() {
 
-core = {};
+/* Templates ******************************************************************/
 
-/**
- * Template for the UI dialog
- */
-var uiTemplate = _.template(
-  [ '<div class="fiveui">'
-  , '  <div class="fiveui-titlebar">'
-  , '    FiveUI<div class="fiveui-close"><span class="icon-remove"></span></div>'
-  , '  </div>'
-  , '  <div class="fiveui-controls">'
-  , '    <div class="fiveui-control fiveui-clear"><span class="icon-ok"></span></div>'
-  , '    <div class="fiveui-control fiveui-break"><span class="icon-pause"></span></div>'
-  , '  </div>'
-  , '  <div class="fiveui-problems">'
-  , '   problems!'
-  , '  </div>'
-  , '  <div class="fiveui-stats">stats</div>'
-  , '</div>'
-  ].join(''));
+fiveui.UI = function() {
 
-// setup the functionality of the close button on the ui
-var setupClose = function(ui) {
-
-  var close = ui.find('.fiveui-close');
-
-  close.on('click.fiveui', function() {
-    ui.hide();
-  });
+  this._initialize();
 
 };
 
-// set the titlebar object of the ui to be its drag handle
-var setupDragDrop = function(ui) {
 
-  var header = ui.find('.fiveui-titlebar');
+_.extend(fiveui.UI, {
 
-  var offset = { x: 0, y: 0 };
+  /**
+   * Template for the UI dialog
+   */
+  uiTemplate:_.template(
+    [ '<div class="fiveui">'
+    , '  <div class="fiveui-titlebar">'
+    , '    FiveUI<div class="fiveui-close"><span class="icon-remove"></span></div>'
+    , '  </div>'
+    , '  <div class="fiveui-controls">'
+    , '    <div class="fiveui-control fiveui-clear"><span class="icon-ok"></span></div>'
+    , '    <div class="fiveui-control fiveui-break"><span class="icon-pause"></span></div>'
+    , '  </div>'
+    , '  <div class="fiveui-problems"></div>'
+    , '  <div class="fiveui-stats">stats</div>'
+    , '</div>'
+    ].join('')),
 
-  // update the location of the ui
-  var mouseMove = function(e) {
-    ui.css({
-      left: e.originalEvent.clientX + offset.x,
-      top:  e.originalEvent.clientY + offset.y,
+  /**
+   * Template for entries in the problems list
+   */
+  problemTemplate:_.template(
+    [ '<div class="fiveui-problem">'
+    , '  <div class="fiveui-problem-header">'
+    , '    <div class="fiveui-problem-toggle"></div>'
+    , '    <%= name %>'
+    , '  </div>'
+    , '  <div class="fiveui-problem-body">'
+    , '  </div>'
+    , '</div>'
+    ].join('')),
+
+});
+
+
+
+_.extend(fiveui.UI.prototype, {
+
+  /**
+   * Create the UI, and attach all event handlers.
+   * @private
+   */
+  _initialize:function() {
+
+    this.$el = $(fiveui.UI.uiTemplate());
+
+    this._setupClose();
+    this._setupDragDrop();
+    this._setup
+
+  },
+
+  /**
+   * Setup the functionality of the close button on the ui
+   * @private
+   */
+  _setupClose:function() {
+
+    var close = this.$el.find('.fiveui-close');
+    close.on('click.fiveui', _.bind(this.hide, this));
+
+  },
+
+  /**
+   * Setup the drag and drop functionality for the problems window.
+   * @private
+   */
+  _setupDragDrop:function() {
+
+    var self   = this;
+    var header = this.$el.find('.fiveui-titlebar');
+    var offset = { x: 0, y: 0 };
+
+
+    // update the location of the ui
+    var mouseMove = function(e) {
+      self.$el.css({
+        left: e.originalEvent.clientX + offset.x,
+        top:  e.originalEvent.clientY + offset.y,
+      });
+    };
+
+    var cancel = function(e) {
+      e.stopPropagation();
+    };
+
+    // both of these will cause funny things to happen with the text of the title
+    // bar.
+    header.on('dragstart',   cancel);
+    header.on('selectstart', cancel);
+
+    // figure out how far the cursor is from the top-left of the ui
+    header.on('mousedown.fiveui', function(e) {
+
+      // prevent the close button from being used as a drag handle
+      if(e.target != header[0]) {
+        return false;
+      }
+
+      var pos  = self.$el.position();
+      offset.x = pos.left - e.originalEvent.clientX;
+      offset.y = pos.top  - e.originalEvent.clientY;
+
+      $(window).on('mousemove.fiveui', mouseMove);
+      header.one('mouseup.fiveui', function() {
+        $(window).off('mousemove.fiveui', mouseMove);
+      });
     });
-  };
 
-  var cancel = function(e) {
-    e.stopPropagation();
-  };
+  },
 
-  // both of these will cause funny things to happen with the text of the title
-  // bar.
-  header.on('dragstart',   cancel);
-  header.on('selectstart', cancel);
+  /**
+   * Clear the problems list
+   * @public
+   */
+  clearProblems:function() {
+    this.$el.find('.fiveui-problems').children().remove();
+  },
 
-  // figure out how far the cursor is from the top-left of the ui
-  header.on('mousedown.fiveui', function(e) {
+  /**
+   * Add an entry in the problems list.
+   * @public
+   */
+  addProblem:function(problem) {
 
-    // prevent the close button from being used as a drag handle
-    if(e.target != header[0]) {
-      return false;
-    }
+    var el = $(problemTemplate(problem));
 
-    var pos = ui.position();
-    offset.x = pos.left - e.originalEvent.clientX;
-    offset.y = pos.top  - e.originalEvent.clientY;
+    var problems = this.$el.find('.fiveui-problems');
+    problems.append(el);
 
-    $(window).on('mousemove.fiveui', mouseMove);
-    header.one('mouseup.fiveui', function() {
-      $(window).off('mousemove.fiveui', mouseMove);
-    });
-  });
+  },
 
-};
+  /**
+   * Attach the UI to a jquery selector.
+   * @public
+   */
+  appendTo:function(el) {
+    el.append(this.$el);
+  },
 
-// hook resize events in the UI to reposition the stats pane
-var setupResize = function(ui) {
+  /**
+   * Hide the UI
+   * @public
+   */
+  hide:function() {
+    this.$el.hide();
+  },
 
-  ui.on('resize', function() {
-    console.log('resize!');
-  });
+  /**
+   * Show the UI
+   * @public
+   */
+  show:function() {
+    this.$el.show();
+  },
 
-};
+});
 
-var problemTemplate = _.template(
-  [ '<div class="fiveui-problem">'
-  , '  <div class="fiveui-problem-header">'
-  , '    <div class="fiveui-problem-toggle"></div>'
-  , '  </div>'
-  , '  <div class="fiveui-problem-body">'
-  , '  </div>'
-  , '</div>'
-  ].join(''));
-
-var addProblem = function(ui, problem) {
-
-  var el = $(problemTemplate(problem));
-
-  var problems = ui.find('.fiveui-problems');
-  problems.append(el);
-
-};
-
-var createUI = function() {
-  var ui = $(uiTemplate());
-
-  setupClose(ui);
-  setupDragDrop(ui);
-  setupResize(ui);
-
-  return ui;
-};
 
 $(function() {
 
-  jQuery('body').append(createUI());
+  var ui = new fiveui.UI();
+  ui.appendTo(jQuery('body'));
 
 });
 
