@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>Test 5</title>
+    <style type="txt/css">
+      table { border: 2px solid black; }
+    </style>
+  </head>
+  <body>
+
+  Hello World!
+
+  <!-- expect caption/title failure, summary failure, headers failure -->
+  <table>
+    <tbody>
+    <tr><td>A first row that's not a header</td><td>Another col</td></tr>
+    <tr><td>A first row that's not a header</td><td>Another col</td></tr>
+    </tbody></table>
+
+  Hello Wisconsin!
+
+  <!-- expect headers failure -->
+  <table title='some table' summary='summary of a table'>
+    <tbody>
+    <tr><td>WI</td> <td>A first row that's not a header</td><td>Another col</td></tr>
+    <tr><td>WI</td> <td>A first row that's not a header</td><td>Another col</td></tr>
+    </tbody></table>
+
+  Hello Oregon!
+
+  <!-- expect no failures-->
+  <table title='some table with headers' summary='summary of a table with headers'>
+    <caption>A mighty good table</caption>
+    <tbody>
+    <tr><th>State</th> <th>head 1</th> <th>head 2</th></tr>
+    <tr><td>OR</td> <td>A first row that's not a header</td> <td>Another col</td></tr>
+    <tr><td>OR</td> <td>A first row that's not a header</td> <td>Another col</td></tr>
+    </tbody></table>
+
+  <!-- expect 4 failures -->
+</body></html>
