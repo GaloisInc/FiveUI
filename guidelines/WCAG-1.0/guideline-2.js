@@ -1,12 +1,6 @@
-exports.name        = "colorDifference";
-exports.description = "Elements should provide sufficient color difference";
+exports.name        = "Color Difference";
+exports.description = "Web Accessibility Guideline: Don't rely on color alone";
 exports.rule        = function(report) {
-
-  /* Checkpoint 2.1 ***********************************************************/
-
-  // TODO: not sure about the best way to test that information isn't hidden
-  // when colors go away.
-
 
   /* Checkpoint 2.2 ***********************************************************/
 
@@ -30,7 +24,6 @@ exports.rule        = function(report) {
       return $this.children().length == 0 && $.trim($this.text()).length > 0;
     })
     .each(function (i) {
-      // TODO take into account fg alpha values
       var fg = fc.colorToRGB($(this).css('color'));
       var bg = fc.findBGColor($(this));
       if (fg && bg) {
