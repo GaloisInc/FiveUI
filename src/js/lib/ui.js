@@ -6,9 +6,7 @@ var fiveui = fiveui || {};
 /* Templates ******************************************************************/
 
 fiveui.UI = function() {
-
-  this._initialize();
-
+  this._initialize.apply(this, arguments);
 };
 
 
@@ -23,25 +21,11 @@ _.extend(fiveui.UI, {
     , '    FiveUI<div class="fiveui-close"><span class="icon-remove"></span></div>'
     , '  </div>'
     , '  <div class="fiveui-controls">'
-    , '    <div class="fiveui-control fiveui-clear"><span class="icon-ok"></span></div>'
-    , '    <div class="fiveui-control fiveui-break"><span class="icon-pause"></span></div>'
+    , '    <div class="fiveui-control fiveui-clear" title="clear"><span class="icon-ok"></span></div>'
+    , '    <div class="fiveui-control fiveui-break" title="break"><span class="icon-pause"></span></div>'
     , '  </div>'
     , '  <div class="fiveui-problems"></div>'
-    , '  <div class="fiveui-stats">stats</div>'
-    , '</div>'
-    ].join('')),
-
-  /**
-   * Template for entries in the problems list
-   */
-  problemTemplate:_.template(
-    [ '<div class="fiveui-problem">'
-    , '  <div class="fiveui-problem-header">'
-    , '    <div class="fiveui-problem-toggle"></div>'
-    , '    <%= name %>'
-    , '  </div>'
-    , '  <div class="fiveui-problem-body">'
-    , '  </div>'
+    , '  <div class="fiveui-stats"></div>'
     , '</div>'
     ].join('')),
 
@@ -57,11 +41,21 @@ _.extend(fiveui.UI.prototype, {
    */
   _initialize:function() {
 
-    this.$el = $(fiveui.UI.uiTemplate());
+    this.$el       = $(fiveui.UI.uiTemplate());
+    this.$problems = this.$el.find('.fiveui-problems');
+    this.$stats    = this.$el.find('.fiveui-stats');
+
+    this.$el.find('.fiveui').resize(function() {
+      console.log('resize');
+    });
+
+    this.$el.resize(function() {
+      console.log('resize');
+    });
 
     this._setupClose();
     this._setupDragDrop();
-    this._setup
+    this._pollResize();
 
   },
 
@@ -124,6 +118,22 @@ _.extend(fiveui.UI.prototype, {
 
   },
 
+  _pollResize:function() {
+
+    var height = this.$el.height();
+
+    if(height != this.height) {
+      this.height = height;
+
+      var ppos = this.$problems.position();
+      var spos = this.$stats.position();
+
+      this.$problems.height(spos.top - ppos.top)
+    }
+
+    setTimeout(_.bind(this._pollResize, this), 100);
+  },
+
   /**
    * Clear the problems list
    * @public
@@ -138,10 +148,8 @@ _.extend(fiveui.UI.prototype, {
    */
   addProblem:function(problem) {
 
-    var el = $(problemTemplate(problem));
-
-    var problems = this.$el.find('.fiveui-problems');
-    problems.append(el);
+    var p = new fiveui.Problem(problem);
+    p.appendTo(this.$el.find('.fiveui-problems'));
 
   },
 
@@ -172,10 +180,88 @@ _.extend(fiveui.UI.prototype, {
 });
 
 
+/**
+ * Entries in the problem list.
+ */
+fiveui.Problem = function() {
+  this._initialize.apply(this, arguments);
+};
+
+_.extend(fiveui.Problem, {
+
+  /**
+   * Template for entries in the problems list
+   */
+  problemTemplate:_.template(
+    [ '<div class="fiveui-problem fiveui-severity-<%= severity %>">'
+    , '  <div class="fiveui-problem-header">'
+    , '    <div class="fiveui-problem-toggle"><span></span></div>'
+    , '    <%= name %>'
+    , '  </div>'
+    , '  <div class="fiveui-problem-body">'
+    , '    <%= descr %><br />'
+    , '    <span class="fiveui-xpath"><%= xpath %></span>'
+    , '  </div>'
+    , '</div>'
+    ].join('')),
+
+});
+
+_.extend(fiveui.Problem.prototype, {
+
+  _initialize:function(problem) {
+    this.$el     = $(fiveui.Problem.problemTemplate(problem));
+    this.$toggle = this.$el.find('.fiveui-problem-toggle');
+    this.$body   = this.$el.find('.fiveui-problem-body');
+    this.$header = this.$el.find('.fiveui-problem-header');
+
+    this.$body.hide();
+
+    this.close();
+  },
+
+  appendTo:function(el) {
+    el.append(this.$el);
+  },
+
+  /**
+   * Close the context for a problem entry.
+   * @public
+   */
+  close:function() {
+    this.$toggle.find('span').removeClass('icon-caret-down')
+                             .addClass('icon-caret-right');
+
+    this.$el.one('click', _.bind(this.open, this));
+    this.$body.slideUp(100);
+  },
+
+  open:function() {
+    console.log('open');
+
+    this.$toggle.find('span').addClass('icon-caret-down')
+                             .removeClass('icon-caret-right');
+
+    this.$el.one('click', _.bind(this.close, this));
+    this.$body.slideDown(100);
+  },
+
+});
+
+
 $(function() {
 
   var ui = new fiveui.UI();
   ui.appendTo(jQuery('body'));
+
+  for(var i=0; i<10; i++) {
+    ui.addProblem({
+      name:    'foobar',
+      descr:   'thinger',
+      xpath:   'totally an xpath',
+      severity: 0,
+    });
+  }
 
 });
 
