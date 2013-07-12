@@ -45,15 +45,8 @@ _.extend(fiveui.UI.prototype, {
     this.$problems = this.$el.find('.fiveui-problems');
     this.$stats    = this.$el.find('.fiveui-stats');
 
-    this.$el.find('.fiveui').resize(function() {
-      console.log('resize');
-    });
-
-    this.$el.resize(function() {
-      console.log('resize');
-    });
-
     this._setupClose();
+    this._setupControls();
     this._setupDragDrop();
     this._pollResize();
 
@@ -67,6 +60,15 @@ _.extend(fiveui.UI.prototype, {
 
     var close = this.$el.find('.fiveui-close');
     close.on('click.fiveui', _.bind(this.hide, this));
+
+  },
+
+  /**
+   * Setup the functionality for the controls part of the UI.
+   * @private
+   */
+  _setupControls:function() {
+
 
   },
 
@@ -253,15 +255,6 @@ $(function() {
 
   var ui = new fiveui.UI();
   ui.appendTo(jQuery('body'));
-
-  for(var i=0; i<10; i++) {
-    ui.addProblem({
-      name:    'foobar',
-      descr:   'thinger',
-      xpath:   'totally an xpath',
-      severity: 0,
-    });
-  }
 
 });
 
