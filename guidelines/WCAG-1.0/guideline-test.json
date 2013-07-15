@@ -1,0 +1,6 @@
+{ "name":        "guideline-test"
+, "description": "Test WCAG guidelines"
+, "license":     "BSD3"
+, "rules":
+  [ "guideline-5.js" ]
+}

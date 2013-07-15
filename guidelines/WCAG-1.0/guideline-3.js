@@ -1,20 +1,11 @@
 
-exports.name        = 'W3C Guideline 3';
-exports.description = '';
+exports.name        = 'Proper Markup and Stylesheets';
+exports.description = 'Web Accessibility Guideline: Use markup and style sheets and do so properly';
 exports.rule        = function(report) {
-
-  /* Checkpoint 3.1 [Priority 2] **********************************************/
-
-  // TODO: this seems pretty subjective, as you have to be able to understand
-  // the intent of the content.  The math example is tough, as you'd have to be
-  // able to pick out a situation where text wasn't marked up, but was also
-  // mathematical notation.
-
 
   /* Checkpoint 3.2 [Priority 2] **********************************************/
 
   // require that the document contains a dtd.
-  // TODO: how should we apply this check to iframes and such?
   if(!document.doctype) {
     report.error('No doctype given for the document', null);
   }
@@ -36,31 +27,41 @@ exports.rule        = function(report) {
     report.error('Use css instead of the font attribute for formatting', this);
   });
 
-  // TODO: there are other cases to handle here, not sure about the best path
-  // forward.
-
-
-  /* Checkpoint 3.4 [Priority 2] **********************************************/
-
-  // TODO: not sure what the best way to select everything that's not
-  // automatically positioned.  Additionally, many fancy user interfaces will
-  // use pixels when positioning content, which isn't necessarily wrong.
-
 
   /* Checkpoint 3.5 [Priority 2] **********************************************/
 
-  // TODO: what's the best way to select siblings that match a given pattern in
-  // jquery?  Essentially, we just want to match situations where h1 is followed
-  // by something that's both a header, and not h2 (for example).
+  // header transitions which are not allowed
+  var avoids = [ ["H1", "H3"]
+               , ["H1", "H4"]
+               , ["H1", "H5"]
+               , ["H2", "H4"]
+               , ["H2", "H5"]
+               , ["H3", "H5"] ];
+
+  // return true if the value `p` is in `avoids`. underscore's
+  // _.contains doesn't work here because it compares array references
+  var badPair = function (p) {
+    return _.find(avoids, function (s) {
+      return s[0] == p[0] && s[1] == p[1];
+    });
+  };
+
+  // examine the sequence of headings in each <div> for
+  // proper order
+  $('div').each(function (i, elt) {
+    var hs = $(elt).find(':header');
+    var ts = $(hs).map(function () { return this.tagName; });
+    for (var j=0; j < hs.length-1; j++) {
+      if (badPair([ts[j], ts[j+1]])) {
+        report.error('Invalid use of headers ' + ts[j] + ' -> ' + ts[j+1], hs[j+1]);
+      }
+    }
+  });
 
 
   /* Checkpoint 3.6 [Priority 2] **********************************************/
 
 
   /* Checkpoint 3.7 [Priority 2] **********************************************/
-
-  // TODO: is there any way that we can detect quotations that aren't inside of
-  // a blockquote region?
-
 
 };
