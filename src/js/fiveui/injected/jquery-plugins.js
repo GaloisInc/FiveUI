@@ -31,11 +31,51 @@ fiveui.jquery = fiveui.jquery || {};
 /**
  * Wrapper for the :contains('text') selector
  *
+ * Example:
+ *
+ *     $('div').hasText('to remove').remove();
+ *
  * @param {!String} text Text to select for
  * @returns {!Object} A modified jQuery object
  */
 fiveui.jquery.hasText = function (text) {
   return this.filter(":contains('" + text + "')");
+};
+
+/**
+ * Filter for elements which lack of the given attribute.
+ *
+ * Example:
+ *
+ * This object will be non-empty:
+ *
+ *     $('<table></table>').noAttr('summary')
+ *
+ * @param {!String} attribute name
+ * @returns {!Object} a filtered jQuery object
+ */
+fiveui.jquery.noAttr = function (name) {
+  return this.filter(function () {
+    $attr = $.trim($(this).attr(name));
+    return $attr == undefined || $attr == '';
+  });
+};
+
+
+/**
+ * Filter for elements having no sub-elements matching the given selector.
+ *
+ * Example: the following should contain no elements
+ *
+ *     $('<div><p>hello</p></div>').noSubElt('p')
+ *
+ * @param {!String} sel a jQuery selector
+ * @param {!Object} A filtered jQuery object
+ */
+fiveui.jquery.noSubElt = function (sel) {
+  return this.filter(function () {
+    return $(this).find(sel).length == 0;
+  });
 };
 
 /**
@@ -46,17 +86,20 @@ fiveui.jquery.hasText = function (text) {
  * $(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
  * @see {fiveui.color.colorToHex}
  *
- * @param {String[]} cset A set of allowable color strings
+ * @param {String[]} cset An array of allowable color strings
  * @returns {!Object} A modified jQuery object
  */
 fiveui.jquery.notColorSet = function (cset) {
   var allowable = {};
-  for (var i = 0; i < cset.length; i += 1) { allowable[cset[i]] = true; } // array -> object
+  // input array -> object
+  for (var i = 0; i < cset.length; i += 1) {
+    allowable[fiveui.color.colorToHex(cset[i])] = true;
+  }
   return this.filter(function (index) {
-    var color = fiveui.color.colorToHex($(this).css("color")); // .css("color") returns rgb(...)
+    var color = fiveui.color.colorToHexWithDefault($(this).css("color")); // .css("color") returns rgb(...)
     return !(color in allowable);
   });
-}
+};
 
 /**
  * General CSS propetry checker plugin
@@ -78,7 +121,10 @@ fiveui.jquery.cssIsNot = function (prop, set, fn) {
     allowable[fn(set)] = true;
   }
   else { // assume `set` is an array of strings
-   for (var i = 0; i < set.length; i += 1) { allowable[fn(set[i])] = true; } // array -> object
+   // array -> object
+   for (var i = 0; i < set.length; i += 1) {
+     allowable[fn(set[i])] = true;
+   }
   }
   return this.filter(function (index) {
     var cssProp = fn($(this).css(prop));
@@ -94,10 +140,7 @@ fiveui.jquery.cssIsNot = function (prop, set, fn) {
  * @returns {Object} jQuery object
  */
 fiveui.jquery.linksTo = function (href) {
-  return this.filter(function (index) {
-    var addr = $(this).attr("href");
-    return (addr == href);
-  });
+  return this.filter('[href=' + href + ']');
 }
 
 /**
