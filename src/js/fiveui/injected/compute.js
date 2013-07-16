@@ -101,7 +101,7 @@
        msg:      message,
        descr:    rule.description,
        url:      window.location.href,
-       severity: 1,
+       severity: 0,  // default is error
        xpath:    core.getElementXPath(node),
        phash:    null,
        hash:     null,
@@ -238,15 +238,23 @@
        };
      fiveui.stats.numElts = 0; // reset stats element counter
 
-     var report = {
-       error:function(message, node) {
+     var genericReporter = function (severity) {
+       return function (message, node) {
          var prob = core.hash(theRule, message, node);
          var query = $(node);
 
          // let the backend sort out if this problem has been reported already
          query.addClass(prob.hash);
+         prob.severity = severity;
          core.reportProblem(prob);
-       }
+       };
+     };
+
+     var report = {
+       error: genericReporter(0),
+       warning: genericReporter(1),
+       advisory: genericReporter(2),
+       info: genericReporter(3)
      };
 
      core.beforeRules();
