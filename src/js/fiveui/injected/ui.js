@@ -20,13 +20,361 @@
  */
 
 (function(){
+
    /**
     * Storage namespace for in-browser logic
     */
    var core = {};
    core.port = obtainPort();
 
-   core.ui = $('<div></div>');
+
+   /* User Interface **********************************************************/
+
+   core.UI = function() {
+     this._initialize.apply(this, arguments);
+   };
+
+
+   _.extend(core.UI, {
+
+     /**
+      * Template for the UI dialog
+      */
+     uiTemplate:_.template(
+       [ '<div class="fiveui">'
+       , '  <div class="fiveui-titlebar">'
+       , '    FiveUI<div class="fiveui-close"><span class="icon-remove"></span></div>'
+       , '  </div>'
+       , '  <div class="fiveui-controls">'
+       , '    <div class="fiveui-control fiveui-clear" title="clear"><span class="icon-ok"></span></div>'
+       , '    <div class="fiveui-control fiveui-break" title="break"><span class="icon-pause"></span></div>'
+       , '  </div>'
+       , '  <div class="fiveui-problems"></div>'
+       , '  <div class="fiveui-stats"></div>'
+       , '</div>'
+       ].join('')),
+
+     /**
+      * Template for the stats panel of the UI dialog.
+      */
+     statsTemplate:_.template(
+       [ '<table class="fiveui-table">'
+       , '  <tr>'
+       , '    <td class="fiveui-table-text">rules checked:</td>'
+       , '    <td class="fiveui-table-number"><%= numRules %></td>'
+       , '  </tr>'
+       , '  <tr>'
+       , '    <td class="fiveui-table-text">elements checked:</td>'
+       , '    <td class="fiveui-table-number"><%= numElts %></td>'
+       , '  </tr>'
+       , '  <tr>'
+       , '    <td class="fiveui-table-text">elapsed time (ms):</td>'
+       , '    <td class="fiveui-table-number"><%= time %></td>'
+       , '  </tr>'
+       , '</table>'
+       ].join('')),
+
+   });
+
+   _.extend(core.UI.prototype, {
+
+     /**
+      * Create the UI, and attach all event handlers.
+      * @private
+      */
+     _initialize:function(opts) {
+
+       // apply options
+       var optNames = [ 'port' ];
+       _.defaults(this, _.pick(opts, optNames));
+
+       this.$el       = $(core.UI.uiTemplate());
+       this.$problems = this.$el.find('.fiveui-problems');
+       this.$stats    = this.$el.find('.fiveui-stats');
+
+       this._setupButtons();
+       this._setupDragDrop();
+
+       // force the resize event
+       this.height = 0;
+       this._pollResize();
+
+       this._registerBackendListeners();
+
+       // initially, keep the window hidden
+       this.$el.hide();
+     },
+
+     /**
+      * Setup the functionality of the close button on the ui
+      * @private
+      */
+     _setupButtons:function() {
+
+       var close = this.$el.find('.fiveui-close');
+       close.on('click.fiveui', _.bind(this.hide, this));
+
+       var clear = this.$el.find('.fiveui-clear');
+       clear.on('click.fiveui', _.bind(this.clearProblems, this));
+
+       // note, this only works in chrome
+       var pause = this.$el.find('.fiveui-break');
+       pause.on('click.fiveui', function() {
+         debugger;
+       });
+
+     },
+
+     /**
+      * Setup the drag and drop functionality for the problems window.
+      * @private
+      */
+     _setupDragDrop:function() {
+
+       var self   = this;
+       var header = this.$el.find('.fiveui-titlebar');
+       var offset = { x: 0, y: 0 };
+
+       // update the location of the ui
+       var mouseMove = function(e) {
+         self.$el.css({
+           left: e.originalEvent.clientX + offset.x,
+           top:  e.originalEvent.clientY + offset.y,
+         });
+       };
+
+       var cancel = function(e) {
+         e.stopPropagation();
+       };
+
+       // both of these will cause funny things to happen with the text of the title
+       // bar.
+       header.on('dragstart',   cancel);
+       header.on('selectstart', cancel);
+
+       // figure out how far the cursor is from the top-left of the ui
+       header.on('mousedown.fiveui', function(e) {
+
+         // prevent the close button from being used as a drag handle
+         if(e.target != header[0]) {
+           return false;
+         }
+
+         var pos  = self.$el.position();
+         offset.x = pos.left - e.originalEvent.clientX;
+         offset.y = pos.top  - e.originalEvent.clientY;
+
+         $(window).on('mousemove.fiveui', mouseMove);
+         header.one('mouseup.fiveui', function() {
+           $(window).off('mousemove.fiveui', mouseMove);
+
+           // deliver the new position to teh backend
+           self.port.emit('Position', self.$el.position());
+         });
+       });
+
+     },
+
+     _pollResize:function() {
+
+       var height = this.$el.height();
+
+       if(height != this.height) {
+
+         console.log('changing height');
+
+         this.height = height;
+
+         var ppos = this.$problems.position();
+         var spos = this.$stats.position();
+
+         this.$problems.height(spos.top - ppos.top)
+
+         // notify the backend about the new height
+         this.port.emit('Size', {
+           width:  this.$el.width(),
+           height: this.$el.height()
+         });
+       }
+
+       setTimeout(_.bind(this._pollResize, this), 100);
+     },
+
+     /**
+      * Setup listeners to the backend.
+      */
+     _registerBackendListeners:function() {
+
+       var self = this;
+
+       this.port.on('ShowUI', function(unused) {
+         self.show();
+       });
+
+       this.port.on('ShowProblem', _.bind(this.addProblem, this));
+
+       this.port.on('ShowStats', _.bind(this.renderStats, this));
+
+       // initialize/create the ui, set its position and size
+       this.port.on('RestoreUI', function(state) {
+
+         // set the position and size
+         self.$el.css({
+           'top':    state.winState.y,
+           'left':   state.winState.x,
+           'width':  state.winState.width + 'px',
+           'height': state.winState.height + 'px'
+         });
+
+         // optionally show the window
+         if(!state.winState.closed) {
+           self.show();
+         }
+
+         // add all problems
+         _.each(state.problems, _.bind(self.addProblem, self));
+
+         // render stats
+         self.renderStats(state.stats);
+
+       });
+     },
+
+     /**
+      * Clear the problems list
+      * @public
+      */
+     clearProblems:function() {
+       this.$el.find('.fiveui-problems').children().remove();
+       this.port.emit('ClearProblems');
+     },
+
+     /**
+      * Add an entry in the problems list.
+      * @public
+      */
+     addProblem:function(problem) {
+
+       var p = new core.Problem(problem);
+       p.appendTo(this.$el.find('.fiveui-problems'));
+
+     },
+
+     /**
+      * Attach the UI to a jquery selector.
+      * @public
+      */
+     appendTo:function(el) {
+       el.append(this.$el);
+     },
+
+     /**
+      * Hide the UI
+      * @public
+      */
+     hide:function() {
+       this.$el.hide();
+       this.port.emit('CloseUI');
+     },
+
+     /**
+      * Show the UI
+      * @public
+      */
+     show:function() {
+       this.$el.show();
+     },
+
+     /**
+      * Render statistics
+      */
+     renderStats:function(stats) {
+
+       stats = stats || {};
+       _.defaults(stats, {
+         numRules: 0,
+         numElts: 0,
+         start: 0,
+         end: 0,
+       });
+
+       stats.time = stats.end - stats.start;
+
+       this.$stats.html(core.UI.statsTemplate(stats));
+     },
+
+   });
+
+
+   /**
+    * Entries in the problem list.
+    */
+   core.Problem = function() {
+     this._initialize.apply(this, arguments);
+   };
+
+   _.extend(core.Problem, {
+
+     /**
+      * Template for entries in the problems list
+      */
+     problemTemplate:_.template(
+       [ '<div class="fiveui-problem fiveui-severity-<%= severity %>">'
+       , '  <div class="fiveui-problem-header">'
+       , '    <div class="fiveui-problem-toggle"><span></span></div>'
+       , '    <%= name %>'
+       , '  </div>'
+       , '  <div class="fiveui-problem-body">'
+       , '    <p><%= msg %></p>'
+       , '    <p><span class="fiveui-xpath"><%= xpath %></span></p>'
+       , '  </div>'
+       , '</div>'
+       ].join('')),
+
+   });
+
+   _.extend(core.Problem.prototype, {
+
+     _initialize:function(problem) {
+
+       this.problem = problem;
+
+       this.$el     = $(core.Problem.problemTemplate(problem));
+       this.$toggle = this.$el.find('.fiveui-problem-toggle');
+       this.$body   = this.$el.find('.fiveui-problem-body');
+       this.$header = this.$el.find('.fiveui-problem-header');
+
+       this.$body.hide();
+
+       this.close();
+     },
+
+     appendTo:function(el) {
+       el.append(this.$el);
+     },
+
+     /**
+      * Close the context for a problem entry.
+      * @public
+      */
+     close:function() {
+       this.$toggle.find('span').removeClass('icon-caret-down')
+                                .addClass('icon-caret-right');
+
+       this.$el.one('click', _.bind(this.open, this));
+       this.$body.slideUp(100);
+     },
+
+     open:function() {
+       this.$toggle.find('span').addClass('icon-caret-down')
+                                .removeClass('icon-caret-right');
+
+       this.$el.one('click', _.bind(this.close, this));
+       this.$body.slideDown(100);
+     },
+
+   });
+
 
    core.lockDepth = 0;
 
@@ -72,7 +420,7 @@
      } else {
        // add the rule to the list of highlighted elements, and change its style
        // to look obvious.
-       var elt      = fiveui.query('.' + prob.hash);
+       var elt      = core.query('.' + prob.hash);
        var oldStyle = elt.attr('style');
 
        core.maskRules(function() {
@@ -95,7 +443,7 @@
        obj.highlighted = obj.highlighted - 1;
 
        if(obj.highlighted == 0) {
-         var elt = fiveui.query('.' + prob.hash);
+         var elt = core.query('.' + prob.hash);
 
          // remove the fiveui style
          core.maskRules(function() {
@@ -113,33 +461,9 @@
      }
    };
 
-   core.renderStatsTemplate = _.template(
-     [ '<table class="fiveui-table">'
-     , '  <tr>'
-     , '    <td class="fiveui-table-text">rules checked:</td>'
-     , '    <td class="fiveui-table-number"><%= numRules %></td>'
-     , '  </tr>'
-     , '  <tr>'
-     , '    <td class="fiveui-table-text">elements checked:</td>'
-     , '    <td class="fiveui-table-number"><%= numElts %></td>'
-     , '  </tr>'
-     , '  <tr>'
-     , '    <td class="fiveui-table-text">elapsed time (ms):</td>'
-     , '    <td class="fiveui-table-number"><%= time %></td>'
-     , '  </tr>'
-     , '</table>'
-     ].join(''));
-
    core.renderStats = function (stats) {
 
      // give stats some sane defaults.
-     stats = stats || {};
-     _.defaults(stats, {
-       numRules: 0,
-       numElts: 0,
-       start: 0,
-       end: 0,
-     });
 
      core.maskRules(function () {
 
@@ -152,153 +476,7 @@
      });
    };
 
-   core.renderProblem = function(prob) {
-     core.maskRules(function() {
-       var probDiv = $('<div class="pr"></div>');
+   core.win = new core.UI({ port: core.port });
 
-
-       /** Problem Controls **/
-       var prControls = $('<div class="prControls"></div>');
-       probDiv.append(prControls);
-
-       var prSeverity = $('<div class="prSeverity"></div>');
-       prControls.append(prSeverity);
-
-       if (1 == prob.severity) {
-         prSeverity.addClass('prSeverity-err');
-       } else {
-         prSeverity.addClass('prSeverity-warn');
-       }
-
-       var prExpand = $('<div class="prExpand prExpand-right"></div>');
-       prControls.append(prExpand);
-
-       /** Problem Content **/
-       var prMessage = $('<div class="prMessage"></div>');
-       probDiv.append(prMessage);       
-
-       var prTitle = $('<div class="prTitle">'+prob.name+'</div>');
-       prMessage.append(prTitle);
-
-       var prDetails = $('<div class="prDetails"></div>');
-       prMessage.append(prDetails);
-
-
-       var prDescr  = $('<p>'+prob.descr+'</p>');
-       var prPath   = $('<p>'+prob.xpath+'</p>');
-       prDetails.append(prDescr);
-       if (prob.msg) {
-         var reportMsg = $('<div class="prReportMessage">'+prob.msg+'</div>');
-         prDetails.append(reportMsg);
-       }
-       prDetails.append(prPath);
-       prDetails.hide();
-
-       $('#problemList').append(probDiv);
-
-       prExpand.click(
-         function() {
-           var elt = $(this);
-           if(elt.is('.prExpand-down')) {
-             elt.removeClass('prExpand-down')
-                .addClass('prExpand-right');
-             prDetails.hide();
-             core.maskProblem(prob);
-           } else {
-             elt.addClass('prExpand-down')
-                .removeClass('prExpand-right');
-             prDetails.show();
-             core.highlightProblem(prob);
-           }
-
-           return false;
-         });
-     });
-   };
-
-   var dragStop = function(evt,e) {
-     core.port.emit('Position', core.ui.parent().position());
-   };
-
-   var resizeStop = function(evt,e) {
-     core.port.emit('Size', { width: core.ui.width(), height: core.ui.height() });
-   };
-
-   var beforeClose = function(evt,e) {
-     core.port.emit('CloseUI');
-   };
-
-   var registerBackendListeners = function(port) {
-
-     port.on('ShowUI', function(unused) {
-       core.ui.dialog('open');
-     });
-
-     port.on('ShowProblem', function(problem) {
-       core.renderProblem(problem);
-     });
-
-     port.on('ShowStats', function(stats) {
-       core.renderStats(stats);
-     });
-
-     port.on('RestoreUI', function(state) {
-       core.ui.append($('<div id="controls"></div>'));
-
-       core.ui.append($('<div id="problemList"></div>'));
-
-       var newDialog = core.ui.dialog({ title: 'FiveUI',
-                        dragStop: dragStop,
-                        resizeStop: resizeStop,
-                        beforeClose: beforeClose,
-                        position: [state.winState.x, state.winState.y],
-                        width: state.winState.width,
-                        height: state.winState.height,
-                        autoOpen: false,
-                        zIndex: 50000
-                      });
-       newDialog.parent().attr('id', 'fiveui-top');
-
-       $('#controls').append($('<div id="clearButton"></div>')
-                             .button({ label: 'clear' }));
-
-       $('#clearButton').click(function() {
-             $('#problemList').children().remove();
-             port.emit('ClearProblems');
-
-             core.renderStats();
-             $('prExpand-down').click();
-
-             // Just in case the click event on prExpand-down missde anything:
-             core.maskProblem(fiveui.query('.uic-problem'), undefined);
-             core.renderStats();
-         });
-
-       ///////////////////////////////////////////
-       // Add a button that causes a debuger break.
-       //
-       // handy for playing with Jquery on the dom.
-       // Note: This only works in Google Chrome.
-       $('#controls').append($('<div id="breakButton"></div>')
-                             .button({ label: 'break' }));
-       $('#breakButton').click(function() {
-                                 debugger;       //
-                               });               //
-       ////////////////////////////////////////////
-
-       core.ui.append($('<div id="fiveui-stats"></div>'));
-
-       if(!state.winState.closed) {
-         core.ui.dialog('open');
-       }
-
-       $(state.problems).each(function(ix,prob) {
-                                core.renderProblem(prob);
-                              });
-
-       core.renderStats(state.stats);
-     });
-   };
-
-   registerBackendListeners(core.port);
+   core.win.appendTo($('body'));
 })();

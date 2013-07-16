@@ -1,0 +1,116 @@
+
+
+div.fiveui {
+  background-color: #e1e1e1;
+  min-width: 400px;
+  min-height: 300px;
+  width: 400px;
+  height: 300px;
+  position: absolute;
+  z-index: 1000;
+  border: 1px solid black;
+  resize: both;
+  overflow: hidden;
+}
+
+div.fiveui>* {
+  font-family: Arial;
+  padding: 4px;
+}
+
+div.fiveui>div.fiveui-titlebar {
+  background-color: #366689;
+  color: #fff;
+  font-weight: bold;
+  cursor: hand;
+  cursor: pointer;
+  border-bottom: 1px solid black;
+}
+
+div.fiveui-titlebar>div.fiveui-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.2em;
+  width: 1em;
+}
+
+div.fiveui>div.fiveui-titlebar:active{
+  cursor: hand;
+  cursor: pointer;
+}
+
+
+div.fiveui>div.fiveui-controls {
+  padding: 0;
+}
+
+div.fiveui-control {
+  background-color: #8ea548;
+  color: #fff;
+  font-family: Awesome;
+  display: inline;
+  border-right: 1px solid black;
+  margin: 0;
+  cursor: hand;
+  cursor: pointer;
+  float: left;
+  padding: 4px;
+  width: 1.5em;
+  text-align: center;
+}
+
+div.fiveui-control:active {
+  background-color: #366689;
+}
+
+div.fiveui-problems {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width:      100%;
+  border-top: 1px solid black;
+  margin:     0;
+  padding:    0;
+  resize:     none;
+}
+
+div.fiveui-stats {
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+  left: 0px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+div.fiveui-problem {
+  border-bottom: 1px solid black;
+  padding: 0;
+  margin: 0;
+  cursor: hand;
+  cursor: pointer;
+}
+
+div.fiveui-problem-header {
+  padding: 4px;
+  font-size: 1.1em;
+}
+
+div.fiveui-problem-toggle {
+  float: left;
+  width: 1em;
+  padding-left: 4px;
+}
+
+div.fiveui-problem-body {
+  padding: 4px;
+}
+
+div.fiveui-severity-0 {
+  background-color: #F2FC7E;
+}
+
+div.fiveui-severity-1 {
+  background-color: #F5B3B3;
+}

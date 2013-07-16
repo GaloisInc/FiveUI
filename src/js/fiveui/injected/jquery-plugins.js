@@ -19,6 +19,8 @@
  * limitations under the License.
  */
 
+var fiveui = fiveui || {};
+
 /**
  * This module provides several useful jQuery plugins related to checking and reporting
  * UI consistency issues.
