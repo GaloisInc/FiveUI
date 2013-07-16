@@ -300,7 +300,7 @@ fiveui.color.hexToRGB = function (hex) {
 
 /**
  * Covert rgb colors to hex and abreviated hex colors to their full 3 byte
- * form.
+ * and uppercase normal form.
  *
  * In case there are parse errors during the conversion, i.e. color values
  * that are not understood, the input is returned unchanged.
@@ -312,16 +312,29 @@ fiveui.color.hexToRGB = function (hex) {
 fiveui.color.colorToHex = function(color) {
     if (color.substr(0, 1) === '#') {
       if (color.length === 7) {
-        return color;
+        return color.toUpperCase();
       }
       else { // deal with #0 or #F7 cases
-        return shortHexToHex(color);
+        return shortHexToHex(color).toUpperCase();
       }
     }
-    else {  // color == 'rgb...'
+    else if (color.substr(0,3) === 'rgb') {
       var c = fiveui.color.colorToRGB(color)
       return fiveui.color.rgbToHex(c.r, c.g, c.b);
     }
+    else {
+      throw new Error('could not convert color string "' + color + '"');
+    }
+};
+
+fiveui.color.colorToHexWithDefault = function (color) {
+  try {
+    return fiveui.color.colorToHex(color);
+  }
+  catch (e) {
+    console.log(e);
+    return color;
+  }
 };
 
 /**
@@ -333,14 +346,14 @@ fiveui.color.colorToHex = function(color) {
  */
 fiveui.color.colorToRGB = function(color) {
 
-    if (color.substr(0, 1) === '#') {
-      return fiveui.color.hexToRGB(fiveui.color.colorToHex(color));
-    }
+  if (color.substr(0, 1) === '#') {
+    return fiveui.color.hexToRGB(fiveui.color.colorToHex(color));
+  }
 
-    var digits = /rgba?\((\d+), (\d+), (\d+)(, ([-+]?[0-9]*\.?[0-9]+))?/.exec(color);
-    if (!digits) {
-      throw new ParseError('could not parse color string: ' + color);
-    }
+  var digits = /rgba?\((\d+), (\d+), (\d+)(, ([-+]?[0-9]*\.?[0-9]+))?/.exec(color);
+  if (!digits) {
+    throw new Error('could not parse color string: "' + color + '"');
+  }
 
   var alpha = 1;
   if (digits[5] != undefined) {
