@@ -43,7 +43,8 @@ fiveui.jquery.hasText = function (text) {
 };
 
 /**
- * Filter for elements which lack of the given attribute.
+ * Filter for elements which lack of the given attribute. (see also
+ * fiveui.jquery.attrFilter)
  *
  * Example:
  *
@@ -129,6 +130,24 @@ fiveui.jquery.cssIsNot = function (prop, set, fn) {
   return this.filter(function (index) {
     var cssProp = fn($(this).css(prop));
     return !(cssProp in allowable);
+  });
+}
+
+/**
+ * General attribute filter
+ *
+ * @description This plugin filters for elements whose attribute `a` pass
+ * the predicate `fn`, which should take a string and return true or false.
+ * Elements that don't have the attribute are automatically filtered out.
+ *
+ * @param {String} a element attribute name
+ * @param {Function} fn a predicate to run on the element attribute
+ * @returns {Object} jQuery object
+ */
+fiveui.jquery.attrFilter = function (a, fn) {
+  return this.filter(function () {
+    var x = $(this).attr(a);
+    return x != undefined && fn(x);
   });
 }
 

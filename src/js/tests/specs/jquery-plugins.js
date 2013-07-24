@@ -86,7 +86,9 @@ describe('jQuery plugins', function () {
     });
 
     it('filters out everything', function () {
-      expect($t.notColorSet(['#ffffff', '#000000', '#e1e1e1']).length).toEqual(0);
+      expect(
+        $t.notColorSet(['#ffffff', '#000000', '#e1e1e1']).length).toEqual(0
+      );
     });
   });
 
@@ -99,15 +101,44 @@ describe('jQuery plugins', function () {
     var $t = $(htm);
 
     it('filters out colors', function () {
-      expect($t.cssIsNot('color', ['#ffffff', '#000000'], fiveui.color.colorToHexWithDefault).length).toEqual(1);
+      expect($t.cssIsNot('color',
+                         ['#ffffff', '#000000'],
+                         fiveui.color.colorToHexWithDefault).length).toEqual(1);
     });
 
     it('filters out background-colors', function () {
-      expect($t.cssIsNot('background-color', ['#141414', '#232323'], fiveui.color.colorToHexWithDefault).length).toEqual(3);
+      expect($t.cssIsNot('background-color',
+                         ['#141414', '#232323'],
+                         fiveui.color.colorToHexWithDefault).length).toEqual(3);
     });
 
     it('filters out elements of different type', function () {
       expect($t.cssIsNot('font-size', ['5em']).length).toEqual(3);
+    });
+  });
+
+  describe('fiveui.jquery.attrFilter', function () {
+    var isEmpty = function (s) { return $.trim(s) == ""; };
+
+    it('filters for zero elements with empty alt', function () {
+      var $elt = $('<a href="foo" alt="bar"><a href="beel" alt="bar">');
+      expect($elt.attrFilter('alt', isEmpty).length).toEqual(0);
+    });
+
+    it('filters for one element with empty alt', function () {
+      var $elt = $('<a href="foo" alt=""><a href="beel" alt="bar">');
+      expect($elt.attrFilter('alt', isEmpty).length).toEqual(1);
+    });
+
+    it('filters out elements that don\'t have the attribute', function () {
+      var $elt = $('<a href="foo"><a href="beel">');
+      expect($elt.attrFilter('alt', isEmpty).length).toEqual(0);
+    });
+
+    it('filters for elements with alt containing foo', function () {
+      var hasFoo = function (s) { return /foo/.test(s); };
+      var $elt = $('<a href="foo" alt="barfoo"><a href="beel" alt="bar">');
+      expect($elt.attrFilter('alt', hasFoo).length).toEqual(1);
     });
   });
 
