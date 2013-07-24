@@ -102,6 +102,27 @@ fiveui.jquery.notColorSet = function (cset) {
   });
 };
 
+
+fiveui.jquery._makeCss = function (pos) {
+  return function (prop, set, fn) {
+    var allowable = {};
+    fn = fn || function (x) { return x; }; // default is Id
+    if (typeof set === "string") {
+      allowable[fn(set)] = true;
+    }
+    else { // assume `set` is an array of strings
+     // array -> object
+     for (var i = 0; i < set.length; i += 1) {
+       allowable[fn(set[i])] = true;
+     }
+    }
+    return this.filter(function (index) {
+      var cssProp = fn($(this).css(prop));
+      return pos ? (cssProp in allowable) : !(cssProp in allowable);
+    });
+  };
+};
+
 /**
  * General CSS propetry checker plugin
  *
@@ -111,27 +132,15 @@ fiveui.jquery.notColorSet = function (cset) {
  * browser returns so they can be compared to values in `cset`.
  *
  * @param {String} prop  CSS property selector
- * @param {String|String[]} set allowable values (either a string or an array of strings)
- * @param {function(String):String} [fn] Function to apply to return values of $(this).css(prop), fn defaults to the identity function.
+ * @param {String|String[]} set allowable values (either a string or an array
+ *                          of strings)
+ * @param {function(String):String} [fn] Function to apply to return values
+ *                                       of $(this).css(prop), fn defaults to
+ *                                       the identity function.
  * @returns {Object} jQuery object
  */
-fiveui.jquery.cssIsNot = function (prop, set, fn) {
-  var allowable = {};
-  fn = fn || function (x) { return x; }; // default is Id
-  if (typeof set === "string") {
-    allowable[fn(set)] = true;
-  }
-  else { // assume `set` is an array of strings
-   // array -> object
-   for (var i = 0; i < set.length; i += 1) {
-     allowable[fn(set[i])] = true;
-   }
-  }
-  return this.filter(function (index) {
-    var cssProp = fn($(this).css(prop));
-    return !(cssProp in allowable);
-  });
-}
+fiveui.jquery.cssIs = fiveui.jquery._makeCss(true);
+fiveui.jquery.cssIsNot = fiveui.jquery._makeCss(false);
 
 /**
  * General attribute filter

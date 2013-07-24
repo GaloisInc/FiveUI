@@ -92,6 +92,31 @@ describe('jQuery plugins', function () {
     });
   });
 
+  describe('fiveui.jquery.cssIs', function () {
+    var htm = '<p style="color: #000000; background-color: #232323">foo</p>' +
+              '<p style="color: #ffffff; font-size: 5em">foo</p>' +
+              '<p style="color: #e1e1e1; background-color: #141414">foo</p>' +
+              '<p style="color: #ffffff">foo</p>' +
+              '<h1 style="color: #ffffff; font-size: 5em">big</h1>';
+    var $t = $(htm);
+
+    it('filters out colors', function () {
+      expect($t.cssIs('color',
+                      ['#ffffff', '#000000'],
+                      fiveui.color.colorToHexWithDefault).length).toEqual(4);
+    });
+
+    it('filters out background-colors', function () {
+      expect($t.cssIs('background-color',
+                      ['#141414', '#232323'],
+                      fiveui.color.colorToHexWithDefault).length).toEqual(2);
+    });
+
+    it('filters out elements of different type', function () {
+      expect($t.cssIs('font-size', ['5em']).length).toEqual(2);
+    });
+  });
+
   describe('fiveui.jquery.cssIsNot', function () {
     var htm = '<p style="color: #000000; background-color: #232323">foo</p>' +
               '<p style="color: #ffffff; font-size: 5em">foo</p>' +
