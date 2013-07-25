@@ -7,28 +7,32 @@ exports.rule        = function(report) {
    * For data tables, identify row and column headers.
    */
 
-  $('table').each(function () {
-    if ($(this).find('th').length == 0) {
-      report.error('Table does not have column headers <TH>', this);
-    }
+  $5('table').noSubElt('th').each(function () {
+    report.error('Table does not have column headers <TH>', this);
   });
-
 
   /* Checkpoint 5.5 ***********************************************************
    *
    * Provide summaries for tables.
    */
 
-  $('table').each(function () {
-    var $cap  = $(this).find('caption');
-    var title = $.trim($(this).attr('title'));
-    var sum   = $.trim($(this).attr('summary'));
-    if ($cap.length == 0 && (title === undefined || title == '')) {
-      report.error('Table has no caption or title attribute', this);
-    }
-    if (sum === undefined || sum == '') {
-      report.error('Table has no summary attribute', this);
-    }
+  $5('table').noSubElt('caption')
+             .noAttr('title')
+             .each(function () {
+    report.warning('Table has no caption or title attribute', this);
+  });
+
+  $('table').noAttr('summary').each(function () {
+    report.warning('Table has no summary attribute', this);
+  });
+
+  /* Checkpoint 5.6 ***********************************************************
+   *
+   * Provide `abbr` attributes to table headers <TH>
+   */
+
+  $5('th').noAttr('abbr').each(function () {
+    report.advisory('<TH> has no abbrevation attribute', this);
   });
 
 };

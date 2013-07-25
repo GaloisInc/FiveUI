@@ -9,7 +9,7 @@ In Browser
 ----------
 
 Start a local webserver at the FiveUI project root ($FIVEUI_ROOT) and load
-`contexts/data/tests/SpecRunner.html`.
+`src/js/tests/SpecRunner.html`.
 
 Headless
 --------
@@ -22,9 +22,8 @@ Install [phantomjs](http://phantomjs.org/) on your system.
 
 Run:
 
-  $ cd contexts/data
-  $ phantomjs lib/phantomjs_jasmine/phantomjs_jasminexml_runner.js \
-  tests/PhantomJSJasmineRunner.html tests/reports/
+  $ phantomjs ../lib/phantomjs_jasmine/phantomjs_jasminexml_runner.js \
+  PhantomJSJasmineRunner.html reports/
 
 XML test reports will be generated in
-`$FIVEUI_ROOT/contexts/data/tests/reports/`.
+`$FIVEUI_ROOT/src/js/tests/reports/`.

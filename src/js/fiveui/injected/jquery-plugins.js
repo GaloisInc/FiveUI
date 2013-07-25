@@ -45,7 +45,8 @@ fiveui.jquery.hasText = function (text) {
 };
 
 /**
- * Filter for elements which lack of the given attribute.
+ * Filter for elements which lack of the given attribute. (see also
+ * fiveui.jquery.attrFilter)
  *
  * Example:
  *
@@ -103,6 +104,27 @@ fiveui.jquery.notColorSet = function (cset) {
   });
 };
 
+
+fiveui.jquery._makeCss = function (pos) {
+  return function (prop, set, fn) {
+    var allowable = {};
+    fn = fn || function (x) { return x; }; // default is Id
+    if (typeof set === "string") {
+      allowable[fn(set)] = true;
+    }
+    else { // assume `set` is an array of strings
+     // array -> object
+     for (var i = 0; i < set.length; i += 1) {
+       allowable[fn(set[i])] = true;
+     }
+    }
+    return this.filter(function (index) {
+      var cssProp = fn($(this).css(prop));
+      return pos ? (cssProp in allowable) : !(cssProp in allowable);
+    });
+  };
+};
+
 /**
  * General CSS propetry checker plugin
  *
@@ -112,25 +134,31 @@ fiveui.jquery.notColorSet = function (cset) {
  * browser returns so they can be compared to values in `cset`.
  *
  * @param {String} prop  CSS property selector
- * @param {String|String[]} set allowable values (either a string or an array of strings)
- * @param {function(String):String} [fn] Function to apply to return values of $(this).css(prop), fn defaults to the identity function.
+ * @param {String|String[]} set allowable values (either a string or an array
+ *                          of strings)
+ * @param {function(String):String} [fn] Function to apply to return values
+ *                                       of $(this).css(prop), fn defaults to
+ *                                       the identity function.
  * @returns {Object} jQuery object
  */
-fiveui.jquery.cssIsNot = function (prop, set, fn) {
-  var allowable = {};
-  fn = fn || function (x) { return x; }; // default is Id
-  if (typeof set === "string") {
-    allowable[fn(set)] = true;
-  }
-  else { // assume `set` is an array of strings
-   // array -> object
-   for (var i = 0; i < set.length; i += 1) {
-     allowable[fn(set[i])] = true;
-   }
-  }
-  return this.filter(function (index) {
-    var cssProp = fn($(this).css(prop));
-    return !(cssProp in allowable);
+fiveui.jquery.cssIs = fiveui.jquery._makeCss(true);
+fiveui.jquery.cssIsNot = fiveui.jquery._makeCss(false);
+
+/**
+ * General attribute filter
+ *
+ * @description This plugin filters for elements whose attribute `a` pass
+ * the predicate `fn`, which should take a string and return true or false.
+ * Elements that don't have the attribute are automatically filtered out.
+ *
+ * @param {String} a element attribute name
+ * @param {Function} fn a predicate to run on the element attribute
+ * @returns {Object} jQuery object
+ */
+fiveui.jquery.attrFilter = function (a, fn) {
+  return this.filter(function () {
+    var x = $(this).attr(a);
+    return x != undefined && fn(x);
   });
 }
 
