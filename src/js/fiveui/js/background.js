@@ -160,6 +160,8 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
 
     var uiScripts =
         [ this.dataLoader('underscore.js')
+        , this.dataLoader('font-awesome/css/font-awesome.css')
+        , this.dataLoader('css/ui.css')
         , this.dataLoader('jquery/bundled.css')
         , this.dataLoader('jquery/jquery-1.8.3.js')
         , this.dataLoader('jquery/jquery-ui-1.9.2.custom.js')

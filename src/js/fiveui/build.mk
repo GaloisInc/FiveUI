@@ -45,7 +45,8 @@ $2: $(patsubst $(fiveui-dir)/%,$1/data/%,$(wildcard $(fiveui-dir)/js/*))
 
 
 $(call fiveui-files,$1/data,css)
-$2: $1/data/css/options.css
+$2: $1/data/css/options.css \
+    $1/data/css/ui.css
 
 
 $(call fiveui-files,$1/data,images)
@@ -67,6 +68,20 @@ $1/data/jquery/%: $(lib-dir)/jquery/% | $1/data/jquery
 $2: $1/data/jquery/jquery-1.8.3.js           \
     $1/data/jquery/jquery-ui-1.9.2.custom.js \
     $1/data/jquery/bundled.css
+
+
+# font awesome
+$1/data/font-awesome/css: | $1/data/font-awesome
+	$$(call cmd,mkdir)
+
+$1/data/font-awesome/css/%: $(lib-dir)/font-awesome/css/% \
+                          | $1/data/font-awesome/css
+	$$(call cmd,cp)
+
+$1/data/font-awesome: | $1/data
+	$$(call cmd,mkdir)
+
+$2: $1/data/font-awesome/css/font-awesome.css
 
 
 # simple libraries
