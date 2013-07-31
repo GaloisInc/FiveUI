@@ -89,8 +89,10 @@ fiveui.firefox.main = function() {
   // store the contents of the injected css, so that we can inject it later
   var injectedCSS = [
     data.load('injected/injected.css'),
-    data.load('jquery/bundled.css')
-  ].join('\n');
+    data.load('css/ui.css'),
+    data.load('jquery/bundled.css'),
+    data.load('font-awesome/css/font-awesome.css')
+  ].join('\n')
 
   /**
    * Inject code and resources into the specified tab's web page.
