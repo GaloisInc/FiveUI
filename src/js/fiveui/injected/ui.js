@@ -181,8 +181,6 @@
 
        if(height != this.height) {
 
-         console.log('changing height');
-
          this.height = height;
 
          var ppos = this.$problems.position();
