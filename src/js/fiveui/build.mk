@@ -78,21 +78,10 @@ $1/data/font-awesome/css/%: $(lib-dir)/font-awesome/css/% \
                           | $1/data/font-awesome/css
 	$$(call cmd,cp)
 
-$1/data/font-awesome/font: | $1/data/font-awesome
-	$$(call cmd,mkdir)
-
-$1/data/font-awesome/font/%: $(lib-dir)/font-awesome/font/% \
-                           | $1/data/font-awesome/font
-	$$(call cmd,cp)
-
 $1/data/font-awesome: | $1/data
 	$$(call cmd,mkdir)
 
-$2: $1/data/font-awesome/css/font-awesome.css          \
-    $1/data/font-awesome/font/fontawesome-webfont.eot  \
-    $1/data/font-awesome/font/fontawesome-webfont.svg  \
-    $1/data/font-awesome/font/fontawesome-webfont.woff \
-    $1/data/font-awesome/font/fontawesome-webfont.ttf
+$2: $1/data/font-awesome/css/font-awesome.css
 
 
 # simple libraries

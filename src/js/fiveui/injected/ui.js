@@ -181,8 +181,6 @@
 
        if(height != this.height) {
 
-         console.log('changing height');
-
          this.height = height;
 
          var ppos = this.$problems.position();
@@ -363,6 +361,8 @@
 
        this.$el.one('click', _.bind(this.open, this));
        this.$body.slideUp(100);
+
+       core.maskProblem(this.problem);
      },
 
      open:function() {
@@ -371,6 +371,8 @@
 
        this.$el.one('click', _.bind(this.close, this));
        this.$body.slideDown(100);
+
+       core.highlightProblem(this.problem);
      },
 
    });
@@ -420,7 +422,7 @@
      } else {
        // add the rule to the list of highlighted elements, and change its style
        // to look obvious.
-       var elt      = core.query('.' + prob.hash);
+       var elt      = fiveui.query('.' + prob.hash);
        var oldStyle = elt.attr('style');
 
        core.maskRules(function() {
@@ -443,7 +445,7 @@
        obj.highlighted = obj.highlighted - 1;
 
        if(obj.highlighted == 0) {
-         var elt = core.query('.' + prob.hash);
+         var elt = fiveui.query('.' + prob.hash);
 
          // remove the fiveui style
          core.maskRules(function() {
