@@ -3,7 +3,7 @@ describe('fiveui.Rules', function() {
 
   it('round trips via JSON', function() {
 
-    var ruleIn = new fiveui.Rule({
+    var ruleIn = new fiveui.RuleSet({
       id:          42,
       name:        'testRule',
       description: 'see: http://test.description/',
@@ -11,7 +11,7 @@ describe('fiveui.Rules', function() {
 
     var jsonRule = JSON.stringify(ruleIn);
 
-    var ruleOut = fiveui.Rule.fromJSON(JSON.parse(jsonRule));
+    var ruleOut = fiveui.RuleSet.fromJSON(42, JSON.parse(jsonRule));
 
     expect(ruleOut.id).toBe(ruleIn.id);
     expect(ruleOut.name).toBe(ruleIn.name);
@@ -50,7 +50,9 @@ describe('fiveui.RuleSet', function() {
     var ruleSet = new fiveui.RuleSet({
       id:          42,
       name:        'rule set',
-      description: 'desc', [rule1, rule2],
+      description: 'desc',
+      rules: ['rule1', 'rule2'],
+      dependencies: ['dep1', 'dep2']
     });
 
     var jsonSet     = JSON.stringify(ruleSet);
