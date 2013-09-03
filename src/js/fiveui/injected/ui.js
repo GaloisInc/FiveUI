@@ -95,8 +95,6 @@
        this._setupButtons();
        this._setupDragDrop();
 
-       // force the resize event
-       this.height = 0;
        this._pollResize();
 
        this._registerBackendListeners();
@@ -281,6 +279,7 @@
       */
      show:function() {
        this.$el.show();
+       this.height = 0;
      },
 
      /**
