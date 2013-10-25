@@ -67,7 +67,6 @@ exports.rule = function (report) {
     while (found = re.exec(txt)) {
       matches.push(found[0]);
     }
-    // FUUUCCCKKKK
     return matches;
   };
 
