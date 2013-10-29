@@ -1,5 +1,0 @@
-{ "name":        "ASM guideline-test"
-, "description": "Test ASM guidelines"
-, "license":     "BSD3"
-, "rules":     [ "asm-8.5.js" ]
-}
