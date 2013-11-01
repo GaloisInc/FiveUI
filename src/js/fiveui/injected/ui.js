@@ -184,7 +184,7 @@
          var ppos = this.$problems.position();
          var spos = this.$stats.position();
 
-         this.$problems.height(spos.top - ppos.top)
+         this.$problems.height(spos.top - ppos.top);
 
          // notify the backend about the new height
          this.port.emit('Size', {
@@ -425,15 +425,29 @@
        var oldStyle = elt.attr('style');
 
        core.maskRules(function() {
-         elt.attr('style', 'background-color: rgba(255,0,0,0.3); background-image: none;');
-         elt.addClass('uic-problem');
+         var newDiv = $('<div></div>');
+         newDiv.attr('id', 'hlDiv-'+prob.hash);
+         newDiv.offset(elt.offset());
+         newDiv.height(elt.height());
+         newDiv.width(elt.width());
+         newDiv.css({ 'position': 'absolute'
+                    , 'background-color': '#FF0000'
+                    , 'opacity' : '0.3'
+                    , 'zIndex'  : 10000
+                    });
+         $('body').append(newDiv);
        });
+
+//       core.maskRules(function() {
+//         elt.attr('style', 'background-color: rgba(255,0,0,0.3); background-image: none;');
+//        elt.addClass('uic-problem');
+//       });
 
        // record the element for the future
        core.highlighted[prob.hash] = {
          highlighted: 1,
          oldStyle:    oldStyle,
-       }
+       };
      }
    };
 
@@ -455,6 +469,9 @@
            }
 
            elt.removeClass('uic-problem');
+
+           // remove overlay divs:
+           $5('#hlDiv-'+prob.hash).remove();
          });
 
          delete core.highlighted[prob.hash];
