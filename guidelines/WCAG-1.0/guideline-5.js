@@ -22,7 +22,7 @@ exports.rule        = function(report) {
     report.warning('Table has no caption or title attribute', this);
   });
 
-  $('table').noAttr('summary').each(function () {
+  $5('table').noAttr('summary').each(function () {
     report.warning('Table has no summary attribute', this);
   });
 
