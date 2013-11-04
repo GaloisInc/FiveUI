@@ -108,9 +108,17 @@ div.fiveui-problem-body {
 }
 
 div.fiveui-severity-0 {
-  background-color: #F2FC7E;
+  background-color: #F5B3B3;
 }
 
 div.fiveui-severity-1 {
-  background-color: #F5B3B3;
+  background-color: #F2FC7E;
+}
+
+div.fiveui-severity-2 {
+  background-color: rgba(0, 255, 0, 0.5);
+}
+
+div.fiveui-severity-3 {
+  background-color: rgba(0, 0, 255, 0.5);
 }
