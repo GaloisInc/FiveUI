@@ -5,5 +5,8 @@
   [ "guideline-1.js"
   , "guideline-2.js"
   , "guideline-3.js"
+  , "guideline-5.js"
+  , "guideline-6.js"
+  , "guideline-7.js"
   ]
 }
