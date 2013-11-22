@@ -284,7 +284,7 @@ equalRGBA = function (c1, c2) {
  */
 fiveui.color.rgbToHex = function (r, g, b) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
+};
 
 /**
  * Convert a 3-byte hex value to base-10 RGB 
@@ -296,7 +296,7 @@ fiveui.color.hexToRGB = function (hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
-}
+};
 
 /**
  * Covert rgb colors to hex and abreviated hex colors to their full 3 byte
@@ -319,7 +319,7 @@ fiveui.color.colorToHex = function(color) {
       }
     }
     else if (color.substr(0,3) === 'rgb') {
-      var c = fiveui.color.colorToRGB(color)
+      var c = fiveui.color.colorToRGB(color);
       return fiveui.color.rgbToHex(c.r, c.g, c.b);
     }
     else {
@@ -364,6 +364,59 @@ fiveui.color.colorToRGB = function(color) {
            g: parseInt(digits[2]),
            b: parseInt(digits[3]),
            a: alpha };
+};
+
+
+/**
+ * Calculate the relative {@link
+ * http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+ * luminance} of an sRGB color.
+ *
+ * This function does not account for alpha values that are not 1.
+ * That is, it assumes that the incomming color is fully opaque, or
+ * displayed on a white background.
+ *
+ * @param {!Object} An RGB color object with attributes: r, g, b, a
+ * @returns {!doubl} A measure of the relative luminance according to
+ * the WCAG 2.0 specification.
+ *
+ */
+fiveui.color.luminance = function(color) {
+  var toSRGB = function(c) {
+    return c/255;
+  };
+
+  var toLumComponent = function(c) {
+    if (c <= 0.03928) {
+      return c / 12.92;
+    } else {
+      return Math.pow((c + 0.055) / 1.055, 2.4);
+    }
+  };
+
+  return 0.2126 * toLumComponent(toSRGB(color.r))
+       + 0.7152 * toLumComponent(toSRGB(color.g))
+       + 0.0722 * toLumComponent(toSRGB(color.b));
+};
+
+/**
+ * Compute the contrast ratio, according to {@link
+ * http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+ * WCAG 2.0}
+ *
+ * This function will try to figure out which color is lighter (the
+ * smaller one).
+ *
+ * @param {!double} lum1 The relative luminance of the first color.
+ * @param {!double} lum2 The relative luminance of the second color.
+ * @returns {!double} The contrast ratio.
+ */
+fiveui.color.contrast = function(lum1, lum2) {
+  if (lum1 > lum2) {
+    return (lum1 + 0.05) / (lum2 + 0.05);
+  } else {
+    return (lum2 + 0.05) / (lum1 + 0.05);
+  }
 };
 
 /**
@@ -466,7 +519,7 @@ fiveui.font.getFont = function (jElt) {
       };
     }
     else {
-      res.size = psize
+      res.size = psize;
     }
   } else {
     res.size = '';

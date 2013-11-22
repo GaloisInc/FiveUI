@@ -4,5 +4,6 @@
 , "rules":
   [ "headingOrder.js"
   , "strikeout.js"
+  , "color.js"
   ]
 }

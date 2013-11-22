@@ -1,5 +1,5 @@
 exports.name = "Don't use strikeout.";
-exports.description = "Strikout tags are poorly supported by screenreaders, which can cause confusion.";
+exports.description = "By default, most screen readers do not indicate presentational text attributes (bold, italic, underline) or even semantic text attributes (emphasis, importance, text deletion), so struck-out text is read normally along with any other text.";
 
 exports.rule = function (report) {
   var err = function(idx, elt) {
