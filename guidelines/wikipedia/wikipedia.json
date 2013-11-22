@@ -1,0 +1,8 @@
+{ "name": "Wikipedia editing guidelines: Headings"
+, "description": "Guidelines published by wikipedia for authors creating or editing wiki pages."
+, "license": "BSD3"
+, "rules":
+  [ "headingOrder.js"
+  , "strikeout.js"
+  ]
+}
