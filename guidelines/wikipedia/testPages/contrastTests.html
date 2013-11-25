@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- Should find:
+  - two warnings
+  - four errors
+ -->
+<html>
+  <head>
+<style>
+.big {font-size: 14pt;}
+.large {font-size: 18pt;}
+.low {color: #666;}
+.lowest {color: #dddddd;}
+.bold {font-weight: bold;}
+</style>
+  </head>
+  <body>
+<h1>Test page for the AA and AAA contrast guidelines</h1>
+<div id="mw-content-text">
+  <h2>Default font size</h2>
+  <p>This text is black on white.</p>
+  <p class="low">This is low-contrast.</p>
+  <p class="lowest">This is even lower contrast.</p>
+
+  <h2>Big (14pt) font size</h2>
+  <p class="big">This text is black on white.</p>
+  <p class="big low">This is low-contrast.</p>
+  <p class="big lowest">This is even lower contrast.</p>
+
+  <h2>Big (14pt) font size, Bold</h2>
+  <p class="big bold">This text is black on white.</p>
+  <p class="big low bold">This is low-contrast.</p>
+  <p class="big lowest bold">This is even lower contrast.</p>
+
+  <h2>Large (18pt) font size</h2>
+  <p class="large">This text is black on white.</p>
+  <p class="large low">This is low-contrast.</p>
+  <p class="large lowest">This is even lower contrast.</p>
+</div>
+</body></html>
