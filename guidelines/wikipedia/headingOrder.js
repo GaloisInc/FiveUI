@@ -32,10 +32,6 @@ var checkHeadingOrder = function(report) {
 
   $5('#mw-content-text :header').each(
     function(idx, elt){
-      if (elt.tagName == 'header') {
-        return;
-      }
-
       // parse the level out of 'h1', 'h2', 'h3', etc.
       var level = parseInt(elt.tagName.substring(1,2));
 
