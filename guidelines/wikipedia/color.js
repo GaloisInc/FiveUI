@@ -12,6 +12,7 @@ exports.rule = function (report) {
       var $this = $(this);
       return $this.children().length == 0 && $.trim($this.text()).length > 0;
     })
+    .filter(exceptions)
     .each(function (i) {
       var fg = fc.colorToRGB($(this).css('color'));
       var bg = fc.findBGColor($(this));
@@ -27,5 +28,24 @@ exports.rule = function (report) {
         }
       }
   });
-
 };
+
+function exceptions() {
+  var $elem = $(this);
+  return !isStandardLink($elem) &&
+    !isNavboxLink($elem);
+}
+
+function isStandardLink($elem) {
+  var standard = ['new', 'external', 'extiw'];
+  var $a = $elem.closest('a');
+  return $a.is('a') && standard.some(function(klass) {
+    return $a.hasClass(klass);
+  });
+}
+
+function isNavboxLink($elem) {
+  var $a = $elem.closest('a');
+  var $nav = $a.closest('th.navbox-group');
+  return $a.length > 0 && $nav.length > 0;
+}
