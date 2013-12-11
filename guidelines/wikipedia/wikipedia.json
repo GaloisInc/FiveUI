@@ -3,6 +3,7 @@
 , "license": "BSD3"
 , "rules":
   [ "headingOrder.js"
+  , "bullets.js"
   , "strikeout.js"
   , "color.js"
   ]
