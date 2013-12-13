@@ -13,26 +13,11 @@ fiveui.ajax = fiveui.ajax || {};
  */
 fiveui.ajax.get = function(url, options) {
 
-  _.defaults(options, {
-    success:function() {},
-    error:  function() {}
-  });
-
-  jQuery.ajax(url, {
+  return jQuery.ajax(url, {
 
     cache: false,
 
     dataType: 'text',
-
-    success:function(text) {
-      // strip out everything else from the args
-      options.success(text);
-    },
-
-    error:function() {
-      // call with no context
-      options.error();
-    },
 
   });
 

@@ -27,7 +27,7 @@ describe('fiveui.Settings', function() {
     expect(settings.get(key)).toEqual(value);
   });
 
-  it('matches urls when there\s a valid pattern registered', function() {
+  it('matches urls when there\'s a valid pattern registered', function() {
     var rset = new fiveui.RuleSet({ patterns: ['http://.*'] });
     settings.addRuleSet(rset);
     expect(settings.checkUrl('http://foo').id).toBe(0);
