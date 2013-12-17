@@ -19,6 +19,8 @@
  * limitations under the License.
  */
 
+/*jshint evil:true */
+
 (function(){
 
    var guidGenerator = function () {
@@ -331,38 +333,43 @@
      /**
       * @param {{rules: [string], dependencies: [string]}} ruleDescr
       */
-     var assembleRules = function(ruleDescr) {
-       var ruleList = [];
+     var assembleRules = function(__assembleRules_ruleDescr) {
+       // Use long variable names: top-level variables in eval'ed
+       // dependencies will be created in the scope of this function and
+       // we want to avoid collisions.
+       var __assembleRules_ruleList = []
+         , __assembleRules_deps = __assembleRules_ruleDescr.dependencies
+         , __assembleRules_i;
 
-       _.each(ruleDescr.dependencies,
-              function(dep){
-                try {
-                  eval(dep.content);
-                } catch (x) {
-                  console.error('Could not evaluate rule dependency: ' + dep.url);
-                  console.error(x);
-                }
-              });
-
-       var ruleStrList = ruleDescr.rules;
-       for(var i=0; i<ruleStrList.length; ++i) {
-         var moduleStr =
-           [ '(function(){'
-           , 'var exports = {};'
-           , ruleStrList[i]
-           , 'return exports;'
-           , '})()'
-           ].join('\n');
-
+       // Use for loop instead of _.each so that top-level variables in
+       // eval'ed dependencies will be created in the scope of the
+       // `assembleRules` function.  The goal is to run rules in the
+       // same scope so that rules have access to top-level variables
+       // from defined in dependency scripts.
+       for (__assembleRules_i = 0; __assembleRules_i < __assembleRules_deps.length; __assembleRules_i += 1) {
          try {
-           var evaled = eval(moduleStr);
-           ruleList.push(evaled);
+           eval(__assembleRules_deps[__assembleRules_i].content);
          } catch (x) {
-           console.error('Could not evaluate rule module: ' + x);
-           console.error(moduleStr);
+           console.error('Could not evaluate rule dependency: ' +
+                         __assembleRules_deps[__assembleRules_i].url);
+           console.error(x);
          }
        }
-       return ruleList;
+
+       var ruleStrList = __assembleRules_ruleDescr.rules;
+       for(__assembleRules_i=0; __assembleRules_i<ruleStrList.length; ++__assembleRules_i) {
+         var __assembleRules_moduleFunc = new Function('exports', ruleStrList[__assembleRules_i]);
+
+         try {
+           var __assembleRules_exported = {};
+           __assembleRules_moduleFunc(__assembleRules_exported);
+           __assembleRules_ruleList.push(__assembleRules_exported);
+         } catch (x) {
+           console.error('Could not evaluate rule module: ' + x);
+           console.error(__assembleRules_moduleFunc);
+         }
+       }
+       return __assembleRules_ruleList;
      };
 
      port.on('SetRules', function(payload) {
