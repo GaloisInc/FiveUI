@@ -5,4 +5,6 @@
 var fiveui      = fiveui      || {};
 fiveui.ajax     = fiveui.ajax || {};
 
-fiveui.ajax.get = function () {};
+fiveui.ajax.get = function () {
+  return $.Deferred().promise();
+};

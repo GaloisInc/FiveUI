@@ -69,108 +69,87 @@ fiveui.RuleSet.fromJSON = function(id, obj) {
 
 
 /**
- * Options is an object that can contain a success and error continuation.
+ * Returns a promise.
  */
 fiveui.RuleSet.load = function(manifest_url, options) {
-
-  _.defaults(options, {
-    success: function() {},
-    error:   function() { throw "failed when loading url"; }
-  });
 
   var match = manifest_url.match(/\/[^\/]*$/);
 
   if(match) {
     var base_url = manifest_url.substring(0,match.index);
 
-    var loadDependencies = function(manifest, dependencies, rules) {
-      if (_.isEmpty(dependencies)) {
-        loadRules(manifest, rules);
-      } else {
-        // XXX there's likely problems here, how should we make sure that the
-        // url is what we expect?
-        var dep_file = dependencies.pop();
-        var dep_url  = base_url + '/' + dep_file;
-      
-        fiveui.ajax.get(dep_url, {
-            success: function(text) {
-              manifest.dependencies.push({'url': dep_url, 'content': text});
-              loadDependencies(manifest, dependencies, rules);
-            },
-
-            error: options.error
-        });
-      }
-    };
-
-    // iterate over rules, retrieving the 
-    var loadRules = function(manifest, rules) {
-
-      if(rules.length == 0) {
-        options.success(manifest);
-      } else {
-
-        // XXX there's likely problems here, how should we make sure that the
-        // url is what we expect?
-        var rule_file = rules.pop();
-        var rule_url  = base_url + '/' + rule_file;
-
-        fiveui.ajax.get(rule_url, {
-
-          success: function(text) {
-            manifest.rules.push(text);
-            loadRules(manifest, rules);
-          },
-
-          error: options.error
-        });
-
-      }
-    };
-
     // fetch the manifest, and load its rules
-    fiveui.ajax.get(manifest_url, {
+    return fiveui.ajax.get(manifest_url).then(function success(text) {
+      // cleanup the parsed JSON object
+      var sanitized = fiveui.utils.filterJSON(text,'json');
+      var obj       = null;
 
-      success: function(text) {
-        // cleanup the parsed JSON object
-        var sanitized = fiveui.utils.filterJSON(text,'json');
-        var obj       = null;
+      try {
+        obj = JSON.parse(sanitized);
+      } catch(e) {
+        return failure('failed to parse manifest');
+      }
 
-        try {
-          obj = JSON.parse(sanitized);
-        } catch(e) {
-          options.error('failed to parse manifest');
-          return;
-        }
+      // set defaults in the parsed manifest
+      var manifest = fiveui.RuleSet.sanitize(obj);
 
-        // set defaults in the parsed manifest
-        var manifest = fiveui.RuleSet.sanitize(obj);
+      return $.when(
+        loadDependencies(manifest.dependencies),
+        loadRules(manifest.rules)
+      )
+      .then(function(dependencies, rules) {
 
-        // explicitly zero out the patterns, they shouldn't be part of the
-        // manifest.
-        manifest.patterns = [];
+        return _.extend(manifest, {
+          // explicitly zero out the patterns, they shouldn't be part of the
+          // manifest.
+          patterns:     [],
 
-        var dependencies = manifest.dependencies;
-        manifest.dependencies = [];
+          // overwrite any source present with the one given by the user.
+          source:       manifest_url,
 
-        // remove the rules, as they'll be added back once processed.
-        var rules      = manifest.rules;
-        manifest.rules = [];
+          dependencies: dependencies,
+          rules:        rules
+        });
 
-        // overwrite any source present with the one given by the user.
-        manifest.source = manifest_url;
+      });
+    },
 
-        loadDependencies(manifest, dependencies, rules);
-      },
-
-      error: function() {
-        options.error('failed to retrieve manifest');
-      },
+    function error() {
+      return failure('failed to retrieve manifest');
     });
 
 
   } else {
-    options.error("unable to parse manifest url");
+    return failure("unable to parse manifest url");
+  }
+
+  function loadDependencies(dependencyFiles) {
+    var deps = dependencyFiles.map(function(dep_file) {
+      // XXX there's likely problems here, how should we make sure that the
+      // url is what we expect?
+      var dep_url = base_url + '/' + dep_file;
+
+      return fiveui.ajax.get(dep_url).then(function success(text) {
+        return {'url': dep_url, 'content': text};
+      });
+    });
+
+    return whenAll(deps);
+  }
+
+  function loadRules(ruleFiles) {
+    var rules = ruleFiles.map(function(rule_file) {
+      // XXX there's likely problems here, how should we make sure that the
+      // url is what we expect?
+      var rule_url  = base_url + '/' + rule_file;
+
+      return fiveui.ajax.get(rule_url).then(function(text) {
+        // Ensure that resulting promise holds only a single value.
+        return text;
+      });
+    });
+
+    return whenAll(rules);
   }
 
 };
@@ -294,5 +273,32 @@ fiveui.RuleSets = Backbone.Collection.extend({
 
 });
 
+/**
+ * Creates a resolved promise.
+ */
+function success(val) {
+  var deferred = $.Deferred();
+  deferred.resolve(val);
+  return deferred.promise();
+}
+
+/**
+ * Creates a rejected promise.
+ */
+function failure(reason) {
+  var deferred = $.Deferred();
+  deferred.reject(reason);
+  return deferred.promise();
+}
+
+/**
+ * Given an array of promises, returns a promise that will resolve to
+ * the array of resolved values of the input promises.
+ */
+function whenAll(promises) {
+  return $.when.apply($, promises).then(function() {
+    return Array.prototype.slice.call(arguments);
+  });
+}
 
 })();

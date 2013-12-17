@@ -43,11 +43,7 @@ _.extend(fiveui.Settings.prototype, {
    */
   get: function(key) {
     var value = this.store.getItem(key);
-    if (value == null) {
-      return null;
-    } else {
-      return JSON.parse(value);
-    }
+    return value ? JSON.parse(value) : null;
   },
 
   /**
@@ -203,12 +199,10 @@ _.extend(fiveui.Settings.prototype, {
         return false;
       }
 
-      var pat = _.find(rs.patterns, function(pat) {
+      return _.some(rs.patterns, function(pat) {
         var regex = fiveui.utils.compilePattern(pat);
         return regex.test(url);
       });
-
-      return pat != null;
 
     });
   },
@@ -228,7 +222,7 @@ fiveui.Settings.manager = function(chan, settings) {
   // create a new rule set, and call the response continuation with the created
   // object.
   msg.register('addRuleSet', function(ruleSet,respond){
-    var id = settings.addRuleSet(ruleSet)
+    var id = settings.addRuleSet(ruleSet);
     respond(settings.getRuleSet(id));
   });
 
@@ -249,12 +243,8 @@ fiveui.Settings.manager = function(chan, settings) {
   // Retrieve the manifest, and return the object to the caller.  Invokes the
   // response continuation with an error object when rule set fails to load.
   msg.register('loadRuleSet', function(url, respond) {
-    fiveui.RuleSet.load(url, {
-      success:respond,
-
-      error:function(msg) {
-        respond({ error : msg });
-      },
+    fiveui.RuleSet.load(url).then(respond, function error(msg) {
+      respond({ error : msg });
     });
   });
 
