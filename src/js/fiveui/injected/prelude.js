@@ -19,6 +19,8 @@
  * limitations under the License.
  */
 
+/*global $5: true */
+
 /**
  * The FiveUI Prelude.
  *
@@ -64,7 +66,9 @@ fiveui.query = function (sel, context) {
   var ctx = context || document;
   var $results = jQuery(sel, ctx);
 
-  jQuery('iframe, frame', ctx).each(
+  jQuery('iframe, frame', ctx)
+  .filter(function(idx, frame) { return sameOrigin(frame); })
+  .each(
     function(idx, elt) {
       var $tempResults;
       if (elt.contentDocument) {
@@ -89,6 +93,14 @@ fiveui.query = function (sel, context) {
   fiveui.stats.numElts += $filteredResults.length;
 
   return $filteredResults;
+
+  // Frames are considered to be from the same origin if their location
+  // hosts, ports, and schemes are the same.
+  function sameOrigin(frame) {
+    var src    = frame.src;
+    var origin = window.location.origin;
+    return src.indexOf(origin) === 0 && src.charAt(origin.length) !== ':';
+  }
 };
 
 /**
@@ -287,7 +299,7 @@ fiveui.color.rgbToHex = function (r, g, b) {
 };
 
 /**
- * Convert a 3-byte hex value to base-10 RGB 
+ * Convert a 3-byte hex value to base-10 RGB
  */
 fiveui.color.hexToRGB = function (hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -421,7 +433,7 @@ fiveui.color.contrast = function(lum1, lum2) {
 
 /**
  * Computationally determine the actual displayed background color for
- * an object.  This accounts for parent colors that may appear when 
+ * an object.  This accounts for parent colors that may appear when
  * a bg color is unspecified, or fully transparent.
  *
  * It does not account for elements that are shifted out of their
@@ -476,7 +488,7 @@ fiveui.color.findBGColor = function(obj) {
 
 /**
  * Combines two colors, accounting for alpha values less than 1.
- * 
+ *
  * @param {color} top The color "on top"
  * @param {color} bot The color "on bottom"
  * @return {color} the composite RGBA color.
