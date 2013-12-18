@@ -6,5 +6,6 @@
   , "bullets.js"
   , "strikeout.js"
   , "color.js"
+  , "paragraphLength.js"
   ]
 }
