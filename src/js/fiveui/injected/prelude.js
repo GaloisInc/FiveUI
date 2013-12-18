@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 
-/*global $5: true */
+/*global $5: true, JSON: true */
 
 /**
  * The FiveUI Prelude.
@@ -256,22 +256,22 @@ fiveui.color.colorCheck = function (selector, colorSet) {
   var allowable, i, fnStr, forEachFuncStr;
   allowable = {};
   for (i = 0; i < colorSet.length; i += 1) { allowable[colorSet[i]] = true; }
-  forEachFuncStr  = 'function (j, elt) {\n'
-                  + '  var allowable = ' + JSON.stringify(allowable) + ';\n'
-                  + '  var color = fiveui.color.colorToHex($(elt).css("color"));\n'
-                  + '  if (!(color in allowable)) {\n'
-                  + '    report("Disallowed color " + color + " in element matching " + ' + JSON.stringify(selector) + ', $(elt));\n'
-                  + '  }\n'
-                  + '}\n';
-  fnStr = 'function () { fiveui.query("' + selector + '").each(' + forEachFuncStr + '); }';
-  return eval('false||'+fnStr); // the `false||` trick is required for eval to parse a
-                                // function expression ?!?
+
+  return function colorCheck() {
+    fiveui.query(selector).each(function(j, elt) {
+      var $elt  = $(elt);
+      var color = fiveui.color.colorToHex($elt.css("color"));
+      if (!(color in allowable)) {
+        report("Disallowed color " + color + " in element matching " + selector, $elt);
+      }
+    });
+  };
 };
 
 componentToHex = function (c) {
   var hex = c.toString(16).toUpperCase();
   return hex.length == 1 ? "0" + hex : hex;
-}
+};
 
 shortHexToHex = function (color) {
   var have = color.length - 1;
@@ -368,7 +368,7 @@ fiveui.color.colorToRGB = function(color) {
   }
 
   var alpha = 1;
-  if (digits[5] != undefined) {
+  if (digits[5]) {
     alpha = parseFloat(digits[5]);
   }
 
@@ -447,6 +447,7 @@ fiveui.color.findBGColor = function(obj) {
   var fc = fiveui.color;
   var real = fc.colorToRGB(obj.css('background-color'));
   var none = fc.colorToRGB('rgba(0, 0, 0, 0)');
+  var i;
 
   if (real.a != 1) {
 
@@ -465,7 +466,7 @@ fiveui.color.findBGColor = function(obj) {
 
     // takeWhile alpha != 1
     var colors = [];
-    for (var i=0; i < parents.length; i++) {
+    for (i=0; i < parents.length; i++) {
       colors.push(parents[i]);
       if (parents[i].a == 1) {
         break;
@@ -476,7 +477,7 @@ fiveui.color.findBGColor = function(obj) {
     // neither commutative, nor associative, so we need to be carefull
     // of the order in which parent colors are combined.
     var res = real;
-    for (var i=0; i < colors.length; i++) {
+    for (i=0; i < colors.length; i++) {
       res = fc.alphaCombine(res, colors[i]);
     }
     return res;
