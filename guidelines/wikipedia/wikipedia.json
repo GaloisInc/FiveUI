@@ -8,5 +8,6 @@
   , "color.js"
   , "spaceBetweenParagraphs.js"
   , "paragraphLength.js"
+  , "imageSize.js"
   ]
 }
