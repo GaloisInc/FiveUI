@@ -9,5 +9,6 @@
   , "spaceBetweenParagraphs.js"
   , "paragraphLength.js"
   , "imageSize.js"
+  , "horizontalRule.js"
   ]
 }
