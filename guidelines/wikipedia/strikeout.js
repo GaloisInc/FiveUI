@@ -8,4 +8,7 @@ exports.rule = function (report) {
 
   $5('#mw-content-text del').each(err);
   $5('#mw-content-text strike').each(err);
+  $5('#mw-content-text span').filter(function(i, s) {
+    return (/line-through/).test($(s).css('text-decoration'));
+  }).each(err);
 };
