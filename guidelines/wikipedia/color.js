@@ -52,9 +52,10 @@ exports.rule = function (report) {
       var $this = $(this);
       return $this.children().length == 0 && $.trim($this.text()).length > 0;
     })
-    .each(function (i,elt) {
-      var fg = fc.colorToRGB($(elt).css('color'));
-      var bg = fc.findBGColor($(elt));
+    .filter(exceptions)
+    .each(function (i) {
+      var fg = fc.colorToRGB($(this).css('color'));
+      var bg = fc.findBGColor($(this));
       if (fg && bg) {
         var ratio = fc.contrast(fc.luminance(fg), fc.luminance(bg));
         console.log("comparing witch ratio" + ratio);
@@ -68,3 +69,23 @@ exports.rule = function (report) {
       }
   });
 };
+
+function exceptions() {
+  var $elem = $(this);
+  return !isStandardLink($elem) &&
+    !isNavboxLink($elem);
+}
+
+function isStandardLink($elem) {
+  var standard = ['new', 'external', 'extiw'];
+  var $a = $elem.closest('a');
+  return $a.is('a') && standard.some(function(klass) {
+    return $a.hasClass(klass);
+  });
+}
+
+function isNavboxLink($elem) {
+  var $a = $elem.closest('a');
+  var $nav = $a.closest('th.navbox-group');
+  return $a.length > 0 && $nav.length > 0;
+}

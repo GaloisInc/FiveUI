@@ -3,7 +3,13 @@
 , "license": "BSD3"
 , "rules":
   [ "headingOrder.js"
+  , "bullets.js"
   , "strikeout.js"
   , "color.js"
+  , "spaceBetweenParagraphs.js"
+  , "paragraphLength.js"
+  , "imageSize.js"
+  , "horizontalRule.js"
+  , "pseudoHeadings.js"
   ]
 }

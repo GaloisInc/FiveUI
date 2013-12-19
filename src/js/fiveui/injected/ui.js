@@ -27,6 +27,17 @@
    var core = {};
    core.port = obtainPort();
 
+   core.getElementByXPath = function(path, context) {
+     var nsResolver = document.createNSResolver(
+         context.ownerDocument == null ? context.documentElement : context.ownerDocument.documentElement
+     );
+     var xpathResult = document.evaluate(path, document, nsResolver, XPathResult.ANY_TYPE, null);
+     var $result = $(), nextElem;
+     while (nextElem = xpathResult.iterateNext()) {
+       $result = $result.add(nextElem);
+     }
+     return $result;
+   };
 
    /* User Interface **********************************************************/
 
@@ -320,6 +331,7 @@
        , '  <div class="fiveui-problem-header">'
        , '    <div class="fiveui-problem-toggle"><span></span></div>'
        , '    <%= name %>'
+       , '    <a href="#" class="fiveui-problem-scrollTo">show</a>'
        , '  </div>'
        , '  <div class="fiveui-problem-body">'
        , '    <p><%= msg %></p>'
@@ -340,6 +352,20 @@
        this.$toggle = this.$el.find('.fiveui-problem-toggle');
        this.$body   = this.$el.find('.fiveui-problem-body');
        this.$header = this.$el.find('.fiveui-problem-header');
+       this.isOpen  = false;
+
+       var self = this;
+
+       this.$el.on('click', function(event) {
+         if (!$(event.target).is('a, a *')) {
+           self.toggle();
+         }
+       });
+
+       this.$el.on('click', '.fiveui-problem-scrollTo', function(event) {
+         event.preventDefault();
+         self.scrollTo();
+       });
 
        this.$body.hide();
 
@@ -350,6 +376,16 @@
        el.append(this.$el);
      },
 
+     toggle:function() {
+       this.isOpen = !this.isOpen;
+       if (this.isOpen) {
+         this.open();
+       }
+       else {
+         this.close();
+       }
+     },
+
      /**
       * Close the context for a problem entry.
       * @public
@@ -358,7 +394,6 @@
        this.$toggle.find('span').removeClass('icon-caret-down')
                                 .addClass('icon-caret-right');
 
-       this.$el.one('click', _.bind(this.open, this));
        this.$body.slideUp(100);
 
        core.maskProblem(this.problem);
@@ -368,11 +403,19 @@
        this.$toggle.find('span').addClass('icon-caret-down')
                                 .removeClass('icon-caret-right');
 
-       this.$el.one('click', _.bind(this.close, this));
        this.$body.slideDown(100);
 
        core.highlightProblem(this.problem);
      },
+
+     scrollTo:function() {
+       var $elem  = core.getElementByXPath(this.problem.xpath, document);
+       var top    = $elem.offset().top;
+       var height = $elem.height();
+       var viewHeight = $(window).height();
+       var extra  = viewHeight - height;
+       $(window).scrollTop(top - (extra * 0.33));
+     }
 
    });
 
