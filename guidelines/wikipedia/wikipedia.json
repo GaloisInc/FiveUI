@@ -10,5 +10,6 @@
   , "paragraphLength.js"
   , "imageSize.js"
   , "horizontalRule.js"
+  , "pseudoHeadings.js"
   ]
 }
