@@ -338,7 +338,7 @@
        // dependencies will be created in the scope of this function and
        // we want to avoid collisions.
        var __assembleRules_ruleList = []
-         , __assembleRules_deps = __assembleRules_ruleDescr.dependencies
+         , __assembleRules_deps = __assembleRules_ruleDescr.dependencies || []
          , __assembleRules_i;
 
        // Use for loop instead of _.each so that top-level variables in
