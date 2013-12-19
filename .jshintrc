@@ -1,0 +1,12 @@
+{
+  "laxbreak": true,
+  "laxcomma": true,
+  "undef":    true,
+  "jquery":   true,
+  "devel":    true,
+  "globals": {
+    "fiveui":  false,
+    "$5":      false,
+    "exports": false
+  }
+}
