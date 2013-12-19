@@ -50,15 +50,14 @@ exports.rule = function (report) {
     // filter for lowest level elts having non-empty text
     .filter(function () {
       var $this = $(this);
-      return $this.children().length == 0 && $.trim($this.text()).length > 0;
+      return $this.children().length === 0 && $.trim($this.text()).length > 0;
     })
     .filter(exceptions)
-    .each(function (i) {
+    .each(function (i, elt) {
       var fg = fc.colorToRGB($(this).css('color'));
       var bg = fc.findBGColor($(this));
       if (fg && bg) {
         var ratio = fc.contrast(fc.luminance(fg), fc.luminance(bg));
-        console.log("comparing witch ratio" + ratio);
         if (ratio < getAARatio(elt)) {
           report.error('Element has poor contrast: ' + ratio +
                        " ratio should be greater than " + getAARatio(elt), elt);
