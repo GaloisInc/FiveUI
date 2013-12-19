@@ -11,5 +11,6 @@
   , "imageSize.js"
   , "horizontalRule.js"
   , "pseudoHeadings.js"
+  , "floatSandwiches.js"
   ]
 }
