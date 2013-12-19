@@ -356,17 +356,21 @@
          }
        }
 
-       var ruleStrList = __assembleRules_ruleDescr.rules;
-       for(__assembleRules_i=0; __assembleRules_i<ruleStrList.length; ++__assembleRules_i) {
-         var __assembleRules_moduleFunc = new Function('exports', ruleStrList[__assembleRules_i]);
+       var __assembleRules_ruleStrList = __assembleRules_ruleDescr.rules;
+       for(__assembleRules_i=0; __assembleRules_i<__assembleRules_ruleStrList.length; ++__assembleRules_i) {
+         var __assembleRules_moduleStr =
+           [ '(function(){'
+           , __assembleRules_ruleStrList[__assembleRules_i]
+           , '})()'
+           ].join('\n');
 
          try {
-           var __assembleRules_exported = {};
-           __assembleRules_moduleFunc(__assembleRules_exported);
-           __assembleRules_ruleList.push(__assembleRules_exported);
+           var exports = {};
+           eval(__assembleRules_moduleStr);
+           __assembleRules_ruleList.push(exports);
          } catch (x) {
            console.error('Could not evaluate rule module: ' + x);
-           console.error(__assembleRules_moduleFunc);
+           console.error(__assembleRules_moduleStr);
          }
        }
        return __assembleRules_ruleList;
