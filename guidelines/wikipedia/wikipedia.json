@@ -11,6 +11,7 @@
   , "imageSize.js"
   , "horizontalRule.js"
   , "pseudoHeadings.js"
+  , "pseudoIndent.js"
   , "floatSandwiches.js"
   , "spaceBetweenListItems.js"
   ]
