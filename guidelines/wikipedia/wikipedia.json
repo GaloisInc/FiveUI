@@ -12,5 +12,6 @@
   , "horizontalRule.js"
   , "pseudoHeadings.js"
   , "floatSandwiches.js"
+  , "spaceBetweenListItems.js"
   ]
 }
