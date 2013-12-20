@@ -7,7 +7,7 @@ exports.rule = function(report) {
     if ($img.width() > 400 && !centered($img) && !locationNone($img)) {
       report.warning('Image is more than 400px wide.  Consider using the "center" or "none" location options for wide images', this);
     }
-    if ($img.height() > 500 && !centered($img) && !locationNone($img)) {
+    if ($img.height() > 500) {
       report.warning('Image is more than 500px tall.', this);
     }
   });
