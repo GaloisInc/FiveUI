@@ -14,5 +14,6 @@
   , "pseudoIndent.js"
   , "floatSandwiches.js"
   , "spaceBetweenListItems.js"
+  , "imageAlt.js"
   ]
 }
