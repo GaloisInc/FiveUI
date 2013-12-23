@@ -15,5 +15,6 @@
   , "floatSandwiches.js"
   , "spaceBetweenListItems.js"
   , "imageAlt.js"
+  , "imageCaption.js"
   ]
 }
