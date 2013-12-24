@@ -16,5 +16,6 @@
   , "spaceBetweenListItems.js"
   , "imageAlt.js"
   , "imageCaption.js"
+  , "inlineStyle.js"
   ]
 }
