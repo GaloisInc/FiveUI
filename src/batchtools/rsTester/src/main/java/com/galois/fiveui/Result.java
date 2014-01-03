@@ -19,6 +19,9 @@ package com.galois.fiveui;
 
 import org.openqa.selenium.WebDriver;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A Result object encapsulates the result of running a rule set check on a URL
  * with a WebDriver. Results are organized into four categories:
@@ -36,8 +39,9 @@ public class Result {
     private transient WebDriver _driver;
     private String _url;
     private String _ruleName;
-	private String _ruleDesc;
-	private String _prob;
+    private String _ruleDesc;
+    private String _prob;
+    private String _xpath = null;
 
 	/**
 	 * Construct a new result of one of the four types.
@@ -50,11 +54,12 @@ public class Result {
 	 * @param ruleDesc rule description
 	 * @param prob problem description
 	 */
-    public Result(ResType type, WebDriver driver, String msg, String url,
-    		       String ruleName, String ruleDesc, String prob) {
+    public Result(ResType type, WebDriver driver, String msg, String xpath,
+    		       String url, String ruleName, String ruleDesc, String prob) {
         super();
         _type = type;
         _msg = msg;
+        _xpath = xpath;
         _driver = driver;
         _url = url;
         _ruleName = ruleName;
@@ -207,7 +212,6 @@ public class Result {
     }
 
     public String getXpath() {
-        // TODO Auto-generated method stub
-        return null;
+        return _xpath;
     }
 }

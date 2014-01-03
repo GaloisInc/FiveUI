@@ -123,7 +123,7 @@ public class BatchRunner {
 				} catch (Exception e) {
 					String errStr = "failed to complete webcrawl of" + seedUrl + "\n";
 		            errStr += e.toString();
-		            builder.add(new Result(ResType.Exception, _driver, errStr, seedUrl,
+		            builder.add(new Result(ResType.Exception, _driver, errStr, null, seedUrl,
 		            		               rs.getName(), rs.getDescription(), ""));
 		            logger.error(errStr);
 		            continue;
@@ -148,7 +148,7 @@ public class BatchRunner {
 			        } catch (Exception e) {
 			            String errStr = "exception during runRule: " + rs.getName() + "\n";
 			            errStr += e.toString();
-			            builder.add(new Result(ResType.Exception, _driver, errStr, url,
+			            builder.add(new Result(ResType.Exception, _driver, errStr, null, url,
          		               rs.getName(), rs.getDescription(), ""));
 			            logger.error(errStr);
 			        }
@@ -192,33 +192,36 @@ public class BatchRunner {
         if (res.getClass() == String.class) {
             // we received an error via the expected mechanisms:
             logger.error("exception running rule: " + res);
-            builder.add(new Result(ResType.Exception, _driver, "", _driver.getCurrentUrl(),
+            builder.add(new Result(ResType.Exception, _driver, "", null, _driver.getCurrentUrl(),
 		               ruleSet.getName(), ruleSet.getDescription(), ""));
             return builder.build();
         } else {
             try {
                 @SuppressWarnings({ "unchecked", "rawtypes" })
-                List<Map<String, Map<String, String>>> results = (List) res;
+                List<Map<String, Map<String, Object>>> results = (List) res;
 
                 if (0 == results.size()) {
                     builder.add(new Result(ResType.Pass, _driver,
-                    		"passed " + ruleSet.getRules().size() + " tests",
+                    		"passed " + ruleSet.getRules().size() + " tests", null,
                     		_driver.getCurrentUrl(), ruleSet.getName(), ruleSet.getDescription(), ""));
                 }
 
-                for (Map<String, Map<String, String>> r : results) {
-                    Map<String, String> problem = r.get("payload");
+                for (Map<String, Map<String, Object>> r : results) {
+                    Map<String, Object> problem = r.get("payload");
                     // TODO decide what to extract from problem object and what
                     //      to do with it.
                     //
                     //      Probably we should just pass along the Map<String, String>
                     //      and let the reporter deal with it.
-                    String ruleName = problem.get("name");
-					String ruleDescr = problem.get("descr");
-					String problemAsHTML = "Rule Name: " + ruleName + " / "
+                    String ruleName  = (String) problem.get("name");
+                    String ruleDescr = (String) problem.get("descr");
+                    String msg       = (String) (problem.get("msg") != null ? problem.get("msg") : "");
+                    String xpath     = (String) problem.get("xpath");
+                    ResType severity = mapSeverity((Long) problem.get("severity"));
+                    String problemAsHTML = "Rule Name: " + ruleName + " / "
                                          + "Rule Desc: " + ruleDescr + " / "
-                                         + "XPath:     " + problem.get("xpath");
-                    builder.add(new Result(ResType.Error, _driver, "",
+                                         + "XPath:     " + (String) problem.get("xpath");
+                    builder.add(new Result(severity, _driver, msg, xpath,
                                            _driver.getCurrentUrl(),
                                            ruleName, ruleDescr,
                                            problemAsHTML));
@@ -228,7 +231,7 @@ public class BatchRunner {
                 // An unexpected error happened:
             	logger.error("unexpected object returned: " + e.toString());
             	builder.add(new Result(ResType.Exception, _driver,
-            			               "Unexpected object returned: " + res + ", state: " + state,
+            			               "Unexpected object returned: " + res + ", state: " + state, null,
             			               _driver.getCurrentUrl(),
             			               ruleSet.getName(),
             			               ruleSet.getDescription(),
@@ -301,5 +304,17 @@ public class BatchRunner {
      */
     private void loadURL(String url) {
     	_driver.get(url);
+    }
+
+    private static ResType mapSeverity(long sev) {
+        ResType res;
+
+        switch ((int) sev) {
+            case 0: res = ResType.Error; break;
+            case 1: res = ResType.Warning; break;
+            default: res = ResType.Error; break;
+        }
+
+        return res;
     }
 }

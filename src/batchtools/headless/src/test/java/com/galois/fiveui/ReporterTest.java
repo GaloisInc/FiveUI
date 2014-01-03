@@ -35,9 +35,9 @@ public class ReporterTest {
 	@Test
     public void testConstructor() {
 		ImmutableList<Result> r = ImmutableList.of(
-				new Result(ResType.Pass, (WebDriver) null, "OK", "http://nonexistant", "test rule 1", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 1", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://nonexistant", "test rule 2", "a desc or test rule 1", "problem!"));
+				new Result(ResType.Pass, (WebDriver) null, "OK", null, "http://nonexistant", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", null, "http://intransigent", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", null, "http://nonexistant", "test rule 2", "a desc or test rule 1", "problem!"));
 		Reporter kermit = new Reporter(r);
 		System.out.println("Summary page size: " + kermit.getSummary().length() + " bytes");
 		System.out.println("Summary page size: " + kermit.getByURL().length() + " bytes");
@@ -53,19 +53,19 @@ public class ReporterTest {
 		//File tmpPath = new File("/tmp/");
 		System.out.println("Writing test summary page to: " + tmpPath.toString() + File.separator);
 		ImmutableList<Result> r = ImmutableList.of(
-				new Result(ResType.Pass, (WebDriver) null, "OK", "http://nonexistant", "test rule 1", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 1", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 3", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 4", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Pass, (WebDriver) null, "OK", "http://intransigent", "test rule 5", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Pass, (WebDriver) null, "OK", "http://foo.com", "test rule 1", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://foo.com", "test rule 5", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://foo.com", "test rule 2", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"), // multiple fails for same url+rule combo
-				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
-				new Result(ResType.Error, (WebDriver) null, "ERROR", "http://nonexistant", "test rule 2", "a desc or test rule 1", "problem!"));
+				new Result(ResType.Pass, (WebDriver) null, "OK", null, "http://nonexistant", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", null, "http://intransigent", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", null, "http://intransigent", "test rule 3", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", null, "http://intransigent", "test rule 4", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", null, "http://intransigent", "test rule 5", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Pass, (WebDriver) null, "OK", null, "http://foo.com", "test rule 1", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", null, "http://foo.com", "test rule 5", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", null, "http://foo.com", "test rule 2", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", null, "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", null, "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"), // multiple fails for same url+rule combo
+				new Result(ResType.Error, (WebDriver) null, "ERROR", null, "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", null, "http://bar.com", "test rule 3", "a desc or test rule 1", "problem!"),
+				new Result(ResType.Error, (WebDriver) null, "ERROR", null, "http://nonexistant", "test rule 2", "a desc or test rule 1", "problem!"));
 		Reporter kermit = new Reporter(r);
 		kermit.writeReportsToDir(tmpPath.toString());
 		assertTrue("made it!", true);
