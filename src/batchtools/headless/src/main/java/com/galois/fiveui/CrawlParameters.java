@@ -60,7 +60,7 @@ public class CrawlParameters {
 	}
 	
 	public static Function<String, Boolean> compileMatchFcn(String glob) {
-		String reg = glob.replaceAll("\\.", "\\.").replaceAll("\\*", ".*");
+		String reg = glob.replaceAll("\\.", "\\\\.").replaceAll("\\*", ".*");
 		final Pattern pat = Pattern.compile(reg);
 		return new Function<String, Boolean>() {
 			public Boolean apply(String input) {
