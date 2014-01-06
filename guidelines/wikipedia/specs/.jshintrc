@@ -1,0 +1,22 @@
+{
+  "laxbreak": true
+, "laxcomma": true
+, "undef":    true
+, "jquery":   true
+, "globals": {
+    "fiveui":           false
+  , "$5":               false
+  , "exports":          false
+
+  , "afterEach":        false
+  , "beforeEach":       false
+  , "describe":         false
+  , "it":               false
+  , "expect":           false
+  , "fixture":          true
+  , "teardownFixtures": true
+  , "rule":             true
+  , "run":              true
+  }
+}
+
