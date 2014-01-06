@@ -13,6 +13,7 @@ exports.rule = function(report) {
   });
 };
 
+// Add to prelude.
 function centered($img) {
   return $img.closest('.center').length > 0;
 }

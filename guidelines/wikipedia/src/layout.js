@@ -4,4 +4,4 @@
 exports.name        = "Layout rules for headings";
 exports.description = "";
 
-exports.rule = function(report) {
+exports.rule = function(report) {};
