@@ -3,8 +3,11 @@ exports.description = "Do not make pseudo-headings using bold or semicolon marku
 
 exports.rule = function(report) {
   $5('#mw-content-text p > b:only-child').each(function(i, b) {
-    var text = $.trim($(b).text());
-    report.error('Bold text used as pseudo-heading: '+ text, b);
+    var boldText = $.trim($(b).text());
+    var paraText = $.trim($(b).closest('p').text());
+    if (boldText && boldText === paraText) {
+      report.error('Bold text used as pseudo-heading: '+ boldText, b);
+    }
   });
 
   $5('#mw-content-text dl:not(:has(dd)) dt').each(function(i, dt) {
