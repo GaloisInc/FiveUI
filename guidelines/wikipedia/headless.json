@@ -1,0 +1,8 @@
+{
+  "rulePath"  : "./",
+  "crawlType" :    "2 20 1000 *//[a-z]+.wikipedia.org/wiki/[^:]+",
+  "runs": [
+  { "url": "http://en.wikipedia.org/wiki/%C3%89variste_Galois", "ruleSet": "wikipedia.json" },
+  { "url": "http://en.wikipedia.org/wiki/Main_Page",            "ruleSet": "wikipedia.json" }
+  ]
+}
