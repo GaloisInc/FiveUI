@@ -7,7 +7,7 @@ exports.rule = function(report) {
   $5('p:has(> br)').each(function(i, p) {
     var $p = $(p), prevP;
     if ($.trim($p.text()).length === 0) {
-      prevP = $p.prevAll('p').filter(function(i, pp) {
+      prevP = $p.prevUntil(':not(p)').filter(function(i, pp) {
         return $.trim($(pp).text()).length > 0;
       }).first();
 
