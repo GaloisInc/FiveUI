@@ -9,6 +9,7 @@ exports.rule = function(report) {
 
 function excludes(i, elem) {
   var $elem = $(elem);
+  var style = $elem.attr('style');
 
   // Ignore width rules.
   var widthRule = everyStyle($elem, function(s) {
@@ -21,7 +22,7 @@ function excludes(i, elem) {
 
   // The standard reference list template also seems to include some
   // inline styles.
-  var reference = $elem.hasClass('reflist references-column-width') ||
+  var reference = ($elem.hasClass('reflist') && style.match(/list-style-type\s*:\s*decimal/)) ||
     $elem.hasClass('error') ||
     ($elem.is('.citation ~ * *') && !$.trim($elem.text())); // <span>&nbsp;</span>
 
