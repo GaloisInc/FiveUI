@@ -19,6 +19,9 @@
  * limitations under the License.
  */
 
+/*global obtainPort:true */
+/*jshint boss:true, eqnull:true, debug:true */
+
 (function(){
 
    /**
@@ -72,15 +75,15 @@
        [ '<table class="fiveui-table">'
        , '  <tr>'
        , '    <td class="fiveui-table-text">rules checked:</td>'
-       , '    <td class="fiveui-table-number"><%= numRules %></td>'
+       , '    <td class="fiveui-table-number"><%- numRules %></td>'
        , '  </tr>'
        , '  <tr>'
        , '    <td class="fiveui-table-text">elements checked:</td>'
-       , '    <td class="fiveui-table-number"><%= numElts %></td>'
+       , '    <td class="fiveui-table-number"><%- numElts %></td>'
        , '  </tr>'
        , '  <tr>'
        , '    <td class="fiveui-table-text">elapsed time (ms):</td>'
-       , '    <td class="fiveui-table-number"><%= time %></td>'
+       , '    <td class="fiveui-table-number"><%- time %></td>'
        , '  </tr>'
        , '</table>'
        ].join('')),
@@ -261,9 +264,35 @@
       * @public
       */
      addProblem:function(problem) {
+       var $problems = this.$problems;
+       var $set = $problems.find('.fiveui-problemset').filter(function() {
+         return $(this).data('url') === problem.url;
+       });
+       var $curSet;
+
+       if ($set.length < 1) {
+         $set = $(core.Problem.problemSetTemplate({
+           url: decodeURIComponent(problem.url)
+         }));
+         $set.data('url', problem.url);
+
+         $curSet = $problems.find('.fiveui-problemset').filter(function() {
+           return $(this).data('url') === window.location.href;
+         });
+
+         if (problem.url === window.location.href) {
+           $set.prependTo($problems);
+         }
+         else if ($curSet.length > 0) {
+           $set.insertAfter($curSet);
+         }
+         else {
+           $set.prependTo($problems);
+         }
+       }
 
        var p = new core.Problem(problem);
-       p.appendTo(this.$el.find('.fiveui-problems'));
+       p.appendTo($set);
 
      },
 
@@ -327,18 +356,29 @@
       * Template for entries in the problems list
       */
      problemTemplate:_.template(
-       [ '<div class="fiveui-problem fiveui-severity-<%= severity %>">'
+       [ '<div class="fiveui-problem fiveui-severity-<%- severity %>">'
        , '  <div class="fiveui-problem-header">'
        , '    <div class="fiveui-problem-toggle"><span></span></div>'
-       , '    <%= name %>'
+       , '    <%- name %>'
        , '    <a href="#" class="fiveui-problem-scrollTo">show</a>'
        , '  </div>'
        , '  <div class="fiveui-problem-body">'
-       , '    <p><%= msg %></p>'
-       , '    <p><span class="fiveui-xpath"><%= xpath %></span></p>'
+       , '    <p><%- msg %></p>'
+       , '    <p><span class="fiveui-xpath"><%- xpath %></span></p>'
        , '  </div>'
        , '</div>'
        ].join('')),
+
+     /**
+      * Template for problem sets, which group problems by URL.
+      */
+     problemSetTemplate:_.template(
+       [ '<div class="fiveui-problemset">'
+       , '  <div class="fiveui-problem">'
+       , '    <div class="fiveui-problem-header"><%- url %></div>'
+       , '  </div>'
+       , '</div>'
+       ].join(''))
 
    });
 
@@ -431,7 +471,7 @@
 
    core.unlockMask = function() {
      core.lockDepth = core.lockDepth - 1;
-     if(core.lockDepth == 0) {
+     if(core.lockDepth === 0) {
        core.port.emit('UnmaskRules', null);
      }
    };
@@ -500,7 +540,7 @@
      if(obj) {
        obj.highlighted = obj.highlighted - 1;
 
-       if(obj.highlighted == 0) {
+       if(obj.highlighted === 0) {
          var elt = fiveui.query('.' + prob.hash);
 
          // remove the fiveui style
