@@ -32,10 +32,10 @@ fiveui.ajax = require('ajax');
 
 fiveui.firefox = fiveui.firefox || {};
 
-const widgets = require("widget");
-const tabs    = require("tabs");
-const data    = require("self").data;
-const pageMod = require("page-mod");
+const widgets = require("sdk/widget");
+const tabs    = require("sdk/tabs");
+const data    = require("sdk/self").data;
+const pageMod = require("sdk/page-mod");
 
 fiveui.firefox.main = function() {
   var settings = new fiveui.Settings(new StorageWrapper());

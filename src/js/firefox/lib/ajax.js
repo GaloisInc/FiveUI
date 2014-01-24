@@ -1,6 +1,6 @@
 
 var fiveui  = fiveui || {};
-var Request = require('request').Request;
+var Request = require('sdk/request').Request;
 var _       = require('underscore');
 
 (function() {
@@ -14,7 +14,7 @@ exports.get = function(url, opts) {
 
   _.defaults(opts, {
     success: function() {},
-    error:   function() {},
+    error:   function() {}
   });
 
   Request({
@@ -27,7 +27,7 @@ exports.get = function(url, opts) {
       } else {
         opts.error();
       }
-    },
+    }
 
   }).get();
 

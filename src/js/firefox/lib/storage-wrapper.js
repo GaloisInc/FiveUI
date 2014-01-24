@@ -20,7 +20,7 @@
  */
 
 
-const ss = require('simple-storage');
+const ss = require('sdk/simple-storage');
 
 var fiveui = { firefox : {} };
 
