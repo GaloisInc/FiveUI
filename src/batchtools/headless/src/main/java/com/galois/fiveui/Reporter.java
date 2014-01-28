@@ -61,7 +61,6 @@ public class Reporter {
             + "li { margin: 5 0 0 0; }"
             + "table { border: 1px solid grey; cellpadding: 5%; width: 100%; table-layout: fixed; }\n"
             + "th.numeric { width: 4em; }"
-            + "td.pass-number{ text-align: right; color: green; }\n"
             + "td.error-number{ text-align: right; color: red; }\n"
             + "td.warning-number{ text-align: right; color: darkorange; }\n"
             + "td.text{ text-align: left; }\n" + "th { font-weight: bold; }\n"
@@ -132,9 +131,7 @@ public class Reporter {
             }
 
             /**
-             * Report statistics on the headless run. Note, "pass" means the URL
-             * passed all tests in the ruleset, but "fail" can be reported for
-             * the same test on multiple offenders in the page.
+             * Report statistics on the headless run.
              */
             Html makeSummaryStats(String title, String detailUrl, Map<String, int[]> stats) {
                 int keycount = stats.size();
@@ -152,7 +149,6 @@ public class Reporter {
                         thead();
                             tr();
                                 th()                     .text("URL")    .end();
-                                th().classAttr("numeric").text("Pass")   .end();
                                 th().classAttr("numeric").text("Error")  .end();
                                 th().classAttr("numeric").text("Warning").end();
                             end();
@@ -168,8 +164,6 @@ public class Reporter {
                         td().classAttr("text")
                             .a().href(detailUrl+"#"+encode(key)).text(key).end()
                         .end();
-                        td().classAttr("pass-number")
-                            .text(String.valueOf(statsList[0])).end();
                         td().classAttr("error-number")
                             .text(String.valueOf(statsList[1])).end();
                         td().classAttr("warning-number")
