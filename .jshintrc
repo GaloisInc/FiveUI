@@ -2,12 +2,10 @@
   "laxbreak": true,
   "laxcomma": true,
   "undef":    true,
-  "jquery":   true,
-  "browser":  true,
   "globals": {
     "fiveui":  false,
     "$5":      false,
     "exports": false,
-    "_":       true
+    "_":       false
   }
 }

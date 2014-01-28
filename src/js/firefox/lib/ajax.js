@@ -1,7 +1,7 @@
 
 var fiveui  = fiveui || {};
 var Request = require('sdk/request').Request;
-var _       = require('underscore');
+var RSVP    = require('rsvp');
 
 (function() {
 
@@ -10,27 +10,22 @@ var _       = require('underscore');
  * Behaves somewhat like the jQuery.ajax method, but only ever returns the text
  * content of the response.
  */
-exports.get = function(url, opts) {
+exports.get = function(url) {
+  return new RSVP.Promise(function(resolve, reject) {
+    Request({
 
-  _.defaults(opts, {
-    success: function() {},
-    error:   function() {}
+      url: url,
+
+      onComplete:function(resp) {
+        if(resp.status == 200) {
+          resolve(resp.text);
+        } else {
+          reject();
+        }
+      },
+
+    }).get();
   });
-
-  Request({
-
-    url: url,
-
-    onComplete:function(resp) {
-      if(resp.status == 200) {
-        opts.success(resp.text);
-      } else {
-        opts.error();
-      }
-    }
-
-  }).get();
-
 };
 
 })();

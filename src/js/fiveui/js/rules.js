@@ -93,11 +93,11 @@ fiveui.RuleSet.load = function(manifest_url, options) {
       // set defaults in the parsed manifest
       var manifest = fiveui.RuleSet.sanitize(obj);
 
-      return $.when(
+      return all([
         loadDependencies(manifest.dependencies),
         loadRules(manifest.rules)
-      )
-      .then(function(dependencies, rules) {
+      ])
+      .then(function(outcomes) {
 
         return _.extend(manifest, {
           // explicitly zero out the patterns, they shouldn't be part of the
@@ -107,8 +107,8 @@ fiveui.RuleSet.load = function(manifest_url, options) {
           // overwrite any source present with the one given by the user.
           source:       manifest_url,
 
-          dependencies: dependencies,
-          rules:        rules
+          dependencies: outcomes[0],
+          rules:        outcomes[1]
         });
 
       });
@@ -134,7 +134,7 @@ fiveui.RuleSet.load = function(manifest_url, options) {
       });
     });
 
-    return whenAll(deps);
+    return all(deps);
   }
 
   function loadRules(ruleFiles) {
@@ -149,7 +149,7 @@ fiveui.RuleSet.load = function(manifest_url, options) {
       });
     });
 
-    return whenAll(rules);
+    return all(rules);
   }
 
 };
@@ -277,28 +277,22 @@ fiveui.RuleSets = Backbone.Collection.extend({
  * Creates a resolved promise.
  */
 function success(val) {
-  var deferred = $.Deferred();
-  deferred.resolve(val);
-  return deferred.promise();
+  return RSVP.resolve(val);
 }
 
 /**
  * Creates a rejected promise.
  */
 function failure(reason) {
-  var deferred = $.Deferred();
-  deferred.reject(reason);
-  return deferred.promise();
+  return RSVP.reject(reason);
 }
 
 /**
  * Given an array of promises, returns a promise that will resolve to
  * the array of resolved values of the input promises.
  */
-function whenAll(promises) {
-  return $.when.apply($, promises).then(function() {
-    return Array.prototype.slice.call(arguments);
-  });
+function all(promises) {
+  return RSVP.all(promises);
 }
 
 })();

@@ -1,0 +1,11 @@
+{
+  "laxbreak": true,
+  "laxcomma": true,
+  "undef":    true,
+  "moz":      true,
+  "globals": {
+    "fiveui":  true,
+    "require": false,
+    "exports": false
+  }
+}

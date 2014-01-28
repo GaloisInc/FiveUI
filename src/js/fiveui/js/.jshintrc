@@ -1,0 +1,12 @@
+{
+  "laxbreak": true,
+  "laxcomma": true,
+  "undef":    true,
+  "browser":  false,
+  "jquery":   false,
+  "globals": {
+    "_":        false,
+    "Backbone": false,
+    "RSVP":     false
+  }
+}

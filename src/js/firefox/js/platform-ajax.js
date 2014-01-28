@@ -6,5 +6,5 @@ var fiveui      = fiveui      || {};
 fiveui.ajax     = fiveui.ajax || {};
 
 fiveui.ajax.get = function () {
-  return $.Deferred().promise();
+  return new RSVP.Promise(function() {});
 };

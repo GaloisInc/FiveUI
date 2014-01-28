@@ -89,6 +89,7 @@ $1/data/%: $(lib-dir)/% | $1/data
 	$$(call cmd,cp)
 
 $2: $1/data/underscore.js \
+    $1/data/rsvp.js       \
     $1/data/backbone.js   \
     $1/data/md5.js
 

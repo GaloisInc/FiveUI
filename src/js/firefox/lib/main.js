@@ -19,7 +19,10 @@
  * limitations under the License.
  */
 
+/*globals _:true, RSVP:true, Backbone:true, StorageWrapper:true, TabIds:true */
+
 _              = require('underscore');
+RSVP           = require('rsvp');
 Backbone       = require('backbone');
 StorageWrapper = require('storage-wrapper').StorageWrapper;
 TabIds         = require('tabIds').TabIds;
@@ -72,13 +75,13 @@ fiveui.firefox.main = function() {
    * @param {?fiveui.TabState} tabState
    */
   var updateWidget = function(tabState) {
-    if(null == tabState) {
+    if(!tabState) {
       icon.port.emit('setDisabled');
       icon.width = 16;
     } else {
       var problems = getProblemCount(tabState);
       icon.port.emit('setEnabled', problems);
-      if (problems == 0){
+      if (!problems || problems == '0'){
         icon.width = 16;
       } else {
         icon.width = 24;
@@ -92,7 +95,7 @@ fiveui.firefox.main = function() {
     data.load('css/ui.css'),
     data.load('jquery/bundled.css'),
     data.load('font-awesome/css/font-awesome.css')
-  ].join('\n')
+  ].join('\n');
 
   /**
    * Inject code and resources into the specified tab's web page.
@@ -104,11 +107,12 @@ fiveui.firefox.main = function() {
    * @return {void}
    */
   var loadScripts = function(tabId, inScripts, inFrames, tab) {
+    var firefoxScripts;
 
     if(inFrames) {
-      var firefoxScripts = [dataLoader('injected/platform-compute.js')];
+      firefoxScripts = [dataLoader('injected/platform-compute.js')];
     } else {
-      var firefoxScripts = [dataLoader('injected/platform-ui.js')];
+      firefoxScripts = [dataLoader('injected/platform-ui.js')];
     }
 
     // just scripts, css gets filtered out.
@@ -192,6 +196,7 @@ fiveui.firefox.main = function() {
         [ data.url('jquery/jquery-1.8.3.js')
         , data.url('jquery/jquery-ui-1.9.2.custom.js')
         , data.url('underscore.js')
+        , data.url('rsvp.js')
         , data.url('backbone.js')
         , data.url('js/settings.js')
         , data.url('js/chan.js')

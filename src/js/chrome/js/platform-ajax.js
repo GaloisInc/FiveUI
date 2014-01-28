@@ -12,15 +12,17 @@ fiveui.ajax = fiveui.ajax || {};
  * further processing to the success continuation.
  */
 fiveui.ajax.get = function(url, options) {
+  return new RSVP.Promise(function(resolve, reject) {
 
-  return jQuery.ajax(url, {
+    jQuery.ajax(url, {
+      cache: false,
+      dataType: 'text',
+    })
 
-    cache: false,
-
-    dataType: 'text',
+    // Converts jQuery promise to RSVP so that chaining works correctly.
+    .then(resolve, reject);
 
   });
-
 };
 
 })();
