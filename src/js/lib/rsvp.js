@@ -193,7 +193,7 @@ __define_("rsvp/asap",
     // Firefox extension SDK
     function useTimers() {
       return function() {
-        require('timers').setTimeout(flush, 1);
+        require('sdk/timers').setTimeout(flush, 1);
       };
     }
 
@@ -220,7 +220,7 @@ __define_("rsvp/asap",
       scheduleFlush = useNextTick();
     } else if (BrowserMutationObserver) {
       scheduleFlush = useMutationObserver();
-    } else if (typeof require === 'function' && require('timers')) {
+    } else if (typeof setTimeout === 'undefined' && typeof require === 'function') {
       scheduleFlush = useTimers();
     } else {
       scheduleFlush = useSetTimeout();
