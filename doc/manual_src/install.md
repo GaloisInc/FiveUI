@@ -9,12 +9,8 @@ extension on your local computer.
 
 ## Installing FiveUI in Firefox
 
-FiveUI is currently supported on Firefox 10 (Mozilla's extended
-support release version), although it should also work on Firefox 3.6.
-Due to changes in the long-term support and Mozilla version numbering
-scheme, versions 4-9 are not supported. FiveUI v0.2 is known not to
-work in very recent versions of Firefox, e.g. v16. These versions will
-be supported in the future as the next extended support release nears.
+FiveUI is currently supported on Firefox 24 (Mozilla's extended support
+release version).
 
 The FiveUI Firefox extension is packaged in a file called
 `fiveui.xpi`.  Locate this file in your distribution (or download) and
