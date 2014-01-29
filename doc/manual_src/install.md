@@ -13,11 +13,13 @@ FiveUI is currently supported on Firefox 24 (Mozilla's extended support
 release version).
 
 The FiveUI Firefox extension is packaged in a file called
-`fiveui.xpi`.  Locate this file in your distribution (or download) and
+[`fiveui.xpi`][xpi].  Locate this file in your distribution (or download) and
 take note of the location for the following steps.  We will assume
 that it is located at `d:\binaries\fiveui.xpi`
 
- * Open Firefox, and load the `Add-ons Manager` from the main Firefox
+[xpi]: ../binaries/fiveui.xpi
+
+ * Open Firefox, and load the `Add-ons` from the main Firefox
    menu.
 
 ![Access the Firefox Add-ons Manager from the main Firefox menu](figures/ff-menu.png)
