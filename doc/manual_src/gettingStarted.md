@@ -20,14 +20,14 @@ the guidelines should run.
 The options page in `Chrome` can be accessed either through the
 options link on the extensions page, or through the options item on
 the context menu off of the FiveUI button (accessed by right-clicking
-on the FiveUI button).
+on the FiveUI button in the toolbar).
 
 ## Options in FireFox
 
-The options page in `FireFox` can be accessed via the FiveUI gear widget, which
-should be added in addition to the FiveUI widget when the addon is installed.
-Once clicked, a new tab should appear which serves as the options interface for
-the addon.
+The options page in `FireFox` can be accessed via the FiveUI gear
+widget, which should appear next to the FiveUI widget when the addon is
+installed.  Once clicked, a new tab should appear which serves as the
+options interface for the addon.
 
 The FiveUI Widgets are initially placed on the Firefox `Add-on bar`,
 as shown in the figure.
@@ -48,7 +48,7 @@ side of the options page.
 
 FiveUI loads `Rule Sets` from a URL.
 
-`Rule Sets` in FiveUi are specified as a JSON object that contains javascript
+`Rule Sets` in FiveUI are specified as a JSON object that contains javascript
 functions for the rule implementations.  Each `Rule Set` contains a **name**,
 **description** and list of zero or more **rules**.  The following snippet
 exhibits the minimal definition for a `Rule Set`, providing only the **name**
@@ -71,7 +71,7 @@ API.
 The required exports of a **rule** file are:
 
  1. A rule name, called `name`
- 2. A description, called 'description`
+ 2. A description, called `description`
  3. A function that will be called as the body of the rule, named `rule`
 
 As a simple example, the following rule will log an error for each header tag
@@ -89,9 +89,19 @@ exports.rule        = function(report) {
 };
 ```
 
-Notice that the `rule` function is given a report argument that has an error
-method exposed, this is how errors are reported back to the extension from the
-context of a rule.
+Notice that the `rule` function is given a `report` argument that has an
+`error` method exposed, this is how errors are reported back to the
+extension from the context of a rule. To report lower-priority issues,
+`report` also comes with a `warning` method.  Both `error` and `warning`
+take an explanation of the problem as the first argument, and
+a reference to the DOM element where the problem appears as the second
+argument.
+
+`fiveui.query` is a wrapper for the jQuery `$()` function.  In most
+respects it behaves like jQuery.  But it has some special features,
+which are described in the [javascript documentation][query].
+
+[query]: ../jsdoc/symbols/fiveui.html#.query
 
 ### Creating a `Rule Set`
 
@@ -218,9 +228,11 @@ exports.rule        = function() {
 ```
 
 This sample `Rule Set` demonstrates some new capabilities:
+
  * Multiple rules in one Rule Set.
  * Multi-line descriptions.
  * The `fiveui.word.capitalized(...)` predicate, from the `FiveUI prelude`.
+
 The `FiveUI Prelude` is a small collection of utilities for creating rules.
 
 Once adding this `Rule Set` specifying a `URL Pattern`, we can view

@@ -102,12 +102,13 @@ other fields of the rule, **name** and **description**.  In addition
 to the fields of the rule, there is a field named **ruleSet**, which
 is a reference to the enclosing `Rule Set`.
 
-The function parameter is an object with one method: 'error' which
-takes an error message and a DOM element as its two parameters.  The
-DOM element is used by FiveUI to describe the location of the error,
-so it should be chosen to best represent the location on the page
-where the error occurred.  If the DOM element is unspecified, the rule
-will run, but less debugging information will be provided to the user.
+The function parameter is an object with two methods: `error` and
+`warning`, which both take an error message and a DOM element as their
+two parameters.  The DOM element is used by FiveUI to describe the
+location of the error, so it should be chosen to best represent the
+location on the page where the error occurred.  If the DOM element is
+unspecified, the rule will run, but less debugging information will be
+provided to the user.
 
 ```javascript
 exports.name = "imagesAltText";
