@@ -189,9 +189,10 @@
 
      _pollResize:function() {
 
-       var height = this.$el.height();
+       var isVisible = this.$el.is(':visible');
+       var height = isVisible && this.$el.height();
 
-       if(height != this.height) {
+       if(height && height != this.height) {
 
          this.height = height;
 
