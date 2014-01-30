@@ -7,7 +7,7 @@
                       "Trevor Elliot <trevor@galois.com>",
                       "Benjamin Jones <bjones@galois.com>"
                     ],
-    "version": "0.3",
+    "version": "0.4",
     "id": "jid1-oquzbbbog1fmxq",
     "description": "UI Constraint Checker",
     "lib": "data/",
