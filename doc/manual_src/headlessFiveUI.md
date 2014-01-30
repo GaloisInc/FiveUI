@@ -64,9 +64,9 @@ installed on your system to continue.
 ### Compile Headless
 
 Once you have maven installed, you can compile the project. This will trigger
-the dependencies to be downloaded and installed in your local maven repository
-(for a quick intro to using maven, see [Maven in Five
-Minutes](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
+the dependencies to be downloaded and installed in your local maven repository.
+(For a quick intro to using maven, see [Maven in Five
+Minutes](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).)
 
 ```
 $ mvn compile package -DskipTests
