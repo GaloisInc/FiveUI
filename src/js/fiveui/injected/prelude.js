@@ -22,13 +22,13 @@
 /*global $5: true, JSON: true */
 
 /**
- * The FiveUI Prelude.
+ * <p>The FiveUI Prelude.</p>
  *
  * @description
- * The prelude provides a collection of utilities to ease the
+ * <p>The prelude provides a collection of utilities to ease the
  * conversion from human-readable guideline documents (such as the Web
  * Accessibilty Guidelines, or Apple Human Interface Guidelines) to
- * executable Rules.
+ * executable Rules.</p>
  *
  * @namespace
  */
@@ -48,17 +48,23 @@ fiveui.stats.zero = { numRules: 0, start: 0, end: 0, numElts: 0 };
 /** DOM Traversal ************************************************************/
 
 /**
- * fiveui.query is a wrapper around the jQuery $() function.
+ * <p>fiveui.query is a wrapper around the jQuery $() function.</p>
  *
  * @description
- * fiveui.query recurses into iframes and frames, whereas $(...) stops
- * when it encounters internal frames.
+ * <p>In most respects fiveui.query behaves just like jQuery. But it
+ * recurses into iframes and frames, whereas $(...) stops
+ * when it encounters internal frames. fiveui.query also skips over
+ * page elements that are added by FiveUI.</p>
  *
- * Generally, rules written for FiveUI will want to cover the entire
+ * <p>Generally, rules written for FiveUI will want to cover the entire
  * visible page, and as such, should use fiveui.query; however, $(...)
- * is available if recursing into frames is not necessary.
+ * is available if recursing into frames is not necessary.</p>
  *
- * @param {String} sel The jQuery selector string.
+ * <p>$5() is an alias for fiveui.query.</p>
+ *
+ * @alias $5
+ *
+ * @param {string} sel The jQuery selector string.
  * @param {Object} [context] The context to run the query within. This is often a DOM object/tree.
  * @returns {Object} A jQuery object, suitable for chaining.
  */
@@ -104,12 +110,13 @@ fiveui.query = function (sel, context) {
 };
 
 /**
- * Provide a short alias for fiveui.query along the lines of the jQuery $ alias.
+ * <p>Provide a short alias for fiveui.query along the lines of the
+ * jQuery $ alias.</p>
  *
  * @example $5("p").hasText("foo") -> jQuery object containing paragraph elements
  * containing the text "foo"
- * </pre></p>
  *
+ * @function
  * @const
  *
  */
@@ -118,7 +125,7 @@ var $5 = fiveui.query;
 /** Utilities ****************************************************************/
 
 /**
- * Determine if a given value is a string or not.
+ * <p>Determine if a given value is a string or not.</p>
  *
  * @param {*} [o] A value of some type that may or may not be defined.
  * @returns {!boolean} true if the object is a defined, non-null string, false
@@ -130,18 +137,18 @@ fiveui.isString = function(o) {
 
 
 /**
- * String-specific utilities.
+ * <p>String-specific utilities.</p>
  *
  * @namespace
  */
 fiveui.string = {};
 
 /**
- * Non-destructively removes whitespace from the start and end of a
- * string.
+ * <p>Non-destructively removes whitespace from the start and end of a
+ * string.</p>
  *
- * @param {String} [s] The string to trim of whitespace.
- * @returns {String} The input string, without leading or trailing
+ * @param {string} [s] The string to trim of whitespace.
+ * @returns {string} The input string, without leading or trailing
  * whitespace. Returns null if you gave it null.
  */
 fiveui.string.trim = function(s) {
@@ -152,10 +159,10 @@ fiveui.string.trim = function(s) {
 };
 
 /**
- * Tokenize a string on whitespace.
+ * <p>Tokenize a string on whitespace.</p>
  *
- * @param {!String} s The string to tokenize.
- * @returns {String[]>} An array of substrings.
+ * @param {!string} s The string to tokenize.
+ * @returns {string[]>} An array of substrings.
  */
 fiveui.string.tokens = function (s) {
   var posLength = function(ar) {
@@ -167,15 +174,16 @@ fiveui.string.tokens = function (s) {
 
 
 /**
- * A simple heuristic check to see if a string is in Title Case.
+ * <p>A simple heuristic check to see if a string is in Title Case.</p>
  *
  * @description
- * This does not perform an exhaustive gramatical analysis, and as
+ * <p>This does not perform an exhaustive gramatical analysis, and as
  * such, it is prone to generating false-positives in some cases.  In
  * particular, it only has a short 'white list' of articles,
- * conjections, and prepositions that are allowed to be in lower case.
+ * conjections, and prepositions that are allowed to be in lower
+ * case.</p>
  *
- * @param {!String} str The string to check.
+ * @param {!string} str The string to check.
  * @returns {!boolean} true if the string is in title case, false if
  * it is not.
  */
@@ -202,20 +210,21 @@ fiveui.string.isTitleCase = function(str) {
 };
 
 /**
- * Utilities for word-specific processing.
+ * <p>Utilities for word-specific processing.</p>
  *
- * @description The fiveui.word namespace focuses on tools for working directly
+ * @description
+ * <p>The fiveui.word namespace focuses on tools for working directly
  * with words in the sense of natural languages, rather than general
- * strings (as is the case for the fiveui.string namespace).
+ * strings (as is the case for the fiveui.string namespace).</p>
  *
  * @namespace
  */
 fiveui.word = {};
 
 /**
- * Check to see if a sting begins with a capital letter.
+ * <p>Check to see if a sting begins with a capital letter.</p>
  *
- * @param {!String} word The string to check for capitalization.
+ * @param {!string} word The string to check for capitalization.
  * @returns {!boolean}
  */
 fiveui.word.capitalized = function(word) {
@@ -223,9 +232,9 @@ fiveui.word.capitalized = function(word) {
 };
 
 /**
- * Check to see if a sting consists entirely of capital letters.
+ * <p>Check to see if a sting consists entirely of capital letters.</p>
  *
- * @param {!String} word The string to check for capitalization.
+ * @param {!string} word The string to check for capitalization.
  * @returns {!boolean}
  */
 fiveui.word.allCaps = function(word) {
@@ -236,18 +245,18 @@ fiveui.word.allCaps = function(word) {
 
 
 /**
- * Utilities for dealing with color.
+ * <p>Utilities for dealing with color.</p>
  *
  * @namespace
  */
 fiveui.color = {};
 
 /**
- * Color check compiler. It is recommended to use the jQuery plugin
- * fiveui.jquery.cssIsNot instead.
+ * <p>Color check compiler. It is recommended to use the jQuery plugin
+ * fiveui.jquery.cssIsNot instead.</p>
  *
- * @param {!String} selector The HTML element selector to check.
- * @param {String[]}  colorSet An array of strings containing the HEX values of
+ * @param {!string} selector The HTML element selector to check.
+ * @param {string[]}  colorSet An array of strings containing the HEX values of
  *                           colors in the desired color set.
  * @returns {!function()}      A function which checks the rule
  * @see fiveui.jquery.cssIsNot
@@ -268,22 +277,37 @@ fiveui.color.colorCheck = function (selector, colorSet) {
   };
 };
 
+/**
+ * @private
+ */
 componentToHex = function (c) {
   var hex = c.toString(16).toUpperCase();
   return hex.length == 1 ? "0" + hex : hex;
 };
 
+/**
+ * @description
+ * <p>Given a hexadecimal color in short form, returns the corresponding
+ * long form.</p>
+ *
+ * @example
+ * shortHexToHex('#fff') === '#ffffff'
+ *
+ * @private
+ */
 shortHexToHex = function (color) {
   var have = color.length - 1;
   var haveDigits = color.substr(1, color.length);
   var need = 6 - have;
   var reps = Math.ceil(need / have);
-  var i, strColor;
+  var i, stdColor;
   for (i = 0, stdColor = color; i < reps; i += 1) { stdColor += haveDigits; }
   return stdColor.substr(0, 7);
 };
 
-// Compare RGBA objects
+/**
+ * @private
+ */
 equalRGBA = function (c1, c2) {
   return (c1.r == c2.r &&
           c1.g == c2.g &&
@@ -292,14 +316,39 @@ equalRGBA = function (c1, c2) {
 };
 
 /**
- * Convert RGB values to Hex.
+ * <p>Convert RGB values to Hex.</p>
+ *
+ * @description
+ * <p>Accepts three arguments representing red, green, and blue color
+ * components.  Returns a hexadecimal representation of the
+ * corresponding color.</p>
+ *
+ * @example
+ * fiveui.color.rgbToHex(255, 255, 255) === '#FFFFFF'
+ *
+ * @param {!number} red
+ * @param {!number} green
+ * @param {!number} blue
+ * @return {!string}
  */
 fiveui.color.rgbToHex = function (r, g, b) {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 };
 
 /**
- * Convert a 3-byte hex value to base-10 RGB
+ * <p>Convert a 3-byte hex value to base-10 RGB</p>
+ *
+ * @description
+ * <p>Given a hexadecimal color code as a string, returns an object with
+ * `r`, `g`, and `b` properties that give the red, green, and blue
+ * components of the color.</p>
+ *
+ * @example
+ * fiveui.color.hexToRGB('#ffffff') //> { r: 255, g: 255, b: 255 }
+ * fiveui.color.hexToRGB('ffffff') //> { r: 255, g: 255, b: 255 }
+ *
+ * @param {!string} color
+ * @return {color}
  */
 fiveui.color.hexToRGB = function (hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -311,14 +360,20 @@ fiveui.color.hexToRGB = function (hex) {
 };
 
 /**
- * Covert rgb colors to hex and abreviated hex colors to their full 3 byte
- * and uppercase normal form.
+ * <p>Covert rgb colors to hex and abreviated hex colors to their full 3 byte
+ * and uppercase normal form.</p>
  *
- * In case there are parse errors during the conversion, i.e. color values
- * that are not understood, the input is returned unchanged.
+ * @description
+ * <p>Throws an error if the given color cannot be parsed.</p>
  *
- * @param {!String} color The color string to convert. This should be either of the form rgb(...) or #...
- * @returns {!String} The color string in #XXXXXX form
+ * @example
+ * fiveui.color.colorToHex('#ffffff') === "#FFFFFF"
+ * fiveui.color.colorToHex('#fff') === "#FFFFFF"
+ * fiveui.color.colorToHex('rgb(255, 255, 255)') === "#FFFFFF"
+ * fiveui.color.colorToHex('rgba(255, 255, 255)') === "#FFFFFF"
+ *
+ * @param {!string} color The color string to convert. This should be either of the form rgb(...) or #...
+ * @returns {!string} The color string in #XXXXXX form
  * @throws {ParseError} if the rgb color string cannot be parsed
  */
 fiveui.color.colorToHex = function(color) {
@@ -339,6 +394,17 @@ fiveui.color.colorToHex = function(color) {
     }
 };
 
+/**
+ * <p>Attemps to convert a given string to a hexadecimal color code.</p>
+ *
+ * @description
+ * <p>Behaves like fiveui.color.colorToHex - except that in case there
+ * are parse errors during the conversion, i.e. color values that are
+ * not understood, the input is returned unchanged.</p>
+ *
+ * @param {!string} color The color string to convert. This should be either of the form rgb(...) or #...
+ * @returns {!string} The color string in #XXXXXX form
+ */
 fiveui.color.colorToHexWithDefault = function (color) {
   try {
     return fiveui.color.colorToHex(color);
@@ -350,9 +416,15 @@ fiveui.color.colorToHexWithDefault = function (color) {
 };
 
 /**
- * Covert color to RGB color object.
+ * <p>Covert color to RGB color object.</p>
  *
- * @param {!String} color The color string to convert. This should be either of the form rgb(...) or #...
+ * @example
+ * fiveui.color.colorToRGB('#ffffff') //> { r: 255, g: 255, b: 255 }
+ * fiveui.color.colorToRGB('#fff') //> { r: 255, g: 255, b: 255 }
+ * fiveui.color.colorToRGB('rgb(255, 255, 255)') //> { r: 255, g: 255, b: 255 }
+ * fiveui.color.colorToRGB('rgba(255, 255, 255)') //> { r: 255, g: 255, b: 255 }
+ *
+ * @param {!string} color The color string to convert. This should be either of the form rgb(...) or #...
  * @returns {!Object} An RGB color object with attributes: r, g, b, a
  * @throws {ParseError} if the rgb color string cannot be parsed
  */
@@ -380,13 +452,17 @@ fiveui.color.colorToRGB = function(color) {
 
 
 /**
- * Calculate the relative {@link
+ * <p>Calculate the relative {@link
  * http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
- * luminance} of an sRGB color.
+ * luminance} of an sRGB color.</p>
  *
- * This function does not account for alpha values that are not 1.
+ * @description
+ * <p>This function does not account for alpha values that are not 1.
  * That is, it assumes that the incomming color is fully opaque, or
- * displayed on a white background.
+ * displayed on a white background.</p>
+ *
+ * @example
+ * fiveui.color.luminance({ r: 255, g: 255, b: 255 }) === 1
  *
  * @param {!Object} An RGB color object with attributes: r, g, b, a
  * @returns {!doubl} A measure of the relative luminance according to
@@ -412,12 +488,20 @@ fiveui.color.luminance = function(color) {
 };
 
 /**
- * Compute the contrast ratio, according to {@link
+ * <p>Compute the contrast ratio, according to {@link
  * http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
- * WCAG 2.0}
+ * WCAG 2.0}</p>
  *
- * This function will try to figure out which color is lighter (the
- * smaller one).
+ * @example
+ * var color_a = fiveui.color.colorToRGB('#98BC4B');
+ * var color_b = fiveui.color.colorToRGB('#88E2CA');
+ *
+ * var contrast = fiveui.color.contrast(
+ *     fiveui.color.luminance(color_a),
+ *     fiveui.color.luminance(color_b)
+ * );
+ *
+ * contrast === 1.4307674054056414
  *
  * @param {!double} lum1 The relative luminance of the first color.
  * @param {!double} lum2 The relative luminance of the second color.
@@ -432,12 +516,17 @@ fiveui.color.contrast = function(lum1, lum2) {
 };
 
 /**
- * Computationally determine the actual displayed background color for
+ * <p>Computationally determine the actual displayed background color for
  * an object.  This accounts for parent colors that may appear when
- * a bg color is unspecified, or fully transparent.
+ * a bg color is unspecified, or fully transparent.</p>
  *
- * It does not account for elements that are shifted out of their
- * parent containers.
+ * @description
+ * <p>It does not account for elements that are shifted out of their
+ * parent containers.</p>
+ *
+ * @example
+ * var sidebar = $('div.sidebar');
+ * fiveui.color.findBGColor(sidebar) //> { r: 136, g: 226, b: 202 }
  *
  * @param {!Object} A jquery object.
  * @returns {color} an RGB color object. (no alpha - this does not
@@ -488,7 +577,7 @@ fiveui.color.findBGColor = function(obj) {
 };
 
 /**
- * Combines two colors, accounting for alpha values less than 1.
+ * <p>Combines two colors, accounting for alpha values less than 1.</p>
  *
  * @param {color} top The color "on top"
  * @param {color} bot The color "on bottom"
@@ -506,15 +595,15 @@ fiveui.color.alphaCombine = function(top, bot) {
 };
 
 /**
- * Utilities for dealing with fonts.
+ * <p>Utilities for dealing with fonts.</p>
  *
  * @namespace
  */
 fiveui.font = {};
 
 /**
- * Extracts the font-family, font-size (in px, as an int), and font-weight
- * from a jQuery object.
+ * <p>Extracts the font-family, font-size (in px, as an int), and font-weight
+ * from a jQuery object.</p>
  *
  * @param {!Object} jElt A jQuery object to extract font info from
  * @returns {!Object} An object with properties: 'family', 'size', and 'weight'
@@ -546,16 +635,18 @@ fiveui.font.getFont = function (jElt) {
 };
 
 /**
- * Validate a font property object extracted using fiveui.font.getFont().
+ * <p>Validate a font property object extracted using fiveui.font.getFont().</p>
  *
- * @description The `allow` parameter should be an object whose top level properties are
+ * @description
+ * <p>The `allow` parameter should be an object whose top level properties are
  * (partial) font family names (e.g. 'Verdana'). For each font family name
  * there should be an object whose properties are font weights (e.g. 'bold'),
  * and for each font weight there should be an array of allowable sizes
- * (e.g. [10, 11, 12]).
+ * (e.g. [10, 11, 12]).</p>
  *
- * The `font` parameter should be an object containing 'family', 'weight', and
- * 'size' properties. These are returned by @see fiveui.font.getFont().
+ * <p>The `font` parameter should be an object containing 'family', 'weight', and
+ * 'size' properties. These are returned by @see
+ * fiveui.font.getFont().</p>
  *
  * @example > allow = { 'Verdana': { 'bold': [10, 12], 'normal': [10, 12]}};
  * > font = { family: 'Verdana Arial sans-serif', size: "10", weight: "normal" };
@@ -598,7 +689,7 @@ fiveui.font.validate = function (allow, font) {
  * the visual indicator.</p>
  *
  * @function
- * @param {!String} desc The description of the problem to report.
+ * @param {!string} desc The description of the problem to report.
  * @param {?Node} node The node in the DOM that caused the problem.
  * @name report
  */
