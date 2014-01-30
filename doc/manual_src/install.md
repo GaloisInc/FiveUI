@@ -48,17 +48,20 @@ explains how to configure and use the extension.
 All recent versions of Google Chrome should support FiveUI.
 
 Chrome is primarily designed to install extensions from the on-line
-extension marketplace. However, local extensions can be installed by
-unpacking the extension file, in this case `fiveui_chrome.zip`, and
-enabling Chrome's extension developer mode.
+extension marketplace.  You can [install FiveUI] from that marketplace.
+However, local extensions can also be installed by unpacking the
+extension file, in this case [`fiveui_chrome.zip`][zip], and enabling
+Chrome's extension developer mode.
+
+[install FiveUI]: https://chrome.google.com/webstore/detail/five-ui/bbccaefdcbnnkpmekjchefnhhaamgoom
+[zip]: ../binaries/fiveui_chrome.zip
 
 The following steps describe how to install FiveUI in Chrome, using an
 extension file from the local file system.
 
-The FiveUI Chrome extension is packaged in a file called `fiveui_chrome.zip`.
-Locate this file in your distribution (or download) and take note of
-the location for the following steps.  We will assume that it is
-located at `d:\binaries\fiveui_chrome.zip`
+Download [`fiveui_chrome.zip`][zip] and take note of the location for
+the following steps.  We will assume that it is located at
+`d:\binaries\fiveui_chrome.zip`
 
  * Use your system's archive utility to unpack the zip file `fiveui_chrome.zip`.
  * Open Chrome and navigate to the extensions manager.  The extensions manager can be reached
