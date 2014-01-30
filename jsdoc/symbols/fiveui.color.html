@@ -673,7 +673,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<div class="fixedFont">
 								<b><a href="../symbols/fiveui.color.html#constructor">fiveui.color</a></b>
 							</div>
-							<div class="description">Utilities for dealing with color.</div>
+							<div class="description"><p>Utilities for dealing with color.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -702,7 +702,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.alphaCombine">alphaCombine</a></b>(top, bot)
 								</div>
-								<div class="description">Combines two colors, accounting for alpha values less than 1.</div>
+								<div class="description"><p>Combines two colors, accounting for alpha values less than 1.</div>
 							</td>
 						</tr>
 					
@@ -711,7 +711,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.colorCheck">colorCheck</a></b>(selector, colorSet)
 								</div>
-								<div class="description">Color check compiler.</div>
+								<div class="description"><p>Color check compiler.</div>
 							</td>
 						</tr>
 					
@@ -720,8 +720,17 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.colorToHex">colorToHex</a></b>(color)
 								</div>
-								<div class="description">Covert rgb colors to hex and abreviated hex colors to their full 3 byte
-form.</div>
+								<div class="description"><p>Covert rgb colors to hex and abreviated hex colors to their full 3 byte
+and uppercase normal form.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.colorToHexWithDefault">colorToHexWithDefault</a></b>(color)
+								</div>
+								<div class="description"><p>Attemps to convert a given string to a hexadecimal color code.</div>
 							</td>
 						</tr>
 					
@@ -730,7 +739,18 @@ form.</div>
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.colorToRGB">colorToRGB</a></b>(color)
 								</div>
-								<div class="description">Covert color to RGB color object.</div>
+								<div class="description"><p>Covert color to RGB color object.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.contrast">contrast</a></b>(lum1, lum2)
+								</div>
+								<div class="description"><p>Compute the contrast ratio, according to {@link
+http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+WCAG 2.0}</p></div>
 							</td>
 						</tr>
 					
@@ -739,7 +759,7 @@ form.</div>
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.findBGColor">findBGColor</a></b>(A)
 								</div>
-								<div class="description">Computationally determine the actual displayed background color for
+								<div class="description"><p>Computationally determine the actual displayed background color for
 an object.</div>
 							</td>
 						</tr>
@@ -747,18 +767,32 @@ an object.</div>
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.hexToRGB">hexToRGB</a></b>(hex)
+								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.hexToRGB">hexToRGB</a></b>(color)
 								</div>
-								<div class="description">Convert a 3-byte hex value to base-10 RGB</div>
+								<div class="description"><p>Convert a 3-byte hex value to base-10 RGB</p>
+<p>Given a hexadecimal color code as a string, returns an object with
+`r`, `g`, and `b` properties that give the red, green, and blue
+components of the color.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.rgbToHex">rgbToHex</a></b>(r, g, b)
+								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.luminance">luminance</a></b>(An)
 								</div>
-								<div class="description">Convert RGB values to Hex.</div>
+								<div class="description"><p>Calculate the relative {@link
+http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+luminance} of an sRGB color.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.color.<b><a href="../symbols/fiveui.color.html#.rgbToHex">rgbToHex</a></b>(red, green, blue)
+								</div>
+								<div class="description"><p>Convert RGB values to Hex.</div>
 							</td>
 						</tr>
 					
@@ -783,7 +817,7 @@ an object.</div>
 				</div>
 				
 				<div class="description">
-					Utilities for dealing with color.
+					<p>Utilities for dealing with color.</p>
 					
 				</div>
 				
@@ -818,10 +852,22 @@ an object.</div>
 					
 					</div>
 					<div class="description">
-						Combines two colors, accounting for alpha values less than 1.
+						<p>Combines two colors, accounting for alpha values less than 1.</p>
+<p>Both colors must specify an alpha value in addition to red, green,
+and blue components.  Colors are given as objects with `r`, `g`, `b`,
+and `a` properties.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">var combined = fiveui.color.alphaCombine(
+    { r: 152, g: 188, b: 75,  a: 0.8 },
+    { r: 136, g: 226, b: 202, a: 0.8 }
+);
+
+combined //> { r: 143, g: 186, b: 92, a: 0.96 }</pre>
 					
 					
 					
@@ -867,8 +913,8 @@ an object.</div>
 					
 					</div>
 					<div class="description">
-						Color check compiler. It is recommended to use the jQuery plugin
-fiveui.jquery.cssIsNot instead.
+						<p>Color check compiler. It is recommended to use the jQuery plugin
+fiveui.jquery.cssIsNot instead.</p>
 						
 						
 					</div>
@@ -880,13 +926,13 @@ fiveui.jquery.cssIsNot instead.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{!String}</span> <b>selector</b>
+									<span class="light fixedFont">{!string}</span> <b>selector</b>
 									
 								</dt>
 								<dd>The HTML element selector to check.</dd>
 							
 								<dt>
-									<span class="light fixedFont">{String[]}</span> <b>colorSet</b>
+									<span class="light fixedFont">{string[]}</span> <b>colorSet</b>
 									
 								</dt>
 								<dd>An array of strings containing the HEX values of
@@ -920,19 +966,24 @@ fiveui.jquery.cssIsNot instead.
 					<a name=".colorToHex"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{!String}</span>
+					<span class="light">{!string}</span>
 					<span class="light">fiveui.color.</span><b>colorToHex</b>(color)
 					
 					</div>
 					<div class="description">
-						Covert rgb colors to hex and abreviated hex colors to their full 3 byte
-form.
-
-In case there are parse errors during the conversion, i.e. color values
-that are not understood, the input is returned unchanged.
+						<p>Covert rgb colors to hex and abreviated hex colors to their full 3 byte
+and uppercase normal form.</p>
+<p>Throws an error if the given color cannot be parsed.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">fiveui.color.colorToHex('#ffffff') === "#FFFFFF"
+fiveui.color.colorToHex('#fff') === "#FFFFFF"
+fiveui.color.colorToHex('rgb(255, 255, 255)') === "#FFFFFF"
+fiveui.color.colorToHex('rgba(255, 255, 255)') === "#FFFFFF"</pre>
 					
 					
 					
@@ -941,7 +992,7 @@ that are not understood, the input is returned unchanged.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{!String}</span> <b>color</b>
+									<span class="light fixedFont">{!string}</span> <b>color</b>
 									
 								</dt>
 								<dd>The color string to convert. This should be either of the form rgb(...) or #...</dd>
@@ -965,7 +1016,53 @@ that are not understood, the input is returned unchanged.
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{!String}</span> The color string in #XXXXXX form</dd>
+								<dd><span class="light fixedFont">{!string}</span> The color string in #XXXXXX form</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".colorToHexWithDefault"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{!string}</span>
+					<span class="light">fiveui.color.</span><b>colorToHexWithDefault</b>(color)
+					
+					</div>
+					<div class="description">
+						<p>Attemps to convert a given string to a hexadecimal color code.</p>
+<p>Behaves like fiveui.color.colorToHex - except that in case there
+are parse errors during the conversion, i.e. color values that are
+not understood, the input is returned unchanged.</p>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{!string}</span> <b>color</b>
+									
+								</dt>
+								<dd>The color string to convert. This should be either of the form rgb(...) or #...</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{!string}</span> The color string in #XXXXXX form</dd>
 							
 							</dl>
 						
@@ -982,10 +1079,17 @@ that are not understood, the input is returned unchanged.
 					
 					</div>
 					<div class="description">
-						Covert color to RGB color object.
+						<p>Covert color to RGB color object.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">fiveui.color.colorToRGB('#ffffff') //> { r: 255, g: 255, b: 255 }
+fiveui.color.colorToRGB('#fff') //> { r: 255, g: 255, b: 255 }
+fiveui.color.colorToRGB('rgb(255, 255, 255)') //> { r: 255, g: 255, b: 255 }
+fiveui.color.colorToRGB('rgba(255, 255, 255)') //> { r: 255, g: 255, b: 255 }</pre>
 					
 					
 					
@@ -994,7 +1098,7 @@ that are not understood, the input is returned unchanged.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{!String}</span> <b>color</b>
+									<span class="light fixedFont">{!string}</span> <b>color</b>
 									
 								</dt>
 								<dd>The color string to convert. This should be either of the form rgb(...) or #...</dd>
@@ -1027,6 +1131,69 @@ that are not understood, the input is returned unchanged.
 
 					<hr />
 				
+					<a name=".contrast"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{!double}</span>
+					<span class="light">fiveui.color.</span><b>contrast</b>(lum1, lum2)
+					
+					</div>
+					<div class="description">
+						<p>Compute the contrast ratio, according to {@link
+http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+WCAG 2.0}</p>
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">var color_a = fiveui.color.colorToRGB('#98BC4B');
+var color_b = fiveui.color.colorToRGB('#88E2CA');
+
+var contrast = fiveui.color.contrast(
+    fiveui.color.luminance(color_a),
+    fiveui.color.luminance(color_b)
+);
+
+contrast === 1.4307674054056414</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{!double}</span> <b>lum1</b>
+									
+								</dt>
+								<dd>The relative luminance of the first color.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{!double}</span> <b>lum2</b>
+									
+								</dt>
+								<dd>The relative luminance of the second color.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{!double}</span> The contrast ratio.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name=".findBGColor"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -1035,15 +1202,19 @@ that are not understood, the input is returned unchanged.
 					
 					</div>
 					<div class="description">
-						Computationally determine the actual displayed background color for
-an object.  This accounts for parent colors that may appear when 
-a bg color is unspecified, or fully transparent.
-
-It does not account for elements that are shifted out of their
-parent containers.
+						<p>Computationally determine the actual displayed background color for
+an object.  This accounts for parent colors that may appear when
+a bg color is unspecified, or fully transparent.</p>
+<p>It does not account for elements that are shifted out of their
+parent containers.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">var sidebar = $('div.sidebar');
+fiveui.color.findBGColor(sidebar) //> { r: 136, g: 226, b: 202 }</pre>
 					
 					
 					
@@ -1079,15 +1250,23 @@ return transparent colors)</dd>
 					<a name=".hexToRGB"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
-					<span class="light">fiveui.color.</span><b>hexToRGB</b>(hex)
+					<span class="light">{color}</span>
+					<span class="light">fiveui.color.</span><b>hexToRGB</b>(color)
 					
 					</div>
 					<div class="description">
-						Convert a 3-byte hex value to base-10 RGB
+						<p>Convert a 3-byte hex value to base-10 RGB</p>
+<p>Given a hexadecimal color code as a string, returns an object with
+`r`, `g`, and `b` properties that give the red, green, and blue
+components of the color.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">fiveui.color.hexToRGB('#ffffff') //> { r: 255, g: 255, b: 255 }
+fiveui.color.hexToRGB('ffffff') //> { r: 255, g: 255, b: 255 }</pre>
 					
 					
 					
@@ -1096,7 +1275,7 @@ return transparent colors)</dd>
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>hex</b>
+									<span class="light fixedFont">{!string}</span> <b>color</b>
 									
 								</dt>
 								<dd></dd>
@@ -1106,6 +1285,66 @@ return transparent colors)</dd>
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{color}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".luminance"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{!doubl}</span>
+					<span class="light">fiveui.color.</span><b>luminance</b>(An)
+					
+					</div>
+					<div class="description">
+						<p>Calculate the relative {@link
+http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+luminance} of an sRGB color.</p>
+<p>This function does not account for alpha values that are not 1.
+That is, it assumes that the incomming color is fully opaque, or
+displayed on a white background.</p>
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">fiveui.color.luminance({ r: 255, g: 255, b: 255 }) === 1</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{!Object}</span> <b>An</b>
+									
+								</dt>
+								<dd>RGB color object with attributes: r, g, b, a</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{!doubl}</span> A measure of the relative luminance according to
+the WCAG 2.0 specification.</dd>
+							
+							</dl>
 						
 						
 						
@@ -1115,15 +1354,22 @@ return transparent colors)</dd>
 					<a name=".rgbToHex"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
-					<span class="light">fiveui.color.</span><b>rgbToHex</b>(r, g, b)
+					<span class="light">{!string}</span>
+					<span class="light">fiveui.color.</span><b>rgbToHex</b>(red, green, blue)
 					
 					</div>
 					<div class="description">
-						Convert RGB values to Hex.
+						<p>Convert RGB values to Hex.</p>
+<p>Accepts three arguments representing red, green, and blue color
+components.  Returns a hexadecimal representation of the
+corresponding color.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">fiveui.color.rgbToHex(255, 255, 255) === '#FFFFFF'</pre>
 					
 					
 					
@@ -1132,19 +1378,19 @@ return transparent colors)</dd>
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>r</b>
+									<span class="light fixedFont">{!number}</span> <b>red</b>
 									
 								</dt>
 								<dd></dd>
 							
 								<dt>
-									<b>g</b>
+									<span class="light fixedFont">{!number}</span> <b>green</b>
 									
 								</dt>
 								<dd></dd>
 							
 								<dt>
-									<b>b</b>
+									<span class="light fixedFont">{!number}</span> <b>blue</b>
 									
 								</dt>
 								<dd></dd>
@@ -1154,6 +1400,13 @@ return transparent colors)</dd>
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{!string}</span> </dd>
+							
+							</dl>
 						
 						
 						

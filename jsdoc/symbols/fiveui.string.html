@@ -673,7 +673,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<div class="fixedFont">
 								<b><a href="../symbols/fiveui.string.html#constructor">fiveui.string</a></b>
 							</div>
-							<div class="description">String-specific utilities.</div>
+							<div class="description"><p>String-specific utilities.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -702,7 +702,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.string.<b><a href="../symbols/fiveui.string.html#.isTitleCase">isTitleCase</a></b>(str)
 								</div>
-								<div class="description">A simple heuristic check to see if a string is in Title Case.</div>
+								<div class="description"><p>A simple heuristic check to see if a string is in Title Case.</div>
 							</td>
 						</tr>
 					
@@ -711,7 +711,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.string.<b><a href="../symbols/fiveui.string.html#.tokens">tokens</a></b>(s)
 								</div>
-								<div class="description">Tokenize a string on whitespace.</div>
+								<div class="description"><p>Tokenize a string on whitespace.</div>
 							</td>
 						</tr>
 					
@@ -720,7 +720,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.string.<b><a href="../symbols/fiveui.string.html#.trim">trim</a></b>(s)
 								</div>
-								<div class="description">Non-destructively removes whitespace from the start and end of a
+								<div class="description"><p>Non-destructively removes whitespace from the start and end of a
 string.</div>
 							</td>
 						</tr>
@@ -746,7 +746,7 @@ string.</div>
 				</div>
 				
 				<div class="description">
-					String-specific utilities.
+					<p>String-specific utilities.</p>
 					
 				</div>
 				
@@ -781,14 +781,19 @@ string.</div>
 					
 					</div>
 					<div class="description">
-						A simple heuristic check to see if a string is in Title Case.
-This does not perform an exhaustive gramatical analysis, and as
+						<p>A simple heuristic check to see if a string is in Title Case.</p>
+<p>This does not perform an exhaustive grammatical analysis, and as
 such, it is prone to generating false-positives in some cases.  In
 particular, it only has a short 'white list' of articles,
-conjections, and prepositions that are allowed to be in lower case.
+conjections, and prepositions that are allowed to be in lower
+case.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">fiveui.string.isTitleCase('Under the Olive Tree') === true</pre>
 					
 					
 					
@@ -797,7 +802,7 @@ conjections, and prepositions that are allowed to be in lower case.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{!String}</span> <b>str</b>
+									<span class="light fixedFont">{!string}</span> <b>str</b>
 									
 								</dt>
 								<dd>The string to check.</dd>
@@ -824,15 +829,20 @@ it is not.</dd>
 					<a name=".tokens"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{String[]>}</span>
+					<span class="light">{string[]>}</span>
 					<span class="light">fiveui.string.</span><b>tokens</b>(s)
 					
 					</div>
 					<div class="description">
-						Tokenize a string on whitespace.
+						<p>Tokenize a string on whitespace.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">var tokens = fiveui.string.tokens('Under the Olive Tree');
+tokens //> [ 'Under', 'the', 'Olive', 'Tree' ]</pre>
 					
 					
 					
@@ -841,7 +851,7 @@ it is not.</dd>
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{!String}</span> <b>s</b>
+									<span class="light fixedFont">{!string}</span> <b>s</b>
 									
 								</dt>
 								<dd>The string to tokenize.</dd>
@@ -855,7 +865,7 @@ it is not.</dd>
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{String[]>}</span> An array of substrings.</dd>
+								<dd><span class="light fixedFont">{string[]>}</span> An array of substrings.</dd>
 							
 							</dl>
 						
@@ -867,13 +877,13 @@ it is not.</dd>
 					<a name=".trim"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{String}</span>
+					<span class="light">{string}</span>
 					<span class="light">fiveui.string.</span><b>trim</b>(s)
 					
 					</div>
 					<div class="description">
-						Non-destructively removes whitespace from the start and end of a
-string.
+						<p>Non-destructively removes whitespace from the start and end of a
+string.</p>
 						
 						
 					</div>
@@ -885,7 +895,7 @@ string.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>s</b>
+									<span class="light fixedFont">{string}</span> <b>s</b>
 									<i>Optional</i>
 								</dt>
 								<dd>The string to trim of whitespace.</dd>
@@ -899,7 +909,7 @@ string.
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{String}</span> The input string, without leading or trailing
+								<dd><span class="light fixedFont">{string}</span> The input string, without leading or trailing
 whitespace. Returns null if you gave it null.</dd>
 							
 							</dl>

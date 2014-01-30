@@ -710,7 +710,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <p>description: A textual description.</p>
 <p>rule: a function that takes one object as a parameter.</p>
 <p>In the context of the function provided as the <strong>rule</strong> field, the <strong>this</strong> object will point to an anonymous object that contains the other fields of the rule, <strong>name</strong> and <strong>description</strong>. In addition to the fields of the rule, there is a field named <strong>ruleSet</strong>, which is a reference to the enclosing <code>Rule Set</code>.</p>
-<p>The function parameter is an object with one method: 'error' which takes an error message and a DOM element as its two parameters. The DOM element is used by FiveUI to describe the location of the error, so it should be chosen to best represent the location on the page where the error occurred. If the DOM element is unspecified, the rule will run, but less debugging information will be provided to the user.</p>
+<p>The function parameter is an object with two methods: <code>error</code> and <code>warning</code>, which both take an error message and a DOM element as their two parameters. The DOM element is used by FiveUI to describe the location of the error, so it should be chosen to best represent the location on the page where the error occurred. If the DOM element is unspecified, the rule will run, but less debugging information will be provided to the user.</p>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">exports</span>.<span class="fu">name</span> = <span class="st">&quot;imagesAltText&quot;</span>;
 
 <span class="ot">exports</span>.<span class="fu">description</span> = <span class="st">&quot;Each image should have alt text.&quot;</span>;

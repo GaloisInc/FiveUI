@@ -673,7 +673,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<div class="fixedFont">
 								<b><a href="../symbols/fiveui.jquery.html#constructor">fiveui.jquery</a></b>
 							</div>
-							<div class="description">This module provides several useful jQuery plugins related to checking and reporting
+							<div class="description"><p>This module provides several useful jQuery plugins related to checking and reporting
 UI consistency issues.</div>
 						</td>
 					</tr>
@@ -701,11 +701,34 @@ UI consistency issues.</div>
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.attrFilter">attrFilter</a></b>(a, fn)
+								</div>
+								<div class="description"><p>General attribute filter</p>
+<p>This plugin filters for elements whose attribute `a` pass the
+predicate `fn`, which should take a string and return true or false.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.cssIs">cssIs</a></b>(prop, set, fn)
+								</div>
+								<div class="description"><p>General CSS property checker plugin</p>
+<p>This plugin filters elements, keeping only elements whose CSS
+property `prop` is a member of the given array `cset`.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.cssIsNot">cssIsNot</a></b>(prop, set, fn)
 								</div>
-								<div class="description">General CSS propetry checker plugin
-This plugin filters for elements whose CSS property `prop` is not a member
-of the given array `cset`.</div>
+								<div class="description"><p>Negated version of fiveui.jquery.cssIs</p>
+<p>Behaves exactly like fiveui.jquery.cssIs - except that this
+version excludes elements that have CSS properties and values that
+match.</div>
 							</td>
 						</tr>
 					
@@ -714,7 +737,7 @@ of the given array `cset`.</div>
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.hasText">hasText</a></b>(text)
 								</div>
-								<div class="description">Wrapper for the :contains('text') selector</div>
+								<div class="description"><p>Wrapper for the :contains('text') selector</p></div>
 							</td>
 						</tr>
 					
@@ -723,16 +746,7 @@ of the given array `cset`.</div>
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.highlight">highlight</a></b>(hint)
 								</div>
-								<div class="description">Visually highlight elements in the jQuery object.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.init">init</a></b>()
-								</div>
-								<div class="description">Register the plugins.</div>
+								<div class="description"><p>Visually highlight elements in the jQuery object.</div>
 							</td>
 						</tr>
 					
@@ -741,8 +755,26 @@ of the given array `cset`.</div>
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.linksTo">linksTo</a></b>(href)
 								</div>
-								<div class="description">Filter out elements that do not contain the attribute
+								<div class="description"><p>Filter out elements that do not contain the attribute
 href=`href`.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.noAttr">noAttr</a></b>(attribute)
+								</div>
+								<div class="description"><p>Filter for elements which lack of the given attribute.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.noSubElt">noSubElt</a></b>(sel, A)
+								</div>
+								<div class="description"><p>Filter for elements having no sub-elements matching the given selector.</div>
 							</td>
 						</tr>
 					
@@ -751,7 +783,7 @@ href=`href`.</div>
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.notColorSet">notColorSet</a></b>(cset)
 								</div>
-								<div class="description">Color checker plugin: filters for elements whose CSS color property is
+								<div class="description"><p>Color checker plugin: filters for elements whose CSS color property is
 not in the given set.</div>
 							</td>
 						</tr>
@@ -761,7 +793,7 @@ not in the given set.</div>
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.jquery.<b><a href="../symbols/fiveui.jquery.html#.propDist">propDist</a></b>(prop, log)
 								</div>
-								<div class="description">Returns a list of css properties that element in the jQuery
+								<div class="description"><p>Returns a list of css properties that element in the jQuery
 object have.</div>
 							</td>
 						</tr>
@@ -787,8 +819,8 @@ object have.</div>
 				</div>
 				
 				<div class="description">
-					This module provides several useful jQuery plugins related to checking and reporting
-UI consistency issues.
+					<p>This module provides several useful jQuery plugins related to checking and reporting
+UI consistency issues.</p>
 					
 				</div>
 				
@@ -815,22 +847,26 @@ UI consistency issues.
 					Method Detail
 				</div>
 				
-					<a name=".cssIsNot"> </a>
+					<a name=".attrFilter"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					<span class="light">{Object}</span>
-					<span class="light">fiveui.jquery.</span><b>cssIsNot</b>(prop, set, fn)
+					<span class="light">fiveui.jquery.</span><b>attrFilter</b>(a, fn)
 					
 					</div>
 					<div class="description">
-						General CSS propetry checker plugin
-This plugin filters for elements whose CSS property `prop` is not a member
-of the given array `cset`. The values checked are transformed using the
-optional given function `fn`. This may be used to normalize values that the
-browser returns so they can be compared to values in `cset`.
+						<p>General attribute filter</p>
+<p>This plugin filters for elements whose attribute `a` pass the
+predicate `fn`, which should take a string and return true or false.
+Elements that don't have the attribute are automatically filtered
+out.</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">$('input').attrFilter('type', function(t) { return t === 'checkbox'; });</pre>
 					
 					
 					
@@ -839,22 +875,151 @@ browser returns so they can be compared to values in `cset`.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>prop</b>
+									<span class="light fixedFont">{string}</span> <b>a</b>
+									
+								</dt>
+								<dd>element attribute name</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>fn</b>
+									
+								</dt>
+								<dd>a predicate to run on the element attribute</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> jQuery object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".cssIs"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">fiveui.jquery.</span><b>cssIs</b>(prop, set, fn)
+					
+					</div>
+					<div class="description">
+						<p>General CSS property checker plugin</p>
+<p>This plugin filters elements, keeping only elements whose CSS
+property `prop` is a member of the given array `cset`. The names in
+`cset` and the CSS values that are checked are transformed using the
+optional given function `fn`. This may be used to normalize values
+that the browser returns so they can be compared to values in
+`cset`.</p>
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">var div = $('&lt;div style="visibility:hidden"&gt;&lt;/div&gt;')
+div.cssIs('visibility', ['hidden', 'visible'])  // returns the same div</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>prop</b>
 									
 								</dt>
 								<dd>CSS property selector</dd>
 							
 								<dt>
-									<span class="light fixedFont">{String|String[]}</span> <b>set</b>
+									<span class="light fixedFont">{string|string[]}</span> <b>set</b>
 									
 								</dt>
-								<dd>allowable values (either a string or an array of strings)</dd>
+								<dd>allowable values (either a string or an array
+                         of strings)</dd>
 							
 								<dt>
-									<span class="light fixedFont">{function(String):String}</span> <b>fn</b>
+									<span class="light fixedFont">{function(string):string}</span> <b>fn</b>
 									<i>Optional</i>
 								</dt>
-								<dd>Function to apply to return values of $(this).css(prop), fn defaults to the identity function.</dd>
+								<dd>Function to apply to return values
+                                      of $(this).css(prop), fn defaults to
+                                      the identity function.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> jQuery object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".cssIsNot"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">fiveui.jquery.</span><b>cssIsNot</b>(prop, set, fn)
+					
+					</div>
+					<div class="description">
+						<p>Negated version of fiveui.jquery.cssIs</p>
+<p>Behaves exactly like fiveui.jquery.cssIs - except that this
+version excludes elements that have CSS properties and values that
+match.</p>
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">var div = $('&lt;div style="visibility:hidden"&gt;&lt;/div&gt;')
+div.cssIsNot('visibility', ['hidden', 'visible'])  // returns empty result</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{string}</span> <b>prop</b>
+									
+								</dt>
+								<dd>CSS property selector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{string|string[]}</span> <b>set</b>
+									
+								</dt>
+								<dd>allowable values (either a string or an array
+                         of strings)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function(string):string}</span> <b>fn</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Function to apply to return values
+                                      of $(this).css(prop), fn defaults to
+                                      the identity function.</dd>
 							
 							</dl>
 						
@@ -882,10 +1047,14 @@ browser returns so they can be compared to values in `cset`.
 					
 					</div>
 					<div class="description">
-						Wrapper for the :contains('text') selector
+						<p>Wrapper for the :contains('text') selector</p>
 						
 						
 					</div>
+					
+					
+					
+					<pre class="code">$('div').hasText('to remove').remove();</pre>
 					
 					
 					
@@ -894,7 +1063,7 @@ browser returns so they can be compared to values in `cset`.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{!String}</span> <b>text</b>
+									<span class="light fixedFont">{!string}</span> <b>text</b>
 									
 								</dt>
 								<dd>Text to select for</dd>
@@ -925,11 +1094,11 @@ browser returns so they can be compared to values in `cset`.
 					
 					</div>
 					<div class="description">
-						Visually highlight elements in the jQuery object.
-This plugin is useful mostly in the process of writing
+						<p>Visually highlight elements in the jQuery object.</p>
+<p>This plugin is useful mostly in the process of writing
 guidelines, for example the guideline developer can load a page,
 click the "Break" button on the FiveUI window, enter the browser's
-Javascript console, and run:
+Javascript console, and run:</p>
 						
 						
 					</div>
@@ -945,7 +1114,7 @@ Javascript console, and run:
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>hint</b>
+									<span class="light fixedFont">{string}</span> <b>hint</b>
 									<i>Optional</i>
 								</dt>
 								<dd>Highlighted border color, defaults to "red"</dd>
@@ -968,31 +1137,6 @@ Javascript console, and run:
 
 					<hr />
 				
-					<a name=".init"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">fiveui.jquery.</span><b>init</b>()
-					
-					</div>
-					<div class="description">
-						Register the plugins. This adds methods to the jQuery.fn namespace.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
 					<a name=".linksTo"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -1001,8 +1145,8 @@ Javascript console, and run:
 					
 					</div>
 					<div class="description">
-						Filter out elements that do not contain the attribute
-href=`href`.
+						<p>Filter out elements that do not contain the attribute
+href=`href`.</p>
 						
 						
 					</div>
@@ -1014,7 +1158,7 @@ href=`href`.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>href</b>
+									<span class="light fixedFont">{string}</span> <b>href</b>
 									
 								</dt>
 								<dd>the href to look for</dd>
@@ -1037,6 +1181,106 @@ href=`href`.
 
 					<hr />
 				
+					<a name=".noAttr"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{!Object}</span>
+					<span class="light">fiveui.jquery.</span><b>noAttr</b>(attribute)
+					
+					</div>
+					<div class="description">
+						<p>Filter for elements which lack of the given attribute. (see also
+fiveui.jquery.attrFilter)</p>
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">$('&lt;table&gt;&lt;/table&gt;').noAttr('summary').each(function(idx, table) {
+  // `table` is a table element that does not have a "summary"
+  // attribute or that has a "summary" attribute that is empty.
+});</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{!string}</span> <b>attribute</b>
+									
+								</dt>
+								<dd>name</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{!Object}</span> a filtered jQuery object</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".noSubElt"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">fiveui.jquery.</span><b>noSubElt</b>(sel, A)
+					
+					</div>
+					<div class="description">
+						<p>Filter for elements having no sub-elements matching the given selector.</p>
+
+Example: the following should contain no elements
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">// Returns an empty result because the &lt;div&gt; contains a &lt;p&gt; element.
+$('&lt;div&gt;&lt;p&gt;hello&lt;/p&gt;&lt;/div&gt;').noSubElt('p')</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{!string}</span> <b>sel</b>
+									
+								</dt>
+								<dd>a jQuery selector</dd>
+							
+								<dt>
+									<span class="light fixedFont">{!Object}</span> <b>A</b>
+									
+								</dt>
+								<dd>filtered jQuery object</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name=".notColorSet"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -1045,9 +1289,9 @@ href=`href`.
 					
 					</div>
 					<div class="description">
-						Color checker plugin: filters for elements whose CSS color property is
-not in the given set.
-Note: This is a special case of fiveui.jquery.cssIsNot, i.e.
+						<p>Color checker plugin: filters for elements whose CSS color property is
+not in the given set.</p>
+<p>Note: This is a special case of fiveui.jquery.cssIsNot, i.e.
 $(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
 						
 						
@@ -1060,10 +1304,10 @@ $(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String[]}</span> <b>cset</b>
+									<span class="light fixedFont">{string[]}</span> <b>cset</b>
 									
 								</dt>
-								<dd>A set of allowable color strings</dd>
+								<dd>An array of allowable color strings</dd>
 							
 							</dl>
 						
@@ -1083,7 +1327,7 @@ $(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
 							<dl class="detailList">
 							<dt class="heading">See:</dt>
 							
-								<dd></dd>
+								<dd></p></dd>
 							
 							</dl>
 						
@@ -1098,12 +1342,12 @@ $(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
 					
 					</div>
 					<div class="description">
-						Returns a list of css properties that element in the jQuery
-object have.
-This plugin is useful for analysis of a given page when
+						<p>Returns a list of css properties that element in the jQuery
+object have.</p>
+<p>This plugin is useful for analysis of a given page when
 writing guielines. For example if the guideline developer wants to
 know what font sizes are used on a loaded page, they can run from the
-Javascript console:
+Javascript console:</p>
 						
 						
 					</div>
@@ -1119,7 +1363,7 @@ Javascript console:
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>prop</b>
+									<span class="light fixedFont">{string}</span> <b>prop</b>
 									
 								</dt>
 								<dd>CSS property to be inspected</dd>

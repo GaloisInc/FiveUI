@@ -673,7 +673,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<div class="fixedFont">
 								<b><a href="../symbols/fiveui.html#constructor">fiveui</a></b>
 							</div>
-							<div class="description">The FiveUI Prelude.</div>
+							<div class="description"><p>The FiveUI Prelude.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -707,7 +707,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.<b><a href="../symbols/fiveui.html#.isString">isString</a></b>(o)
 								</div>
-								<div class="description">Determine if a given value is a string or not.</div>
+								<div class="description"><p>Determine if a given value is a string or not.</div>
 							</td>
 						</tr>
 					
@@ -716,7 +716,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 							<td class="nameDescription">
 								<div class="fixedFont">fiveui.<b><a href="../symbols/fiveui.html#.query">query</a></b>(sel, context)
 								</div>
-								<div class="description">fiveui.query is a wrapper around the jQuery $() function.</div>
+								<div class="description"><p>fiveui.query is a wrapper around the jQuery $() function.</div>
 							</td>
 						</tr>
 					
@@ -741,11 +741,11 @@ code > span.er { color: #ff0000; font-weight: bold; }
 				</div>
 				
 				<div class="description">
-					The FiveUI Prelude.
-The prelude provides a collection of utilities to ease the
+					<p>The FiveUI Prelude.</p>
+<p>The prelude provides a collection of utilities to ease the
 conversion from human-readable guideline documents (such as the Web
 Accessibilty Guidelines, or Apple Human Interface Guidelines) to
-executable Rules.
+executable Rules.</p>
 					
 				</div>
 				
@@ -780,7 +780,7 @@ executable Rules.
 					
 					</div>
 					<div class="description">
-						Determine if a given value is a string or not.
+						<p>Determine if a given value is a string or not.</p>
 						
 						
 					</div>
@@ -824,13 +824,17 @@ otherwise.</dd>
 					
 					</div>
 					<div class="description">
-						fiveui.query is a wrapper around the jQuery $() function.
-fiveui.query recurses into iframes and frames, whereas $(...) stops
-when it encounters internal frames.
+						<p>fiveui.query is a wrapper around the jQuery $() function.</p>
+<p>In most respects fiveui.query behaves just like jQuery. But it
+recurses into iframes and frames, whereas $(...) stops
+when it encounters internal frames. fiveui.query also skips over
+page elements that are added by FiveUI.</p>
 
-Generally, rules written for FiveUI will want to cover the entire
+<p>Generally, rules written for FiveUI will want to cover the entire
 visible page, and as such, should use fiveui.query; however, $(...)
-is available if recursing into frames is not necessary.
+is available if recursing into frames is not necessary.</p>
+
+<p>$5() is an alias for fiveui.query.</p>
 						
 						
 					</div>
@@ -842,7 +846,7 @@ is available if recursing into frames is not necessary.
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{String}</span> <b>sel</b>
+									<span class="light fixedFont">{string}</span> <b>sel</b>
 									
 								</dt>
 								<dd>The jQuery selector string.</dd>
