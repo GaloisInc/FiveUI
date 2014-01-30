@@ -22,8 +22,8 @@
 var fiveui = fiveui || {};
 
 /**
- * This module provides several useful jQuery plugins related to checking and reporting
- * UI consistency issues.
+ * <p>This module provides several useful jQuery plugins related to checking and reporting
+ * UI consistency issues.</p>
  *
  * @namespace
  */
@@ -31,13 +31,12 @@ fiveui.jquery = fiveui.jquery || {};
 
 
 /**
- * Wrapper for the :contains('text') selector
+ * <p>Wrapper for the :contains('text') selector</p>
  *
- * Example:
+ * @example
+ * $('div').hasText('to remove').remove();
  *
- *     $('div').hasText('to remove').remove();
- *
- * @param {!String} text Text to select for
+ * @param {!string} text Text to select for
  * @returns {!Object} A modified jQuery object
  */
 fiveui.jquery.hasText = function (text) {
@@ -45,16 +44,16 @@ fiveui.jquery.hasText = function (text) {
 };
 
 /**
- * Filter for elements which lack of the given attribute. (see also
- * fiveui.jquery.attrFilter)
+ * <p>Filter for elements which lack of the given attribute. (see also
+ * fiveui.jquery.attrFilter)</p>
  *
- * Example:
+ * @example
+ * $('&lt;table&gt;&lt;/table&gt;').noAttr('summary').each(function(idx, table) {
+ *   // `table` is a table element that does not have a "summary"
+ *   // attribute or that has a "summary" attribute that is empty.
+ * });
  *
- * This object will be non-empty:
- *
- *     $('<table></table>').noAttr('summary')
- *
- * @param {!String} attribute name
+ * @param {!string} attribute name
  * @returns {!Object} a filtered jQuery object
  */
 fiveui.jquery.noAttr = function (name) {
@@ -66,13 +65,15 @@ fiveui.jquery.noAttr = function (name) {
 
 
 /**
- * Filter for elements having no sub-elements matching the given selector.
+ * <p>Filter for elements having no sub-elements matching the given selector.</p>
  *
  * Example: the following should contain no elements
  *
- *     $('<div><p>hello</p></div>').noSubElt('p')
+ * @example
+ * // Returns an empty result because the &lt;div&gt; contains a &lt;p&gt; element.
+ * $('&lt;div&gt;&lt;p&gt;hello&lt;/p&gt;&lt;/div&gt;').noSubElt('p')
  *
- * @param {!String} sel a jQuery selector
+ * @param {!string} sel a jQuery selector
  * @param {!Object} A filtered jQuery object
  */
 fiveui.jquery.noSubElt = function (sel) {
@@ -82,14 +83,15 @@ fiveui.jquery.noSubElt = function (sel) {
 };
 
 /**
- * Color checker plugin: filters for elements whose CSS color property is
- * not in the given set.
+ * <p>Color checker plugin: filters for elements whose CSS color property is
+ * not in the given set.</p>
  *
- * @description Note: This is a special case of fiveui.jquery.cssIsNot, i.e.
+ * @description
+ * <p>Note: This is a special case of fiveui.jquery.cssIsNot, i.e.
  * $(..).notColorSet(set) == $(..).cssIsNot("color", set, fiveui.color.colorToHex)
- * @see {fiveui.color.colorToHex}
+ * @see {fiveui.color.colorToHex}</p>
  *
- * @param {String[]} cset An array of allowable color strings
+ * @param {string[]} cset An array of allowable color strings
  * @returns {!Object} A modified jQuery object
  */
 fiveui.jquery.notColorSet = function (cset) {
@@ -126,32 +128,69 @@ fiveui.jquery._makeCss = function (pos) {
 };
 
 /**
- * General CSS propetry checker plugin
+ * <p>General CSS property checker plugin</p>
  *
- * @description This plugin filters for elements whose CSS property `prop` is not a member
- * of the given array `cset`. The values checked are transformed using the
- * optional given function `fn`. This may be used to normalize values that the
- * browser returns so they can be compared to values in `cset`.
+ * @description
+ * <p>This plugin filters elements, keeping only elements whose CSS
+ * property `prop` is a member of the given array `cset`. The names in
+ * `cset` and the CSS values that are checked are transformed using the
+ * optional given function `fn`. This may be used to normalize values
+ * that the browser returns so they can be compared to values in
+ * `cset`.</p>
  *
- * @param {String} prop  CSS property selector
- * @param {String|String[]} set allowable values (either a string or an array
+ * @example
+ * var div = $('&lt;div style="visibility:hidden"&gt;&lt;/div&gt;')
+ * div.cssIs('visibility', ['hidden', 'visible'])  // returns the same div
+ *
+ * @function
+ *
+ * @param {string} prop  CSS property selector
+ * @param {string|string[]} set allowable values (either a string or an array
  *                          of strings)
- * @param {function(String):String} [fn] Function to apply to return values
+ * @param {function(string):string} [fn] Function to apply to return values
  *                                       of $(this).css(prop), fn defaults to
  *                                       the identity function.
  * @returns {Object} jQuery object
  */
 fiveui.jquery.cssIs = fiveui.jquery._makeCss(true);
+
+/**
+ * <p>Negated version of fiveui.jquery.cssIs</p>
+ *
+ * @description
+ * <p>Behaves exactly like fiveui.jquery.cssIs - except that this
+ * version excludes elements that have CSS properties and values that
+ * match.</p>
+ *
+ * @example
+ * var div = $('&lt;div style="visibility:hidden"&gt;&lt;/div&gt;')
+ * div.cssIsNot('visibility', ['hidden', 'visible'])  // returns empty result
+ *
+ * @function
+ *
+ * @param {string} prop  CSS property selector
+ * @param {string|string[]} set allowable values (either a string or an array
+ *                          of strings)
+ * @param {function(string):string} [fn] Function to apply to return values
+ *                                       of $(this).css(prop), fn defaults to
+ *                                       the identity function.
+ * @returns {Object} jQuery object
+ */
 fiveui.jquery.cssIsNot = fiveui.jquery._makeCss(false);
 
 /**
- * General attribute filter
+ * <p>General attribute filter</p>
  *
- * @description This plugin filters for elements whose attribute `a` pass
- * the predicate `fn`, which should take a string and return true or false.
- * Elements that don't have the attribute are automatically filtered out.
+ * @description
+ * <p>This plugin filters for elements whose attribute `a` pass the
+ * predicate `fn`, which should take a string and return true or false.
+ * Elements that don't have the attribute are automatically filtered
+ * out.</p>
  *
- * @param {String} a element attribute name
+ * @example
+ * $('input').attrFilter('type', function(t) { return t === 'checkbox'; });
+ *
+ * @param {string} a element attribute name
  * @param {Function} fn a predicate to run on the element attribute
  * @returns {Object} jQuery object
  */
@@ -163,10 +202,10 @@ fiveui.jquery.attrFilter = function (a, fn) {
 }
 
 /**
- * Filter out elements that do not contain the attribute
- * href=`href`.
+ * <p>Filter out elements that do not contain the attribute
+ * href=`href`.</p>
  *
- * @param {String} href the href to look for
+ * @param {string} href the href to look for
  * @returns {Object} jQuery object
  */
 fiveui.jquery.linksTo = function (href) {
@@ -174,16 +213,17 @@ fiveui.jquery.linksTo = function (href) {
 }
 
 /**
- * Visually highlight elements in the jQuery object.
+ * <p>Visually highlight elements in the jQuery object.</p>
  *
- * @description This plugin is useful mostly in the process of writing
+ * @description
+ * <p>This plugin is useful mostly in the process of writing
  * guidelines, for example the guideline developer can load a page,
  * click the "Break" button on the FiveUI window, enter the browser's
- * Javascript console, and run:
+ * Javascript console, and run:</p>
  *
  * @example > $5("p").hasText("foo").highlight();
  *
- * @param {String} [hint] Highlighted border color, defaults to "red"
+ * @param {string} [hint] Highlighted border color, defaults to "red"
  * @returns {!Object} A modified jQuery object
  */
 fiveui.jquery.highlight = function (hint) {
@@ -194,17 +234,18 @@ fiveui.jquery.highlight = function (hint) {
 }
 
 /**
- * Returns a list of css properties that element in the jQuery
- * object have.
+ * <p>Returns a list of css properties that element in the jQuery
+ * object have.</p>
  *
- * @description This plugin is useful for analysis of a given page when
+ * @description
+ * <p>This plugin is useful for analysis of a given page when
  * writing guielines. For example if the guideline developer wants to
  * know what font sizes are used on a loaded page, they can run from the
- * Javascript console:
+ * Javascript console:</p>
  *
  * @example > $5("*").propDist("font-size", true);
  *
- * @param {String} prop CSS property to be inspected
+ * @param {string} prop CSS property to be inspected
  * @param {boolean} [log] Boolean which enables console logging of the result; default is `false`.
  * @returns {Object} A frequence map { "property": frequency }
  */
@@ -231,6 +272,8 @@ fiveui.jquery.propDist = function (prop, log) {
 
 /**
  * Register the plugins. This adds methods to the jQuery.fn namespace.
+ *
+ * @private
  */
 fiveui.jquery.init = function () {
   for (fn in fiveui.jquery) {

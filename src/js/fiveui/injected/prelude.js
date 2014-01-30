@@ -161,6 +161,10 @@ fiveui.string.trim = function(s) {
 /**
  * <p>Tokenize a string on whitespace.</p>
  *
+ * @example
+ * var tokens = fiveui.string.tokens('Under the Olive Tree');
+ * tokens //> [ 'Under', 'the', 'Olive', 'Tree' ]
+ *
  * @param {!string} s The string to tokenize.
  * @returns {string[]>} An array of substrings.
  */
@@ -177,11 +181,14 @@ fiveui.string.tokens = function (s) {
  * <p>A simple heuristic check to see if a string is in Title Case.</p>
  *
  * @description
- * <p>This does not perform an exhaustive gramatical analysis, and as
+ * <p>This does not perform an exhaustive grammatical analysis, and as
  * such, it is prone to generating false-positives in some cases.  In
  * particular, it only has a short 'white list' of articles,
  * conjections, and prepositions that are allowed to be in lower
  * case.</p>
+ *
+ * @example
+ * fiveui.string.isTitleCase('Under the Olive Tree') === true
  *
  * @param {!string} str The string to check.
  * @returns {!boolean} true if the string is in title case, false if
@@ -579,6 +586,19 @@ fiveui.color.findBGColor = function(obj) {
 /**
  * <p>Combines two colors, accounting for alpha values less than 1.</p>
  *
+ * @description
+ * <p>Both colors must specify an alpha value in addition to red, green,
+ * and blue components.  Colors are given as objects with `r`, `g`, `b`,
+ * and `a` properties.</p>
+ *
+ * @example
+ * var combined = fiveui.color.alphaCombine(
+ *     { r: 152, g: 188, b: 75,  a: 0.8 },
+ *     { r: 136, g: 226, b: 202, a: 0.8 }
+ * );
+ *
+ * combined //> { r: 143, g: 186, b: 92, a: 0.96 }
+ *
  * @param {color} top The color "on top"
  * @param {color} bot The color "on bottom"
  * @return {color} the composite RGBA color.
@@ -638,7 +658,7 @@ fiveui.font.getFont = function (jElt) {
  * <p>Validate a font property object extracted using fiveui.font.getFont().</p>
  *
  * @description
- * <p>The `allow` parameter should be an object whose top level properties are
+ * <p>The `allow` parameter should be an object whose top level property names are
  * (partial) font family names (e.g. 'Verdana'). For each font family name
  * there should be an object whose properties are font weights (e.g. 'bold'),
  * and for each font weight there should be an array of allowable sizes
