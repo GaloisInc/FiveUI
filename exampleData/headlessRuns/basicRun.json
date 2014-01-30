@@ -6,7 +6,7 @@
   'rulePath'  : '../ruleSets/',
   'crawlType' :    'none',
   'runs': [
-    { 'url': 'http://www.whitehouse.gov', 'ruleSet': 'colorRules.json' },
-    { 'url': 'http://www.whitehouse.gov', 'ruleSet': 'fontRules.json' }
+    { 'url': 'http://www.whitehouse.gov', 'ruleSet': 'color/colorRules.json' },
+    { 'url': 'http://www.whitehouse.gov', 'ruleSet': 'font/fontRules.json' }
   ]
 }

@@ -1,35 +1,6 @@
-/*
- * fontRules.json
- *
- * Simple rules for checking that fonts (family/weight/size) of specific elements are
- * in a specific set.
- *
- */
-
-{ 'name': 'Fonts'
-, 'description': 'Guidelines regarding site fonts'
-, 'rules': [
-  //---------------------------------------------------------
-  { 'id': 5141301
-  , 'name': 'Font properties check'
-  , 'description': 'Verify that fonts (family, size, weight) are \"standard\"'
-  , 'rule':
-  function() {
-    var allow = {
-      'Verdana': { 'bold': [25, 22, 12, 10]
-                 , 'normal': [12, 11, 10] }};
-    fiveui.query('body p,:header').each(
-      function(i, elt) {
-        var font = fiveui.font.getFont($(elt));
-        if (!fiveui.font.validate(allow, font)) {
-          report('non-standard font: ' +
-                 font.family + ', ' +
-                 font.size + ', ' +
-                 font.weight, elt);
-        }
-      });
-  }
-  }//,
-  //---------------------------------------------------------
-]
+{ "name": "Fonts"
+, "description": "Guidelines regarding site fonts"
+, "license": "BSD3"
+, "rules":
+  [ "properties.json" ]
 }

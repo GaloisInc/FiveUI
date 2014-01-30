@@ -1,9 +1,3 @@
-/* colorRules.json
- *
- * Simple rules for checking that the colors of specific elements are in a specific set.
- * Test using exampleData/basic/testColorRules.html
- */
-
 { "name": "Color Guidelines"
 , "description": "Foreground/background color guidelines"
 , "license": "BSD3"
@@ -12,55 +6,3 @@
   , "backgroundCheck.js"
   ]
 }
-//----------------------------------------------------------------
-/*  { "id": 2141103
-  , "name": "Content area color"
-  , "description": "Background color should be: " +
-                   "#F7"
-  , "rule":
-  function() {
-    var allow = "#F7";
-    $5("#content")
-      .cssIsNot("background-color", allow, fiveui.color.colorToHex)
-      .each(function(i, elt) {
-        var color = fiveui.color.colorToHex($(elt).css("background-color"));
-        report("non-standard content background color: " + color, elt);
-      });
-  }
-  },
-  //----------------------------------------------------------------
-  { "id": 2141104
-  , "name": "Left navigation color"
-  , "description": "Left navigation color should be: " +
-                   "#C2"
-  , "rule":
-  function() {
-    var allow = "#C2";
-    $5("#leftNav")
-      .cssIsNot("color", allow, fiveui.color.colorToHex)
-      .each(function(i, elt) {
-        var color = fiveui.color.colorToHex($(elt).css("color"));
-        report("non-standard left navigation color: " + color, elt);
-      });
-  }
-  },
-  //----------------------------------------------------------------
-  { "id": 2141105
-  , "name": "Header color check"
-  , "description": "Header color should be: " +
-                   "#3D"
-  , "rule":
-  function() {
-    var allow = "#3D";
-    $5(":header")
-      .cssIsNot("color", allow, fiveui.color.colorToHex)
-      .each(function(i, elt) {
-        var color = fiveui.color.colorToHex($(elt).css("color"));
-        report("non-standard header color: " + color, elt);
-      });
-  }
-  }//,
-  //----------------------------------------------------------------
-]
-}
- */

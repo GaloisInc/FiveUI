@@ -47,48 +47,62 @@ to use Headless. All of the dependencies can be found and easily installed
 on most major platforms (Linux, Mac OS X, Windows). The dependencies are:
 
  - [Java Development Kit](http://www.java.com)
- - [Firefox](http://www.mozilla.org/en-US/firefox/organizations/all.html) 17 (the
+ - [Firefox](http://www.mozilla.org/en-US/firefox/organizations/all.html) 24 (the
    E.S.R. release)
  - [Maven](http://maven.apache.org/download.cgi)
  - UNIX archive utility `tar` (and optionally `make`)
 
-### Install the included webdrivers dependency
+### Install Maven
 
-The following command will instruct Maven to install
-the webdrivers Java library to your local Maven repository.
+Headless is a [maven](http://maven.apache.org/) managed Java project. The
+project's top-level directory is `<FiveUI>/src/batchtools/headless`.  You'll need maven
+installed on your system to continue.
 
-```
-$ cd <FiveUI>/webdriver
-$ mvn install
-```
+ - On debian based linux systems: `sudo apt-get install maven`
+ - On Mac OS X: Maven 3.x comes pre-installed (OS X 10.7 or later)
 
-### Unpack the included Firefox profile
+### Compile Headless
 
-```
-$ cd <FiveUI>/profiles
-$ tar xf firefox.tar
-```
-
-Alternatively, if you have `make` installed you can run from `<FiveUI>/profiles`:
+Once you have maven installed, you can compile the project. This will trigger
+the dependencies to be downloaded and installed in your local maven repository
+(for a quick intro to using maven, see [Maven in Five
+Minutes](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
 
 ```
-$ make
+$ mvn compile package -DskipTests
 ```
 
-Alternatively, you can copy (or link) an [existing firefox profile
-directory](http://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data)
-that you have to `<FiveUI>/profiles/firefox`.
+### Get Firefox E.S.R.
+
+In order to use Headless you also need a copy of Firefox 24 (the current
+extended support release or E.S.R.). More recent versions of Firefox may also work, but
+they are not supported for use with FiveUI. Download and install Firefox 24
+[here](http://www.mozilla.org/en-US/firefox/organizations/all.html). Note that
+Firefox 24 can be installed along side existing alternate versions of firefox on
+your system or isolated to your user directory by simply moving it's
+installation directory.
+
+Now that you've installed Firefox 24, it's time to tell Headless where the
+binary lives. For example, when I install Firefox 24 to `~/myapps/Firefox24` on a
+Mac OS X system, the firefox binary lives at
+
+```
+~/myapps/Firefox24/Contents/MacOS/firefox
+```
+
+Locate your firefox binary and remember it for the next step.
 
 ### Edit the run script
 
-Edit variables at the start of `<FiveUI>/headless/bin/runHeadless.sh` to
-reflect your Firefox installation and FiveUI installation directory.
+Edit variables at the start of
+`<FiveUI>/src/batchtools/headless/bin/runHeadless.sh` to reflect your
+Firefox installation and FiveUI installation directory.
 
 ```
-$ cd <FiveUI>/headless/bin
+$ cd <FiveUI>/src/batchtools/headless/bin
 $ cat runHeadless.sh
 export FIVEUI_ROOT_PATH=$HOME/galois/FiveUI
-export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
+export FIREFOX_BIN_PATH=/usr/bin/firefox
 ...
 ```
 
@@ -97,7 +111,7 @@ export FIREFOX_BIN_PATH=$HOME/myapps/Firefox17/Contents/MacOS/firefox
 The `runHeadless.sh` script can be invoked from the command line with options.
 
 ```
-$ cd <FiveUI>/headless/bin
+$ cd <FiveUI>/src/batchtools/headless/bin
 $ ./runHeadless.sh -h
 usage: headless <input file 1> [<input file 2> ...]
  -h                      print this help message
@@ -122,7 +136,7 @@ $ mkdir -p reports/basic
 Now invoke the `runHeadless` script.
 
 ```
-$ <FiveUI>/headless/bin/runHeadless.sh basicRun.json -v -o reports/basic.out -r reports/basic
+$ <FiveUI>/src/batchtools/headless/bin/runHeadless.sh basicRun.json -v -o reports/basic.out -r reports/basic
 ```
 
 You should see the Firefox browser open and load `http://whitehouse.gov`. The FiveUI
@@ -136,10 +150,7 @@ for more.
 
 After the run is complete you should see a text log of the run in
 `reports/basic.out` and an HTML summary report in
-`reports/basic/summary.html`. Note that there are many errors
-reported on this particular run because the rule sets used (particularly
-the color guidelines) were not designed with `whitehouse.gov` in
-mind.
+`reports/basic/summary.html`.
 
 ### Write your own run configuration.
 
@@ -170,76 +181,12 @@ The format of a run configuration is as follows:
 }
 ```
 
-## Building Headless From Source
-
-----------------
-
-### Install Maven
-
-Headless is a [maven](http://maven.apache.org/) managed Java project. The
-project's top-level directory is `<FiveUI>/headless`.  You'll need maven
-installed on your system to continue.
-
- - On debian based linux systems: `sudo apt-get install maven`
- - On Mac OS X: Maven 3.x comes pre-installed (OS X 10.7 or later)
-
-### Compile Headless
-
-Once you have maven installed, you can compile the project. This will trigger
-the dependencies to be downloaded and installed in your local maven repository
-(for a quick intro to using maven, see [Maven in Five
-Minutes](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
-
-```
-$ mvn compile
-```
-
-### Get Firefox E.S.R.
-
-In order to use Headless you also need a copy of Firefox 17 (the current
-extended support release or E.S.R.). More recent versions of Firefox may also work, but
-they are not supported for use with FiveUI. Download and install Firefox 17
-[here](http://www.mozilla.org/en-US/firefox/organizations/all.html). Note that
-Firefox 17 can be installed along side existing alternate versions of firefox on
-your system or isolated to your user directory by simply moving it's
-installation directory.
-
-Now that you've installed Firefox 17, it's time to tell Headless where the
-binary lives. For example, when I install Firefox 17 to `~/myapps/Firefox17` on a
-Mac OS X system, the firefox binary lives at
-
-```
-~/myapps/Firefox17/Contents/MacOS/firefox
-```
-
-Locate your firefox binary and remember it for the next step.
-
-### Configuration
-
-In the top-level `headless` directory, copy the configuration file
-`programs.properties.example` to `programs.properties`
-
-```
-$ cp programs.properties.example programs.properties
-```
-
-Now, modify the first entry in `programs.properties`
-to point to the location of your Firefox binary from step 3.
-
-At this point, Headless is ready to run, see the Quickstart section above for
-usage examples. The "batteries-included" JAR file has been built and lives at
-`<FiveUI>/headless/target/HeadlessRunner-0.0.1-SNAPSHOT.one-jar.jar`. Use `java`
-to execute the JAR file manually:
-
-```
-$ java -jar HeadlessRunner-0.0.1-SNAPSHOT.one-jar.jar ...
-```
-
 ### Testing
 
 To run the project's unit tests and verify that things are working as they should on
 your installation and system, use the maven test target:
 
 ```
+$ cd <FiveUI>/src/batchtools
 $ mvn test
 ```
