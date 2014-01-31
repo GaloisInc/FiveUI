@@ -5,7 +5,7 @@
 -------------
 
 The FiveUI distribution comes with a Java application called `Headless` that is
-desiged to make automated testing with FiveUI easy.
+designed to make automated testing with FiveUI easy.
 
 Headless can take a collection of FiveUI rule sets and a target
 (a single web page, an entire website, or a filtered part of one)
@@ -42,7 +42,7 @@ FiveUI distribution.
 
 ### Install External dependencies
 
-You will need the following dependenies installed on your system in order
+You will need the following dependencies installed on your system in order
 to use Headless. All of the dependencies can be found and easily installed
 on most major platforms (Linux, Mac OS X, Windows). The dependencies are:
 
