@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Wikipedia and FiveUI</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css" media="all">
+  <link rel="stylesheet" type="text/css" href="../css/style.css" media="all">
+</head>
+<body class="interior">
+
+  <header>
+    <div class="wrap">
+    <a href="http://galoisinc.github.com/FiveUI" id="logo"
+       title="Galois Open Source"><img src="../images/logo.png" alt="Galois" /></a>
+    <h2>Open Source</h2>
+      <nav id="primary">
+        <ul>
+          <li><a href="http://galois.com">Company website</a></li>
+          <li><a href="https://github.com/GaloisInc/">Github home</a></li>
+        </ul>
+      </nav><!-- /#primary -->
+    </div><!-- /.wrap -->
+  </header>
+
+<!-- ///////////////////////////////////////////
+
+  Template Stops Here, Enter Page Content Below 
+
+  //////////////////////////////////////////// -->
+
+  <section id="content">
+    <div class="wrap">
+<!-- PAGE BODY -->
+<div id="pageBodyWrapper"> <div id="pageBody">
+
+<div id="contentWrapper"> <div id="content">
+<div id="header">
+<h1 class="title">Wikipedia and FiveUI</h1>
+</div>
+<h1 id="checking-wikipedia-style-guidelines-using-fiveui">Checking Wikipedia style guidelines using FiveUI</h1>
+<p>Wikipedia maintains a <a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style">Manual of Style</a> that contains prescribed details for content and formatting in Wikipedia articles. The manual provides consistency, which makes articles accessible and easily comprehensible. The guidelines are extensive, providing a high degree of consistency. The downside is that it is difficult for casual contributers read and internalize all of the rules.</p>
+<p><a href="http://galoisinc.github.io/FiveUI/">FiveUI</a> is an extensible tool for evaluating HTML user interfaces against sets of codified UI Guidelines. The Wikipedia style guidelines can be codified and checked automatically. Upon making edits to an article, a contributer using FiveUI sees a list of any items that should be changed before publishing.</p>
+<p>FiveUI also simplifies auditing articles in bulk. It supports a <a href="http://galoisinc.github.io/FiveUI/manual/headlessFiveUI.html">headless mode</a> that uses <a href="http://docs.seleniumhq.org/">Selenium</a> to test large numbers of pages and produces a report of issues with each page.</p>
+<p>We have codified a portion of the Manual of Style which can be used right now. This serves as a starting point to demonstrate the usefulness of FiveUI. The codified guidelines are included in the FiveUI source distribution under <a href="https://github.com/GaloisInc/FiveUI/blob/master/guidelines/wikipedia/">guidelines/wikipedia/</a>.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>FiveUI is implemented as a browser extension for Firefox and Chrome and as a headless script. To install the browser extension see the <a href="install.html">Install Guide</a>. To get to the options page for the extension see <a href="gettingStarted.html">Getting Started</a>. In the extension options page:</p>
+<ol style="list-style-type: decimal">
+<li>Click 'add a rule set'.</li>
+<li>In the first text box enter the URL to the Wikipedia guidelines manifest:<br /> <code>https://raw2.github.com/GaloisInc/FiveUI/master/guidelines/wikipedia/package.json</code> And click on the little 'save' icon.</li>
+<li>In the second text box enter a pattern for URLs that should be checked against the guidelines:<br /> <code>http*://*.wikipedia.org/wiki/*</code></li>
+</ol>
+<p>Now navigate to some Wikipedia articles. The FiveUI icon should change from gray to red. If any style issues are found then a problem count will appear superimposed over the icon.</p>
+<h2 id="the-guidelines-that-are-checked">The guidelines that are checked</h2>
+<p>The guidelines that we have codified so far focus mainly on accessibility and formatting.</p>
+<p>Guidelines that deal with prose (word choice, tone, voice, punctuation, etc.) are more difficult to verify with an automated process. In some cases we can use heuristics to identify cases where there might be a problem, and produce warnings to encourage the user to take a closer look.</p>
+<p>Wikimedia content exists in two forms: markup and rendered HTML. FiveUI checks HTML, not markup. To be more precise, FiveUI checks fully rendered web pages. That provides certainty details such as colors, paragraph width, and image placement are checked in the context of what readers will see. But it does mean that some translation is required in cases where the Manual of Style makes statements about conventions that should be used in markup.</p>
+<p>The rules that we have implemented so far are listed below. Rules are specified with Javascript; the headings indicate the source file that defines each rule.</p>
+<h3 id="headingorder.js">headingOrder.js</h3>
+<p>Checks that, e.g., there is an h2 before each h3.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> Also reports an error if any h1 tags are found in article content.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<h3 id="bullets.js">bullets.js</h3>
+<p>Produces warnings to remind users to minimize use of bullet points.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> The output from this rule is a bit noisy at the moment.</p>
+<h3 id="strikeout.js">strikeout.js</h3>
+<p>Produces error reports if an article contains struck-out text.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a> That includes &lt;del&gt; and &lt;strike&gt; tags, and &lt;span&gt; tags with a <code>text-decoration: line-through</code> style.</p>
+<h3 id="color.js">color.js</h3>
+<p>Produces an error if the contrast ratio between text and background color falls below the WCAG 2.0 AA level:<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></p>
+<ul>
+<li>less than 4.5:1 for most text</li>
+<li>less than 3:1 for normal text with a point size of at least 18</li>
+<li>less than 3:1 for bold text with a point size of at least 14.</li>
+</ul>
+<p>Produces a warning if contrast falls below the AAA level:</p>
+<ul>
+<li>less than 7:1 for most text</li>
+<li>less than 4.5:1 for normal text with a point size of at least 18</li>
+<li>less than 4.5:1 for bold text with a point size of at least 14.</li>
+</ul>
+<p>In order to keep reports focused on article content rather than site design, there are some exceptions built into this rule to skip over styles that are produced by predefined Wikipedia templates. At the moment the rule ignores links with &quot;new&quot;, &quot;external&quot;, or &quot;extiw&quot; class and ignores links in navbox group cells (&lt;th&gt; elements with the &quot;navbox-group&quot; class).</p>
+<h3 id="spacebetweenparagraphs.js">spaceBetweenParagraphs.js</h3>
+<p>Produces error reports when extra space is found between paragraphs. This corresponds to markup with more than one blank line between paragraphs. In the rendered HTML the result is one or more paragraphs that contain &lt;br&gt; tags but no text.<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></p>
+<h3 id="paragraphlength.js">paragraphLength.js</h3>
+<p>Produces a warning for any paragraphs that contain only a single sentence.<a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a></p>
+<h3 id="imagesize.js">imageSize.js</h3>
+<p>Produces warnings for images that are wider than 400px and that are left- or right-aligned. Also produces warnings for any images that are more than 500px tall.<a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></p>
+<h3 id="horizontalrule.js">horizontalRule.js</h3>
+<p>Produces warnings indicating that horizontal rules are deprecated.<a href="#fn9" class="footnoteRef" id="fnref9"><sup>9</sup></a></p>
+<h3 id="pseudoheadings.js">pseudoHeadings.js</h3>
+<p>Detects uses of bold text or of a description list with a single &lt;dt&gt; and no &lt;dd&gt; to emulate a heading. Produces error reports.<a href="#fn10" class="footnoteRef" id="fnref10"><sup>10</sup></a></p>
+<h3 id="pseudoindent.js">pseudoIndent.js</h3>
+<p>Detects uses of a description list with a single &lt;dd&gt; and no &lt;dt&gt; to indent content.<a href="#fn11" class="footnoteRef" id="fnref11"><sup>11</sup></a></p>
+<p>It seems that indenting content in this way may now be an accepted practice. So this rule may be a candidate for removal.</p>
+<h3 id="floatsandwiches.js">floatSandwiches.js</h3>
+<p>Produces warnings in cases where two images occupy overlapping vertical space, where one image is left-aligned and the other is right-aligned.<a href="#fn12" class="footnoteRef" id="fnref12"><sup>12</sup></a></p>
+<h3 id="spacebetweenlistitems.js">spaceBetweenListItems.js</h3>
+<p>Checks for list items that have been (probably mistakenly) separated by blank lines in wiki markup. This results in adjacent lists that each contain only a single item.<a href="#fn13" class="footnoteRef" id="fnref13"><sup>13</sup></a></p>
+<h3 id="imagealt.js">imageAlt.js</h3>
+<p>Reports warnings upon encountering images without an &quot;alt&quot; attribute.<a href="#fn14" class="footnoteRef" id="fnref14"><sup>14</sup></a></p>
+<h3 id="imagecaption.js">imageCaption.js</h3>
+<p>Checks images wider or taller than 50px for a caption. Reports a warning if none is found.<a href="#fn15" class="footnoteRef" id="fnref15"><sup>15</sup></a></p>
+<h3 id="inlinestyle.js">inlineStyle.js</h3>
+<p>Reports errors when encountering inline styles.<a href="#fn16" class="footnoteRef" id="fnref16"><sup>16</sup></a></p>
+<p>A number of the standard templates that Wikipedia provides include inline styles - so this rule produces some false positives. One of our work items is to expand and refine the list of exceptions included with this rule.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Headings">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Headings</a><a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Section_headings">https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Section_headings</a><a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Paragraphs">https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Paragraphs</a><a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Text">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Text</a><a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Color">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Color</a><a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Paragraphs">https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Paragraphs</a><a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Paragraphs">https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Paragraphs</a><a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Images">https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Images</a><a href="#fnref8">↩</a></p></li>
+<li id="fn9"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Horizontal_rule">https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Layout#Horizontal_rule</a><a href="#fnref9">↩</a></p></li>
+<li id="fn10"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Headings">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Headings</a><a href="#fnref10">↩</a></p></li>
+<li id="fn11"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Accessibility#Indentation">https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Accessibility#Indentation</a><a href="#fnref11">↩</a></p></li>
+<li id="fn12"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Resolution">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Resolution</a><a href="#fnref12">↩</a></p></li>
+<li id="fn13"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Bulleted_vertical_lists">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Bulleted_vertical_lists</a><a href="#fnref13">↩</a></p></li>
+<li id="fn14"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Images">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Images</a><a href="#fnref14">↩</a></p></li>
+<li id="fn15"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Images">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Images</a><a href="#fnref15">↩</a></p></li>
+<li id="fn16"><p><a href="https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Styles_and_markup_options">https://en.wikipedia.org/wiki/Wikipedia:ACCESSIBILITY#Styles_and_markup_options</a><a href="#fnref16">↩</a></p></li>
+</ol>
+</div>
+
+
+    </div><!-- /.wrap -->
+  </section><!-- /#content -->
+
+  <footer>
+    <div class="wrap">
+      <nav id="footer-nav">
+        <ul>
+          <li><a href="http://corp.galois.com/contact/">Contact</a></li>
+        </ul>
+      </nav>
+
+      <p>Copyright &copy; 2012 Galois, Inc. All rights reserved.</p>
+    </div><!-- /.wrap -->
+  </footer>
+</body>
+</html>

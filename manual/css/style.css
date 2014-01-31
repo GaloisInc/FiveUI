@@ -101,6 +101,7 @@ a.button {
 }
 p + p,
 p + ul,
+p + ol,
 p + a,
 p + h2,
 p + h3,
@@ -111,10 +112,13 @@ ol + img,
 ul + div,
 ol + div,
 ul + p,
+ol + p,
 ul + h2,
+ol + h2,
 ul + h3,
+ol + h3,
 ul + h4,
-ol + p {
+ol + h4 {
   margin-top: 1em;
 }
 li + li {
@@ -132,6 +136,12 @@ h4{}
 em {font-style: italic;}
 strong {font-weight: 600;}
 
+sup {
+  vertical-align: super;
+  font-size: smaller;
+}
+.footnoteRef sup:before { content: "["; }
+.footnoteRef sup:after  { content: "]"; }
 
 .clearfix {clear:both;}
 
@@ -328,7 +338,19 @@ figcaption, .caption {
 #content li {
   font-weight: 600;
   padding-left: 1em;
+}
+
+#content ul > li {
   list-style: square inside;
+}
+
+#content ol > li {
+  list-style: decimal inside;
+}
+
+#content .footnotes ol > li {
+  list-style: decimal outside;
+  padding-left: 0;
 }
 
 ul.steps li {
