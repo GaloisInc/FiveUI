@@ -38,14 +38,13 @@ public class Drivers {
     private static final String FIREFOX_BIN_PATH = "FIREFOX_BIN_PATH";
     private static final String CHROME_BIN_PATH = "CHROME_BIN_PATH";
 
-    private static final String CD_BINARY_NAME = "chromedriver";
-    private static final String CD_BASE_PATH = mkPath("..", "tools",
-            "seleniumChromeDrivers");
-
     private static final String FIVEUI_ROOT_PATH = "FIVEUI_ROOT_PATH";
-    private static final String defaultFiveuiRootPath = "../../../";
-    private static final String firefoxProfilePath = "profiles/firefox";
-    private static final String chromeProfilePath = "profiles/chrome";
+    private static final String defaultFiveuiRootPath = mkPath("..", "..", "..");
+    private static final String firefoxProfilePath = mkPath("profiles", "firefox");
+    private static final String chromeProfilePath = mkPath("profiles", "chrome");
+
+    private static final String CD_BINARY_NAME = "chromedriver";
+    private static final String CD_BASE_PATH = mkPath(getRootPath(), "tools", "seleniumChromeDrivers");
     
     private static List<File> tmpDirs = new ArrayList<File>();
 
