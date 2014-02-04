@@ -30,8 +30,10 @@ $(chrome-build)/data/injected/%: $(chrome-dir)/injected/% | $(chrome-build)/data
 $(chrome-build)/data/%: $(chrome-dir)/% | $(chrome-build)/data
 	$(call cmd,cp)
 
-$(chrome-build)/%: $(chrome-dir)/% | $(chrome-build)
+# strip single-line comments from manifest.json when copying to build directory
+$(chrome-build)/manifest.json: $(chrome-dir)/manifest.json | $(chrome-build)
 	$(call cmd,cp)
+	sed -i 's:^\s*//.*$$::' $@
 
 $(chrome-build): | $(build-dir)
 	$(call cmd,mkdir)
