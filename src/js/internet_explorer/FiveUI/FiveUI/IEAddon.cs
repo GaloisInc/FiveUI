@@ -149,8 +149,6 @@ namespace FiveUI
         #region Implementation of IObjectWithSite
         int IObjectWithSite.SetSite(object site)
         {
-            MessageBox.Show("Set site" + (site != null));
-
             //System.Diagnostics.Debugger.Break();
             this.serviceProvider = (IServiceProvider) site;
 
@@ -180,7 +178,6 @@ namespace FiveUI
 
         int IObjectWithSite.GetSite(ref Guid guid, out IntPtr ppvSite)
         {
-            MessageBox.Show("GetSite");
             System.Diagnostics.Debugger.Break();
             IntPtr punk = Marshal.GetIUnknownForObject(browser);
             int hr = Marshal.QueryInterface(punk, ref guid, out ppvSite);
@@ -208,11 +205,8 @@ namespace FiveUI
                     MessageBox.Show("It's cool - it's not null");
                 }
                 var document = browser.Document as IHTMLDocument2;
-                MessageBox.Show("a");
                 var window = document.parentWindow;
-                MessageBox.Show("b");
                 var result = window.execScript(@"alert('You will now be allowed to configure the text to highlight...');");
-                MessageBox.Show("c");
 
                 var form = new HighlighterOptionsForm();
                 form.InputText = TextToHighlight;

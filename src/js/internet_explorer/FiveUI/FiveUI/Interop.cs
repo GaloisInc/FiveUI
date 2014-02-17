@@ -2,9 +2,13 @@
 using System.Runtime.InteropServices;
 namespace FiveUI
 {
-    [ComVisible(true)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("80AE698C-1777-4986-B8CA-CDFABAB101EE")]
+    [
+        ComImport,
+        ComVisible(true),
+        InterfaceType(ComInterfaceType.InterfaceIsIUnknown),
+        // Guid from: http://msdn.microsoft.com/en-us/library/aa768186(v=vs.85).aspx
+        Guid("FC4801A3-2BA9-11CF-A229-00AA003D7352")
+    ]
     public interface IObjectWithSite
     {
         [PreserveSig]
