@@ -4,5 +4,6 @@
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files (x86)\Internet Explorer\iexplore.exe</StartProgram>
     <StartArguments>http://msdn.microsoft.com/en-us/library/ms976373.aspx#bho_getintouch</StartArguments>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
 </Project>

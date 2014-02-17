@@ -17,16 +17,17 @@ namespace FiveUI
         const string DefaultTextToHighlight = "browser";
 
         IWebBrowser2 browser;
-        private object site;
+        private IServiceProvider serviceProvider;
 
         #region Highlight Text
         void OnDocumentComplete(object pDisp, ref object URL)
         {
+            System.Diagnostics.Debug.WriteLine("running OnDocumentComplete");  // TODO: debugging
             try
             {
                 // @Eric Stob: Thanks for this hint!
                 // This will prevent this method being executed more than once.
-                if (pDisp != this.site)
+                if (pDisp != this.serviceProvider)
                     return;
 
                 var document2 = browser.Document as IHTMLDocument2;
@@ -148,19 +149,22 @@ namespace FiveUI
         #region Implementation of IObjectWithSite
         int IObjectWithSite.SetSite(object site)
         {
-            this.site = site;
+            MessageBox.Show("Set site" + (site != null));
 
-            if (site != null)
+            //System.Diagnostics.Debugger.Break();
+            this.serviceProvider = (IServiceProvider) site;
+
+            if (serviceProvider != null)
             {
+                //System.Diagnostics.Debugger.Launch();
                 LoadOptions();
 
-                var serviceProv = (IServiceProvider)this.site;
                 var guidIWebBrowserApp = Marshal.GenerateGuidForType(typeof(IWebBrowserApp)); // new Guid("0002DF05-0000-0000-C000-000000000046");
                 var guidIWebBrowser2 = Marshal.GenerateGuidForType(typeof(IWebBrowser2)); // new Guid("D30C1661-CDAF-11D0-8A3E-00C04FC9E26E");
                 IntPtr intPtr;
-                serviceProv.QueryService(ref guidIWebBrowserApp, ref guidIWebBrowser2, out intPtr);
+                serviceProvider.QueryService(ref guidIWebBrowserApp, ref guidIWebBrowser2, out intPtr);
 
-                browser = (IWebBrowser2)Marshal.GetObjectForIUnknown(intPtr);
+                browser = (IWebBrowser2) Marshal.GetObjectForIUnknown(intPtr);
 
                 ((DWebBrowserEvents2_Event)browser).DocumentComplete +=
                     new DWebBrowserEvents2_DocumentCompleteEventHandler(this.OnDocumentComplete);
@@ -173,14 +177,18 @@ namespace FiveUI
             }
             return 0;
         }
+
         int IObjectWithSite.GetSite(ref Guid guid, out IntPtr ppvSite)
         {
+            MessageBox.Show("GetSite");
+            System.Diagnostics.Debugger.Break();
             IntPtr punk = Marshal.GetIUnknownForObject(browser);
             int hr = Marshal.QueryInterface(punk, ref guid, out ppvSite);
             Marshal.Release(punk);
             return hr;
         }
         #endregion
+
         #region Implementation of IOleCommandTarget
         int IOleCommandTarget.QueryStatus(IntPtr pguidCmdGroup, uint cCmds, ref OLECMD prgCmds, IntPtr pCmdText)
         {
@@ -188,12 +196,23 @@ namespace FiveUI
         }
         int IOleCommandTarget.Exec(IntPtr pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
-            try
-            {
+            //try
+            //{
                 // Accessing the document from the command-bar.
+                if (browser == null)
+                {
+                    MessageBox.Show("OMG IT's NULL");
+                }
+                else
+                {
+                    MessageBox.Show("It's cool - it's not null");
+                }
                 var document = browser.Document as IHTMLDocument2;
+                MessageBox.Show("a");
                 var window = document.parentWindow;
+                MessageBox.Show("b");
                 var result = window.execScript(@"alert('You will now be allowed to configure the text to highlight...');");
+                MessageBox.Show("c");
 
                 var form = new HighlighterOptionsForm();
                 form.InputText = TextToHighlight;
@@ -202,11 +221,11 @@ namespace FiveUI
                     TextToHighlight = form.InputText;
                     SaveOptions();
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
 
             return 0;
         }
