@@ -12,17 +12,17 @@ namespace FiveUI
     [ClassInterface(ClassInterfaceType.None)]
     [Guid("AA73C0E8-C939-4A4E-BC30-7770AC888471")]
     [ProgId("MyBHO.WordHighlighter")]
-    public class FiveUI : IObjectWithSite, IOleCommandTarget
+    public class IEAddon : IObjectWithSite, IOleCommandTarget
     {
         const string DefaultTextToHighlight = "browser";
 
         IWebBrowser2 browser;
         private IServiceProvider serviceProvider;
+        private Injecter injecter = null;
 
         #region Highlight Text
         void OnDocumentComplete(object pDisp, ref object URL)
         {
-            System.Diagnostics.Debug.WriteLine("running OnDocumentComplete");  // TODO: debugging
             try
             {
                 // @Eric Stob: Thanks for this hint!
@@ -30,10 +30,17 @@ namespace FiveUI
                 if (pDisp != this.serviceProvider)
                     return;
 
+                if (injecter == null)
+                {
+                    injecter = new Injecter();
+                }
+                injecter.execute(browser);
+
                 var document2 = browser.Document as IHTMLDocument2;
                 var document3 = browser.Document as IHTMLDocument3;
 
                 var window = document2.parentWindow;
+
                 window.execScript(@"function FncAddedByAddon() { alert('Message added by addon.'); }");
 
                 Queue<IHTMLDOMNode> queue = new Queue<IHTMLDOMNode>();
