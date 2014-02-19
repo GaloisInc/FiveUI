@@ -85,6 +85,7 @@ $(eval $(call subdir,tools))
 $(eval $(call subdir,src/js/fiveui))
 $(eval $(call subdir,src/js/chrome))
 $(eval $(call subdir,src/js/firefox))
+$(eval $(call subdir,src/js/internet-explorer))
 $(eval $(call subdir,src/js/tests))
 
 $(eval $(call subdir,src/batchtools))
