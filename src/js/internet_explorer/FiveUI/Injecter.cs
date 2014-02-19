@@ -60,7 +60,7 @@ namespace FiveUI
             HTMLDocument document = (HTMLDocument) browser.Document;
             IHTMLElement head = (IHTMLElement)((IHTMLElementCollection)
                     document.all.tags("head")).item(null, 0);
-            IHTMLScriptElement scriptObject =
+            IHTMLScriptElement scriptObject = 
                 (IHTMLScriptElement)document.createElement("script");
             /* scriptObject.type = "text/javascript"; */
             //scriptObject.async = true;  // TODO: async?
