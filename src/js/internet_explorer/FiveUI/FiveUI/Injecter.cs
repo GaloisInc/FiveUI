@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;  // provides MessageBox
 using mshtml;
@@ -15,12 +17,16 @@ namespace FiveUI
         private Regex urlPattern =
             new Regex(@"^http.*://.*\.wikipedia\.org/wiki/.*$", RegexOptions.IgnoreCase);
 
+        private Assembly assembly;
+        private StreamReader textStreamReader;
+
         public void execute(IWebBrowser2 browser)
         {
             var manifest = manifestForLocation(browser);
             if (manifest != null)
             {
-                MessageBox.Show("MATCH!  MATCH!  MATCH!");
+                //inject(browser, "alert('hello');");
+                inject(browser, load("test.js"));
             }
         }
 
@@ -38,6 +44,30 @@ namespace FiveUI
             {
                 return null;
             }
+        }
+
+        private string load(string script)
+        {
+            assembly = Assembly.GetExecutingAssembly();
+            textStreamReader = new StreamReader(
+                    assembly.GetManifestResourceStream("FiveUI."+ script)
+                    );
+            return textStreamReader.ReadToEnd();
+        }
+
+        private void inject(IWebBrowser2 browser, string code)
+        {
+            HTMLDocument document = (HTMLDocument) browser.Document;
+            IHTMLElement head = (IHTMLElement)((IHTMLElementCollection)
+                    document.all.tags("head")).item(null, 0);
+            IHTMLScriptElement scriptObject =
+                (IHTMLScriptElement)document.createElement("script");
+            /* scriptObject.type = "text/javascript"; */
+            //scriptObject.async = true;  // TODO: async?
+            scriptObject.text = code;
+            ((HTMLHeadElement)head).appendChild((IHTMLDOMNode)scriptObject);
+            // TODO: can I remove after script is processed?
+            ((HTMLHeadElement)head).removeChild((IHTMLDOMNode)scriptObject);
         }
 
     }
