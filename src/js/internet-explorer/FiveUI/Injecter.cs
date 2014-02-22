@@ -22,6 +22,9 @@ namespace FiveUI
 
         public void execute(IWebBrowser2 browser)
         {
+            var bucket = FileStore.getBucket();
+            MessageBox.Show("bucket: "+ bucket);
+
             var manifest = manifestForLocation(browser);
             if (manifest != null)
             {
@@ -60,7 +63,7 @@ namespace FiveUI
             HTMLDocument document = (HTMLDocument) browser.Document;
             IHTMLElement head = (IHTMLElement)((IHTMLElementCollection)
                     document.all.tags("head")).item(null, 0);
-            IHTMLScriptElement scriptObject = 
+            IHTMLScriptElement scriptObject =
                 (IHTMLScriptElement)document.createElement("script");
             /* scriptObject.type = "text/javascript"; */
             //scriptObject.async = true;  // TODO: async?
