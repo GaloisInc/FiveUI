@@ -12,8 +12,8 @@ namespace FiveUI
     {
 
         // TODO: get these values from settings
-        private string manifestUrl =
-            "http://localhost:8000/guidelines/wikipedia/wikipedia.json";
+        private Uri manifestUrl =
+            new Uri("http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json");
         private Regex urlPattern =
             new Regex(@"^http.*://.*\.wikipedia\.org/wiki/.*$", RegexOptions.IgnoreCase);
 
@@ -22,18 +22,18 @@ namespace FiveUI
 
         public void execute(IWebBrowser2 browser)
         {
-            var bucket = FileStore.getBucket();
-            MessageBox.Show("bucket: "+ bucket);
-
-            var manifest = manifestForLocation(browser);
-            if (manifest != null)
+            var manifestUrl = manifestForLocation(browser);
+            if (manifestUrl != null)
             {
+                var ruleSet = RuleSet.Fetch(manifestUrl);
+                MessageBox.Show("RulesDir: "+ ruleSet.RulesDir);
+
                 //inject(browser, "alert('hello');");
-                inject(browser, load("test.js"));
+                //inject(browser, load("test.js"));
             }
         }
 
-        private string manifestForLocation(IWebBrowser2 browser)
+        private Uri manifestForLocation(IWebBrowser2 browser)
         {
             var document = browser.Document as IHTMLDocument2;
             var window   = document.parentWindow;
