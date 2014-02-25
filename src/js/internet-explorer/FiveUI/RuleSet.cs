@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Json;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -36,11 +35,11 @@ namespace FiveUI
 
         public static RuleSet Load(string id)
         {
-            var dir = FileStore.GetBucket(id);
-            var url = getMeta(dir, "manifestUrl");
-            if (!String.IsNullOrWhiteSpace(url))
+            var dir  = FileStore.GetBucket(id);
+            var meta = readMeta(dir);
+            if (meta != null && !String.IsNullOrWhiteSpace(meta.manifestUrl))
             {
-                return new RuleSet(new Uri(url), id);
+                return new RuleSet(new Uri(meta.manifestUrl), id);
             }
             else {
                 return null;
@@ -70,19 +69,24 @@ namespace FiveUI
             var client = new WebClient();
             client.DownloadFile(ManifestUrl, manifestPath);
 
-            var manifestText = File.ReadAllText(manifestPath, new UTF8Encoding());
-            var manifest     = JsonValue.Parse(manifestText);
+            Manifest manifest;
+            using (var json = new FileStream(manifestPath, FileMode.Open, FileAccess.Read))
+            {
+                manifest = Manifest.Parse(json);
+            }
 
-            if (manifest.JsonType == JsonType.Object
-                    && manifest.ContainsKey("rules")
-                    && manifest["rules"].JsonType == JsonType.Array) {
-                foreach (string ruleUrl in (JsonArray) manifest["rules"])
+            if (manifest.rules != null)
+            {
+                foreach (string ruleUrl in manifest.rules)
                 {
                     fetchRule(ManifestUrl, dir, ruleUrl);
                 }
             }
 
-            setMeta(RulesDir, "manifestUrl", ManifestUrl.AbsoluteUri);
+            writeMeta(RulesDir, new RuleSetMeta
+            {
+                manifestUrl = ManifestUrl.AbsoluteUri
+            });
         }
 
         private static void fetchRule(Uri manifestUrl, string dir, string ruleUrl)
@@ -99,37 +103,29 @@ namespace FiveUI
             return Path.Combine(baseDir, url);
         }
 
-        private static string getMeta(string dir, string key)
-        {
-            var data = readMeta(dir);
-            return (string) data[key];
-        }
-
-        private static void setMeta(string dir, string key, string val)
-        {
-            var data = readMeta(dir);
-            data[key] = val;
-            writeMeta(dir, data);
-        }
-
-        private static JsonObject readMeta(string dir)
+        private static RuleSetMeta readMeta(string dir)
         {
             var path = Path.Combine(dir, "META");
-            var text = File.Exists(path) ? File.ReadAllText(dir, new UTF8Encoding()) : null;
-            var data = text != null ? JsonValue.Parse(text) : null;
-            if (data.JsonType == JsonType.Object) {
-                return (JsonObject) data;
+            if (File.Exists(path))
+            {
+                using (var json = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    return RuleSetMeta.Parse(json);
+                }
             }
             else
             {
-                return new JsonObject(new KeyValuePair<String, JsonValue>[0]);
+                return null;
             }
         }
 
-        private static void writeMeta(string dir, JsonObject content)
+        private static void writeMeta(string dir, RuleSetMeta meta)
         {
             var path = Path.Combine(dir, "META");
-            File.WriteAllText(path, content.ToString(), new UTF8Encoding());
+            using (var json = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                RuleSetMeta.Serialize(json, meta);
+            }
         }
 
         public override bool Equals(object other)

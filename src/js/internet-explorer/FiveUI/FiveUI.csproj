@@ -46,6 +46,7 @@
       <HintPath>..\packages\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -64,6 +65,7 @@
     <Compile Include="IEAddon.cs" />
     <Compile Include="Injecter.cs" />
     <Compile Include="Interop.cs" />
+    <Compile Include="Manifest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -72,6 +74,7 @@
     </Compile>
     <Compile Include="ProtectedMode.cs" />
     <Compile Include="RuleSet.cs" />
+    <Compile Include="RuleSetMeta.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SHDocVw">
