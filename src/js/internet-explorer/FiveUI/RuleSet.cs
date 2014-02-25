@@ -62,12 +62,9 @@ namespace FiveUI
         private void update()
         {
             var id  = Guid.NewGuid().ToString("N");
-            var dir = FileStore.GetBucket(id);
+            var manifestPath = Path.Combine(RulesDir, "manifest.json");
 
-            var manifestPath = Path.Combine(dir, "manifest.json");
-
-            var client = new WebClient();
-            client.DownloadFile(ManifestUrl, manifestPath);
+            fetch(ManifestUrl, manifestPath);
 
             Manifest manifest;
             using (var json = new FileStream(manifestPath, FileMode.Open, FileAccess.Read))
@@ -79,7 +76,7 @@ namespace FiveUI
             {
                 foreach (string ruleUrl in manifest.rules)
                 {
-                    fetchRule(ManifestUrl, dir, ruleUrl);
+                    fetchRule(ruleUrl);
                 }
             }
 
@@ -89,11 +86,18 @@ namespace FiveUI
             });
         }
 
-        private static void fetchRule(Uri manifestUrl, string dir, string ruleUrl)
+        private void fetchRule(string ruleUrl)
         {
-            var url    = new Uri(manifestUrl, ruleUrl);
+            var url = new Uri(ManifestUrl, ruleUrl);
+            fetch(url, urlToPath(RulesDir, ruleUrl));
+        }
+
+        private static void fetch(Uri url, string dest)
+        {
             var client = new WebClient();
-            client.DownloadFile(url, urlToPath(dir, ruleUrl));  // TODO: use Async variant
+            var dir    = Directory.GetParent(dest);
+            dir.Create();
+            client.DownloadFile(url, dest);  // TODO: use Async variant
         }
 
         private static string urlToPath(string baseDir, string url)
