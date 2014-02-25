@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;  // provides SoapHexBinary
+using System.Security.Cryptography;
 using System.Text;
 
 namespace FiveUI
@@ -15,6 +17,17 @@ namespace FiveUI
         public string RulesDir
         {
             get { return FileStore.GetBucket(Id); }
+        }
+
+        public IEnumerable<string> RuleFiles
+        {
+            get
+            {
+                return readManifest().rules.Select<string, string>((r) =>
+                {
+                    return rulePath(r);
+                });
+            }
         }
 
         // TODO: Also need Url pattern
@@ -65,12 +78,7 @@ namespace FiveUI
             var manifestPath = Path.Combine(RulesDir, "manifest.json");
 
             fetch(ManifestUrl, manifestPath);
-
-            Manifest manifest;
-            using (var json = new FileStream(manifestPath, FileMode.Open, FileAccess.Read))
-            {
-                manifest = Manifest.Parse(json);
-            }
+            var manifest = readManifest();
 
             if (manifest.rules != null)
             {
@@ -86,10 +94,24 @@ namespace FiveUI
             });
         }
 
+        private Manifest readManifest()
+        {
+            var manifestPath = Path.Combine(RulesDir, "manifest.json");
+            using (var json = new FileStream(manifestPath, FileMode.Open, FileAccess.Read))
+            {
+                return Manifest.Parse(json);
+            }
+        }
+
         private void fetchRule(string ruleUrl)
         {
             var url = new Uri(ManifestUrl, ruleUrl);
-            fetch(url, urlToPath(RulesDir, ruleUrl));
+            fetch(url, rulePath(ruleUrl));
+        }
+
+        private string rulePath(string ruleUrl)
+        {
+            return Path.Combine(RulesDir, urlToFile(ruleUrl));
         }
 
         private static void fetch(Uri url, string dest)
@@ -100,11 +122,12 @@ namespace FiveUI
             client.DownloadFile(url, dest);  // TODO: use Async variant
         }
 
-        private static string urlToPath(string baseDir, string url)
+        private static string urlToFile(string url)
         {
-            // TODO: handle URLs that are not relative paths
-            var path = url.Replace('/', Path.DirectorySeparatorChar);
-            return Path.Combine(baseDir, url);
+            var data = Encoding.UTF8.GetBytes(url);
+            var hash = SHA1.Create().ComputeHash(data);
+            var soap = new SoapHexBinary(hash);
+            return soap.ToString();
         }
 
         private static RuleSetMeta readMeta(string dir)
