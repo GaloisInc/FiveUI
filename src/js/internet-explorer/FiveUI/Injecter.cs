@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;  // provides MessageBox
 using mshtml;
 using SHDocVw;  // provides IWebBrowser2
 
@@ -21,14 +20,13 @@ namespace FiveUI
 
         public void execute(IWebBrowser2 browser)
         {
-            Func<string, bool> isJs = s => s.EndsWith(".js");
-            Func<string, bool> run  = s => inject(browser, load(s));
-
-            computeScripts().Where(isJs).Select(run);
-            uiScripts().Where(isJs).Select(run);
-
-                //inject(browser, "alert('hello');");
-                //inject(browser, load("test.js"));
+            foreach (string s in computeScripts().Concat(uiScripts()))
+            {
+                if (s.EndsWith(".js"))
+                {
+                    inject(browser, load(s));
+                }
+            }
         }
 
         private List<string> computeScripts() {
@@ -74,13 +72,17 @@ namespace FiveUI
 
         private string load(string script)
         {
-            var scriptRef = "FiveUI.data." + script.Replace('/', '.');
+            var manRef   = manifestResource(script);
             var assembly = Assembly.GetExecutingAssembly();
-            MessageBox.Show("loading: "+ scriptRef);
             var textStreamReader = new StreamReader(
-                    assembly.GetManifestResourceStream("FiveUI.data."+ script)
+                    assembly.GetManifestResourceStream(manRef)
                     );
             return textStreamReader.ReadToEnd();
+        }
+
+        private string manifestResource(string path)
+        {
+            return "FiveUI.data." + path.Replace('/', '.');
         }
 
         private bool inject(IWebBrowser2 browser, string code)
