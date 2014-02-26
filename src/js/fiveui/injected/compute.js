@@ -331,7 +331,7 @@
 
    var registerBackendListeners = function(port) {
      /**
-      * @param {{rules: [string], dependencies: [string]}} ruleDescr
+      * @param {{rules: [string], dependencies: [{ content: string, url: string }]}} ruleDescr
       */
      var assembleRules = function(__assembleRules_ruleDescr) {
        // Use long variable names: top-level variables in eval'ed
