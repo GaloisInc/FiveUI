@@ -4,7 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using mshtml;
+using System.Windows.Forms;  // provides MessageBox
+using mshtml;  // provides IHTMLDocument2
 using SHDocVw;  // provides IWebBrowser2
 
 namespace FiveUI
@@ -18,15 +19,24 @@ namespace FiveUI
         private Regex urlPattern =
             new Regex(@"^http.*://.*\.wikipedia\.org/wiki/.*$", RegexOptions.IgnoreCase);
 
-        public void execute(IWebBrowser2 browser)
+        public void execute(IWebBrowser2 browser, IHTMLDocument2 document)
         {
-            foreach (string s in computeScripts().Concat(uiScripts()))
+            foreach (string s in platformScripts().Concat(computeScripts()).Concat(uiScripts()))
             {
                 if (s.EndsWith(".js"))
                 {
                     inject(browser, load(s));
                 }
             }
+
+            ComputePort.test(browser, document);
+        }
+
+        private List<string> platformScripts() {
+            var list = new List<string>();
+            list.Add("injected/platform-compute.js");
+            list.Add("injected/platform-ui.js");
+            return list;
         }
 
         private List<string> computeScripts() {
@@ -85,20 +95,10 @@ namespace FiveUI
             return "FiveUI.data." + path.Replace('/', '.');
         }
 
-        private bool inject(IWebBrowser2 browser, string code)
+        private void inject(IWebBrowser2 browser, string code)
         {
             HTMLDocument document = (HTMLDocument) browser.Document;
-            IHTMLElement head = (IHTMLElement)((IHTMLElementCollection)
-                    document.all.tags("head")).item(null, 0);
-            IHTMLScriptElement scriptObject =
-                (IHTMLScriptElement)document.createElement("script");
-            /* scriptObject.type = "text/javascript"; */
-            //scriptObject.async = true;  // TODO: async?
-            scriptObject.text = code;
-            ((HTMLHeadElement)head).appendChild((IHTMLDOMNode)scriptObject);
-            // TODO: can I remove after script is processed?
-            ((HTMLHeadElement)head).removeChild((IHTMLDOMNode)scriptObject);
-            return true;
+            document.parentWindow.execScript(code);
         }
 
     }

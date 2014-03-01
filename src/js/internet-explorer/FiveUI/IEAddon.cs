@@ -12,7 +12,7 @@ namespace FiveUI
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     [Guid("AA73C0E8-C939-4A4E-BC30-7770AC888471")]
-    [ProgId("MyBHO.WordHighlighter")]
+    [ProgId("Galois.FiveUI")]
     public class IEAddon : IObjectWithSite, IOleCommandTarget
     {
         const string DefaultTextToHighlight = "browser";
@@ -35,7 +35,12 @@ namespace FiveUI
                 {
                     injecter = new Injecter();
                 }
-                injecter.execute(browser);
+
+                var document = browser.Document as IHTMLDocument2;
+                if (document != null)
+                {
+                    injecter.execute(browser, document);
+                }
             }
             catch (Exception ex)
             {

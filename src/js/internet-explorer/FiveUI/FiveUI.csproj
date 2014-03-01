@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComputePort.cs" />
     <Compile Include="FileStore.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -62,6 +63,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IComputePort.cs" />
     <Compile Include="IEAddon.cs" />
     <Compile Include="Injecter.cs" />
     <Compile Include="Interop.cs" />
