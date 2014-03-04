@@ -21,16 +21,20 @@ namespace FiveUI
 
         public void execute(IWebBrowser2 browser, IHTMLDocument2 document)
         {
-            foreach (string s in platformScripts().Concat(computeScripts()).Concat(uiScripts()))
+            var port = new Port();
+            Port.Attach(document, port);
+
+            var appScripts = platformScripts()
+                .Concat(computeScripts())
+                .Concat(uiScripts()))
+
+            foreach (string s in appScripts)
             {
                 if (s.EndsWith(".js"))
                 {
                     inject(browser, load(s));
                 }
             }
-
-            var port = new Port();
-            Port.Attach(document, port);
         }
 
         private List<string> platformScripts() {

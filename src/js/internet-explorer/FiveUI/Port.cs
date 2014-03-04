@@ -6,9 +6,11 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Expando;  // provides IExpando
 using System.Windows.Forms;  // provides MessageBox
 using mshtml;  // provides IHTMLDocument2
+using stdole;  // provides IDispatch
 
-using ListSet = System.Collections.Generic.List<FiveUI.Listener>;
-using ListMap = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<FiveUI.Listener>>;
+using Listener = stdole.IDispatch;
+using ListSet = System.Collections.Generic.List<stdole.IDispatch>;
+using ListMap = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<stdole.IDispatch>>;
 
 namespace FiveUI
 {
@@ -42,7 +44,10 @@ namespace FiveUI
                 return;
             }
 
-            foreach (Listener list in listeners[eventType])
+            // Get a copy of the list of listeners.
+            var lists = listeners[eventType].ToList();
+
+            foreach (Listener list in lists)
             {
                 applyListener(list, data);
             }
@@ -50,8 +55,11 @@ namespace FiveUI
 
         public void on(string eventType, Listener listener)
         {
-            var lists = listeners.ContainsKey(eventType) ?
-                listeners[eventType] : new List<Listener>();
+            if (!listeners.ContainsKey(eventType))
+            {
+                listeners[eventType] = new List<Listener>();
+            }
+            var lists = listeners[eventType];
             lists.Add(listener as Listener);
         }
 
@@ -67,34 +75,34 @@ namespace FiveUI
                 new List<Listener>(lists.Where(l => l != listener));
         }
 
-        public void once(string eventType, Listener listener)
-        {
-            Listener list = null;
-            list = data =>
-            {
-                removeListener(eventType, list);
-                return applyListener(listener, data);
-            };
-            on(eventType, list);
-        }
+        /* public void once(string eventType, Listener listener) */
+        /* { */
+        /*     Listener list = null; */
+        /*     list = data => */
+        /*     { */
+        /*         removeListener(eventType, list); */
+        /*         applyListener(listener, data); */
+        /*     }; */
+        /*     on(eventType, list); */
+        /* } */
 
-        private int applyListener(Listener listener, dynamic data)
+        private void applyListener(Listener listener, dynamic data)
         {
             try
             {
-                return listener(data);
+                // Based on:
+                // http://bytes.com/topic/c-sharp/answers/655563-handling-javascript-functions-closures-passed-into-c-function
+                listener.GetType().InvokeMember(
+                        "",
+                        BindingFlags.InvokeMethod,
+                        null,
+                        listener,
+                        new object[] { data });
             }
             catch
             {
                 // TODO
-                return 0;
             }
-        }
-
-        public void whatIsIt(dynamic obj)
-        {
-            var t = obj.GetType().Name;
-            MessageBox.Show(t);
         }
 
     }
