@@ -29,7 +29,8 @@ namespace FiveUI
                 }
             }
 
-            ComputePort.test(browser, document);
+            var port = new Port();
+            Port.Attach(document, port);
         }
 
         private List<string> platformScripts() {
