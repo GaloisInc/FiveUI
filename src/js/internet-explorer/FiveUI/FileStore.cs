@@ -25,6 +25,15 @@ namespace FiveUI
             return new HashSet<string>(dirs);
         }
 
+        public static void RemoveBucket(string key)
+        {
+            string path = Path.Combine(BaseDir.Value, key);
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
+        }
+
         // IE usually runs in protected mode - which means that the
         // extension is only authorized to write to certain directories.
         // One of those is the internet cache.

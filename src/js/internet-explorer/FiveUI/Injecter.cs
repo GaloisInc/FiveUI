@@ -38,8 +38,12 @@ namespace FiveUI
 
             foreach (RuleSet rs in RuleSet.LoadAll())
             {
-                port.emit("SetRules", JSON.Stringify(rs.GetPayload()));
+                RuleSet.Remove(rs.Id);
             }
+
+            var manifest = manifestForLocation(browser);
+            var ruleSet  = RuleSet.Fetch(manifest);
+            port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload()));
         }
 
         private List<string> platformScripts() {
@@ -90,6 +94,7 @@ namespace FiveUI
             }
         }
 
+        // Loads embedded text resource from DLL.
         private string load(string script)
         {
             var manRef   = manifestResource(script);

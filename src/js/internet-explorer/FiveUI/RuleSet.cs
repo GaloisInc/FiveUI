@@ -71,6 +71,11 @@ namespace FiveUI
             .Where((rs) => rs != null);
         }
 
+        public static void Remove(string id)
+        {
+            FileStore.RemoveBucket(id);
+        }
+
         public RuleSetPayload GetPayload()
         {
             var meta     = readMeta(RulesDir);
@@ -127,7 +132,7 @@ namespace FiveUI
             var manifestPath = Path.Combine(RulesDir, "manifest.json");
             using (var json = new FileStream(manifestPath, FileMode.Open, FileAccess.Read))
             {
-                return JSON.Parse(json);
+                return JSON.Parse<Manifest>(json);
             }
         }
 
@@ -167,7 +172,7 @@ namespace FiveUI
             {
                 using (var json = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
-                    return JSON.Parse(json);
+                    return JSON.Parse<RuleSetMeta>(json);
                 }
             }
             else
