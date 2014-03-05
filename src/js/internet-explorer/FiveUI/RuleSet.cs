@@ -71,6 +71,25 @@ namespace FiveUI
             .Where((rs) => rs != null);
         }
 
+        public RuleSetPayload GetPayload()
+        {
+            var meta     = readMeta(RulesDir);
+            var paths    = meta.rulePaths;
+            var contents = new string[paths.Length];
+
+            int i = 0;
+            foreach (string path in paths)
+            {
+                contents[i] = File.ReadAllText(path);
+            }
+
+            return new RuleSetPayload
+            {
+                rules        = contents,
+                dependencies = new RuleSetPayload.Dependency[0]  // TODO
+            };
+        }
+
         // Downloads latest manifest and rules.
         private void update()
         {
@@ -79,18 +98,27 @@ namespace FiveUI
 
             fetch(ManifestUrl, manifestPath);
             var manifest = readManifest();
+            string[] paths;
 
             if (manifest.rules != null)
             {
+                paths = new string[manifest.rules.Length];
+                int i = 0;
                 foreach (string ruleUrl in manifest.rules)
                 {
-                    fetchRule(ruleUrl);
+                    paths[i] = fetchRule(ruleUrl);
+                    i += 1;
                 }
+            }
+            else {
+                paths = new string[0];
             }
 
             writeMeta(RulesDir, new RuleSetMeta
             {
-                manifestUrl = ManifestUrl.AbsoluteUri
+                manifestUrl  = ManifestUrl.AbsoluteUri,
+                rulePaths    = paths,
+                dependencies = new string[0]  // TODO
             });
         }
 
@@ -103,10 +131,12 @@ namespace FiveUI
             }
         }
 
-        private void fetchRule(string ruleUrl)
+        private string fetchRule(string ruleUrl)
         {
-            var url = new Uri(ManifestUrl, ruleUrl);
-            fetch(url, rulePath(ruleUrl));
+            var url  = new Uri(ManifestUrl, ruleUrl);
+            var path = rulePath(ruleUrl);
+            fetch(url, path);
+            return path;
         }
 
         private string rulePath(string ruleUrl)

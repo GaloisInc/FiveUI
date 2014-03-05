@@ -35,6 +35,11 @@ namespace FiveUI
                     inject(browser, load(s));
                 }
             }
+
+            foreach (RuleSet rs in RuleSet.LoadAll())
+            {
+                port.emit("SetRules", rs.GetPayload());
+            }
         }
 
         private List<string> platformScripts() {

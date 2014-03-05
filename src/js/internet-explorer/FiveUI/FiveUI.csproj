@@ -80,6 +80,7 @@
     <Compile Include="ProtectedMode.cs" />
     <Compile Include="RuleSet.cs" />
     <Compile Include="RuleSetMeta.cs" />
+    <Compile Include="RuleSetPayload.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SHDocVw">

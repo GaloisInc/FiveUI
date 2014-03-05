@@ -14,6 +14,12 @@ namespace FiveUI
         [DataMember]
         public string manifestUrl { get; set; }
 
+        [DataMember]
+        public string[] rulePaths { get; set; }
+
+        [DataMember]
+        public string[] dependencies { get; set; }
+
         public static RuleSetMeta Parse(Stream json)
         {
             var s = new DataContractJsonSerializer(typeof(RuleSetMeta));
