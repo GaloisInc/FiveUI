@@ -69,6 +69,7 @@
     <Compile Include="Injecter.cs" />
     <Compile Include="Interop.cs" />
     <Compile Include="IPort.cs" />
+    <Compile Include="JSON.cs" />
     <Compile Include="Manifest.cs" />
     <Compile Include="Port.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

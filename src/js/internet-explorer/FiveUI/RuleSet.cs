@@ -127,7 +127,7 @@ namespace FiveUI
             var manifestPath = Path.Combine(RulesDir, "manifest.json");
             using (var json = new FileStream(manifestPath, FileMode.Open, FileAccess.Read))
             {
-                return Manifest.Parse(json);
+                return JSON.Parse(json);
             }
         }
 
@@ -167,7 +167,7 @@ namespace FiveUI
             {
                 using (var json = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
-                    return RuleSetMeta.Parse(json);
+                    return JSON.Parse(json);
                 }
             }
             else
@@ -179,9 +179,9 @@ namespace FiveUI
         private static void writeMeta(string dir, RuleSetMeta meta)
         {
             var path = Path.Combine(dir, "META");
-            using (var json = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            using (var output = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                RuleSetMeta.Serialize(json, meta);
+                JSON.Serialize(output, meta);
             }
         }
 

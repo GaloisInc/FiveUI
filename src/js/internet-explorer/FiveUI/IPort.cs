@@ -9,7 +9,7 @@ namespace FiveUI
      InterfaceType(ComInterfaceType.InterfaceIsDual)]
     public interface IPort
     {
-        void emit(string eventType, dynamic data);
+        void emit(string eventType, string data);
         void on(string eventType, IDispatch listener);
         void removeListener(string eventType, IDispatch listener);
         void once(string eventType, IDispatch listener);

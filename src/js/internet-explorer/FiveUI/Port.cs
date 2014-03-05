@@ -20,7 +20,7 @@ namespace FiveUI
      ComDefaultInterface(typeof(IPort))]
     public class Port : IPort
     {
-        public delegate void LambdaListener(dynamic data);
+        public delegate void LambdaListener(string data);
 
         private readonly ListMap listeners = new Dictionary<string, ListSet>();
 
@@ -38,7 +38,7 @@ namespace FiveUI
             }
         }
 
-        public void emit(string eventType, dynamic data)
+        public void emit(string eventType, string data)
         {
             if (!listeners.ContainsKey(eventType))
             {
@@ -116,7 +116,7 @@ namespace FiveUI
             on(eventType, list, null);
         }
 
-        private void applyListener(Listener listener, dynamic data)
+        private void applyListener(Listener listener, string data)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace FiveUI
 
         // Based on:
         // http://bytes.com/topic/c-sharp/answers/655563-handling-javascript-functions-closures-passed-into-c-function
-        private void applyIDispatch(IDispatch func, dynamic data)
+        private void applyIDispatch(IDispatch func, string data)
         {
             func.GetType().InvokeMember(
                     "",

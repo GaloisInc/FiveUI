@@ -38,7 +38,7 @@ namespace FiveUI
 
             foreach (RuleSet rs in RuleSet.LoadAll())
             {
-                port.emit("SetRules", rs.GetPayload());
+                port.emit("SetRules", JSON.Stringify(rs.GetPayload()));
             }
         }
 

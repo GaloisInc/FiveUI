@@ -23,7 +23,17 @@
  * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
  */
 var obtainPort = function() {
-  return window.port;
+  var port = window.port;
+  return {
+    on: function(eventType, callback) {
+      port.on(eventType, function(json) {
+        callback(JSON.parse(json));
+      });
+    },
+    emit: function(eventType, data) {
+      port.emit(eventType, JSON.stringify(data));
+    }
+  };
 };
 
 

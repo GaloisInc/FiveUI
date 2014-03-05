@@ -49,6 +49,16 @@ var addGlobalStyle = function(css) {
  */
 var obtainComputePort = function() {
   var port = window.port;
-  port.on('injectCSS', addGlobalStyle);
-  return port;
+  var myPort = {
+    on: function(eventType, callback) {
+      port.on(eventType, function(json) {
+        callback(JSON.parse(json));
+      });
+    },
+    emit: function(eventType, data) {
+      port.emit(eventType, JSON.stringify(data));
+    }
+  };
+  myPort.on('injectCSS', addGlobalStyle);
+  return myPort;
 };
