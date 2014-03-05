@@ -12,6 +12,6 @@ namespace FiveUI
         void emit(string eventType, dynamic data);
         void on(string eventType, IDispatch listener);
         void removeListener(string eventType, IDispatch listener);
-        /* void once(string eventType, IDispatch listener); */
+        void once(string eventType, IDispatch listener);
     }
 }

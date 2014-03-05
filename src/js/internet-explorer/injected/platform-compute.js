@@ -43,13 +43,12 @@ var addGlobalStyle = function(css) {
   }
   head.appendChild(style);                             // attach style element to head
 };
+
 /**
  * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
  */
 var obtainComputePort = function() {
-  // TODO: this is a stub
-  return {
-    on: function() {},
-    emit: function() {}
-  };
+  var port = window.port;
+  port.on('injectCSS', addGlobalStyle);
+  return port;
 };

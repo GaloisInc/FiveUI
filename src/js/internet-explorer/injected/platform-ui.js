@@ -23,15 +23,7 @@
  * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
  */
 var obtainPort = function() {
-  // TODO: This is a stub.
-  return {
-    on: function(eventName) {
-      console.log('compute port handler: ', eventName);
-    },
-    emit: function() {
-      console.log.apply(console, ['compute port: '].concat(arguments));
-    }
-  };
+  return window.port;
 };
 
 

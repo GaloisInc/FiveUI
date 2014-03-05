@@ -8,9 +8,9 @@ using System.Windows.Forms;  // provides MessageBox
 using mshtml;  // provides IHTMLDocument2
 using stdole;  // provides IDispatch
 
-using Listener = stdole.IDispatch;
-using ListSet = System.Collections.Generic.List<stdole.IDispatch>;
-using ListMap = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<stdole.IDispatch>>;
+using Listener = System.Tuple<stdole.IDispatch, FiveUI.Port.LambdaListener>;
+using ListSet = System.Collections.Generic.List<System.Tuple<stdole.IDispatch, FiveUI.Port.LambdaListener>>;
+using ListMap = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<System.Tuple<stdole.IDispatch, FiveUI.Port.LambdaListener>>>;
 
 namespace FiveUI
 {
@@ -20,6 +20,7 @@ namespace FiveUI
      ComDefaultInterface(typeof(IPort))]
     public class Port : IPort
     {
+        public delegate void LambdaListener(dynamic data);
 
         private readonly ListMap listeners = new Dictionary<string, ListSet>();
 
@@ -53,56 +54,98 @@ namespace FiveUI
             }
         }
 
-        public void on(string eventType, Listener listener)
+        public void on(string eventType, IDispatch listener)
         {
+            LambdaListener list = fromIDispatch(listener);
+            on(eventType, list, listener);
+        }
+
+        public void on(string eventType, LambdaListener listener)
+        {
+            on(eventType, listener, null);
+        }
+
+        private void on(string eventType, LambdaListener lambdaList, IDispatch dispList)
+        {
+            Listener list = Tuple.Create<IDispatch, LambdaListener>(dispList, lambdaList);
             if (!listeners.ContainsKey(eventType))
             {
                 listeners[eventType] = new List<Listener>();
             }
             var lists = listeners[eventType];
-            lists.Add(listener as Listener);
+            lists.Add(list);
         }
 
-        public void removeListener(string eventType, Listener listener)
+        public void removeListener(string eventType, IDispatch listener)
         {
-            if (!listeners.ContainsKey(eventType))
-            {
-                return;
-            }
+            if (!listeners.ContainsKey(eventType)) { return; }
 
             var lists = listeners[eventType];
             listeners[eventType] =
-                new List<Listener>(lists.Where(l => l != listener));
+                new List<Listener>(lists.Where(l =>
+                            l.Item1 != null && l.Item1 != listener));
         }
 
-        /* public void once(string eventType, Listener listener) */
-        /* { */
-        /*     Listener list = null; */
-        /*     list = data => */
-        /*     { */
-        /*         removeListener(eventType, list); */
-        /*         applyListener(listener, data); */
-        /*     }; */
-        /*     on(eventType, list); */
-        /* } */
+        public void removeListener(string eventType, LambdaListener listener)
+        {
+            if (!listeners.ContainsKey(eventType)) { return; }
+
+            var lists = listeners[eventType];
+            listeners[eventType] =
+                new List<Listener>(lists.Where(l => l.Item2 != listener));
+        }
+
+        public void once(string eventType, IDispatch listener)
+        {
+            LambdaListener list = data =>
+            {
+                removeListener(eventType, listener);
+                applyIDispatch(listener, data);
+            };
+            on(eventType, list, listener);
+        }
+
+        public void once(string eventType, LambdaListener listener)
+        {
+            LambdaListener list = null;
+            list = data =>
+            {
+                removeListener(eventType, list);
+                listener(data);
+            };
+            on(eventType, list, null);
+        }
 
         private void applyListener(Listener listener, dynamic data)
         {
             try
             {
-                // Based on:
-                // http://bytes.com/topic/c-sharp/answers/655563-handling-javascript-functions-closures-passed-into-c-function
-                listener.GetType().InvokeMember(
-                        "",
-                        BindingFlags.InvokeMethod,
-                        null,
-                        listener,
-                        new object[] { data });
+                listener.Item2(data);
             }
             catch
             {
                 // TODO
             }
+        }
+
+        private LambdaListener fromIDispatch(IDispatch listener)
+        {
+            return data =>
+            {
+                applyIDispatch(listener, data);
+            };
+        }
+
+        // Based on:
+        // http://bytes.com/topic/c-sharp/answers/655563-handling-javascript-functions-closures-passed-into-c-function
+        private void applyIDispatch(IDispatch func, dynamic data)
+        {
+            func.GetType().InvokeMember(
+                    "",
+                    BindingFlags.InvokeMethod,
+                    null,
+                    func,
+                    new object[] { data });
         }
 
     }

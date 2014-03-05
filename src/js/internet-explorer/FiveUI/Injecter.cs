@@ -26,7 +26,7 @@ namespace FiveUI
 
             var appScripts = platformScripts()
                 .Concat(computeScripts())
-                .Concat(uiScripts()))
+                .Concat(uiScripts());
 
             foreach (string s in appScripts)
             {
