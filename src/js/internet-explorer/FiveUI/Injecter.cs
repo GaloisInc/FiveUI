@@ -25,8 +25,8 @@ namespace FiveUI
             Port.Attach(document, port);
 
             var appScripts = platformScripts()
-                .Concat(computeScripts())
-                .Concat(uiScripts());
+                .Concat(computeScripts());
+                /* .Concat(uiScripts()); */
 
             foreach (string s in appScripts)
             {
@@ -41,15 +41,20 @@ namespace FiveUI
                 RuleSet.Remove(rs.Id);
             }
 
-            var manifest = manifestForLocation(browser);
-            var ruleSet  = RuleSet.Fetch(manifest);
-            port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload()));
+            port.on("Go", data =>
+            {
+                port.emit("log", "\"Go!\"");
+                var manifest = manifestForLocation(browser);
+                var ruleSet = RuleSet.Fetch(manifest);
+                port.emit("log", "\"sending rules\"");
+                port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload()));
+            });
         }
 
         private List<string> platformScripts() {
             var list = new List<string>();
             list.Add("injected/platform-compute.js");
-            list.Add("injected/platform-ui.js");
+            /* list.Add("injected/platform-ui.js"); */
             return list;
         }
 

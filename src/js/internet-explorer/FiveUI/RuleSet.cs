@@ -80,17 +80,11 @@ namespace FiveUI
         {
             var meta     = readMeta(RulesDir);
             var paths    = meta.rulePaths;
-            var contents = new string[paths.Length];
-
-            int i = 0;
-            foreach (string path in paths)
-            {
-                contents[i] = File.ReadAllText(path);
-            }
+            var contents = paths.Select(p => File.ReadAllText(p));
 
             return new RuleSetPayload
             {
-                rules        = contents,
+                rules        = contents.ToArray(),
                 dependencies = new RuleSetPayload.Dependency[0]  // TODO
             };
         }
@@ -103,26 +97,13 @@ namespace FiveUI
 
             fetch(ManifestUrl, manifestPath);
             var manifest = readManifest();
-            string[] paths;
-
-            if (manifest.rules != null)
-            {
-                paths = new string[manifest.rules.Length];
-                int i = 0;
-                foreach (string ruleUrl in manifest.rules)
-                {
-                    paths[i] = fetchRule(ruleUrl);
-                    i += 1;
-                }
-            }
-            else {
-                paths = new string[0];
-            }
+            var ruleUrls = manifest.rules != null ? manifest.rules : new string[0];
+            var paths    = ruleUrls.Select(url => fetchRule(url));
 
             writeMeta(RulesDir, new RuleSetMeta
             {
                 manifestUrl  = ManifestUrl.AbsoluteUri,
-                rulePaths    = paths,
+                rulePaths    = paths.ToArray(),
                 dependencies = new string[0]  // TODO
             });
         }
