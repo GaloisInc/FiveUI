@@ -134,13 +134,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\gacutil.exe" /f /i "$(TargetDir)$(TargetFileName)"
-"C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" /unregister "$(TargetDir)$(TargetFileName)"
-"C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "$(TargetDir)$(TargetFileName)"
+    <PostBuildEvent>"$(FrameworkSDKDir)bin\NETFX 4.5.1 Tools\gacutil.exe" /f /i "$(TargetDir)$(TargetFileName)"
+"$(FrameworkDir)\RegAsm.exe" /unregister "$(TargetDir)$(TargetFileName)"
+"$(FrameworkDir)\RegAsm.exe" "$(TargetDir)$(TargetFileName)"
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <Win32Resource>\\VBOXSVR\internet-explorer\FiveUI\nativeresources.res</Win32Resource>
+    <Win32Resource>$(ProjectDir)nativeresources.res</Win32Resource>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\RC.Exe" /r "$(ProjectDir)nativeresources.rc"</PreBuildEvent>
