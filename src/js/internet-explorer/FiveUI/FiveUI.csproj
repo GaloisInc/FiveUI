@@ -139,6 +139,12 @@
 "C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe" "$(TargetDir)$(TargetFileName)"
 </PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>\\VBOXSVR\internet-explorer\FiveUI\nativeresources.res</Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\RC.Exe" /r "$(ProjectDir)nativeresources.rc"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
