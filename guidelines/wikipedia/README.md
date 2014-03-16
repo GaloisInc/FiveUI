@@ -1,11 +1,11 @@
-= Wikipedia Manual of Style Guidelines =
+# Wikipedia Manual of Style Guidelines
 
-== Developer Guide ==
+## Developer Guide
 
 The build and testing infrastructure for these guidelines is managed
 by [Grunt](http://gruntjs.com), a build system based on Node.js.
 
-=== Installing & Using Grunt ===
+### Installing & Using Grunt
 
 Install grunt via npm (you can run this from anywhere):
 
