@@ -33,7 +33,7 @@ $(chrome-build)/data/%: $(chrome-dir)/% | $(chrome-build)/data
 # strip single-line comments from manifest.json when copying to build directory
 $(chrome-build)/manifest.json: $(chrome-dir)/manifest.json | $(chrome-build)
 	$(call cmd,cp)
-	sed -i 's:^\s*//.*$$::' $@
+	sed -i '' 's:^\s*//.*$$::' $@
 
 $(chrome-build): | $(build-dir)
 	$(call cmd,mkdir)
