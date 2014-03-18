@@ -124,6 +124,7 @@
     <EmbeddedResource Include="data\jquery\bundled.css" />
     <EmbeddedResource Include="data\jquery\jquery-1.8.3.js" />
     <EmbeddedResource Include="data\jquery\jquery-ui-1.9.2.custom.js" />
+    <EmbeddedResource Include="data\js\set.js" />
     <EmbeddedResource Include="data\main.js" />
     <EmbeddedResource Include="data\md5.js" />
     <EmbeddedResource Include="data\options.html" />
@@ -131,6 +132,9 @@
     <EmbeddedResource Include="data\storage-wrapper.js" />
     <EmbeddedResource Include="data\tabIds.js" />
     <EmbeddedResource Include="data\underscore.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="data\injected\bootstrap.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

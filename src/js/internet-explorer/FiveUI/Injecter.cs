@@ -21,6 +21,12 @@ namespace FiveUI
 
         public void execute(IWebBrowser2 browser, IHTMLDocument2 document)
         {
+            var manifest = manifestForLocation(browser);
+            if (manifest == null)
+            {
+                return;
+            }
+
             var port = new Port();
             Port.Attach(document, port);
 
@@ -44,11 +50,18 @@ namespace FiveUI
             port.on("Go", data =>
             {
                 port.emit("log", "\"Go!\"");
-                var manifest = manifestForLocation(browser);
                 var ruleSet = RuleSet.Fetch(manifest);
                 port.emit("log", "\"sending rules\"");
                 port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload()));
             });
+
+            port.on("require", scriptPath =>
+            {
+                var content = load(scriptPath);
+                port.emit("script."+ scriptPath, content);
+            });
+
+            inject(browser, load("injected/bootstrap.js"));
         }
 
         private List<string> platformScripts() {
