@@ -11,8 +11,6 @@
     "js/messenger.js",
     "js/state.js",
     "js/rules.js",
-    "js/platform-port.js",
-    "js/platform-background.js"
   ];
   var port = window.port;
 
