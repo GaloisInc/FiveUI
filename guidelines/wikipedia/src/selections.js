@@ -1,7 +1,12 @@
-
 /**
  * Utilities to assist with splitting a Wikipage into sections.
  */
+function printJQ(name, $starts) {
+  for (var i=0; i < $starts.length; i++) {
+    console.error(name + '['+i+']: '+ $starts[0].nodeName);
+  }
+}
+
 
 /**
  * Takes a jquery selector, and returns a list of jQuery objects that
@@ -27,27 +32,41 @@ function sections(sel) {
   }
 
   if ($sel.length == 1) {
+    console.error($sel[0].outerHTML);
     // this almost works, but misses leading text nodes:
     // $mw.children(':first-child').nextUntil('h2')
     return sections($sel.children());
   }
 
+  printJQ('$sel', $sel);
+
   // find the "biggest" heading element:
   var hNode = null;
   _.map(['h4', 'h3', 'h2', 'h1'], function (hStr) {
-          if ($sel.filter().length !== 0) {
+          if ($sel.filter(hStr).length !== 0) {
             hNode = hStr;
           }
         });
+
+  console.error('hnode: '+hNode);
 
   if (!hNode) {
     return [$sel];
   }
   var results = [];
   var res = [];
-  do {
-    res = $sel.nextUntil(hNode);
-  } while (res.length !== 0);
+
+  printJQ('$sel', $sel);
+
+  // find the starting points for 'nextUntil(hNode)'
+  var $heads = $sel.filter(hNode);
+  var $starts = $sel.first().add($heads);
+
+  printJQ('$starts', $starts);
+
+  // do {
+  //   res = $sel.nextUntil(hNode);
+  // } while (res.length !== 0);
 
   return results;
 }
