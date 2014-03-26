@@ -3,7 +3,7 @@
  */
 function printJQ(name, $starts) {
   for (var i=0; i < $starts.length; i++) {
-    console.error(name + '['+i+']: '+ $starts[0].nodeName);
+    console.error(name + '['+i+']: '+ $starts[i].nodeName);
   }
 }
 
@@ -32,13 +32,10 @@ function sections(sel) {
   }
 
   if ($sel.length == 1) {
-    console.error($sel[0].outerHTML);
     // this almost works, but misses leading text nodes:
     // $mw.children(':first-child').nextUntil('h2')
     return sections($sel.children());
   }
-
-  printJQ('$sel', $sel);
 
   // find the "biggest" heading element:
   var hNode = null;
@@ -56,17 +53,23 @@ function sections(sel) {
   var results = [];
   var res = [];
 
-  printJQ('$sel', $sel);
-
   // find the starting points for 'nextUntil(hNode)'
   var $heads = $sel.filter(hNode);
+  // TODO: duplicates the first element if the first element is a heading.
   var $starts = $sel.first().add($heads);
 
-  printJQ('$starts', $starts);
+  $starts.each(function(idx, elt) {
+    var $elt = $(elt);
+    var $tail = $elt.nextUntil(hNode);
+    var $full = $elt.add($tail);
 
-  // do {
-  //   res = $sel.nextUntil(hNode);
-  // } while (res.length !== 0);
+    results.push($full);
+  });
+
+
+  // for (var i=0; i < results.length; i++) {
+  //   printJQ('results['+i+']', results[i]);
+  // }
 
   return results;
 }

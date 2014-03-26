@@ -3,7 +3,7 @@ describe('Split Sections', function() {
   afterEach(teardownFixtures);
 
   it('Finds h2 sections', function(){
-    fixture('<p><ol><li>Prelude item</li><ol></p>');
+    fixture('<p><span>Prelude item</span></p>');
     fixture('<h2 id="intro">Intro</h2>'
             + '<p>Some minimal text</p>'
             + '<ol><li>item</li></ol>'
