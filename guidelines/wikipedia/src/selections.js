@@ -45,8 +45,6 @@ function sections(sel) {
           }
         });
 
-  console.error('hnode: '+hNode);
-
   if (!hNode) {
     return [$sel];
   }
@@ -55,7 +53,6 @@ function sections(sel) {
 
   // find the starting points for 'nextUntil(hNode)'
   var $heads = $sel.filter(hNode);
-  // TODO: duplicates the first element if the first element is a heading.
   var $starts = $sel.first().add($heads);
 
   $starts.each(function(idx, elt) {
