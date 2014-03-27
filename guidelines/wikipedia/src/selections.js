@@ -32,9 +32,7 @@ function sections(sel) {
   }
 
   if ($sel.length == 1) {
-    // this almost works, but misses leading text nodes:
-    // $mw.children(':first-child').nextUntil('h2')
-    return sections($sel.children());
+    return sections($sel.contents());
   }
 
   // find the "biggest" heading element:
@@ -62,11 +60,6 @@ function sections(sel) {
 
     results.push($full);
   });
-
-
-  // for (var i=0; i < results.length; i++) {
-  //   printJQ('results['+i+']', results[i]);
-  // }
 
   return results;
 }
