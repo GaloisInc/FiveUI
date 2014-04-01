@@ -1,0 +1,15 @@
+{
+  "laxbreak": true,
+  "laxcomma": true,
+  "undef":    true,
+  "browser":  true,
+  "devel":    true,
+  "jquery":   true,
+  "globals": {
+    "_": false,
+    "$5": true,
+    "fiveui": true,
+    "obtainComputePort": true
+  }
+}
+
