@@ -20,8 +20,6 @@
  */
 
 /**
- * TODO: This is the Firefox version - need to convert for IE
- *
  * @param {!string} css The css to inject.
  */
 var addGlobalStyle = function(css) {
@@ -59,6 +57,5 @@ var obtainComputePort = function() {
       port.emit(eventType, JSON.stringify(data));
     }
   };
-  myPort.on('injectCSS', addGlobalStyle);
   return myPort;
 };

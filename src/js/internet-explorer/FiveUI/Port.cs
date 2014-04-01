@@ -24,12 +24,12 @@ namespace FiveUI
 
         private readonly ListMap listeners = new Dictionary<string, ListSet>();
 
-        public static bool Attach(IHTMLDocument2 document, Port port)
+        public static bool Attach(IHTMLDocument2 document, string propName, Port port)
         {
             var windowEx = document.parentWindow as IExpando;
-            if (windowEx.GetProperty("port", BindingFlags.Default) == null)
+            if (windowEx.GetProperty(propName, BindingFlags.Default) == null)
             {
-                var propInfo = windowEx.AddProperty("port");
+                var propInfo = windowEx.AddProperty(propName);
                 propInfo.SetValue(windowEx, port as IPort);
                 return true;
             }

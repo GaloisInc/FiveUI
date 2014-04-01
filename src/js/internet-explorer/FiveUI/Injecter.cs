@@ -28,20 +28,10 @@ namespace FiveUI
             }
 
             var port = new Port();
-            Port.Attach(document, port);
+            Port.Attach(document, "port", port);
 
-            var appScripts = platformScripts()
-                .Concat(computeScripts());
-                /* .Concat(uiScripts()); */
-
-            foreach (string s in appScripts)
-            {
-                if (s.EndsWith(".js"))
-                {
-                    inject(browser, load(s));
-                }
-            }
-
+            // TODO: Clears and fetches rules on every request for
+            // development purposes.
             foreach (RuleSet rs in RuleSet.LoadAll())
             {
                 RuleSet.Remove(rs.Id);
@@ -49,51 +39,29 @@ namespace FiveUI
 
             port.on("Go", data =>
             {
+                port.emit("log", "\"injecting bootstrap\"");
+                inject(browser, load("injected/bootstrap.js"));
+
                 port.emit("log", "\"Go!\"");
                 var ruleSet = RuleSet.Fetch(manifest);
                 port.emit("log", "\"sending rules\"");
                 port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload()));
             });
 
-            port.on("require", scriptPath =>
+            port.on("Again", data =>
             {
-                var content = load(scriptPath);
-                port.emit("script."+ scriptPath, content);
+                var ruleSet = RuleSet.Fetch(manifest);
+                port.emit("log", "\"sending rules\"");
+                port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload()));
             });
 
-            inject(browser, load("injected/bootstrap.js"));
-        }
-
-        private List<string> platformScripts() {
-            var list = new List<string>();
-            list.Add("injected/platform-compute.js");
-            /* list.Add("injected/platform-ui.js"); */
-            return list;
-        }
-
-        private List<string> computeScripts() {
-            var list = new List<string>();
-            list.Add("underscore.js");
-            list.Add("jquery/jquery-1.8.3.js");
-            list.Add("md5.js");
-            list.Add("injected/prelude.js");
-            list.Add("injected/compute.js");
-            return list;
-        }
-
-        private List<string> uiScripts() {
-            var list = new List<string>();
-            list.Add("underscore.js");
-            list.Add("font-awesome/css/font-awesome.css");
-            list.Add("css/ui.css");
-            list.Add("jquery/bundled.css");
-            list.Add("jquery/jquery-1.8.3.js");
-            list.Add("jquery/jquery-ui-1.9.2.custom.js");
-            list.Add("injected/injected.css");
-            list.Add("injected/prelude.js");
-            list.Add("injected/ui.js");
-            list.Add("injected/jquery-plugins.js");
-            return list;
+            port.on("require", resourcePath =>
+            {
+                port.emit("log", "\"request for: "+ resourcePath +"\"");
+                var content = load(resourcePath);
+                port.emit("log", "\"emitting: resource."+ resourcePath +"\"");
+                port.emit("resource."+ resourcePath, content);
+            });
         }
 
         private Uri manifestForLocation(IWebBrowser2 browser)
@@ -113,9 +81,12 @@ namespace FiveUI
         }
 
         // Loads embedded text resource from DLL.
-        private string load(string script)
+        //
+        // TODO: Throw exception & report error in browser if resource
+        // is missing.
+        private string load(string resource)
         {
-            var manRef   = manifestResource(script);
+            var manRef   = manifestResource(resource);
             var assembly = Assembly.GetExecutingAssembly();
             var textStreamReader = new StreamReader(
                     assembly.GetManifestResourceStream(manRef)
