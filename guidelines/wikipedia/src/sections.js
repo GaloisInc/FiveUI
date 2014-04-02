@@ -7,6 +7,20 @@ function printJQ(name, $starts) {
   }
 }
 
+/**
+ * Return the name of the section, if it starts with a heading element.
+ */
+function section_name(section) {
+  var $first = section.first();
+
+  var headers = $first.filter(':header');
+
+  if (0 === headers.length) {
+    return "first";
+  } else {
+    return headers.first().text();
+  }
+}
 
 /**
  * Takes a jquery selector, and returns a list of jQuery objects that
@@ -18,8 +32,8 @@ function printJQ(name, $starts) {
  *
  * If the selector specifies a singular node, then this function is
  * recursively invoked with a new selector that selects all of that
- * node's children.  For example, `selections("body")` is the same as
- * `selections("body *")`
+ * node's children.  For example, `sections("body")` is the same as
+ * `sections("body *")`
  */
 function sections(sel) {
   var $sel = {};
