@@ -156,11 +156,9 @@
     </Win32Resource>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>cd $(ProjectDir)\data
-xcopy $(SolutionDir)\..\fiveui\* /e /Y
-xcopy $(SolutionDir)\..\lib\* /e /Y
-cd $(ProjectDir)\data\injected
-xcopy $(SolutionDir)\injected\* /e /Y
+    <PreBuildEvent>xcopy $(SolutionDir)\..\fiveui\* $(ProjectDir)\data /e /Y
+xcopy $(SolutionDir)\..\lib\* $(ProjectDir)\data /e /Y
+xcopy $(SolutionDir)\injected\* $(ProjectDir)\data\injected /e /Y
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
