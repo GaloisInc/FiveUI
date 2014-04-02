@@ -112,6 +112,7 @@
     <EmbeddedResource Include="icon_active.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="data\ajax.js" />
     <EmbeddedResource Include="data\backbone.js" />
     <EmbeddedResource Include="data\css\ui.css" />
     <EmbeddedResource Include="data\font-awesome\css\font-awesome.css" />
@@ -132,9 +133,12 @@
     <EmbeddedResource Include="data\js\settings.js" />
     <EmbeddedResource Include="data\js\state.js" />
     <EmbeddedResource Include="data\js\utils.js" />
+    <EmbeddedResource Include="data\main.js" />
     <EmbeddedResource Include="data\md5.js" />
     <EmbeddedResource Include="data\options.html" />
     <EmbeddedResource Include="data\rsvp.js" />
+    <EmbeddedResource Include="data\storage-wrapper.js" />
+    <EmbeddedResource Include="data\tabIds.js" />
     <EmbeddedResource Include="data\underscore.js" />
   </ItemGroup>
   <ItemGroup>
