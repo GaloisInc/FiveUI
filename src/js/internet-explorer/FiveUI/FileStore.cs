@@ -21,6 +21,7 @@ namespace FiveUI
 
         public static IEnumerable<string> GetBuckets()
         {
+            GetBase(); // make sure the base directory exists before we try to walk through it.
             var dirs = Directory.GetDirectories(BaseDir.Value);
             return new HashSet<string>(dirs);
         }
@@ -45,6 +46,7 @@ namespace FiveUI
 
             var res = ProtectedMode.IEGetWriteableFolderPath(
                     ref internetCache, ref pathBuffer);
+
             if (0 != res)  // Hopefully this means success.
             {
                 throw new InvalidOperationException(res.ToString());
@@ -55,8 +57,12 @@ namespace FiveUI
             //    szTempFile now has the full path of the temp file
 
             //}
-
-            return Path.Combine(pathBuffer, Prefix);
+            string combined = Path.Combine(pathBuffer, Prefix);
+            if (!Directory.Exists(combined))
+            {
+                Directory.CreateDirectory(combined);
+            }
+            return combined;
         }
 
     }
