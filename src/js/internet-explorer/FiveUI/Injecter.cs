@@ -39,8 +39,9 @@ namespace FiveUI
 
             port.on("Go", data =>
             {
-                port.emit("log", "\"injecting bootstrap\"");
-                inject(browser, load("injected/bootstrap.js"));
+                port.emit("log", "\"injecting main\"");
+                inject(browser, load("injected/jetpack-shim.js"));
+                inject(browser, load("injected/main.js"));
 
                 port.emit("log", "\"Go!\"");
                 var ruleSet = RuleSet.Fetch(manifest);
