@@ -39,14 +39,15 @@ namespace FiveUI
 
             port.on("Go", data =>
             {
-                port.emit("log", "\"injecting main\"");
-                inject(browser, load("injected/jetpack-shim.js"));
-                inject(browser, load("injected/main.js"));
-
-                port.emit("log", "\"Go!\"");
                 var ruleSet = RuleSet.Fetch(manifest);
-                port.emit("log", "\"sending rules\"");
-                port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload()));
+
+                inject(browser, load("js/jetpack-shim.js"));
+                inject(browser, load("js/main.js"));
+                inject(browser, "fiveui.firefox.main();");
+
+                /* port.emit("log", "\"Go!\""); */
+                /* port.emit("log", "\"sending rules\""); */
+                /* port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload())); */
             });
 
             port.on("Again", data =>

@@ -121,16 +121,16 @@
     <EmbeddedResource Include="data\font-awesome\css\font-awesome.css" />
     <EmbeddedResource Include="data\injected\compute.js" />
     <EmbeddedResource Include="data\injected\injected.css" />
-    <EmbeddedResource Include="data\injected\jetpack-shim.js" />
     <EmbeddedResource Include="data\injected\jquery-plugins.js" />
     <EmbeddedResource Include="data\injected\platform-compute.js" />
     <EmbeddedResource Include="data\injected\platform-ui.js" />
     <EmbeddedResource Include="data\injected\prelude.js" />
-    <EmbeddedResource Include="data\injected\main.js" />
     <EmbeddedResource Include="data\injected\ui.js" />
     <EmbeddedResource Include="data\jquery\jquery-1.8.3.js" />
     <EmbeddedResource Include="data\jquery\jquery-ui-1.9.2.custom.js" />
     <EmbeddedResource Include="data\js\background.js" />
+    <EmbeddedResource Include="data\js\jetpack-shim.js" />
+    <EmbeddedResource Include="data\js\main.js" />
     <EmbeddedResource Include="data\js\messenger.js" />
     <EmbeddedResource Include="data\js\rules.js" />
     <EmbeddedResource Include="data\js\set.js" />
@@ -156,6 +156,7 @@
   <PropertyGroup>
     <PreBuildEvent>xcopy $(SolutionDir)\..\fiveui\* $(ProjectDir)\data /e /Y
 xcopy $(SolutionDir)\..\lib\* $(ProjectDir)\data /e /Y
+xcopy $(SolutionDir)\js\* $(ProjectDir)\data\js /e /Y
 xcopy $(SolutionDir)\injected\* $(ProjectDir)\data\injected /e /Y
 </PreBuildEvent>
   </PropertyGroup>
