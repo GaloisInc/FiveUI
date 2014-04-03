@@ -7,6 +7,8 @@
   "globals": {
     "_":        false,
     "Backbone": false,
-    "RSVP":     false
+    "RSVP":     false,
+    "exports":  true,
+    "module":   false
   }
 }

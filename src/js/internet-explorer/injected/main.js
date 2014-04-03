@@ -42,6 +42,7 @@ var data    = require("sdk/self").data;
 // const pageMod = require("sdk/page-mod");
 
 fiveui.firefox.main = function() {
+  var Settings = require('js/settings');
   var settings = new fiveui.Settings(new StorageWrapper());
   var activeId = 0;
 
@@ -90,11 +91,16 @@ fiveui.firefox.main = function() {
   //   }
   // };
 
+  /**
+   * placeholder
+   */
+  var updateWidget = function() {};
+
   // store the contents of the injected css, so that we can inject it later
   var injectedCSS = [
     data.load('injected/injected.css'),
-    data.load('css/ui.css'),
-    data.load('jquery/bundled.css') //,
+    data.load('css/ui.css') //,
+    // data.load('jquery/bundled.css') //,
     // data.load('font-awesome/css/font-awesome.css')
   ].join('\n');
 
@@ -183,40 +189,41 @@ fiveui.firefox.main = function() {
     return text;
   };
 
-  var showOptions = function() {
-    // TODO does not make use of existing options tabs, if any are open:
-    tabs.open(data.url('options.html'));
-  };
+  // var showOptions = function() {
+  //   // TODO does not make use of existing options tabs, if any are open:
+  //   tabs.open(data.url('options.html'));
+  // };
 
-  // set up a page-mod to be active on the options page, so that
-  // page can communicate with the add-on:
-  pageMod.PageMod(
-    { include: data.url('options.html')
-    , contentScriptWhen: 'end'
-    , contentScriptFile:
-        [ data.url('jquery/jquery-1.8.3.js')
-        , data.url('jquery/jquery-ui-1.9.2.custom.js')
-        , data.url('underscore.js')
-        , data.url('rsvp.js')
-        , data.url('backbone.js')
-        , data.url('js/settings.js')
-        , data.url('js/chan.js')
-        , data.url('js/messenger.js')
-        , data.url('js/options.js')
-        , data.url('js/update-manager.js')
-        , data.url('js/utils.js')
-        , data.url('js/rules.js')
-        , data.url('js/url-pat.js')
-        , data.url('js/platform-ajax.js')
-        , data.url('js/platform-options.js')
-        ]
-    , contentScript: 'fiveui.firefox.options.init();'
-    , onAttach: function (worker) {
-        fiveui.Settings.manager(worker.port, settings);
-      }
-    });
+  // // set up a page-mod to be active on the options page, so that
+  // // page can communicate with the add-on:
+  // pageMod.PageMod(
+  //   { include: data.url('options.html')
+  //   , contentScriptWhen: 'end'
+  //   , contentScriptFile:
+  //       [ data.url('jquery/jquery-1.8.3.js')
+  //       , data.url('jquery/jquery-ui-1.9.2.custom.js')
+  //       , data.url('underscore.js')
+  //       , data.url('rsvp.js')
+  //       , data.url('backbone.js')
+  //       , data.url('js/settings.js')
+  //       , data.url('js/chan.js')
+  //       , data.url('js/messenger.js')
+  //       , data.url('js/options.js')
+  //       , data.url('js/update-manager.js')
+  //       , data.url('js/utils.js')
+  //       , data.url('js/rules.js')
+  //       , data.url('js/url-pat.js')
+  //       , data.url('js/platform-ajax.js')
+  //       , data.url('js/platform-options.js')
+  //       ]
+  //   , contentScript: 'fiveui.firefox.options.init();'
+  //   , onAttach: function (worker) {
+  //       fiveui.Settings.manager(worker.port, settings);
+  //     }
+  //   });
 
-  optionsButton.port.on('showOptions', showOptions);
+  // optionsButton.port.on('showOptions', showOptions);
+
 };
 
 exports.main = fiveui.firefox.main;
