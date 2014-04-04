@@ -44,10 +44,6 @@ namespace FiveUI
                 inject(browser, load("js/jetpack-shim.js"));
                 inject(browser, load("js/main.js"));
                 inject(browser, "fiveui.firefox.main();");
-
-                /* port.emit("log", "\"Go!\""); */
-                /* port.emit("log", "\"sending rules\""); */
-                /* port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload())); */
             });
 
             port.on("Again", data =>

@@ -43,7 +43,7 @@ var data    = require("sdk/self").data;
 
 fiveui.firefox.main = function() {
   var Settings = require('js/settings');
-  var settings = new fiveui.Settings(new StorageWrapper());
+  var settings = new Settings(new StorageWrapper());
   var activeId = 0;
 
   // initialze the background functionality
@@ -142,8 +142,9 @@ fiveui.firefox.main = function() {
     return data.url(path);
   };
 
-  var background = new fiveui.Background(settings, updateWidget,
-                                         loadScripts, dataLoader);
+  var Background = require('js/background');
+  var background = new Background(settings, updateWidget,
+                                  loadScripts, dataLoader);
 
   var tabIds = new TabIds();
 
