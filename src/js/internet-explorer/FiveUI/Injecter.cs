@@ -21,6 +21,10 @@ namespace FiveUI
         private Regex urlPattern =
             new Regex(@"^http.*://.*\.wikipedia\.org/wiki/.*$", RegexOptions.IgnoreCase);
 
+        // TODO: persistence across sessions
+        private Dictionary<String, String> store =
+            new Dictionary<String, String>();
+
         public void execute(IWebBrowser2 browser, IHTMLDocument2 document)
         {
             var manifest = manifestForLocation(browser);
@@ -41,22 +45,21 @@ namespace FiveUI
             {
                 RuleSet.Remove(rs.Id);
             }
+            var ruleSet = RuleSet.Fetch(manifest);
 
             port.on("Go", data =>
             {
-                var ruleSet = RuleSet.Fetch(manifest);
-
                 inject(browser, load("js/jetpack-shim.js"));
                 inject(browser, load("js/main.js"));
-                inject(browser, "fiveui.firefox.main();");
+                /* inject(browser, "fiveui.firefox.main();"); */
             });
 
-            port.on("Again", data =>
-            {
-                var ruleSet = RuleSet.Fetch(manifest);
-                port.emit("log", "\"sending rules\"");
-                port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload()));
-            });
+            /* port.on("Again", data => */
+            /* { */
+            /*     var ruleSet = RuleSet.Fetch(manifest); */
+            /*     port.emit("log", "\"sending rules\""); */
+            /*     port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload())); */
+            /* }); */
 
             port.on("require", resourcePath =>
             {
@@ -65,6 +68,17 @@ namespace FiveUI
                 port.emit("log", "\"emitting: resource."+ resourcePath +"\"");
                 port.emit("resource."+ resourcePath, content);
             });
+
+            var storePort = new Port();
+            var myStore   = new Store(store, storePort);
+            Attach<IPort>(document, "store", storePort);
+
+            /* port.on("GetRuleSets", data => */
+            /* { */
+            /*     foreach (RuleSet ruleSet in RuleSet.LoadAll()) { */
+            /*         port.emit("RuleSetResponse", JSON.Stringify(ruleSet.GetPayload())); */
+            /*     } */
+            /* }); */
         }
 
         private bool Attach<T>(IHTMLDocument2 document, string propName, T api)
@@ -103,12 +117,20 @@ namespace FiveUI
         // is missing.
         private string load(string resource)
         {
+            String text  = null;
             var manRef   = manifestResource(resource);
             var assembly = Assembly.GetExecutingAssembly();
-            var textStreamReader = new StreamReader(
-                    assembly.GetManifestResourceStream(manRef)
-                    );
-            return textStreamReader.ReadToEnd();
+            try
+            {
+                var stream = assembly.GetManifestResourceStream(manRef);
+                var textStreamReader = new StreamReader(stream);
+                text = textStreamReader.ReadToEnd();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error loading "+ resource +": "+ e.ToString());
+            }
+            return text;
         }
 
         private string manifestResource(string path)

@@ -152,4 +152,11 @@ fiveui.Messenger.Payload = function(isCallback, type, data, id) {
   this.data = data;
 };
 
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = fiveui.Messenger;
+  }
+  exports.Messenger = fiveui.Messenger;
+}
+
 })();

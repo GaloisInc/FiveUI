@@ -88,6 +88,7 @@
     <Compile Include="RuleSet.cs" />
     <Compile Include="RuleSetMeta.cs" />
     <Compile Include="RuleSetPayload.cs" />
+    <Compile Include="Store.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="SHDocVw">

@@ -73,7 +73,11 @@
     tab.attach = attach;
     // None of this code is injected until after the load event, so
     // don't bother waiting for 'ready'.
-    tab.emit('ready');
+    setTimeout(function() {
+      console.log('emit activate, ready');
+      tab.emit('activate');
+      tab.emit('ready');
+    }, 0);
     return tab;
   }
 
@@ -161,23 +165,45 @@
 
   /* StorageWrapper */
 
+  var store = window.storePort;
   function StorageWrapper() {
-    this.store = {};  // TODO: persistence
+    this.nextTx = 0;
   }
   StorageWrapper.prototype.key = function(idx) {
-    return Object.keys(this.store)[idx];
+    var keys = this._request('getKeys', 0);
+    return keys[idx];
   };
   StorageWrapper.prototype.getItem = function(key) {
-    return this.store[key];
+    return this._request('getItem', key);
   };
   StorageWrapper.prototype.setItem = function(key, value) {
-    this.store[key] = value;
+    this._send('setItem', [key, value]);
   };
   StorageWrapper.prototype.removeItem = function(key) {
-    delete this.store[key];
+    this._send('removeItem', key);
   };
   StorageWrapper.prototype.clear = function() {
-    this.store = {};
+    this._send('clear', 0);
+  };
+  StorageWrapper.prototype._request = function(eventType, data) {
+    var tx = String(this.nextTx);
+    this.nextTx += 1;
+    var respType = eventType +'.resp';
+    var ret;
+    function listener(resp) {
+      if (resp[1] === tx) {
+        ret = resp[0];
+        store.removeListener(respType, listener);
+      }
+    }
+    store.on(eventType +'.resp', listener);
+    store.emit(eventType, [data, tx]);
+    return ret;
+  };
+  StorageWrapper.prototype._send = function(eventType, data) {
+    var tx = String(this.nextTx);
+    this.nextTx += 1;
+    store.emit(eventType, [data, tx]);
   };
 
 }(window, jQuery));

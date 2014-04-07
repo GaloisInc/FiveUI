@@ -62,6 +62,12 @@ fiveui.firefox.main = function() {
   //   }
   // });
 
+  // TODO: hook up to a visible control
+  window.port.on('showUI', function() {
+    console.log('showUI');
+    background.showUI(activeId);
+  });
+
   // var optionsButton = widgets.Widget(
   //   { id: "FiveUI-Options",
   //     label: "FiveUI",
