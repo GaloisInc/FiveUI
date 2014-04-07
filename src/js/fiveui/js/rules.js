@@ -74,12 +74,14 @@ fiveui.RuleSet.fromJSON = function(id, obj) {
 fiveui.RuleSet.load = function(manifest_url, options) {
 
   var match = manifest_url.match(/\/[^\/]*$/);
+  var ajax  = require('js/platform-ajax');
+  var utils = require('js/utils');
 
   if(match) {
     var base_url = manifest_url.substring(0,match.index);
 
     // fetch the manifest, and load its rules
-    return fiveui.ajax.get(manifest_url).then(function success(text) {
+    return ajax.get(manifest_url).then(function success(text) {
       // cleanup the parsed JSON object
       var sanitized = fiveui.utils.filterJSON(text,'json');
       var obj       = null;
@@ -129,7 +131,7 @@ fiveui.RuleSet.load = function(manifest_url, options) {
       // url is what we expect?
       var dep_url = base_url + '/' + dep_file;
 
-      return fiveui.ajax.get(dep_url).then(function success(text) {
+      return ajax.get(dep_url).then(function success(text) {
         return {'url': dep_url, 'content': text};
       });
     });
@@ -143,7 +145,7 @@ fiveui.RuleSet.load = function(manifest_url, options) {
       // url is what we expect?
       var rule_url  = base_url + '/' + rule_file;
 
-      return fiveui.ajax.get(rule_url).then(function(text) {
+      return ajax.get(rule_url).then(function(text) {
         // Ensure that resulting promise holds only a single value.
         return text;
       });
@@ -293,6 +295,14 @@ function failure(reason) {
  */
 function all(promises) {
   return RSVP.all(promises);
+}
+
+if (typeof exports !== 'undefined') {
+  for (var k in fiveui) {
+    if (fiveui.hasOwnProperty(k)) {
+      exports[k] = fiveui[k];
+    }
+  }
 }
 
 })();

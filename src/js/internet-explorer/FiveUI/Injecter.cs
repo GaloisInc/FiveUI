@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Expando;  // provides IExpando
 using System.Text.RegularExpressions;
 using System.Windows.Forms;  // provides MessageBox
 using mshtml;  // provides IHTMLDocument2
@@ -28,7 +30,10 @@ namespace FiveUI
             }
 
             var port = new Port();
-            Port.Attach(document, "port", port);
+            Attach<IPort>(document, "port", port);
+
+            var ajax = new Ajax();
+            Attach<IAjax>(document, "_fiveui_ajax", ajax);
 
             // TODO: Clears and fetches rules on every request for
             // development purposes.
@@ -60,6 +65,20 @@ namespace FiveUI
                 port.emit("log", "\"emitting: resource."+ resourcePath +"\"");
                 port.emit("resource."+ resourcePath, content);
             });
+        }
+
+        private bool Attach<T>(IHTMLDocument2 document, string propName, T api)
+        {
+            var windowEx = document.parentWindow as IExpando;
+            if (windowEx.GetProperty(propName, BindingFlags.Default) == null)
+            {
+                var propInfo = windowEx.AddProperty(propName);
+                propInfo.SetValue(windowEx, api);
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
         private Uri manifestForLocation(IWebBrowser2 browser)

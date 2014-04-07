@@ -67,7 +67,7 @@ fiveui.utils.pick = function (mozFn, chrFn) {
  */
 fiveui.utils.getNewId = function(list) {
   // make sure we have a non-null, non-empty list:
-  if (list === null || list.length == 0) {
+  if (!list || list.length === 0) {
     return 0;
   } else {
     return 1 + Math.max.apply(Math, list);
@@ -82,7 +82,7 @@ fiveui.utils.getNewId = function(list) {
  * @return {!RegExp} A compiled regular expression.
  */
 fiveui.utils.compilePattern = function(str) {
-  var regex = str.replace(/\./g, '\.')
+  var regex = str.replace(/\./g, '.')
                  .replace(/\*/g, '.*');
   return new RegExp(regex);
 };
@@ -154,7 +154,7 @@ var removeComments = function(data) {
     }
   }
 
-  if(state == 0 && s < e) {
+  if(state === 0 && s < e) {
     sanitized = sanitized + data.substring(s,e);
   }
 
@@ -172,5 +172,12 @@ fiveui.utils.filterJSON = function(data, type) {
     return data;
   }
 };
+
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = fiveui.utils;
+  }
+  exports.utils = fiveui.utils;
+}
 
 })();

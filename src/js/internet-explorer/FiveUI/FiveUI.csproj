@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ajax.cs" />
+    <Compile Include="IAjax.cs" />
     <Compile Include="SettingsButton.cs" />
     <Compile Include="FileStore.cs" />
     <Compile Include="Form1.cs">
@@ -132,6 +134,7 @@
     <EmbeddedResource Include="data\js\jetpack-shim.js" />
     <EmbeddedResource Include="data\js\main.js" />
     <EmbeddedResource Include="data\js\messenger.js" />
+    <EmbeddedResource Include="data\js\platform-ajax.js" />
     <EmbeddedResource Include="data\js\rules.js" />
     <EmbeddedResource Include="data\js\set.js" />
     <EmbeddedResource Include="data\js\settings.js" />

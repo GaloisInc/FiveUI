@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;  // provides BindingFlags
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.Expando;  // provides IExpando
-using System.Windows.Forms;  // provides MessageBox
-using mshtml;  // provides IHTMLDocument2
 using stdole;  // provides IDispatch
 
 using Listener = System.Tuple<stdole.IDispatch, FiveUI.Port.LambdaListener>;
@@ -23,20 +20,6 @@ namespace FiveUI
         public delegate void LambdaListener(string data);
 
         private readonly ListMap listeners = new Dictionary<string, ListSet>();
-
-        public static bool Attach(IHTMLDocument2 document, string propName, Port port)
-        {
-            var windowEx = document.parentWindow as IExpando;
-            if (windowEx.GetProperty(propName, BindingFlags.Default) == null)
-            {
-                var propInfo = windowEx.AddProperty(propName);
-                propInfo.SetValue(windowEx, port as IPort);
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
 
         public void emit(string eventType, string data)
         {
