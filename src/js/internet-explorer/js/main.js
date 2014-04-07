@@ -230,10 +230,33 @@ fiveui.firefox.main = function() {
   //   });
 
   // optionsButton.port.on('showOptions', showOptions);
-
 };
 
 exports.main = fiveui.firefox.main;
 
 })();
 
+// TODO: fake initialization for development purposes:
+(function() {
+  var rules     = require('js/rules');
+  var Messenger = require('js/messenger');
+  var msg       = new Messenger(window.port);
+  // var ruleSets  = new fiveui.RuleSets([], { url: msg });
+  // var ruleSet   = new rules.RuleSetModel({}, { url: msg });
+  // ruleSets.add(ruleSet);
+
+  rules.RuleSet.load(
+    "http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json"
+  ).then(function success(obj) {
+    console.log('got ruleset ', JSON.stringify(obj));
+    obj.id = 1000;
+    obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
+    msg.send('addRuleSet', obj, function() {
+      console.log('addRuleSet, success', arguments);
+      exports.main();
+    });
+  }, function error(e) {
+    console.log('error: ', e);
+  });
+
+}());
