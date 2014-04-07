@@ -15,22 +15,38 @@ namespace FiveUI
         public void get(string url, IDispatch success, IDispatch failure)
         {
             var client = new WebClient();
-            var task   = client.DownloadStringTaskAsync(url);
-            task.ContinueWith(t =>
+            try
             {
-                if (t.Exception != null)
-                {
-                    t.Exception.Handle(e => {
-                            // TODO: send meaningful parameters on failure
-                            applyIDispatch(failure, "TODO");
-                            return true;
-                        });
-                }
-                else {
-                    applyIDispatch(success, t.Result);
-                }
-            });
+                var data = client.DownloadString(url);
+                applyIDispatch(success, data);
+            }
+            catch (Exception e)
+            {
+                // TODO: send meaningful parameters on failure
+                applyIDispatch(failure, "TODO");
+            }
         }
+
+        // Async implementation
+        /* public void get(string url, IDispatch success, IDispatch failure) */
+        /* { */
+        /*     var client = new WebClient(); */
+        /*     var task   = client.DownloadStringTaskAsync(url); */
+        /*     task.ContinueWith(t => */
+        /*     { */
+        /*         if (t.Exception != null) */
+        /*         { */
+        /*             t.Exception.Handle(e => { */
+        /*                     // TODO: send meaningful parameters on failure */
+        /*                     applyIDispatch(failure, "TODO"); */
+        /*                     return true; */
+        /*                 }); */
+        /*         } */
+        /*         else { */
+        /*             applyIDispatch(success, t.Result); */
+        /*         } */
+        /*     }); */
+        /* } */
 
         // Based on:
         // http://bytes.com/topic/c-sharp/answers/655563-handling-javascript-functions-closures-passed-into-c-function
