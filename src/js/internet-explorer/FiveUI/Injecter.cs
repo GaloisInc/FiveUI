@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -22,8 +23,7 @@ namespace FiveUI
             new Regex(@"^http.*://.*\.wikipedia\.org/wiki/.*$", RegexOptions.IgnoreCase);
 
         // TODO: persistence across sessions
-        private Dictionary<String, String> store =
-            new Dictionary<String, String>();
+        private OrderedDictionary persistentDict = new OrderedDictionary();
 
         public void execute(IWebBrowser2 browser, IHTMLDocument2 document)
         {
@@ -34,10 +34,13 @@ namespace FiveUI
             }
 
             var port = new Port();
-            Attach<IPort>(document, "port", port);
+            Attach<IPort>(document, "_fiveui_port", port);
 
             var ajax = new Ajax();
             Attach<IAjax>(document, "_fiveui_ajax", ajax);
+
+            var store = new Store(persistentDict);
+            Attach<IStore>(document, "_fiveui_store", store);
 
             // TODO: Clears and fetches rules on every request for
             // development purposes.
@@ -68,10 +71,6 @@ namespace FiveUI
                 port.emit("log", "\"emitting: resource."+ resourcePath +"\"");
                 port.emit("resource."+ resourcePath, content);
             });
-
-            var storePort = new Port();
-            var myStore   = new Store(store, storePort);
-            Attach<IPort>(document, "store", storePort);
 
             /* port.on("GetRuleSets", data => */
             /* { */

@@ -1,4 +1,5 @@
-/*jshint evil:true */
+/*jshint evil:true, browser:true, devel:true */
+/*globals _fiveui_store, jQuery */
 
 /*
  * Provides shims to allow our Jetpack-based code run in Internet
@@ -165,45 +166,8 @@
 
   /* StorageWrapper */
 
-  var store = window.storePort;
-  function StorageWrapper() {
-    this.nextTx = 0;
-  }
-  StorageWrapper.prototype.key = function(idx) {
-    var keys = this._request('getKeys', 0);
-    return keys[idx];
-  };
-  StorageWrapper.prototype.getItem = function(key) {
-    return this._request('getItem', key);
-  };
-  StorageWrapper.prototype.setItem = function(key, value) {
-    this._send('setItem', [key, value]);
-  };
-  StorageWrapper.prototype.removeItem = function(key) {
-    this._send('removeItem', key);
-  };
-  StorageWrapper.prototype.clear = function() {
-    this._send('clear', 0);
-  };
-  StorageWrapper.prototype._request = function(eventType, data) {
-    var tx = String(this.nextTx);
-    this.nextTx += 1;
-    var respType = eventType +'.resp';
-    var ret;
-    function listener(resp) {
-      if (resp[1] === tx) {
-        ret = resp[0];
-        store.removeListener(respType, listener);
-      }
-    }
-    store.on(eventType +'.resp', listener);
-    store.emit(eventType, [data, tx]);
-    return ret;
-  };
-  StorageWrapper.prototype._send = function(eventType, data) {
-    var tx = String(this.nextTx);
-    this.nextTx += 1;
-    store.emit(eventType, [data, tx]);
-  };
+  var store = _fiveui_store;
+  function StorageWrapper() {}
+  $.extend(StorageWrapper.prototype, store);
 
 }(window, jQuery));

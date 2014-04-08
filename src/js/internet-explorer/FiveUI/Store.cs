@@ -1,79 +1,62 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Windows.Forms;  // provides MessageBox
+using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 
-using Unit    = System.Byte;  // arbitrary choice
-using Key     = System.String;
-using Value   = System.String;
-using TxId    = System.String;
-using KeyPair = System.Tuple<System.String, System.String>;
+using Key = System.String;
+using Val = System.String;
 
 namespace FiveUI
 {
-    public class Store
+    [ComVisible(true),
+     Guid("FED81562-6FA3-4B1E-A2D9-AB5643938FBC"),
+     ClassInterface(ClassInterfaceType.None),
+     ComDefaultInterface(typeof(IStore))]
+    public class Store : IStore
     {
-        public Store(Dictionary<string, string> store, Port port) {
-            port.on("getKeys", data =>
-            {
-                var msg  = JSON.Parse<Message<Unit>>(data);
-                var resp = Response(msg, store.Keys);
-                port.emit("getKeys.resp", JSON.Stringify(resp));
-            });
+        private readonly OrderedDictionary dict;
 
-            port.on("getItem", data =>
-            {
-                MessageBox.Show("getItem: "+ data);
-                string defaultVal = null;
-                var msg  = JSON.Parse<Message<Key>>(data);
-                var key  = msg.data;
-                var val  = store.TryGetValue(key, out defaultVal);
-                var resp = Response(msg, Tuple.Create(key, val));
-                port.emit("getItem.resp", JSON.Stringify(resp));
-            });
-
-            port.on("setItem", data =>
-            {
-                MessageBox.Show("setItem: "+ data);
-                var msg  = JSON.Parse<Message<KeyPair>>(data);
-                var pair = msg.data;
-                var key  = pair.Item1;
-                var val  = pair.Item2;
-                store[key] = val;
-                // TODO: respond with success message?
-            });
-
-            port.on("removeItem", data =>
-            {
-                var msg  = JSON.Parse<Message<Key>>(data);
-                var key  = msg.data;
-                store.Remove(key);
-            });
-
-            port.on("clear", data =>
-            {
-                var msg  = JSON.Parse<Message<Unit>>(data);
-                store.Clear();
-            });
-        }
-
-        private Message<T> Response<T,U>(Message<U> message, T val)
+        public Store(OrderedDictionary dict)
         {
-            return new Message<T>()
-            {
-                data = val,
-                txId = message.txId
-            };
+            this.dict = dict;
         }
-    }
 
-    [DataContract]
-    public class Message<T>
-    {
-        [DataMember]
-        public T data { get; set; }
+        public Key key(int idx)
+        {
+            if (idx >= 0 && idx < dict.Count)
+            {
+                String[] keys = new String[dict.Count];
+                dict.Keys.CopyTo(keys, 0);
+                return keys[idx];
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-        [DataMember]
-        public TxId txId { get; set; }
+        public Val getItem(Key key)
+        {
+            return (dict.Contains(key) ? dict[key] : null) as string;
+        }
+
+        public void setItem(Key key, Val val)
+        {
+            dict[key] = val;
+        }
+
+        public void removeItem(Key key)
+        {
+            dict.Remove(key);
+        }
+
+        public void clear()
+        {
+            dict.Clear();
+        }
+
+        public int size()
+        {
+            return dict.Count;
+        }
     }
 }

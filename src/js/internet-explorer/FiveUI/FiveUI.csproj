@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Ajax.cs" />
     <Compile Include="IAjax.cs" />
+    <Compile Include="IStore.cs" />
     <Compile Include="SettingsButton.cs" />
     <Compile Include="FileStore.cs" />
     <Compile Include="Form1.cs">
