@@ -123,6 +123,7 @@
     <EmbeddedResource Include="data\backbone.js" />
     <EmbeddedResource Include="data\css\ui.css" />
     <EmbeddedResource Include="data\font-awesome\css\font-awesome.css" />
+    <EmbeddedResource Include="data\injected\bootstrap.js" />
     <EmbeddedResource Include="data\injected\compute.js" />
     <EmbeddedResource Include="data\injected\injected.css" />
     <EmbeddedResource Include="data\injected\jquery-plugins.js" />

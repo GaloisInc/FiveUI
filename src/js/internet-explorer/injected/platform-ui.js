@@ -19,11 +19,13 @@
  * limitations under the License.
  */
 
+/*globals _fiveui_port, exports */
+
 /**
  * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
  */
 var obtainPort = function() {
-  var port = window.port;
+  var port = _fiveui_port;
   return {
     on: function(eventType, callback) {
       port.on(eventType, function(json) {
@@ -36,4 +38,6 @@ var obtainPort = function() {
   };
 };
 
-
+if (typeof exports !== 'undefined') {
+  exports.obtainPort = obtainPort;
+}

@@ -1,5 +1,5 @@
-/*jshint evil:true, browser:true, devel:true */
-/*globals _fiveui_store, jQuery */
+/*jshint evil:true, devel:true, browser:true */
+/*globals _fiveui_port, _fiveui_store, _fiveui_ajax, jQuery */
 
 /*
  * Provides shims to allow our Jetpack-based code run in Internet
@@ -18,7 +18,7 @@
   global.exports = {};
 
   var globalEval = $.globalEval;
-  var port = window.port;
+  var port = _fiveui_port;
 
   var data = {
     load: load,
@@ -36,7 +36,7 @@
   };
 
   function require(path) {
-    console.log('require ', path);
+    console.log('require: ', path);
     if (special.hasOwnProperty(path)) {
       return special[path];
     }

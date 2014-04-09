@@ -52,9 +52,7 @@ namespace FiveUI
 
             port.on("Go", data =>
             {
-                inject(browser, load("js/jetpack-shim.js"));
-                inject(browser, load("js/main.js"));
-                /* inject(browser, "fiveui.firefox.main();"); */
+                inject(browser, load("injected/bootstrap.js"));
             });
 
             /* port.on("Again", data => */

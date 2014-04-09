@@ -19,6 +19,7 @@
  * limitations under the License.
  */
 
+/*jshint devel:true, browser:true */
 /*globals _:true, RSVP:true, Backbone:true, StorageWrapper:true, TabIds:true */
 /*globals require, data */
 
