@@ -13,6 +13,7 @@
       bg._fiveui_ajax  = _fiveui_ajax;
       bg._fiveui_port  = _fiveui_port;
       bg._fiveui_store = _fiveui_store;
+      bg._fiveui_top   = window;
       for (var i = 0; i < resources.length; i += 1) {
         bg.eval(resources[i]);
       }

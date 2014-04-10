@@ -1,5 +1,5 @@
 /*jshint evil:true, devel:true, browser:true */
-/*globals _fiveui_port, _fiveui_store, _fiveui_ajax, jQuery */
+/*globals _fiveui_port, _fiveui_store, _fiveui_ajax, _fiveui_top, jQuery */
 
 /*
  * Provides shims to allow our Jetpack-based code run in Internet
@@ -58,6 +58,22 @@
     return ret;
   }
 
+  function getResources(resourcePaths, fn) {
+    (function getResources_(paths, resources) {
+      var head, tail;
+      if (paths.length === 0) {
+        fn(resources);
+      }
+      else {
+        head = paths[0];
+        tail = paths.slice(1);
+        getResource(head, function(content) {
+          getResources_(tail, resources.concat(content));
+        });
+      }
+    }(resourcePaths.slice(), []));
+  }
+
   function getResource(path, fn) {
     port.once('resource.'+path, fn);
     try {
@@ -75,34 +91,43 @@
     // None of this code is injected until after the load event, so
     // don't bother waiting for 'ready'.
     setTimeout(function() {
-      console.log('emit activate, ready');
-      tab.emit('activate');
-      tab.emit('ready');
+
+      // TODO: Hack for debugging:
+      var rules = require('js/rules');
+      rules.RuleSet.load(
+        "http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json"
+      ).then(function success(obj) {
+        console.log('got ruleset ', JSON.stringify(obj));
+        obj.id = 1000;
+        obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
+        window.fakeRuleSet = obj;
+
+        console.log('emit activate & ready');
+        tab.emit('activate');
+        tab.emit('ready');
+
+      }, function error(e) {
+        console.log('error: ', e);
+      });
     }, 0);
     return tab;
   }
 
   function attach(opts) {
-    var bg = buildBackgroundContext();
-    var i;
-    if (opts.contentScriptFile) {
-      for (i = 0; i < opts.contentScriptFile.length; i += 1) {
-        bg.eval(opts.contentScriptFile[i]);
+    var contentScriptFile = toArray(opts.contentScriptFile);
+    var contentScript     = toArray(opts.contentScript);
+    var port = require('injected/platform-ui').obtainPort();
+    getResources(contentScriptFile, function(scripts) {
+      _fiveui_top.eval("var foo = 'one'; window.bar = 'two';"); // TODO: debugging
+      var i;
+      for (i = 0; i < scripts.length; i += 1) {
+        _fiveui_top.eval(scripts[i]);
       }
-    }
-    if (opts.contentScript) {
-      setTimeout(function() {
-        globalEval(opts.contentScript);
-      }, 0);
-    }
-    return { port: mkPort() };
-  }
-
-  function buildBackgroundContext(html) {
-    var frame = document.createElement('iframe');
-    frame.style.display = "none";
-    document.body.appendChild(frame);
-    return frame.contentWindow;
+      for (i = 0; i < contentScript.length; i += 1) {
+        _fiveui_top.eval(contentScript[i]);
+      }
+    });
+    return { port: port };
   }
 
   function mkPort(/* flags... */) {
@@ -148,6 +173,18 @@
 
   function id(x) {
     return x;
+  }
+
+  function toArray(obj) {
+    if (!obj) {
+      return [];
+    }
+    else if (!$.isArray(obj)) {
+      return [obj];
+    }
+    else {
+      return obj;
+    }
   }
 
 

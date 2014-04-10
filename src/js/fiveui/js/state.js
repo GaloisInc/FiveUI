@@ -82,6 +82,7 @@ fiveui.Problem.fromJSON = function(obj) {
  *                                   the corresponding tab.
  */
 fiveui.TabState = function(tabId, winState, uiPort) {
+  var Set = require('js/set');
   this.tabId        = tabId;
   this.winState     = winState;
   this.uiPort       = uiPort;
@@ -116,6 +117,7 @@ _.extend(fiveui.TabState.prototype, {
   },
 
   clearProblems: function() {
+    var Set = require('js/set');
     this.problems = [];
     this.seenProblems = new Set();
   },

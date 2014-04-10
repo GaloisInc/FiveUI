@@ -63,12 +63,6 @@ fiveui.firefox.main = function() {
   //   }
   // });
 
-  // TODO: hook up to a visible control
-  window.port.on('showUI', function() {
-    console.log('showUI');
-    background.showUI(activeId);
-  });
-
   // var optionsButton = widgets.Widget(
   //   { id: "FiveUI-Options",
   //     label: "FiveUI",
@@ -231,33 +225,39 @@ fiveui.firefox.main = function() {
   //   });
 
   // optionsButton.port.on('showOptions', showOptions);
-};
 
-exports.main = fiveui.firefox.main;
-
-})();
-
-// TODO: fake initialization for development purposes:
-(function() {
-  var rules     = require('js/rules');
+  // TODO: Line placed here for testing purposes.
   var Messenger = require('js/messenger');
-  var msg       = new Messenger(window.port);
+  fiveui.port   = require('injected/platform-ui').obtainPort();
+  fiveui.messenger = new Messenger(fiveui.port);
+  fiveui.Settings.manager(fiveui.port, settings);
+
+  // TODO: fake initialization for development purposes:
+  var rules = require('js/rules');
   // var ruleSets  = new fiveui.RuleSets([], { url: msg });
   // var ruleSet   = new rules.RuleSetModel({}, { url: msg });
   // ruleSets.add(ruleSet);
-
   rules.RuleSet.load(
     "http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json"
   ).then(function success(obj) {
     console.log('got ruleset ', JSON.stringify(obj));
     obj.id = 1000;
     obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
-    msg.send('addRuleSet', obj, function() {
-      console.log('addRuleSet, success', arguments);
-      exports.main();
-    });
+    settings.addRuleSet(obj);
   }, function error(e) {
     console.log('error: ', e);
   });
 
-}());
+  // TODO: hook up to a visible control
+  setTimeout(function() {
+    console.log('showUI');
+    background.showUI(activeId);
+  }, 1000);
+};
+
+exports.main = fiveui.firefox.main;
+
+// TODO: fake initialization for development purposes:
+exports.main();
+
+})();

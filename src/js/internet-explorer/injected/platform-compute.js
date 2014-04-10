@@ -19,6 +19,8 @@
  * limitations under the License.
  */
 
+/*globals _fiveui_port */
+
 /**
  * @param {!string} css The css to inject.
  */
@@ -46,16 +48,14 @@ var addGlobalStyle = function(css) {
  * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
  */
 var obtainComputePort = function() {
-  var port = window.port;
-  var myPort = {
+  return {
     on: function(eventType, callback) {
-      port.on(eventType, function(json) {
+      _fiveui_port.on(eventType, function(json) {
         callback(JSON.parse(json));
       });
     },
     emit: function(eventType, data) {
-      port.emit(eventType, JSON.stringify(data));
+      _fiveui_port.emit(eventType, JSON.stringify(data));
     }
   };
-  return myPort;
 };

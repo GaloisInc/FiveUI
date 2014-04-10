@@ -217,7 +217,8 @@ _.extend(fiveui.Settings.prototype, {
  */
 fiveui.Settings.manager = function(chan, settings) {
 
-  var msg = new fiveui.Messenger(chan);
+  var Messenger = require('js/messenger');
+  var msg = new Messenger(chan);
 
   // create a new rule set, and call the response continuation with the created
   // object.
