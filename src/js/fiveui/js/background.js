@@ -124,7 +124,7 @@ Background.prototype.connect = function(tabId, port, url, isUiPort) {
     // get the rule set and send it down to the injected page:
     var ruleSet = this.settings.checkUrl(url);
     if (!ruleSet) {
-      console.err('could not find url pattern for tab.url, but one was strongly expected');
+      console.error('could not find url pattern for tab.url, but one was strongly expected');
     } else {
       port.emit('SetRules', _.pick(ruleSet, ["dependencies", "rules"]));
     }
