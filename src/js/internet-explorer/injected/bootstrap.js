@@ -9,13 +9,14 @@
   ];
 
   getResources(scripts, function(resources) {
-    var bg = buildBackgroundContext();
-    bg._fiveui_ajax  = _fiveui_ajax;
-    bg._fiveui_port  = _fiveui_port;
-    bg._fiveui_store = _fiveui_store;
-    for (var i = 0; i < resources.length; i += 1) {
-      bg.eval(resources[i]);
-    }
+    buildBackgroundContext(function(bg) {
+      bg._fiveui_ajax  = _fiveui_ajax;
+      bg._fiveui_port  = _fiveui_port;
+      bg._fiveui_store = _fiveui_store;
+      for (var i = 0; i < resources.length; i += 1) {
+        bg.eval(resources[i]);
+      }
+    });
   });
 
   function getResources(resourcePaths, fn) {
@@ -45,10 +46,12 @@
     }
   }
 
-  function buildBackgroundContext(html) {
+  function buildBackgroundContext(fn) {
     var frame = document.createElement('iframe');
     frame.style.display = "none";
     document.body.appendChild(frame);
-    return frame.contentWindow;
+    frame.contentWindow.addEventListener('load', function() {
+      fn(frame.contentWindow);
+    });
   }
 }());
