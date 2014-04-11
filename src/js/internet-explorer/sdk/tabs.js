@@ -93,9 +93,12 @@
     var html__      = nolinks[0];
     var scripts     = noscripts[1];
     var stylesheets = nolinks[1];
+    var body        = yankBody(html);
 
-    var win  = open();
-    win.document.write(html__);
+    var win = open();
+    win.__intendedLocation = url;
+    insertHtml(win.document, win.document.body, body);
+
 
     var i;
     for (i = 0; i < scripts.length; i += 1) {
@@ -109,6 +112,7 @@
   var scriptSrc = /<\s*script [^>]*src\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*>[^<>]*<\s*\/\s*script\s*>/gi;
   var linkRel = /<\s*link [^>]*rel\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*\/\s*>/i;
   var linkHref = /<\s*link [^>]*href\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*\/\s*>/gi;
+  var bodyExp = /<\s*body(?: [^>]*)?>([\s\S]*?)<\s*\/\s*body\s*>/i;
 
   function yankScripts(html) {
     var scripts = [];
@@ -129,6 +133,19 @@
       return '';
     });
     return [html_, sheets];
+  }
+
+  function yankBody(html) {
+    var matches = html.match(bodyExp);
+    if (matches) {
+      return matches[1];
+    }
+  }
+
+  function injectCss(win, css) {
+    setTimeout(function() {
+      win.obtainPort().emit('injectCSS', css);
+    }, 2000);
   }
 
   /**
@@ -153,5 +170,13 @@
       style.appendChild(doc.createTextNode(css));   // attach CSS text to style elt
     }
     head.appendChild(style);                             // attach style element to head
+  }
+
+  function insertHtml(doc, parent, html) {
+    var elem = doc.createElement('div');
+    elem.innerHTML = html;
+    for (var i = 0; i < elem.children.length; i += 1) {
+      parent.appendChild(elem.children[i]);
+    }
   }
 }(jQuery));

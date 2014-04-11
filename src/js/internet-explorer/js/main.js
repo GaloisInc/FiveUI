@@ -214,7 +214,7 @@ fiveui.firefox.main = function() {
         , data.url('js/update-manager.js')
         , data.url('js/utils.js')
         , data.url('js/rules.js')
-        , data.url('js/url-pat.js')
+        // , data.url('js/url-pat.js')
         , data.url('js/platform-ajax.js')
         , data.url('js/platform-options.js')
         ]
