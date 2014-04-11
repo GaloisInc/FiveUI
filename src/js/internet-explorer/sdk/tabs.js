@@ -23,7 +23,7 @@
   }
 
   function attach(opts) {
-    var port = mkPort();
+    var port = _fiveui_top.obtainPort ? _fiveui_top.obtainPort() : mkPort();
     var contentScriptFile = toArray(opts.contentScriptFile);
     var contentScript     = toArray(opts.contentScript);
 
