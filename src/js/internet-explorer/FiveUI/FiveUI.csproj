@@ -146,6 +146,7 @@
     <EmbeddedResource Include="data\options.html" />
     <EmbeddedResource Include="data\rsvp.js" />
     <EmbeddedResource Include="data\sdk\jetpack-shim.js" />
+    <EmbeddedResource Include="data\sdk\page-mod.js" />
     <EmbeddedResource Include="data\sdk\self.js" />
     <EmbeddedResource Include="data\sdk\tabs.js" />
     <EmbeddedResource Include="data\storage-wrapper.js" />

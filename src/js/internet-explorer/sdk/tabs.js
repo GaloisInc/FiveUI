@@ -1,11 +1,14 @@
 /*jshint evil:true */
 /*globals _fiveui_top */
 
-(function() {
+(function($) {
   var data = require('sdk/self').data;
 
-  exports = [mkTab()];
-  exports.on = id;  // Ignore tab collection events for now.
+  var tabs  = [mkTab()];
+  tabs.on   = id;  // Ignore tab collection events for now.
+  tabs.open = openWindow;
+
+  exports = tabs;
 
   function mkTab() {
     var tab = mkPort('memory');
@@ -80,4 +83,75 @@
   function id(x) {
     return x;
   }
-}());
+
+  function openWindow(url) {
+    var html = data.load(url);
+
+    var noscripts   = yankScripts(html);
+    var html_       = noscripts[0];
+    var nolinks     = yankStyleSheets(html_);
+    var html__      = nolinks[0];
+    var scripts     = noscripts[1];
+    var stylesheets = nolinks[1];
+
+    var win  = open();
+    win.document.write(html__);
+
+    var i;
+    for (i = 0; i < scripts.length; i += 1) {
+      win.eval(data.load(scripts[i]));
+    }
+    for (i = 0; i < stylesheets.length; i += 1) {
+      addGlobalStyle(win.document, stylesheets[i]);
+    }
+  }
+
+  var scriptSrc = /<\s*script [^>]*src\s*=\s*("[^"]+"|'[^']+')[^>]*>[^<>]*<\s*\/\s*script\s*>/gi;
+  var linkRel = /<\s*link [^>]*rel\s*=\s*("[^"]+"|'[^']+')[^>]*\/\s*>/i;
+  var linkHref = /<\s*link [^>]*href\s*=\s*("[^"]+"|'[^']+')[^>]*\/\s*>/gi;
+
+  function yankScripts(html) {
+    var scripts = [];
+    var html_ = html.replace(scriptSrc, function(_, src) {
+      scripts.push(src);
+      return '';
+    });
+    return [html_, scripts];
+  }
+
+  function yankStyleSheets(html) {
+    var sheets = [];
+    var html_ = html.replace(linkHref, function(link, href) {
+      var matches = link.match(linkRel);
+      if (matches && matches[1].toLowerCase() === 'stylesheet') {
+        sheets.push(href);
+      }
+      return '';
+    });
+    return [html_, sheets];
+  }
+
+  /**
+   * @param {!document} doc HTML document to add style to
+   * @param {!string} css The css to inject.
+   */
+  var addGlobalStyle = function(doc, css) {
+    var head = doc.getElementsByTagName('head')[0]; // find head element, which should exist
+    if (!head) {
+      head = doc.createElement('head');
+
+      // XXX this is perhaps not reliable?
+      doc.body.appendChild(head);
+    }
+
+    var style = doc.createElement('style');         // create <style> element
+    style.type = 'text/css';
+
+    if (style.styleSheet) {                              // for some cross-browser problem
+      style.styleSheet.cssText = css;                    // attach CSS text to style elt
+    } else {
+      style.appendChild(doc.createTextNode(css));   // attach CSS text to style elt
+    }
+    head.appendChild(style);                             // attach style element to head
+  };
+}(jQuery));

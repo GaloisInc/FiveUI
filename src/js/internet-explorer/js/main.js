@@ -40,7 +40,7 @@ fiveui.firefox = fiveui.firefox || {};
 // const widgets = require("sdk/widget");
 var tabs    = require("sdk/tabs");
 var data    = require("sdk/self").data;
-// const pageMod = require("sdk/page-mod");
+var pageMod = require("sdk/page-mod");
 
 fiveui.firefox.main = function() {
   var Settings = require('js/settings');
@@ -191,88 +191,86 @@ fiveui.firefox.main = function() {
     return text;
   };
 
-  // var showOptions = function() {
-  //   // TODO does not make use of existing options tabs, if any are open:
-  //   tabs.open(data.url('options.html'));
-  // };
+  var showOptions = function() {
+    // TODO does not make use of existing options tabs, if any are open:
+    tabs.open(data.url('options.html'));
+  };
 
-  // // set up a page-mod to be active on the options page, so that
-  // // page can communicate with the add-on:
-  // pageMod.PageMod(
-  //   { include: data.url('options.html')
-  //   , contentScriptWhen: 'end'
-  //   , contentScriptFile:
-  //       [ data.url('jquery/jquery-1.8.3.js')
-  //       , data.url('jquery/jquery-ui-1.9.2.custom.js')
-  //       , data.url('underscore.js')
-  //       , data.url('rsvp.js')
-  //       , data.url('backbone.js')
-  //       , data.url('js/settings.js')
-  //       , data.url('js/chan.js')
-  //       , data.url('js/messenger.js')
-  //       , data.url('js/options.js')
-  //       , data.url('js/update-manager.js')
-  //       , data.url('js/utils.js')
-  //       , data.url('js/rules.js')
-  //       , data.url('js/url-pat.js')
-  //       , data.url('js/platform-ajax.js')
-  //       , data.url('js/platform-options.js')
-  //       ]
-  //   , contentScript: 'fiveui.firefox.options.init();'
-  //   , onAttach: function (worker) {
-  //       fiveui.Settings.manager(worker.port, settings);
-  //     }
-  //   });
+  // set up a page-mod to be active on the options page, so that
+  // page can communicate with the add-on:
+  pageMod.PageMod(
+    { include: data.url('options.html')
+    , contentScriptWhen: 'end'
+    , contentScriptFile:
+        [ data.url('jquery/jquery-1.8.3.js')
+        , data.url('jquery/jquery-ui-1.9.2.custom.js')
+        , data.url('underscore.js')
+        , data.url('rsvp.js')
+        , data.url('backbone.js')
+        , data.url('js/settings.js')
+        , data.url('js/chan.js')
+        , data.url('js/messenger.js')
+        , data.url('js/options.js')
+        , data.url('js/update-manager.js')
+        , data.url('js/utils.js')
+        , data.url('js/rules.js')
+        , data.url('js/url-pat.js')
+        , data.url('js/platform-ajax.js')
+        , data.url('js/platform-options.js')
+        ]
+    , contentScript: 'fiveui.firefox.options.init();'
+    , onAttach: function (worker) {
+        fiveui.Settings.manager(worker.port, settings);
+      }
+    });
 
   // optionsButton.port.on('showOptions', showOptions);
+  showOptions();
 
-  // TODO: Line placed here for testing purposes.
-  function mkPort(/* flags... */) {
-    var flags = arguments;
-    var listeners = {};
-    return {
-      on: function on(eventType, fn) {
-        var callbacks = listeners[eventType] || $.Callbacks.apply($, flags);
-        callbacks.add(fn);
-        listeners[eventType] = callbacks;
-      },
-      emit: function emit(eventType, data) {
-        var callbacks = listeners[eventType];
-        if (callbacks) {
-          callbacks.fire(data);
-        }
-      }
-    };
-  }
-  var port = mkPort();
-  fiveui.Settings.manager(port, settings);
+  // // TODO: Line placed here for testing purposes.
+  // function mkPort(/* flags... */) {
+  //   var flags = arguments;
+  //   var listeners = {};
+  //   return {
+  //     on: function on(eventType, fn) {
+  //       var callbacks = listeners[eventType] || $.Callbacks.apply($, flags);
+  //       callbacks.add(fn);
+  //       listeners[eventType] = callbacks;
+  //     },
+  //     emit: function emit(eventType, data) {
+  //       var callbacks = listeners[eventType];
+  //       if (callbacks) {
+  //         callbacks.fire(data);
+  //       }
+  //     }
+  //   };
+  // }
+  // var port = mkPort();
+  // fiveui.Settings.manager(port, settings);
 
-  // TODO: fake initialization for development purposes:
-  var rules = require('js/rules');
-  // var ruleSets  = new fiveui.RuleSets([], { url: msg });
-  // var ruleSet   = new rules.RuleSetModel({}, { url: msg });
-  // ruleSets.add(ruleSet);
-  rules.RuleSet.load(
-    "http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json"
-  ).then(function success(obj) {
-    console.log('got ruleset ', JSON.stringify(obj));
-    obj.id = 1000;
-    obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
-    settings.addRuleSet(obj);
-  }, function error(e) {
-    console.log('error: ', e);
-  });
+  // // TODO: fake initialization for development purposes:
+  // var rules = require('js/rules');
+  // // var ruleSets  = new fiveui.RuleSets([], { url: msg });
+  // // var ruleSet   = new rules.RuleSetModel({}, { url: msg });
+  // // ruleSets.add(ruleSet);
+  // rules.RuleSet.load(
+  //   "http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json"
+  // ).then(function success(obj) {
+  //   console.log('got ruleset ', JSON.stringify(obj));
+  //   obj.id = 1000;
+  //   obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
+  //   settings.addRuleSet(obj);
+  // }, function error(e) {
+  //   console.log('error: ', e);
+  // });
 
-  // TODO: hook up to a visible control
-  setTimeout(function() {
-    console.log('showUI');
-    background.showUI(activeId);
-  }, 1000);
+  // // TODO: hook up to a visible control
+  // setTimeout(function() {
+  //   console.log('showUI');
+  //   background.showUI(activeId);
+  // }, 1000);
 };
 
 exports.main = fiveui.firefox.main;
-
-// TODO: fake initialization for development purposes:
-exports.main();
 
 })();
