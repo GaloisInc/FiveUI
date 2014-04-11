@@ -227,10 +227,25 @@ fiveui.firefox.main = function() {
   // optionsButton.port.on('showOptions', showOptions);
 
   // TODO: Line placed here for testing purposes.
-  var Messenger = require('js/messenger');
-  fiveui.port   = require('injected/platform-ui').obtainPort();
-  fiveui.messenger = new Messenger(fiveui.port);
-  fiveui.Settings.manager(fiveui.port, settings);
+  function mkPort(/* flags... */) {
+    var flags = arguments;
+    var listeners = {};
+    return {
+      on: function on(eventType, fn) {
+        var callbacks = listeners[eventType] || $.Callbacks.apply($, flags);
+        callbacks.add(fn);
+        listeners[eventType] = callbacks;
+      },
+      emit: function emit(eventType, data) {
+        var callbacks = listeners[eventType];
+        if (callbacks) {
+          callbacks.fire(data);
+        }
+      }
+    };
+  }
+  var port = mkPort();
+  fiveui.Settings.manager(port, settings);
 
   // TODO: fake initialization for development purposes:
   var rules = require('js/rules');

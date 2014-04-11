@@ -21,23 +21,23 @@
 
 /*globals _fiveui_port, exports */
 
-/**
- * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
- */
-var obtainPort = function() {
-  var port = _fiveui_port;
-  return {
-    on: function(eventType, callback) {
-      port.on(eventType, function(json) {
-        callback(JSON.parse(json));
-      });
-    },
-    emit: function(eventType, data) {
-      port.emit(eventType, JSON.stringify(data));
-    }
-  };
-};
+// /**
+//  * @return {{on: function(!string, function(*)), emit: function(!string, *)}}
+//  */
+// var obtainPort = function() {
+//   var port = _fiveui_port;
+//   return {
+//     on: function(eventType, callback) {
+//       port.on(eventType, function(json) {
+//         callback(JSON.parse(json));
+//       });
+//     },
+//     emit: function(eventType, data) {
+//       port.emit(eventType, JSON.stringify(data));
+//     }
+//   };
+// };
 
-if (typeof exports !== 'undefined') {
-  exports.obtainPort = obtainPort;
-}
+// if (typeof exports !== 'undefined') {
+//   exports.obtainPort = obtainPort;
+// }

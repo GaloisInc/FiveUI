@@ -18,7 +18,6 @@
   global.exports = {};
 
   var globalEval = $.globalEval;
-  var port = _fiveui_port;
 
   var data = {
     load: load,
@@ -28,7 +27,7 @@
   var tabs = [mkTab()];
   tabs.on = id;  // Ignore tab collection events for now.
 
-  var special = {
+  var modules = {
     "sdk/self":        { data: data },
     "sdk/tabs":        tabs,
     "storage-wrapper": { StorageWrapper: StorageWrapper },
@@ -36,18 +35,19 @@
   };
 
   function require(path) {
-    console.log('require: ', path);
-    if (special.hasOwnProperty(path)) {
-      return special[path];
+    if (modules.hasOwnProperty(path)) {
+      return modules[path];
     }
     var exports = {};
-    return substitute(global, {
+    var exports_ = substitute(global, {
       module: { exports: exports },
       exports: exports
     }, function() {
       globalEval(load(path + ".js"));
       return global.exports;
     });
+    modules[path] = exports_;
+    return exports_;
   }
 
   function load(path) {
@@ -75,9 +75,9 @@
   }
 
   function getResource(path, fn) {
-    port.once('resource.'+path, fn);
+    _fiveui_port.once('resource.'+path, fn);
     try {
-      port.emit('require', path);
+      _fiveui_port.emit('require', path);
     } catch(_) {
       if (typeof console !== 'undefined' && console.error) {
         console.error('Missing resource: ', path);
@@ -114,11 +114,14 @@
   }
 
   function attach(opts) {
+    var port = mkPort();
     var contentScriptFile = toArray(opts.contentScriptFile);
     var contentScript     = toArray(opts.contentScript);
-    var port = require('injected/platform-ui').obtainPort();
+
+    _fiveui_top.obtainPort =
+      _fiveui_top.obtainComputePort = function() { return port; };
+
     getResources(contentScriptFile, function(scripts) {
-      _fiveui_top.eval("var foo = 'one'; window.bar = 'two';"); // TODO: debugging
       var i;
       for (i = 0; i < scripts.length; i += 1) {
         _fiveui_top.eval(scripts[i]);
@@ -127,6 +130,7 @@
         _fiveui_top.eval(contentScript[i]);
       }
     });
+
     return { port: port };
   }
 
