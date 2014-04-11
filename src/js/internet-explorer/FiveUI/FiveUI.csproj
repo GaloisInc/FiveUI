@@ -155,6 +155,7 @@
     <EmbeddedResource Include="data\sdk\page-mod.js" />
     <EmbeddedResource Include="data\sdk\self.js" />
     <EmbeddedResource Include="data\sdk\tabs.js" />
+    <EmbeddedResource Include="data\sdk\widget.js" />
     <EmbeddedResource Include="data\storage-wrapper.js" />
     <EmbeddedResource Include="data\tabIds.js" />
     <EmbeddedResource Include="data\underscore.js" />

@@ -163,34 +163,9 @@ namespace FiveUI
         }
         int IOleCommandTarget.Exec(IntPtr pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
-            //try
-            //{
-                // Accessing the document from the command-bar.
-                if (browser == null)
-                {
-                    MessageBox.Show("OMG IT's NULL");
-                }
-                else
-                {
-                    MessageBox.Show("It's cool - it's not null");
-                }
-                var document = browser.Document as IHTMLDocument2;
-                var window = document.parentWindow;
-                var result = window.execScript(@"alert('You will now be allowed to configure the text to highlight...');");
-
-                var form = new HighlighterOptionsForm();
-                form.InputText = TextToHighlight;
-                if (form.ShowDialog() != DialogResult.Cancel)
-                {
-                    TextToHighlight = form.InputText;
-                    SaveOptions();
-                }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-
+            var document = browser.Document as IHTMLDocument2;
+            var window = document.parentWindow;
+            window.execScript("_fiveui_port.emit('showOptions', '{}');");
             return 0;
         }
         #endregion

@@ -37,7 +37,7 @@ var fiveui = fiveui || {};
 
 fiveui.firefox = fiveui.firefox || {};
 
-// const widgets = require("sdk/widget");
+var widgets = require("sdk/widget");
 var tabs    = require("sdk/tabs");
 var data    = require("sdk/self").data;
 var pageMod = require("sdk/page-mod");
@@ -63,16 +63,16 @@ fiveui.firefox.main = function() {
   //   }
   // });
 
-  // var optionsButton = widgets.Widget(
-  //   { id: "FiveUI-Options",
-  //     label: "FiveUI",
-  //     contentURL: data.url('icons/options-icon.html'),
-  //     contentScriptFile: [
-  //       data.url('jquery/jquery-1.8.3.js'),
-  //       data.url('icons/options-icon.js')
-  //     ]
-  //   }
-  // );
+  var optionsButton = widgets.Widget(
+    { id: "FiveUI-Options",
+      label: "FiveUI",
+      contentURL: data.url('icons/options-icon.html'),
+      contentScriptFile: [
+        data.url('jquery/jquery-1.8.3.js'),
+        data.url('icons/options-icon.js')
+      ]
+    }
+  );
 
   // /**
   //  * @param {?fiveui.TabState} tabState
@@ -224,8 +224,7 @@ fiveui.firefox.main = function() {
       }
     });
 
-  // optionsButton.port.on('showOptions', showOptions);
-  showOptions();
+  optionsButton.port.on('showOptions', showOptions);
 
   // // TODO: Line placed here for testing purposes.
   // function mkPort(/* flags... */) {

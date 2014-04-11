@@ -15,24 +15,11 @@ namespace FiveUI
 {
     public class Injecter
     {
-
-        // TODO: get these values from settings
-        private Uri manifestUrl =
-            new Uri("http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json");
-        private Regex urlPattern =
-            new Regex(@"^http.*://.*\.wikipedia\.org/wiki/.*$", RegexOptions.IgnoreCase);
-
         // TODO: persistence across sessions
         private OrderedDictionary persistentDict = new OrderedDictionary();
 
         public void execute(IWebBrowser2 browser, IHTMLDocument2 document)
         {
-            var manifest = manifestForLocation(browser);
-            if (manifest == null)
-            {
-                return;
-            }
-
             var port = new Port();
             Attach<IPort>(document, "_fiveui_port", port);
 
@@ -42,40 +29,13 @@ namespace FiveUI
             var store = new Store(persistentDict);
             Attach<IStore>(document, "_fiveui_store", store);
 
-            // TODO: Clears and fetches rules on every request for
-            // development purposes.
-            foreach (RuleSet rs in RuleSet.LoadAll())
-            {
-                RuleSet.Remove(rs.Id);
-            }
-            var ruleSet = RuleSet.Fetch(manifest);
-
-            port.on("Go", data =>
-            {
-                inject(browser, load("injected/bootstrap.js"));
-            });
-
-            /* port.on("Again", data => */
-            /* { */
-            /*     var ruleSet = RuleSet.Fetch(manifest); */
-            /*     port.emit("log", "\"sending rules\""); */
-            /*     port.emit("SetRules", JSON.Stringify(ruleSet.GetPayload())); */
-            /* }); */
-
             port.on("require", resourcePath =>
             {
-                port.emit("log", "\"request for: "+ resourcePath +"\"");
                 var content = load(resourcePath);
-                port.emit("log", "\"emitting: resource."+ resourcePath +"\"");
                 port.emit("resource."+ resourcePath, content);
             });
 
-            /* port.on("GetRuleSets", data => */
-            /* { */
-            /*     foreach (RuleSet ruleSet in RuleSet.LoadAll()) { */
-            /*         port.emit("RuleSetResponse", JSON.Stringify(ruleSet.GetPayload())); */
-            /*     } */
-            /* }); */
+            inject(browser, load("injected/bootstrap.js"));
         }
 
         private bool Attach<T>(IHTMLDocument2 document, string propName, T api)
@@ -89,22 +49,6 @@ namespace FiveUI
             }
             else {
                 return false;
-            }
-        }
-
-        private Uri manifestForLocation(IWebBrowser2 browser)
-        {
-            var document = browser.Document as IHTMLDocument2;
-            var window   = document.parentWindow;
-
-            var matcher  = urlPattern.Match((String) window.location.href);
-            if (matcher.Success)
-            {
-                return manifestUrl;
-            }
-            else
-            {
-                return null;
             }
         }
 
