@@ -1,0 +1,13 @@
+{
+  "laxbreak": true,
+  "laxcomma": true,
+  "undef":    true,
+  "browser":  true,
+  "jquery":   true,
+  "globals": {
+    "require": true,
+    "exports": true,
+    "module":  false
+  }
+}
+

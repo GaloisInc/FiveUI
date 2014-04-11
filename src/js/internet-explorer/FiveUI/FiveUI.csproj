@@ -134,7 +134,6 @@
     <EmbeddedResource Include="data\jquery\jquery-1.8.3.js" />
     <EmbeddedResource Include="data\jquery\jquery-ui-1.9.2.custom.js" />
     <EmbeddedResource Include="data\js\background.js" />
-    <EmbeddedResource Include="data\js\jetpack-shim.js" />
     <EmbeddedResource Include="data\js\main.js" />
     <EmbeddedResource Include="data\js\messenger.js" />
     <EmbeddedResource Include="data\js\platform-ajax.js" />
@@ -146,6 +145,11 @@
     <EmbeddedResource Include="data\md5.js" />
     <EmbeddedResource Include="data\options.html" />
     <EmbeddedResource Include="data\rsvp.js" />
+    <EmbeddedResource Include="data\sdk\jetpack-shim.js" />
+    <EmbeddedResource Include="data\sdk\self.js" />
+    <EmbeddedResource Include="data\sdk\tabs.js" />
+    <EmbeddedResource Include="data\storage-wrapper.js" />
+    <EmbeddedResource Include="data\tabIds.js" />
     <EmbeddedResource Include="data\underscore.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -162,8 +166,10 @@
   <PropertyGroup>
     <PreBuildEvent>xcopy $(SolutionDir)\..\fiveui\* $(ProjectDir)\data /e /Y
 xcopy $(SolutionDir)\..\lib\* $(ProjectDir)\data /e /Y
-xcopy $(SolutionDir)\js\* $(ProjectDir)\data\js /e /Y
 xcopy $(SolutionDir)\injected\* $(ProjectDir)\data\injected /e /Y
+xcopy $(SolutionDir)\js\* $(ProjectDir)\data\js /e /Y
+xcopy $(SolutionDir)\lib\* $(ProjectDir)\data /e /Y
+xcopy $(SolutionDir)\sdk\* $(ProjectDir)\data\sdk /e /Y
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,8 +4,7 @@
 (function() {
   var scripts = [
     "jquery/jquery-1.8.3.js",
-    "js/jetpack-shim.js",
-    "js/main.js"
+    "sdk/jetpack-shim.js"
   ];
 
   getResources(scripts, function(resources) {
