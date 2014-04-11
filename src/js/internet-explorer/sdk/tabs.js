@@ -106,9 +106,9 @@
     }
   }
 
-  var scriptSrc = /<\s*script [^>]*src\s*=\s*("[^"]+"|'[^']+')[^>]*>[^<>]*<\s*\/\s*script\s*>/gi;
-  var linkRel = /<\s*link [^>]*rel\s*=\s*("[^"]+"|'[^']+')[^>]*\/\s*>/i;
-  var linkHref = /<\s*link [^>]*href\s*=\s*("[^"]+"|'[^']+')[^>]*\/\s*>/gi;
+  var scriptSrc = /<\s*script [^>]*src\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*>[^<>]*<\s*\/\s*script\s*>/gi;
+  var linkRel = /<\s*link [^>]*rel\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*\/\s*>/i;
+  var linkHref = /<\s*link [^>]*href\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*\/\s*>/gi;
 
   function yankScripts(html) {
     var scripts = [];
@@ -135,7 +135,7 @@
    * @param {!document} doc HTML document to add style to
    * @param {!string} css The css to inject.
    */
-  var addGlobalStyle = function(doc, css) {
+  function addGlobalStyle(doc, css) {
     var head = doc.getElementsByTagName('head')[0]; // find head element, which should exist
     if (!head) {
       head = doc.createElement('head');
@@ -153,5 +153,5 @@
       style.appendChild(doc.createTextNode(css));   // attach CSS text to style elt
     }
     head.appendChild(style);                             // attach style element to head
-  };
+  }
 }(jQuery));

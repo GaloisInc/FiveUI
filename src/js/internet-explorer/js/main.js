@@ -218,7 +218,7 @@ fiveui.firefox.main = function() {
         , data.url('js/platform-ajax.js')
         , data.url('js/platform-options.js')
         ]
-    , contentScript: 'fiveui.firefox.options.init();'
+    , contentScript: 'fiveui.ie.options.init();'
     , onAttach: function (worker) {
         fiveui.Settings.manager(worker.port, settings);
       }

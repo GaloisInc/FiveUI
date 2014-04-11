@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="data\backbone.js" />
+    <EmbeddedResource Include="data\css\options.css" />
     <EmbeddedResource Include="data\css\ui.css" />
     <EmbeddedResource Include="data\font-awesome\css\font-awesome.css" />
     <EmbeddedResource Include="data\injected\bootstrap.js" />
@@ -131,16 +132,21 @@
     <EmbeddedResource Include="data\injected\platform-ui.js" />
     <EmbeddedResource Include="data\injected\prelude.js" />
     <EmbeddedResource Include="data\injected\ui.js" />
+    <EmbeddedResource Include="data\jquery\bundled.css" />
     <EmbeddedResource Include="data\jquery\jquery-1.8.3.js" />
     <EmbeddedResource Include="data\jquery\jquery-ui-1.9.2.custom.js" />
     <EmbeddedResource Include="data\js\background.js" />
+    <EmbeddedResource Include="data\js\chan.js" />
     <EmbeddedResource Include="data\js\main.js" />
     <EmbeddedResource Include="data\js\messenger.js" />
+    <EmbeddedResource Include="data\js\options.js" />
     <EmbeddedResource Include="data\js\platform-ajax.js" />
+    <EmbeddedResource Include="data\js\platform-options.js" />
     <EmbeddedResource Include="data\js\rules.js" />
     <EmbeddedResource Include="data\js\set.js" />
     <EmbeddedResource Include="data\js\settings.js" />
     <EmbeddedResource Include="data\js\state.js" />
+    <EmbeddedResource Include="data\js\update-manager.js" />
     <EmbeddedResource Include="data\js\utils.js" />
     <EmbeddedResource Include="data\md5.js" />
     <EmbeddedResource Include="data\options.html" />
