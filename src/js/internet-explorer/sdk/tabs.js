@@ -105,7 +105,7 @@
       win.eval(data.load(scripts[i]));
     }
     for (i = 0; i < stylesheets.length; i += 1) {
-      addGlobalStyle(win.document, stylesheets[i]);
+      addGlobalStyle(win.document, data.load(stylesheets[i]));
     }
   }
 
