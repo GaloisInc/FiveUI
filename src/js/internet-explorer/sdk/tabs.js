@@ -20,7 +20,7 @@
       // TODO: Hack for debugging:
       var rules = require('js/rules');
       rules.RuleSet.load(
-        "http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json"
+        "https://raw.githubusercontent.com/GaloisInc/FiveUI/master/guidelines/wikipedia/wikipedia.json"
       ).then(function success(obj) {
         obj.id = 1000;
         obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
