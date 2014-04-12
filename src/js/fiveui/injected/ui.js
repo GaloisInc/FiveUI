@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 
-/*global obtainPort:true */
+/*global obtainPort:true, wgxpath */
 /*jshint boss:true, eqnull:true, debug:true */
 
 (function(){
@@ -29,6 +29,10 @@
     */
    var core = {};
    core.port = obtainPort();
+
+   if (!document.evaluate) {
+      wgxpath.install();
+   }
 
    core.getElementByXPath = function(path, context) {
      var nsResolver = document.createNSResolver(

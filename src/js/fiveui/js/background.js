@@ -177,6 +177,7 @@ Background.prototype.pageLoad = function(tabId, url, data) {
         , this.dataLoader('jquery/jquery-ui-1.9.2.custom.js')
         , this.dataLoader('injected/injected.css')
         , this.dataLoader('injected/prelude.js')
+        , this.dataLoader('injected/wgxpath.install.js')
         , this.dataLoader('injected/ui.js')
         , this.dataLoader('injected/jquery-plugins.js')
         ];
