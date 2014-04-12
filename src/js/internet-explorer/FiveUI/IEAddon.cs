@@ -165,7 +165,7 @@ namespace FiveUI
         {
             var document = browser.Document as IHTMLDocument2;
             var window = document.parentWindow;
-            window.execScript("_fiveui_port.emit('showOptions', '{}');");
+            window.execScript("_fiveui_port.emit('toolbarButtonClick', '{}');");
             return 0;
         }
         #endregion

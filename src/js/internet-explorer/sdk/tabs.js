@@ -16,8 +16,23 @@
     // None of this code is injected until after the load event, so
     // don't bother waiting for 'ready'.
     setTimeout(function() {
-      tab.emit('activate');
-      tab.emit('ready');
+
+      // TODO: Hack for debugging:
+      var rules = require('js/rules');
+      rules.RuleSet.load(
+        "http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json"
+      ).then(function success(obj) {
+        obj.id = 1000;
+        obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
+        window.fakeRuleSet = obj;
+
+        tab.emit('activate');
+        tab.emit('ready');
+
+      }, function error(e) {
+        console.log('error: ', e);
+      });
+
     }, 0);
     return tab;
   }

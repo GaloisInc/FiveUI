@@ -8,8 +8,11 @@
 
     // Top-level windows only
     if (parent === parent.parent) {
-      _fiveui_port.on('showOptions', function() {
-        port.emit('showOptions');
+      _fiveui_port.on('toolbarButtonClick', function() {
+        // port.emit('showOptions');
+        if (opts.onClick) {
+          opts.onClick();
+        }
       });
     }
 

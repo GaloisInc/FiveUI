@@ -49,19 +49,19 @@ fiveui.firefox.main = function() {
 
   // initialze the background functionality
 
-  // // the FiveUI button:
-  // var icon = widgets.Widget({
-  //   id: "FiveUI-Icon",
-  //   label: "FiveUI",
-  //   contentURL: data.url('icons/fiveui-icon.html'),
-  //   contentScriptFile: [
-  //     data.url('jquery/jquery-1.8.3.js'),
-  //     data.url('icons/fiveui-icon.js')
-  //     ],
-  //   onClick: function() {
-  //     background.showUI(activeId);
-  //   }
-  // });
+  // the FiveUI button:
+  var icon = widgets.Widget({
+    id: "FiveUI-Icon",
+    label: "FiveUI",
+    contentURL: data.url('icons/fiveui-icon.html'),
+    contentScriptFile: [
+      data.url('jquery/jquery-1.8.3.js'),
+      data.url('icons/fiveui-icon.js')
+      ],
+    onClick: function() {
+      background.showUI(activeId);
+    }
+  });
 
   var optionsButton = widgets.Widget(
     { id: "FiveUI-Options",
