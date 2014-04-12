@@ -5,9 +5,14 @@
 
   function Widget(opts) {
     var port = mkPort();
-    _fiveui_port.on('showOptions', function() {
-      port.emit('showOptions');
-    });
+
+    // Top-level windows only
+    if (parent === parent.parent) {
+      _fiveui_port.on('showOptions', function() {
+        port.emit('showOptions');
+      });
+    }
+
     return {
       port: port
     };
