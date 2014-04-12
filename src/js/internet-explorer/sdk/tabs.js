@@ -100,27 +100,21 @@
   }
 
   function openWindow(url) {
-    var html = data.load(url);
-
-    var noscripts   = yankScripts(html);
-    var html_       = noscripts[0];
-    var nolinks     = yankStyleSheets(html_);
-    var html__      = nolinks[0];
-    var scripts     = noscripts[1];
-    var stylesheets = nolinks[1];
-    var body        = yankBody(html);
-
+    var html    = data.load(url);
+    var scripts = yankScripts(html);
+    var sheets  = yankStyleSheets(html);
+    var title   = yankTitle(html);
+    var body    = yankBody(html);
     var win = open();
+    win.document.title = title;
+    // insertHtml(win.document, win.document.body, body);
     win.__intendedLocation = url;
-    insertHtml(win.document, win.document.body, body);
-
-
     var i;
     for (i = 0; i < scripts.length; i += 1) {
       win.eval(data.load(scripts[i]));
     }
-    for (i = 0; i < stylesheets.length; i += 1) {
-      addGlobalStyle(win.document, data.load(stylesheets[i]));
+    for (i = 0; i < sheets.length; i += 1) {
+      addGlobalStyle(win.document, data.load(sheets[i]));
     }
   }
 
@@ -128,30 +122,38 @@
   var linkRel = /<\s*link [^>]*rel\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*\/\s*>/i;
   var linkHref = /<\s*link [^>]*href\s*=\s*(?:"([^"]+)"|'([^']+)')[^>]*\/\s*>/gi;
   var bodyExp = /<\s*body(?: [^>]*)?>([\s\S]*?)<\s*\/\s*body\s*>/i;
+  var titleExp = /<\s*title(?: [^>]*)?>([\s\S]*?)<\s*\/\s*title\s*>/i;
 
   function yankScripts(html) {
     var scripts = [];
-    var html_ = html.replace(scriptSrc, function(_, src) {
+    html.replace(scriptSrc, function(_, src) {
       scripts.push(src);
       return '';
     });
-    return [html_, scripts];
+    return scripts;
   }
 
   function yankStyleSheets(html) {
     var sheets = [];
-    var html_ = html.replace(linkHref, function(link, href) {
+    html.replace(linkHref, function(link, href) {
       var matches = link.match(linkRel);
       if (matches && matches[1].toLowerCase() === 'stylesheet') {
         sheets.push(href);
       }
       return '';
     });
-    return [html_, sheets];
+    return sheets;
   }
 
   function yankBody(html) {
     var matches = html.match(bodyExp);
+    if (matches) {
+      return matches[1];
+    }
+  }
+
+  function yankTitle(html) {
+    var matches = html.match(titleExp);
     if (matches) {
       return matches[1];
     }
