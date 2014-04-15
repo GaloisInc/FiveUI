@@ -31,6 +31,7 @@ var fiveui = fiveui || {};
 fiveui.Messenger = function(channel) {
   this.callbacks = {};
   this.handlers = {};
+  this.lastId = Math.floor(Math.random() * 10000000);
 
   this.channel = channel;
   this.channel.on(fiveui.Messenger.type, _.bind(this._handler, this));
@@ -65,20 +66,21 @@ _.extend(fiveui.Messenger.prototype, {
    * of the specified type is received.
    */
   register: function(type, callback) {
-    if(null == this.handlers[type]) {
+    if(!this.handlers[type]) {
       this.handlers[type] = [];
     }
     this.handlers[type].push(callback);
   },
 
   _handler: function(payload) {
-    if (payload.isCallback && payload.id != null) {
+    var id = payload.id;
+    if (payload.isCallback && (id || id === 0) && this.callbacks[id]) {
       // this is a callback invocation, lookup the callback and invoke it:
-      this.callbacks[payload.id](payload.data);
+      this.callbacks[id](payload.data);
 
       // remove the callback:
-      this._remove(payload.id);
-    } else {
+      this._remove(id);
+    } else if (!payload.isCallback || !id || id === 0) {
       // look up a handler and invoke it, passing in the response fn:
       var hs = this.handlers[payload.type];
       if (hs && hs.length > 0) {
@@ -87,7 +89,7 @@ _.extend(fiveui.Messenger.prototype, {
         // create a response function:
         var respond = function(respData) {
           this.channel.emit(fiveui.Messenger.type,
-                 new fiveui.Messenger.Payload(true, payload.type, respData, payload.id));
+                 new fiveui.Messenger.Payload(true, payload.type, respData, id));
         };
 
         // iterate over the handlers, invoking them with the response callback.
@@ -111,8 +113,8 @@ _.extend(fiveui.Messenger.prototype, {
    * @return {!number} The next unique id for a callback.
    */
   _newId: function() {
-    var list = Object.keys(this.callbacks);
-    return fiveui.utils.getNewId(list);
+    this.lastId += 1;
+    return this.lastId;
   }
 
 });

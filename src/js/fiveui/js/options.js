@@ -61,7 +61,7 @@ fiveui.options.init = function(port) {
   var msg    = new fiveui.Messenger(port);
   var update = new fiveui.UpdateManager(msg);
 
-  ruleSets = new fiveui.RuleSets([], { url: msg });
+  var ruleSets = new fiveui.RuleSets([], { url: msg });
 
 
   /** RuleSet list entries ***************************************************/
