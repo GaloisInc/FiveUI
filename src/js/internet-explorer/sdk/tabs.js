@@ -75,10 +75,12 @@
         listeners[eventType] = callbacks;
       },
       emit: function emit(eventType, data) {
-        var callbacks = listeners[eventType];
-        if (callbacks) {
-          callbacks.fire(data);
-        }
+        setTimeout(function() {
+          var callbacks = listeners[eventType];
+          if (callbacks) {
+            callbacks.fire(data);
+          }
+        }, 0);
       }
     };
   }
