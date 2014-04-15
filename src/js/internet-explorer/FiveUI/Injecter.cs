@@ -26,7 +26,8 @@ namespace FiveUI
             var ajax = new Ajax();
             Attach<IAjax>(document, "_fiveui_ajax", ajax);
 
-            var store = new Store(persistentDict);
+            var storeDir = FileStore.GetBucket("key-value");
+            var store = new Store(storeDir);
             Attach<IStore>(document, "_fiveui_store", store);
 
             port.on("require", resourcePath =>

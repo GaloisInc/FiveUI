@@ -1,6 +1,7 @@
 using System;
-using System.Collections.Specialized;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 
 using Key = System.String;
 using Val = System.String;
@@ -13,20 +14,22 @@ namespace FiveUI
      ComDefaultInterface(typeof(IStore))]
     public class Store : IStore
     {
-        private readonly OrderedDictionary dict;
+        private readonly Encoding utf8 = new UTF8Encoding();
+        private readonly string storeDir;
 
-        public Store(OrderedDictionary dict)
+        public Store(string storeDir)
         {
-            this.dict = dict;
+            this.storeDir = storeDir;
         }
 
         public Key key(int idx)
         {
-            if (idx >= 0 && idx < dict.Count)
+            var files = getFiles();
+            if (idx >= 0 && idx < files.Length)
             {
-                String[] keys = new String[dict.Count];
-                dict.Keys.CopyTo(keys, 0);
-                return keys[idx];
+                Array.Sort(files);
+                var fileName = files[idx];
+                return decode(Path.GetFileName(fileName));
             }
             else
             {
@@ -36,27 +39,64 @@ namespace FiveUI
 
         public Val getItem(Key key)
         {
-            return (dict.Contains(key) ? dict[key] : null) as string;
+            var path = getPath(key);
+            if (Directory.Exists(path))
+            {
+                return File.ReadAllText(path, utf8);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void setItem(Key key, Val val)
         {
-            dict[key] = val;
+            var path = getPath(key);
+            File.WriteAllText(path, val, utf8);
         }
 
         public void removeItem(Key key)
         {
-            dict.Remove(key);
+            var path = getPath(key);
+            File.Delete(path);
         }
 
         public void clear()
         {
-            dict.Clear();
+            foreach (string path in getFiles())
+            {
+                File.Delete(path);
+            }
         }
 
         public int size()
         {
-            return dict.Count;
+            var files = getFiles();
+            return files.Length;
+        }
+
+        private string[] getFiles()
+        {
+            return Directory.GetFiles(storeDir);
+        }
+
+        private string getPath(Key key)
+        {
+            var fileName = encode(key);
+            return Path.Combine(storeDir, fileName);
+        }
+
+        private string encode(string input)
+        {
+            var bytes = utf8.GetBytes(input);
+            return Convert.ToBase64String(bytes);
+        }
+
+        private string decode(string input)
+        {
+            var bytes = Convert.FromBase64String(input);
+            return utf8.GetString(bytes);
         }
     }
 }
