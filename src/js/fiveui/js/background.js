@@ -124,9 +124,6 @@ Background.prototype.connect = function(tabId, port, url, isUiPort) {
     // get the rule set and send it down to the injected page:
     var ruleSet = this.settings.checkUrl(url);
 
-    // TODO: Hack for debugging:
-    ruleSet = window.fakeRuleSet;
-
     if (!ruleSet) {
       console.error('could not find url pattern for tab.url, but one was strongly expected');
     } else {
@@ -142,9 +139,6 @@ Background.prototype.connect = function(tabId, port, url, isUiPort) {
  */
 Background.prototype.pageLoad = function(tabId, url, data) {
   var ruleSet = this.settings.checkUrl(url);
-
-  // TODO: Hack for debugging:
-  ruleSet = window.fakeRuleSet;
 
   if (!ruleSet) {
     this.updateWidget(null);
