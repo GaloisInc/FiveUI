@@ -16,23 +16,8 @@
     // None of this code is injected until after the load event, so
     // don't bother waiting for 'ready'.
     setTimeout(function() {
-
-      // TODO: Hack for debugging:
-      var rules = require('js/rules');
-      rules.RuleSet.load(
-        "https://raw.githubusercontent.com/GaloisInc/FiveUI/master/guidelines/wikipedia/wikipedia.json"
-      ).then(function success(obj) {
-        obj.id = 1000;
-        obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
-        window.fakeRuleSet = obj;
-
-        tab.emit('activate');
-        tab.emit('ready');
-
-      }, function error(e) {
-        console.log('error: ', e);
-      });
-
+      tab.emit('activate');
+      tab.emit('ready');
     }, 0);
     return tab;
   }
@@ -109,8 +94,10 @@
     var body    = yankBody(html);
     var win = open();
     win.document.title = title;
-    // insertHtml(win.document, win.document.body, body);
+    insertHtml(win.document, win.document.body, body);
     win.__intendedLocation = url;
+    win.eval(data.load("jquery/jquery-1.8.3.js"));
+    win.eval(data.load("sdk/jetpack-shim.js"));
     var i;
     for (i = 0; i < scripts.length; i += 1) {
       win.eval(data.load(scripts[i]));

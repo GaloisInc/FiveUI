@@ -5,20 +5,34 @@
 
   function Widget(opts) {
     var port = mkPort();
-
     // Top-level windows only
     if (parent === parent.parent) {
-      _fiveui_port.on('toolbarButtonClick', function() {
-        // port.emit('showOptions');
-        if (opts.onClick) {
-          opts.onClick();
-        }
-      });
+      switch (opts.id) {
+        case 'FiveUI-Icon':    showReport(opts, port);  break;
+        case 'FiveUI-Options': showOptions(opts, port); break;
+      }
     }
-
     return {
       port: port
     };
+  }
+
+  function showReport(opts) {
+    // TODO:
+    // var onClick = opts.onClick;
+    // if (onClick) {
+    //   _fiveui_port.on('toolbarButtonClick', function() {
+    //     if (opts.onClick) {
+    //       opts.onClick();
+    //     }
+    //   });
+    // }
+  }
+
+  function showOptions(opts, port) {
+    _fiveui_port.on('toolbarButtonClick', function() {
+      port.emit('showOptions');
+    });
   }
 
   function mkPort(/* flags... */) {
