@@ -23,6 +23,8 @@ var fiveui = fiveui || {};
 
 (function() {
 
+var rules = require('js/rules');
+
 /**
  * Create a new instance of the Settings object
  *
@@ -167,7 +169,7 @@ _.extend(fiveui.Settings.prototype, {
    * @param {!Object} ruleSet The rule set, as an anonymous JSON object.
    */
   updateRuleSet: function(ruleSetId, ruleSet) {
-    var newRS = fiveui.RuleSet.fromJSON(ruleSetId, ruleSet);
+    var newRS = rules.RuleSet.fromJSON(ruleSetId, ruleSet);
     this.set('ruleSet.'+ruleSetId, newRS);
   },
 
@@ -176,7 +178,7 @@ _.extend(fiveui.Settings.prototype, {
    * @return {?fiveui.RuleSet} The RuleSet, or null, if no RuleSet was found.
    */
   getRuleSet: function(id) {
-    return this.getById(id, 'ruleSet', fiveui.RuleSet.fromJSON);
+    return this.getById(id, 'ruleSet', rules.RuleSet.fromJSON);
   },
 
   /**
