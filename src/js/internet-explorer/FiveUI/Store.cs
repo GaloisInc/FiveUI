@@ -27,9 +27,7 @@ namespace FiveUI
             var files = getFiles();
             if (idx >= 0 && idx < files.Length)
             {
-                Array.Sort(files);
-                var fileName = files[idx];
-                return decode(Path.GetFileName(fileName));
+                return fromPath(files[idx]);
             }
             else
             {
@@ -40,7 +38,7 @@ namespace FiveUI
         public Val getItem(Key key)
         {
             var path = getPath(key);
-            if (Directory.Exists(path))
+            if (File.Exists(path))
             {
                 return File.ReadAllText(path, utf8);
             }
@@ -85,6 +83,12 @@ namespace FiveUI
         {
             var fileName = encode(key);
             return Path.Combine(storeDir, fileName);
+        }
+
+        private string fromPath(string path)
+        {
+            var fileName = Path.GetFileName(path);
+            return decode(fileName);
         }
 
         private string encode(string input)
