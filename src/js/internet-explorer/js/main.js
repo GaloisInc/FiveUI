@@ -74,28 +74,23 @@ fiveui.firefox.main = function() {
     }
   );
 
-  // /**
-  //  * @param {?fiveui.TabState} tabState
-  //  */
-  // var updateWidget = function(tabState) {
-  //   if(!tabState) {
-  //     icon.port.emit('setDisabled');
-  //     icon.width = 16;
-  //   } else {
-  //     var problems = getProblemCount(tabState);
-  //     icon.port.emit('setEnabled', problems);
-  //     if (!problems || problems == '0'){
-  //       icon.width = 16;
-  //     } else {
-  //       icon.width = 24;
-  //     }
-  //   }
-  // };
-
   /**
-   * placeholder
+   * @param {?fiveui.TabState} tabState
    */
-  var updateWidget = function() {};
+  var updateWidget = function(tabState) {
+    if(!tabState) {
+      icon.port.emit('setDisabled');
+      icon.width = 16;
+    } else {
+      var problems = getProblemCount(tabState);
+      icon.port.emit('setEnabled', problems);
+      if (!problems || problems == '0'){
+        icon.width = 16;
+      } else {
+        icon.width = 24;
+      }
+    }
+  };
 
   // store the contents of the injected css, so that we can inject it later
   var injectedCSS = [
