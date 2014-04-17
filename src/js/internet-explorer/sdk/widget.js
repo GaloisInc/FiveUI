@@ -1,6 +1,6 @@
-/*globals _fiveui_port */
+/*globals _fiveui_port, _fiveui_top */
 
-(function() {
+(function($) {
   exports.Widget = Widget;
 
   function Widget(opts) {
@@ -18,21 +18,41 @@
   }
 
   function showReport(opts) {
-    // TODO:
-    // var onClick = opts.onClick;
-    // if (onClick) {
-    //   _fiveui_port.on('toolbarButtonClick', function() {
-    //     if (opts.onClick) {
-    //       opts.onClick();
-    //     }
-    //   });
-    // }
+    var onClick = opts.onClick;
+    var button  = _fiveui_top._fiveui_button;
+    if (!button) {
+      button = fiveUIButton(_fiveui_top.document);
+      _fiveui_top._fiveui_button = button;
+    }
+    button.on('click', function(event) {
+      event.preventDefault();
+      if (onClick) { onClick(); }
+    });
   }
 
   function showOptions(opts, port) {
     _fiveui_port.on('toolbarButtonClick', function() {
       port.emit('showOptions');
     });
+  }
+
+  function fiveUIButton(doc) {
+    var button = $('<div></div>', doc);
+    button.text('5');
+    button.css({
+      'position':         'fixed',
+      'right':            '15px',
+      'bottom':           '15px',
+      'opacity':          '0.8',
+      'background-color': 'white',
+      'color':            'red',
+      'font-size':        '18pt',
+      'font-weight':      'bold',
+      'border':           '2px solid red',
+      'cursor':           'pointer'
+    });
+    button.appendTo(doc.body);
+    return button;
   }
 
   function mkPort(/* flags... */) {
@@ -52,4 +72,4 @@
       }
     };
   }
-}());
+}(jQuery));
