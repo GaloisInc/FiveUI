@@ -220,49 +220,6 @@ fiveui.firefox.main = function() {
     });
 
   optionsButton.port.on('showOptions', showOptions);
-
-  // // TODO: Line placed here for testing purposes.
-  // function mkPort(/* flags... */) {
-  //   var flags = arguments;
-  //   var listeners = {};
-  //   return {
-  //     on: function on(eventType, fn) {
-  //       var callbacks = listeners[eventType] || $.Callbacks.apply($, flags);
-  //       callbacks.add(fn);
-  //       listeners[eventType] = callbacks;
-  //     },
-  //     emit: function emit(eventType, data) {
-  //       var callbacks = listeners[eventType];
-  //       if (callbacks) {
-  //         callbacks.fire(data);
-  //       }
-  //     }
-  //   };
-  // }
-  // var port = mkPort();
-  // fiveui.Settings.manager(port, settings);
-
-  // // TODO: fake initialization for development purposes:
-  // var rules = require('js/rules');
-  // // var ruleSets  = new fiveui.RuleSets([], { url: msg });
-  // // var ruleSet   = new rules.RuleSetModel({}, { url: msg });
-  // // ruleSets.add(ruleSet);
-  // rules.RuleSet.load(
-  //   "http://10.0.2.2:8000/guidelines/wikipedia/wikipedia.json"
-  // ).then(function success(obj) {
-  //   console.log('got ruleset ', JSON.stringify(obj));
-  //   obj.id = 1000;
-  //   obj.patterns = ["http*://*.wikipedia.org/wiki/*"];
-  //   settings.addRuleSet(obj);
-  // }, function error(e) {
-  //   console.log('error: ', e);
-  // });
-
-  // // TODO: hook up to a visible control
-  // setTimeout(function() {
-  //   console.log('showUI');
-  //   background.showUI(activeId);
-  // }, 1000);
 };
 
 exports.main = fiveui.firefox.main;
