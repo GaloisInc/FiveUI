@@ -13,6 +13,7 @@
   function mkTab() {
     var tab = mkPort('memory');
     tab.attach = attach;
+    tab.url    = _fiveui_top.location.href;
     // None of this code is injected until after the load event, so
     // don't bother waiting for 'ready'.
     setTimeout(function() {
