@@ -24,6 +24,7 @@ var fiveui = fiveui || {};
 (function() {
 
 var rules = require('js/rules');
+var utils = require('js/utils');
 
 /**
  * Create a new instance of the Settings object
@@ -152,7 +153,7 @@ _.extend(fiveui.Settings.prototype, {
    */
   addRuleSet: function(ruleSet) {
     var ids = this.getRuleSetIds();
-    var id  = fiveui.utils.getNewId(ids);
+    var id  = utils.getNewId(ids);
 
     this.updateRuleSet(id, ruleSet);
 
@@ -202,7 +203,7 @@ _.extend(fiveui.Settings.prototype, {
       }
 
       return _.some(rs.patterns, function(pat) {
-        var regex = fiveui.utils.compilePattern(pat);
+        var regex = utils.compilePattern(pat);
         return regex.test(url);
       });
 
