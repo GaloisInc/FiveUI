@@ -5,9 +5,10 @@
     "author": "Galois (http://galois.com)",
     "contributors": [ "Rogan Creswick <creswick@galois.com>",
                       "Trevor Elliot <trevor@galois.com>",
-                      "Benjamin Jones <bjones@galois.com>"
+                      "Benjamin Jones <bjones@galois.com>",
+                      "Jesse Hallett <jesse@galois.com>"
                     ],
-    "version": "0.4",
+    "version": "0.5",
     "id": "jid1-oquzbbbog1fmxq",
     "description": "UI Constraint Checker",
     "lib": "data/",
