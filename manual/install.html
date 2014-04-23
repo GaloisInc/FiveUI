@@ -79,6 +79,34 @@
 <li><p><strong>Note:</strong> The warning message reading &quot;Support for manifest version 1 is being phased out.&quot; is a known issue and does not currently affect the FiveUI extension.</p></li>
 </ul>
 <p>FiveUI is now installed. The <a href="gettingStarted.html">Getting Started guide</a> explains how to configure and use the extension.</p>
+<h2 id="installing-fiveui-for-internet-explorer">Installing FiveUI for Internet Explorer</h2>
+<p>FiveUI has alpha-level support for Internet Explorer 11, although it may run on earlier versions of the browser with some minimal changes. This document describes the process for building and installing FiveUI for IE.</p>
+<h3 id="preparing-to-build-and-install-fiveui-for-ie">Preparing to build and install FiveUI for IE</h3>
+<p>Install Visual Studio for Desktop. The Express version will work.</p>
+<p>Open the project by opening <code>src/js/internet-explorer/FiveUI/FiveUI.csproj</code> in Visual Studio.</p>
+<p>A cryptographic key is required to sign the project. There are instructions on generating a key here: http://msdn.microsoft.com/en-us/library/ms247123(v=vs.90).aspx</p>
+<p>The Debug build target that is included with the project automatically installs the plugin when it is built. This requires running Visual Studio as Administrator, since installing the plugin involves updating the system registry.</p>
+<h3 id="installing-fiveui-for-ie">Installing FiveUI for IE</h3>
+<p>At this point there is no graphical installer. Given the plugin dll, it is possible to install the plugin from the command line. This requires the executable <code>RegAsm.exe</code>, which is included as part of the .NET framework. The framework can be downloaded here: http://www.microsoft.com/en-us/download/details.aspx?id=30653</p>
+<p>Use the search feature in the Start menu to find <code>cmd.exe</code>. Right click on it and select &quot;Run as administrator&quot;.</p>
+<p>Make sure that you are in the directory where you have placed the plugin dll, FiveUI.dll. Then run this command to install the plugin:</p>
+<pre><code>&quot;C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe&quot; FiveUI.dll</code></pre>
+<p>You will probably have to adjust the path to <code>RegAsm.exe</code>. The exact path depends on the .NET framework version that you have installed. The easiest way to get the correct path is to use the Windows search feature to search for &quot;RegAsm.exe&quot;. Make sure to run the search in &quot;Computer&quot;, not in your user directory.</p>
+<p>You may see multiple search results. Pick the one that is an executable and that is in the framework directory with the highest version number. Hold shift, right-click on the result, and select &quot;Copy as path&quot;.</p>
+<p>In the terminal, paste the path with the key sequence: Alt+Space, e, p.</p>
+<p>To uninstall the plugin use this command:</p>
+<p>&quot;C:.NET.0.30319.exe&quot; /unregister FiveUI.dll</p>
+<p>Again, adjust the path to <code>RegAsm.exe</code> as necessary.</p>
+<h3 id="using-fiveui-for-ie">Using FiveUI for IE</h3>
+<p>The plugin will add a gear icon to the Command bar in Internet Explorer. If the Command bar is not visible, select it from View &gt; Toolbars &gt; Command bar.</p>
+<p>If the Command bar has been customized previously then the new icon may not appear. In this case you will have to reset the bar. Right-click on the Command bar and select Customize &gt; Add or remove commands. Then click on the Reset button.</p>
+<p>Clicking on the gear icon will open the FiveUI settings page. On this page you can provide URLs for rule sets and expressions for URLs to which those rule sets should apply.</p>
+<p>On pages where a rule set is active and where problems have been detected, a problem count will appear in the lower-right corner of the window. Clicking on that count will bring up the problem report UI.</p>
+<h3 id="known-issues">Known Issues</h3>
+<ul>
+<li><p>The plugin will not function after a page has been reloaded. The plugin code loads when &quot;navigating&quot; to a page. That means clicking a link, opening a bookmark, or entering a URL in the address bar. When loading a page via &quot;reload&quot;, the plugin does not load.</p></li>
+<li><p>The settings icon (the gear icon in the Command bar) will not work on the new tab page. It is necessary to load an actual web page before clicking on it. It will also not work on a page that has been reloaded.</p></li>
+</ul>
 
 
     </div><!-- /.wrap -->
