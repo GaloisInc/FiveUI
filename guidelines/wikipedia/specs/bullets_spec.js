@@ -4,23 +4,27 @@ describe('bullets', function() {
   afterEach(teardownFixtures);
 
   it('Warns on bullets when little other text exists', function(){
-    fixture('<ol><li>item</li><ol>');
-    fixture('<h2 id="intro"/>Intro</d2>'
+    fixture('<ol><li>item</li></ol>');
+    fixture('<h2 id="intro">Intro</h2>'
             + '<p>Some minimal text</p>'
-            + '<ol><li>item</li><ol>'
-            + '<p>More, minimal text</p>');
+            + '<ol>'
+            + '  <li>item one</li>'
+            + '  <li>item two with content</li>'
+            + '  <li>item three</li>'
+            + '</ol>'
+            + '<p>More text.</p>');
 
     var results = run(bullets);
     expect(results.warnings.length).toEqual(2);
   });
 
   it('Does not warn if there is substantial text', function() {
-    fixture('<h2 id="intro"/>Intro</d2>'
+    fixture('<h2 id="intro">Intro</h2>'
             + '<p>'+introText+'</p>'
             + '<ol>'
               + '<li>item 1</li>'
               + '<li>item 2</li>'
-            + '<ol>'
+            + '</ol>'
             + '<p>'+introText+'</p>');
 
     var results = run(bullets);
@@ -33,7 +37,7 @@ describe('bullets', function() {
                        , 'External_links'];
 
     _.each(safeSections, function(section) {
-      fixture('<h2 id="'+section+'"/>'+section+"</h2>"
+      fixture('<h2 id="'+section+'">'+section+"</h2>"
                + '<ul><li>item</li></ul>'
                + '<ol><li>item</li></ol>');
     });
@@ -42,7 +46,7 @@ describe('bullets', function() {
   });
 });
 
-introText=['Évariste Galois (25 October 1811 – 31 May 1832) was a French '
+var introText=['Évariste Galois (25 October 1811 – 31 May 1832) was a French '
            + 'mathematician born in Bourg-la-Reine. While still in his teens, '
            + 'he was able to determine a necessary and sufficient condition '
            + 'for a polynomial to be solvable by radicals, thereby solving a '
