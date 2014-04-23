@@ -1,6 +1,7 @@
 { "name": "Wikipedia editing guidelines: Headings"
 , "description": "Guidelines published by wikipedia for authors creating or editing wiki pages."
 , "license": "BSD3"
+, "dependencies": ["src/sections.js"]
 , "rules":
   [ "src/headingOrder.js"
   , "src/bullets.js"
