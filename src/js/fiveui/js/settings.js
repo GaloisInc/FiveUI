@@ -29,7 +29,7 @@ var fiveui = fiveui || {};
  * @constructor
  * @param {!Storage} store The Storage instance to use.
  */
-fiveui.Settings = function(store) {
+var Settings = fiveui.Settings = function(store) {
   this.store = store;
 };
 
@@ -274,5 +274,12 @@ fiveui.Settings.manager = function(chan, settings) {
   });
 
 };
+
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = Settings;
+  }
+  exports.Settings = Settings;
+}
 
 })();

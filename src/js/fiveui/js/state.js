@@ -168,7 +168,7 @@ _.extend(fiveui.State.prototype, {
   acquireTabState: function(tabId, port) {
     var ts = this.getTabState(tabId);
 
-    if(null == ts) {
+    if (!ts) {
       var closed = ! this.settings.getDisplayDefault();
 
       // in the future, get these defaults from the settings instance.
@@ -215,5 +215,13 @@ _.extend(fiveui.State.prototype, {
   }
 
 });
+
+if (typeof exports !== 'undefined') {
+  for (var k in fiveui) {
+    if (fiveui.hasOwnProperty(k)) {
+      exports[k] = fiveui[k];
+    }
+  }
+}
 
 })();

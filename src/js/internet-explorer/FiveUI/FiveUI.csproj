@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0DC9AB90-4115-4334-BD9C-0A4092A071E6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FiveUI</RootNamespace>
+    <AssemblyName>FiveUI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>FiveUI.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon_active.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Json">
+      <HintPath>..\packages\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ajax.cs" />
+    <Compile Include="IAjax.cs" />
+    <Compile Include="SettingsButton.cs" />
+    <Compile Include="FileStore.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IEAddon.cs" />
+    <Compile Include="Injecter.cs" />
+    <Compile Include="Interop.cs" />
+    <Compile Include="IPort.cs" />
+    <Compile Include="JSON.cs" />
+    <Compile Include="Manifest.cs" />
+    <Compile Include="Port.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ProtectedMode.cs" />
+    <Compile Include="RuleSet.cs" />
+    <Compile Include="RuleSetMeta.cs" />
+    <Compile Include="RuleSetPayload.cs" />
+    <Compile Include="Store.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SHDocVw">
+      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="FiveUI.snk" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icon_active.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="data\backbone.js" />
+    <EmbeddedResource Include="data\css\ui.css" />
+    <EmbeddedResource Include="data\font-awesome\css\font-awesome.css" />
+    <EmbeddedResource Include="data\injected\compute.js" />
+    <EmbeddedResource Include="data\injected\injected.css" />
+    <EmbeddedResource Include="data\injected\jquery-plugins.js" />
+    <EmbeddedResource Include="data\injected\platform-compute.js" />
+    <EmbeddedResource Include="data\injected\platform-ui.js" />
+    <EmbeddedResource Include="data\injected\prelude.js" />
+    <EmbeddedResource Include="data\injected\ui.js" />
+    <EmbeddedResource Include="data\jquery\jquery-1.8.3.js" />
+    <EmbeddedResource Include="data\jquery\jquery-ui-1.9.2.custom.js" />
+    <EmbeddedResource Include="data\js\background.js" />
+    <EmbeddedResource Include="data\js\jetpack-shim.js" />
+    <EmbeddedResource Include="data\js\main.js" />
+    <EmbeddedResource Include="data\js\messenger.js" />
+    <EmbeddedResource Include="data\js\platform-ajax.js" />
+    <EmbeddedResource Include="data\js\rules.js" />
+    <EmbeddedResource Include="data\js\set.js" />
+    <EmbeddedResource Include="data\js\settings.js" />
+    <EmbeddedResource Include="data\js\state.js" />
+    <EmbeddedResource Include="data\js\utils.js" />
+    <EmbeddedResource Include="data\md5.js" />
+    <EmbeddedResource Include="data\options.html" />
+    <EmbeddedResource Include="data\rsvp.js" />
+    <EmbeddedResource Include="data\underscore.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"$(FrameworkSDKDir)bin\NETFX 4.5.1 Tools\gacutil.exe" /f /i "$(TargetDir)$(TargetFileName)"
+"$(FrameworkDir)\RegAsm.exe" /unregister "$(TargetDir)$(TargetFileName)"
+"$(FrameworkDir)\RegAsm.exe" "$(TargetDir)$(TargetFileName)"
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>xcopy $(SolutionDir)\..\fiveui\* $(ProjectDir)\data /e /Y
+xcopy $(SolutionDir)\..\lib\* $(ProjectDir)\data /e /Y
+xcopy $(SolutionDir)\js\* $(ProjectDir)\data\js /e /Y
+xcopy $(SolutionDir)\injected\* $(ProjectDir)\data\injected /e /Y
+</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

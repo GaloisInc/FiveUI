@@ -22,12 +22,15 @@
 var fiveui = fiveui || {};
 
 (function() {
+
+var State = fiveui.State || require('js/state').State;
+
 /**
  * @constructor
  *
  * @param {!function(!string):!string} dataLoader
  */
-fiveui.Background = function(settings, updateWidget, loadScripts, dataLoader) {
+var Background = fiveui.Background = function(settings, updateWidget, loadScripts, dataLoader) {
   // Initialize a storage mechanism for FiveUI.
   // Chrome utilizes HTML5's localStorage API as a backend, but other
   // contexts (such as Firefox) would supply a different backend
@@ -39,7 +42,7 @@ fiveui.Background = function(settings, updateWidget, loadScripts, dataLoader) {
   this.settings = settings;
 
   // the state of all managed tabs
-  this.state = new fiveui.State(settings);
+  this.state = new State(settings);
 
   // how we communicate with the status widget
   this.updateWidget = updateWidget;
@@ -56,24 +59,24 @@ fiveui.Background = function(settings, updateWidget, loadScripts, dataLoader) {
  * might not be setup yet.  This will cause some strange problems, and we should
  * consider reversing the order that the injection happens in.
  */
-fiveui.Background.prototype._registerComputeListeners = function(port, tabState){
+Background.prototype._registerComputeListeners = function(port, tabState){
     var bg = this;
     port.on('ReportProblem', function(request) {
       var problem = fiveui.Problem.fromJSON(request);
-      if(tabState.addProblem(problem) && tabState.uiPort != null) {
+      if(tabState.addProblem(problem) && tabState.uiPort) {
         bg.updateWidget(tabState);
         tabState.uiPort.emit('ShowProblem', problem);
       }
     });
     port.on('ReportStats', function (stats) {
-      if (tabState.addStats(stats) && tabState.uiPort != null) {
+      if (tabState.addStats(stats) && tabState.uiPort) {
         bg.updateWidget(tabState);
         tabState.uiPort.emit('ShowStats', stats);
       }
     });
 };
 
-fiveui.Background.prototype._registerUiListeners = function(port, tabState){
+Background.prototype._registerUiListeners = function(port, tabState){
     var bg = this;
     port.on('Position', function(request) {
       tabState.winState.x = request.left;
@@ -105,7 +108,7 @@ fiveui.Background.prototype._registerUiListeners = function(port, tabState){
 /**
  * Accept a new connection from a content script.
  */
-fiveui.Background.prototype.connect = function(tabId, port, url, isUiPort) {
+Background.prototype.connect = function(tabId, port, url, isUiPort) {
 
   var tabState = this.state.acquireTabState(tabId);
 
@@ -120,7 +123,7 @@ fiveui.Background.prototype.connect = function(tabId, port, url, isUiPort) {
 
     // get the rule set and send it down to the injected page:
     var ruleSet = this.settings.checkUrl(url);
-    if (ruleSet == null) {
+    if (!ruleSet) {
       console.err('could not find url pattern for tab.url, but one was strongly expected');
     } else {
       port.emit('SetRules', _.pick(ruleSet, ["dependencies", "rules"]));
@@ -133,10 +136,10 @@ fiveui.Background.prototype.connect = function(tabId, port, url, isUiPort) {
  * @param {!string} url
  * @param {*} data
  */
-fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
+Background.prototype.pageLoad = function(tabId, url, data) {
   var ruleSet = this.settings.checkUrl(url);
 
-  if (ruleSet == null) {
+  if (!ruleSet) {
     this.updateWidget(null);
   } else {
     var tabState = this.state.acquireTabState(tabId);
@@ -147,7 +150,7 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
 
     this.updateWidget(tabState);
 
-    var computeScripts = 
+    var computeScripts =
       [ this.dataLoader('underscore.js')
       , this.dataLoader('jquery/jquery-1.8.3.js')
       , this.dataLoader('md5.js')
@@ -180,7 +183,7 @@ fiveui.Background.prototype.pageLoad = function(tabId, url, data) {
  * @param {!number} tabId Id of the tab that is currently active, and
  *                        thus, dictating the widget display.
  */
-fiveui.Background.prototype.activate = function(tabId) {
+Background.prototype.activate = function(tabId) {
   var tabState = this.state.getTabState(tabId);
   this.updateWidget(tabState);
 };
@@ -190,16 +193,16 @@ fiveui.Background.prototype.activate = function(tabId) {
  *
  * @param {!number} tabId Id of the tab to free the state of.
  */
-fiveui.Background.prototype.removeTab = function(tabId) {
+Background.prototype.removeTab = function(tabId) {
   this.state.removeTabState(tabId);
 };
 
 /**
  * Request that the user interface be restored, if it is closed.
  */
-fiveui.Background.prototype.showUI = function(tabId) {
+Background.prototype.showUI = function(tabId) {
   var tabState = this.state.getTabState(tabId);
-  if(null == tabState) {
+  if(!tabState) {
     return;
   }
 
@@ -208,5 +211,12 @@ fiveui.Background.prototype.showUI = function(tabId) {
     tabState.uiPort.emit('ShowUI', null);
   }
 };
+
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = Background;
+  }
+  exports.Background = Background;
+}
 
 })();

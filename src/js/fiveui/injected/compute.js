@@ -20,6 +20,7 @@
  */
 
 /*jshint evil:true */
+/*global fiveui, hex_md5 */
 
 (function(){
 
@@ -61,24 +62,11 @@
     * Start the process that checks for the need to run the rules, and
     * reschedules when necessary.
     */
-   core.scheduleRules = function() {
-     core.lastEvent = new Date();
-
-     var check = function() {
-       var delta = new Date() - core.lastEvent;
-       if(delta > core.timeout && !core.maskRules) {
-         core.scheduled = false;
-         core.evaluate(core.rules);
-       } else {
-         setTimeout(check, core.timeout);
-       }
-     };
-
-     if(!core.scheduled && !core.maskRules) {
-       core.scheduled = true;
-       check();
+   core.scheduleRules = _.debounce(function() {
+     if (!core.maskeRules) {
+       core.evaluate(core.rules);
      }
-   };
+   }, core.timeout);
 
    core.port.on('MaskRules', function() {
      core.maskRules = true;
@@ -120,7 +108,7 @@
      };
 
      var nodeHash = function(node) {
-       if (node == null) {
+       if (!node) {
          return "";
        }
 
@@ -219,7 +207,11 @@
    };
 
    core.afterRules = function() {
-     core.rulesRunning = false;
+     // Delay resetting the rulesRunning flag until after scheduled
+     // MutationObserver callbacks run.
+     setTimeout(function() {
+       core.rulesRunning = false;
+     }, 0);
 
      if(core.dialog) {
        $('body').append(core.dialog);
@@ -289,49 +281,70 @@
     * recursively on inserted frames.
     */
    var registerDomListeners = function(context) {
+     // MutationObserver is not supported in IE prior to version 11.
+     if (typeof MutationObserver === 'undefined') {
+       return;
+     }
+
+     var observer = new MutationObserver(handleMutations);
+
+     observer.observe(context, {
+       attributes:        true,
+       attributeOldValue: true,
+       childList:         true,
+       characterData:     true,
+       subtree:           true
+     });
+
+     function handleMutations(records) {
+       records.forEach(handleMutation);
+     }
+
+     function handleMutation(record) {
+       if (record.addedNodes) {
+         _.each(_.toArray(record.addedNodes), instrumentFrame);
+       }
+       if (
+         !core.rulesRunning
+           && !uicAttrEvent(record)
+           && !underFiveUI(record.target)
+       ) {
+         core.scheduleRules();
+       }
+     }
+
      /**
       * @param {DOMNode} elt
       */
-     var underFiveUI = function(elt) {
-       var ancestor = $(elt).parentsUntil('.fiveui', 'body');
-       return ancestor.length == 0;
-     };
+     function underFiveUI(elt) {
+       return $(elt).closest('.fiveui').length > 0;
+     }
 
-     var uicAttrEvent = function(elt){
-       return null != elt.className
-           && elt.className.search(/\s?uic-[^\s]+/) >= 0;
-     };
+     function uicAttrEvent(record) {
+       return record.attributeName && isUicClass(record.target.className);
+     }
 
-     var handleDOMEvent = function(e){
-       if (!core.rulesRunning && !uicAttrEvent(e.target) && !underFiveUI(e.target) ) {
-         core.scheduleRules();
+     var uicExp = /(?:^|\s)uic-[^\s]+/;
+
+     function isUicClass(className) {
+       return className && uicExp.exec(className);
+     }
+
+     function instrumentFrame(element) {
+       var eTagName = element.tagName;
+       var $elem = $(element);
+       if ($elem.is('iframe,frame')) {
+         $elem.load(function() {
+           core.scheduleRules();
+           registerDomListeners(this.contentDocument);
+         });
        }
-     };
-
-     context.addEventListener('DOMNodeInserted', handleDOMEvent);
-     context.addEventListener('DOMNodeRemoved', handleDOMEvent);
-     context.addEventListener('DOMSubtreeModified', handleDOMEvent);
-     context.addEventListener('DOMAttrModified', handleDOMEvent);
-     context.addEventListener('DOMNodeRemovedFromDocument', handleDOMEvent);
-     context.addEventListener('DOMNodeInsertedIntoDocument', handleDOMEvent);
-     context.addEventListener('DOMCharacterDataModified', handleDOMEvent);
-     context.addEventListener('DOMNodeInsertedIntoDocument', handleDOMEvent);
-
-     context.addEventListener('DOMNodeInserted',
-        function(e)  {
-           var eTagName = e.target.tagName;
-           if (eTagName == 'IFRAME' || eTagName == 'FRAME') {
-             e.target.onload = function() {
-               core.scheduleRules();
-               registerDomListeners(e.target.contentDocument);
-             };
-           }
-        });
+     }
    };
 
    var registerBackendListeners = function(port) {
      /**
-      * @param {{rules: [string], dependencies: [string]}} ruleDescr
+      * @param {{rules: [string], dependencies: [{ content: string, url: string }]}} ruleDescr
       */
      var assembleRules = function(__assembleRules_ruleDescr) {
        // Use long variable names: top-level variables in eval'ed

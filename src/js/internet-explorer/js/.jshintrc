@@ -4,13 +4,11 @@
   "undef":    true,
   "browser":  false,
   "jquery":   false,
-  "devel":    true,
   "globals": {
     "_":        false,
     "Backbone": false,
     "RSVP":     false,
     "exports":  true,
-    "module":   false,
-    "require":  false
+    "module":   false
   }
 }
